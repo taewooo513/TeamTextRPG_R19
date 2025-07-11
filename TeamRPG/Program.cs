@@ -1,0 +1,22 @@
+﻿using TeamRPG.Game;
+
+namespace TeamRPG
+{
+    internal class Program
+    {
+        static MainGame mg;
+        static void Main(string[] args)
+        {
+            mg = new MainGame();
+            mg.Init();
+
+            while (true)
+            {
+                mg.Update();
+                mg.Render();
+            }
+
+            mg.Release();
+        }
+    }
+}

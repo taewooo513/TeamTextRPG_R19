@@ -19,7 +19,7 @@ namespace TeamRPG.Game.Scene
 
         public void Render()
         {
-            TextIOManager.GetInstance().OutputText(TimerManager.GetInstance().GetMillisecond().ToString(), 0, 0);
+            TextIOManager.GetInstance().OutputText(TimerManager.GetInstance().GetFrame().ToString(), 0, 0);
             //{
 
             //    TextIOManager.GetInstance().OutputText("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM", 0, 0, ConsoleColor.Yellow);

@@ -30,6 +30,8 @@ namespace TeamRPG.Game
         {
             SceneManager.GetInstance().Render();
             TextIOManager.GetInstance().DrawText();
+            //Console.WriteLine(TimerManager.GetInstance().GetMillisecond().ToString());
+            //Console.WriteLine(TimerManager.GetInstance().GetFrame().ToString());
         }
         public void Release()
         {

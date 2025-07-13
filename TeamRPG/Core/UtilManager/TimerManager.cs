@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,14 +10,20 @@ namespace TeamRPG.Core.UtilManager
 {
     public class TimerManager : Singleton<TimerManager>
     {
+        Stopwatch timer;
         float nowMilSecond;
         float milSecond;
         int frame;
-
+        float deletaTime;
         public void Init()
         {
-            frame = 0;
+            nowMilSecond = 0;
             milSecond = 0;
+            frame = 0;
+            deletaTime = 0;
+
+            timer = new Stopwatch();
+            timer.Start();
         }
         public int GetFrame()
         {
@@ -25,19 +32,15 @@ namespace TeamRPG.Core.UtilManager
 
         public void Update()
         {
-            DateTime t = DateTime.Now;
-            nowMilSecond = t.Minute * 1000 * 1000 + t.Second * 1000 + t.Millisecond;
+            nowMilSecond = timer.ElapsedMilliseconds;
+            deletaTime = nowMilSecond - milSecond;
+            deletaTime /= 1000;
+            milSecond = nowMilSecond;
+            frame = (int)(1f / deletaTime);
         }
         public float GetMillisecond()
         {
-            milSecond = nowMilSecond - milSecond;
-            return milSecond;
-        }
-        public float GetSecond()
-        {
-            DateTime t = DateTime.Now;
-            float d = t.Second;
-            return d;
+            return deletaTime;
         }
     }
 }

@@ -12,8 +12,9 @@ namespace TeamRPG.Core.UtilManager
         char[,] backBuffer;
         char[,] defaultBuffer;
         ConsoleColor[,] consoleColors;
-
         private int winWidth, winHeight;
+        List<String>[] strs;
+
         public void Init(int width, int height)
         {
             frontBuffer = new char[width, height];        // 윈도우 사이즈랑 얼마나 그릴건지 
@@ -26,14 +27,19 @@ namespace TeamRPG.Core.UtilManager
             {
                 for (int w = 0; w < width; w++)
                 {
-                    consoleColors[w, h] = ConsoleColor.White;
+                    consoleColors[w, h] = ConsoleColor.Magenta;
                     defaultBuffer[w, h] = ' ';
                 }
             }
             Console.SetWindowSize(width, height);
             Console.CursorVisible = false;
+            strs = new List<String>[winHeight];
+            for (int i = 0; i < winHeight; i++)
+            {
+                strs[i] = new List<string>();
+            }
         }
-        public void OutputText(String str, int x, int y, ConsoleColor color = ConsoleColor.White)
+        public void OutputText(String str, int x, int y, ConsoleColor color = ConsoleColor.Magenta)
         {
             int _x = 0;
             foreach (var ch in str)
@@ -43,7 +49,7 @@ namespace TeamRPG.Core.UtilManager
                 backBuffer[x + _x, y] = ch;
             }
         }
-        public void OutputText(char ch, int x, int y, ConsoleColor color = ConsoleColor.White)
+        public void OutputText(char ch, int x, int y, ConsoleColor color = ConsoleColor.Magenta)
         {
             consoleColors[x, y] = color;
             backBuffer[x, y] = ch;
@@ -51,13 +57,29 @@ namespace TeamRPG.Core.UtilManager
 
         public void DrawText()
         {
-
+            for (int i = 0; i < winHeight; i++)
+            {
+                strs[i].Clear();
+            }
             for (int y = 0; y < winHeight; y++)
             {
+                String str = "";
                 for (int x = 0; x < winWidth; x++)
                 {
-                    //Console.ForegroundColor = consoleColors[x, y];
-                    Console.Write(backBuffer[x, y]);
+                    str += backBuffer[x, y];
+                }
+                strs[y].Add(str);
+            }
+
+            for (int h = 0; h < winHeight; h++)
+            {
+                for (int w = 0; w < strs[h].Count; w++)
+                {
+                    //if (consoleColors[x, y] != ConsoleColor.Magenta) // 최적화를위해 defulat값을 마젠타로 잡고 마젠타면 실행안되게끔
+                    //{
+                    //    Console.ForegroundColor = consoleColors[x, y];
+                    //}
+                    Console.Write(strs[h][w]);
                 }
                 Console.WriteLine();
             }

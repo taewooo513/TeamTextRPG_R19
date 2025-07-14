@@ -17,8 +17,11 @@ namespace TeamRPG.Game
         {
             SceneManager.GetInstance().Init();
             SceneManager.GetInstance().AddScene("TestScene", new TestScene());
+            SceneManager.GetInstance().AddScene("TitleScene", new TitleScene());
             SceneManager.GetInstance().AddScene("UITestScene", new UITestScene());
-            SceneManager.GetInstance().ChangeScene("UITestScene");
+            SceneManager.GetInstance().AddScene("CharSelectScene", new CharSelectScene());
+
+            SceneManager.GetInstance().ChangeScene("TitleScene");
             TextIOManager.GetInstance().Init(100, 29);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();

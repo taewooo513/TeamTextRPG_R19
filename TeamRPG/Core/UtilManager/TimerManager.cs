@@ -42,5 +42,7 @@ namespace TeamRPG.Core.UtilManager
         {
             return deletaTime;
         }
+
+
     }
 }

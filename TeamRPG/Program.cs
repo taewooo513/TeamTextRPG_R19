@@ -7,6 +7,7 @@ namespace TeamRPG
         static MainGame mg;
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8; // 한글 출력 인코딩 설정
             mg = new MainGame();
             mg.Init();
 

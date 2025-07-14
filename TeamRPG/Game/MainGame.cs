@@ -16,8 +16,9 @@ namespace TeamRPG.Game
         {
             SceneManager.GetInstance().Init();
             SceneManager.GetInstance().AddScene("TestScene", new TestScene());
-            SceneManager.GetInstance().ChangeScene("TestScene");
-            TextIOManager.GetInstance().Init(150, 60);
+            SceneManager.GetInstance().AddScene("UITestScene", new UITestScene());
+            SceneManager.GetInstance().ChangeScene("UITestScene");
+            TextIOManager.GetInstance().Init(100, 29);
             TimerManager.GetInstance().Init();
 
         }
@@ -30,6 +31,10 @@ namespace TeamRPG.Game
         {
             SceneManager.GetInstance().Render();
             TextIOManager.GetInstance().DrawText();
+            UIManager.GetInstance().DrawUI();
+
+
+
             //Console.WriteLine(TimerManager.GetInstance().GetMillisecond().ToString());
             //Console.WriteLine(TimerManager.GetInstance().GetFrame().ToString());
         }

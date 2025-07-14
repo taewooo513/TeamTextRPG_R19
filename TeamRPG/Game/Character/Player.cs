@@ -22,7 +22,7 @@ namespace TeamRPG.Game.Character
         {
             Name = name;
             Race = race;
-            BaseStatus = RaceStatusFactory.GetStatusByRace(race);
+            BaseStatus = StatusFactory.GetStatusByRace(race);
             CurrentStatus = BaseStatus;
         }
 

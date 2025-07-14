@@ -20,8 +20,9 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("TitleScene", new TitleScene());
             SceneManager.GetInstance().AddScene("UITestScene", new UITestScene());
             SceneManager.GetInstance().AddScene("CharSelectScene", new CharSelectScene());
+            SceneManager.GetInstance().AddScene("SpecificityScene", new SpecificityScene());
 
-            SceneManager.GetInstance().ChangeScene("TitleScene");
+            SceneManager.GetInstance().ChangeScene("CharSelectScene");
             TextIOManager.GetInstance().Init(100, 29);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();
@@ -43,9 +44,6 @@ namespace TeamRPG.Game
             AnimationManager.GetInstance().Render();
             TextIOManager.GetInstance().DrawText();
             UIManager.GetInstance().DrawUI();
-
-            TextIOManager.GetInstance().OutputText(TimerManager.GetInstance().GetFrame().ToString(), 0, 0);
-
 
             //Console.WriteLine(TimerManager.GetInstance().GetMillisecond().ToString());
             //Console.WriteLine(TimerManager.GetInstance().GetFrame().ToString());

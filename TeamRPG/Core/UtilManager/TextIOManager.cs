@@ -34,7 +34,7 @@ namespace TeamRPG.Core.UtilManager
                     defaultBuffer[w, h] = ' ';
                 }
             }
-            Console.SetWindowSize(width, height + 2);
+            Console.SetWindowSize(width, height + 1);
             Console.CursorVisible = false;
             strs = new List<String>[winHeight];
             for (int i = 0; i < winHeight; i++)
@@ -59,7 +59,21 @@ namespace TeamRPG.Core.UtilManager
                 currentY++;
             }
         }
+        public void OutputText4Byte(String str, int x, int y, ConsoleColor color = ConsoleColor.Magenta)
+        { // 한글이랑 특수문자가 4byte라 텍스트가 밀림
+            int _x = 0;
+            foreach (var ch in str)
+            {
+                if (x + _x < winWidth)
+                {
+                    consoleColors[x + _x, y] = color;
+                    backBuffer[x + _x, y] = ch;
+                    backBuffer[x + _x +1, y] = '\0';
 
+                }
+                _x += 2;
+            }
+        }
         public void OutputText(String str, int x, int y, ConsoleColor color = ConsoleColor.Magenta)
         {
             int _x = 0;

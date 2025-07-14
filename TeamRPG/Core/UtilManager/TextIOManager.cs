@@ -43,7 +43,24 @@ namespace TeamRPG.Core.UtilManager
             }
 
         }
-        public void OutputText(String str, int x, int y, ConsoleColor color = ConsoleColor.Magenta) // 출력은 이함수 사용하면됨
+
+        public void OutputImage(string str, int x, int y, ConsoleColor color = ConsoleColor.Magenta)
+        {
+            int currentY = y;
+            foreach (var line in str.Split('\n'))
+            {
+                int currentX = x;
+                foreach (var ch in line)
+                {
+                    consoleColors[currentX, currentY] = color;
+                    backBuffer[currentX, currentY] = ch;
+                    currentX++;
+                }
+                currentY++;
+            }
+        }
+
+        public void OutputText(String str, int x, int y, ConsoleColor color = ConsoleColor.Magenta)
         {
             int _x = 0;
             foreach (var ch in str)

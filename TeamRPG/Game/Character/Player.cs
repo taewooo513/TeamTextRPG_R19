@@ -20,10 +20,10 @@ namespace TeamRPG.Game.Character
 
         public Player(string name, Race race)
         {
-            Name = name;
-            Race = race;
-            BaseStatus = StatusFactory.GetStatusByRace(race);
-            CurrentStatus = BaseStatus;
+            name = name;
+            race = race;
+            baseStatus = StatusFactory.GetStatusByRace(race);
+            currentStatus = baseStatus;
         }
 
         public void LevelUp()

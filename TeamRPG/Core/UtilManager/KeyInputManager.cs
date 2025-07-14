@@ -6,9 +6,17 @@ using System.Threading.Tasks;
 
 namespace TeamRPG.Core.UtilManager
 {
-    public class KeyInputManager
+    public class KeyInputManager : Singleton<KeyInputManager>
     {
         char[] key;
 
+        void Init()
+        { 
+        }
+
+        void Update()
+        {
+
+        }
     }
 }

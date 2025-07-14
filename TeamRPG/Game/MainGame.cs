@@ -17,16 +17,22 @@ namespace TeamRPG.Game
         {
             SceneManager.GetInstance().Init();
             SceneManager.GetInstance().AddScene("TestScene", new TestScene());
+            SceneManager.GetInstance().AddScene("TitleScene", new TitleScene());
             SceneManager.GetInstance().AddScene("UITestScene", new UITestScene());
-            SceneManager.GetInstance().ChangeScene("UITestScene");
+            SceneManager.GetInstance().AddScene("CharSelectScene", new CharSelectScene());
+            SceneManager.GetInstance().AddScene("SpecificityScene", new SpecificityScene());
+
+            SceneManager.GetInstance().ChangeScene("CharSelectScene");
             TextIOManager.GetInstance().Init(100, 29);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();
-            SoundManager.GetInstance().AddSound("Test", "Test.mp3");
-            SoundManager.GetInstance().PlaySound("Test",50);
+            SoundManager.GetInstance().AddSound("Test", "Test2.mp3", true, true);
+            SoundManager.GetInstance().PlaySound("Test", .1f);
+
         }
         public void Update()
         {
+            KeyInputManager.GetInstance().Update();
             SceneManager.GetInstance().Update();
             TimerManager.GetInstance().Update();
             AnimationManager.GetInstance().Update();
@@ -38,8 +44,6 @@ namespace TeamRPG.Game
             AnimationManager.GetInstance().Render();
             TextIOManager.GetInstance().DrawText();
             UIManager.GetInstance().DrawUI();
-
-
 
             //Console.WriteLine(TimerManager.GetInstance().GetMillisecond().ToString());
             //Console.WriteLine(TimerManager.GetInstance().GetFrame().ToString());

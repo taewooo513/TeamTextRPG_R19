@@ -23,14 +23,17 @@ namespace TeamRPG.Game
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();
             SoundManager.GetInstance().AddSound("Test", "Test.mp3");
-            SoundManager.GetInstance().PlaySound("Test",50);
+            SoundManager.GetInstance().PlaySound("Test", .1f);
+
         }
         public void Update()
         {
+
             SceneManager.GetInstance().Update();
             TimerManager.GetInstance().Update();
             AnimationManager.GetInstance().Update();
             SoundManager.GetInstance().Update();
+
         }
         public void Render()
         {

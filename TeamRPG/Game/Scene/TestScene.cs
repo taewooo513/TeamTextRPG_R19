@@ -81,12 +81,7 @@ namespace TeamRPG.Game.Scene
             TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⡀⠀⠀⠀⠠⠐⠈⠀⠀⠀⠀⠀⢀⠀⠀⠠⠀⠂⠀⠀⠀⠠⠐⠀⠀⠀⠀⠠⠀⠁⠐⠀⡉⠳⣹⡪⡳⠝⠡⠀⠀⠄⠀⠀⠀⢀", 0, 36, ConsoleColor.Yellow);
 
 
-            int height = 0;
-            foreach (var item in bossAscii)
-            {
-                //TextIOManager.GetInstance().OutputText(item, 0, height);
-                height++;
-            }
+           
         }
 
         public void Update()

@@ -34,7 +34,7 @@ namespace TeamRPG.Core.UtilManager
                     defaultBuffer[w, h] = ' ';
                 }
             }
-            Console.SetWindowSize(width, height);
+            Console.SetWindowSize(width, height + 2);
             Console.CursorVisible = false;
             strs = new List<String>[winHeight];
             for (int i = 0; i < winHeight; i++)
@@ -117,9 +117,9 @@ namespace TeamRPG.Core.UtilManager
                 strs[y].Add(str);
             }
         }
-        public void AddPicture(String key,char[,] chars) // 아직 미구현
+        public void AddPicture(String key, char[,] chars) // 아직 미구현
         {
-            printPictures.Add(key,chars);
+            printPictures.Add(key, chars);
         }
         private void BufferClear()
         {

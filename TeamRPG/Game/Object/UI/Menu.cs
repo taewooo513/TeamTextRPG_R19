@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TeamRPG.Core.UtilManager;
 
 namespace TeamRPG.Game.Object.UI
@@ -12,91 +9,74 @@ namespace TeamRPG.Game.Object.UI
         public string Text { get; set; }
         public Action OnSelect { get; private set; }
         public bool IsEnabled { get; set; }
+        public ConsoleColor Color { get; set; }
 
-        public MenuItem(string text, Action onSelect, bool isEnabled = true)
+        public MenuItem(string text, Action onSelect, ConsoleColor color = ConsoleColor.White, bool isEnabled = true)
         {
             Text = text;
             OnSelect = onSelect;
             IsEnabled = isEnabled;
+            Color = color;
         }
     }
 
     internal class Menu : UIElement
     {
         private List<MenuItem> items = new List<MenuItem>();
-        private int selectedIndex = 0;
 
-        public Menu(int x, int y) : base(x, y) { }
-
-        public void AddItem(string text, Action onSelect, bool isEnabled = true)
+        public Menu(int x, int y) : base(x, y, ConsoleColor.White) { }
+        public Menu(int x, int y, List<MenuItem> menuItems) : base(x, y, ConsoleColor.White)
         {
-            items.Add(new MenuItem(text, onSelect, isEnabled));
-            if (items.Count == 1 && !isEnabled)  // 첫 아이템이 비활성일 경우 다음 활성 항목으로 선택 이동
-            {
-                MoveDown();
-            }
+            items = menuItems ?? new List<MenuItem>();
+        }
+
+        public void AddItem(string text, Action onSelect, ConsoleColor color = ConsoleColor.White, bool isEnabled = true)
+        {
+            items.Add(new MenuItem(text, onSelect, color, isEnabled));
         }
 
         public MenuItem? GetItem(int index)
         {
             if (index < 0 || index >= items.Count)
                 return null;
-        
-                return items[index];
+            return items[index];
         }
 
-        public void MoveUp()
+        public void RemoveItem(int index)
         {
-            if (items.Count == 0) return;
-
-            int originalIndex = selectedIndex;
-            do
-            {
-                selectedIndex = (selectedIndex - 1 + items.Count) % items.Count;
-                if (items[selectedIndex].IsEnabled)
-                    break;
-            } while (selectedIndex != originalIndex);
-        }
-
-        public void MoveDown()
-        {
-            if (items.Count == 0) return;
-
-            int originalIndex = selectedIndex;
-            do
-            {
-                selectedIndex = (selectedIndex + 1) % items.Count;
-                if (items[selectedIndex].IsEnabled)
-                    break;
-            } while (selectedIndex != originalIndex);
-        }
-
-        public void Select()
-        {
-            if (items.Count == 0) return;
-
-            if (items[selectedIndex].IsEnabled)
-            {
-                items[selectedIndex].OnSelect?.Invoke();
-            }
+            if (index < 0 || index >= items.Count)
+                return;
+            items.RemoveAt(index);
         }
 
         public override void Draw()
         {
             for (int i = 0; i < items.Count; i++)
             {
-                bool selected = (i == selectedIndex);
-                string prefix = selected ? "▶ " : "  ";
+                string prefix = $"{i + 1}. ";
+                var item = items[i];
 
-                ConsoleColor color;
-
-                if (!items[i].IsEnabled)
-                    color = ConsoleColor.DarkGray;
-                else
-                    color = selected ? ConsoleColor.Yellow : ConsoleColor.White;
-
-                TextIOManager.GetInstance().OutputText(prefix + items[i].Text, X, Y + i, color);
+                ConsoleColor color = item.IsEnabled ? items[i].Color : ConsoleColor.DarkGray;
+                TextIOManager.GetInstance().OutputText(prefix + item.Text, X, Y + i, color);
             }
+        }
+
+        public void SelectByIndex(int index)
+        {
+            if (index >= 0 && index < items.Count)
+            {
+                var item = items[index];
+                if (item.IsEnabled)
+                {
+                    item.OnSelect?.Invoke();
+                }
+            }
+        }
+
+
+        public void SelectByNumber(int number)
+        {
+            SelectByIndex(number - 1);
         }
     }
 }

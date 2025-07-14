@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Game\Object\" />
+    <Folder Include="Game\Object\Animation\" />
   </ItemGroup>
 
 </Project>

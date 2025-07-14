@@ -85,7 +85,7 @@ namespace TeamRPG.Core.UtilManager
                 {
                     //if (consoleColors[x, y] != ConsoleColor.Magenta) // 최적화를위해 defulat값을 마젠타로 잡고 마젠타면 실행안되게끔
                     //{
-                    //    Console.ForegroundColor = consoleColors[x, y];
+                    //    Console.ForegroundColor = consoleColors[x, y]; 색은 아직 생각중
                     //}
                     Console.Write(strs[h][w]);
                 }

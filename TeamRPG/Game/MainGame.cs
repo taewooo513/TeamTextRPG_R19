@@ -32,6 +32,7 @@ namespace TeamRPG.Game
             TimerManager.GetInstance().Update();
             AnimationManager.GetInstance().Update();
             SoundManager.GetInstance().Update();
+            KeyInputManager.GetInstance().Update();
         }
         public void Render()
         {
@@ -40,6 +41,7 @@ namespace TeamRPG.Game
             TextIOManager.GetInstance().DrawText();
             UIManager.GetInstance().DrawUI();
 
+            TextIOManager.GetInstance().OutputText(TimerManager.GetInstance().GetFrame().ToString(), 0, 0);
 
 
             //Console.WriteLine(TimerManager.GetInstance().GetMillisecond().ToString());

@@ -8,15 +8,21 @@ namespace TeamRPG.Core.UtilManager
 {
     public class KeyInputManager : Singleton<KeyInputManager>
     {
-        char[] key;
+        ConsoleKey key = 0;
 
-        void Init()
-        { 
-        }
-
-        void Update()
+        public void Init()
         {
-
         }
+
+        public void Update()
+        {
+            key = 0;
+            if (Console.KeyAvailable)
+            {
+                key = Console.ReadKey().Key;
+            }
+        }
+
+
     }
 }

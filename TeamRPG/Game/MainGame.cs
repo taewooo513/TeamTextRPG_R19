@@ -21,13 +21,16 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().ChangeScene("UITestScene");
             TextIOManager.GetInstance().Init(100, 29);
             TimerManager.GetInstance().Init();
-
+            SoundManager.GetInstance().Init();
+            SoundManager.GetInstance().AddSound("Test", "Test.mp3");
+            SoundManager.GetInstance().PlaySound("Test",50);
         }
         public void Update()
         {
             SceneManager.GetInstance().Update();
             TimerManager.GetInstance().Update();
             AnimationManager.GetInstance().Update();
+            SoundManager.GetInstance().Update();
         }
         public void Render()
         {

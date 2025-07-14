@@ -23,12 +23,17 @@ namespace TeamRPG.Game.Scene
         public void Render()
         {
 
-
+            TextIOManager.GetInstance().OutputText4Byte("인간", 3, 5);
+            TextIOManager.GetInstance().OutputText4Byte("생명력", 3, 7);
+            TextIOManager.GetInstance().OutputText4Byte("마나", 3, 8);
+            TextIOManager.GetInstance().OutputText4Byte("공격력", 3, 9);
+            TextIOManager.GetInstance().OutputText4Byte("재빠름", 3, 10);
+            TextIOManager.GetInstance().OutputText4Byte("강인함", 3, 11);
+            TextIOManager.GetInstance().OutputText4Byte("행운", 3, 12);
 
 
 
             TextIOManager.GetInstance().OutputText("인간", 17, 27);
-
             TextIOManager.GetInstance().OutputText("드워프", 43, 27);
             TextIOManager.GetInstance().OutputText("하프엘프", 68, 27);
 
@@ -110,7 +115,7 @@ namespace TeamRPG.Game.Scene
                     TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀            ", 38, 21);
 
                     TextIOManager.GetInstance().OutputText("경계에 선 이방인, 복잡한 시선으로 세상을 응시한다.", 25, 25);
-                    TextIOManager.GetInstance().OutputText(">", 66, 27);
+                    TextIOManager.GetInstance().OutputText(">", 65, 27);
                     break;
             }
         }

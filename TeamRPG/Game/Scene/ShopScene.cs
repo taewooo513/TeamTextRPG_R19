@@ -21,7 +21,6 @@ namespace TeamRPG.Game.Scene
 
         public int ItemLenth { get; set; } // 상점 아이템 개수 (6개로 고정)
         public int RerollCost { get; set; } = 30; // 아이템 리롤 비용
-        public int Gold { get; set; } = 1000; // 테스트용 임시 골드 <- 나중에 캐릭터에 연결해야됨
 
         public string MerchantImage { get; set; }
         public string LobbyComment { get; set; } = "필요한 물건이 있으신가요?"; // 상점 로비 코멘트
@@ -81,11 +80,25 @@ namespace TeamRPG.Game.Scene
 
     }
 
+    public enum ShopMenuType
+    {
+        Lobby, // 상점 로비
+        Buy, // 아이템 구매
+        Sell, // 아이템 판매
+        Talk, // 상인과 대화
+        Reroll, // 아이템 리롤
+        Exit // 상점 나가기
+    }
+
     public class ShopScene : SceneClass
     {
-        private int gold = 1000; // 테스트용 임시 골드 <- 나중에 캐릭터에 연결해야됨
-
         private ShopData shopData;
+        private ShopMenuType ShopMenuType { get; set; } = ShopMenuType.Buy; // 현재 메뉴 타입
+
+        public List<string> defaultItems = new()
+        {
+            "HealingPotion",
+        };
 
         private Player player;
         private Text goldText;
@@ -132,20 +145,7 @@ namespace TeamRPG.Game.Scene
             """
         };
 
-        private BoxMenu actionBoxMenu;
-        private BoxMenu itemBoxMenu;
-        private BoxMenu currentMenu = null; // 현재 활성화된 메뉴
-
-        private int shopItemSlotLenth = 6; // 상점 아이템 슬롯 개수 (6개로 고정)
-        private List<MenuItem> shopMenuItems = new();
-        private List<Item> shopItems = new List<Item>();
-        private MenuItem goldTextSlot;
-
-        private int rerollCost = 30; // 아이템 리롤 비용
-
-        public void Init()
-        {
-            string merchantImage = """
+        string merchantImage = """
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠐⡈⠔⣐⠢⡌⢂⠡⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡐⠠⡘⢤⡿⣾⢿⢿⣮⡢⢑⡀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -187,32 +187,43 @@ namespace TeamRPG.Game.Scene
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠐⠌⠰⢈⠢⠘⠠⢁⠃⡉⠌⠒⡈⠔⡐⠌⡐⠂⡅⠢⠌⢡⠐⡠⢉⡐⠋⠴⣙⢦⢫⡜⢦⡓⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡀⢂⠠⠐⢀⠡⠀⡐⠀⠄⡁⠐⠠⠈⠠⠑⠈⠄⠱⢈⠂⠜⡀⠆⡠⠉⡔⠠⠌⢡⠘⢃⡙⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 """;
-            merchantImageText = new RawText(merchantImage, Console.WindowWidth / 2, 0, ConsoleColor.Green, TextAlign.Center);
 
-            goldText = new Text($"보유 금액 : {gold} G", 2, 2, ConsoleColor.Yellow, TextAlign.Left);
+        private BoxMenu? actionBoxMenu; // 상점 액션 메뉴 (구매, 판매, 대화, 뒤로가기)
+        private BoxMenu? itemBuyMenu; // 아이템 구매 메뉴
+        private BoxMenu? itemSellMenu; // 아이템 판매 메뉴
+        private BoxMenu? currentMenu = null; // 현재 활성화된 메뉴
 
-            actionBoxMenu = new BoxMenu(20, Console.WindowHeight / 2, 14, 6, ConsoleColor.DarkGray);
-            actionBoxMenu.AddItem("Buy", OnShopBuy, ConsoleColor.Green);
-            actionBoxMenu.AddItem("Sell", OnShopSell, ConsoleColor.Yellow);
-            actionBoxMenu.AddItem("Talk", OnShopTalk, ConsoleColor.Cyan);
-            actionBoxMenu.AddItem("Back", OnShopBack, ConsoleColor.Red);
+        private int shopItemSlotLenth = 6; // 상점 아이템 슬롯 개수 (6개로 고정)
+        private List<Item> shopBuyItems = new();
 
-            itemBoxMenu = new BoxMenu(10, Console.WindowHeight / 2, 60, 13, ConsoleColor.DarkGray);
-            itemBoxMenu.SetVisible(false);
+        private MenuItem? buyGolTextSlot;
+        private MenuItem? sellGoldTextSlot;
 
+        private int rerollCost = 30; // 아이템 리롤 비용
+
+        public void Init()
+        {
+            player = new("Name", Race.Human);
+            
+            InitCommonUI();
             InitItemBoxMenu();
-
-            merchantCommentText = new RawText(merchantLobbyComment, Console.WindowWidth - 48, 5, ConsoleColor.White, TextAlign.Left);
-            titleText = new Text("Shop", Console.WindowWidth / 2, 1, ConsoleColor.Yellow, TextAlign.Center);
-
-            currentMenu = actionBoxMenu;
+            UpdateShopItems();
         }
         public void Update()
+        {
+            InputMenu();
+        }
+
+        public void Render() { }
+
+        public void Release() { }
+
+        // actionMenu 입력 처리
+        void InputMenu()
         {
             var inputManager = KeyInputManager.GetInstance();
             if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.UpArrow))
             {
-
                 currentMenu.MoveUp();
             }
             if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow))
@@ -225,67 +236,96 @@ namespace TeamRPG.Game.Scene
             }
         }
 
-
-        public void Render() { }
-
-        public void Release() { }
-
-        void UpdateGoldText()
+        void InitCommonUI()
         {
-            goldText.SetText($"보유 금액 : {gold} G");
-            goldTextSlot.Text = ($"보유 골드 : {gold} G");
-        }
+            merchantImageText = new RawText(merchantImage, Console.WindowWidth / 2, 0, ConsoleColor.Green, TextAlign.Center);
+            merchantCommentText = new RawText(merchantLobbyComment, Console.WindowWidth - 54, 4, ConsoleColor.White, TextAlign.Left);
 
-        void UpdateComment(string comment)
-        {
-            merchantCommentText.SetText(comment);
-        }
+            actionBoxMenu = new BoxMenu(20, Console.WindowHeight / 2, 14, 6, ConsoleColor.DarkGray);
+            actionBoxMenu.AddItem("Buy", () => ChangeMenu(ShopMenuType.Buy), ConsoleColor.Green);
+            actionBoxMenu.AddItem("Sell", () => ChangeMenu(ShopMenuType.Sell), ConsoleColor.Yellow);
+            actionBoxMenu.AddItem("Talk", () => ChangeMenu(ShopMenuType.Talk), ConsoleColor.Cyan);
+            actionBoxMenu.AddItem("Back", OnShopBack, ConsoleColor.Red);
 
-
-        string GetItemBuyInfo(Item item)
-        {
-            return $"{item.Name} : {item.Description} ({item.Gold} G)";
+            titleText = new Text("Shop", Console.WindowWidth / 2, 1, ConsoleColor.Yellow, TextAlign.Center);
+            goldText = new Text($"보유 금액 : {player.Gold} G", 2, 2, ConsoleColor.Yellow, TextAlign.Left);
+            currentMenu = actionBoxMenu;
         }
 
         void InitItemBoxMenu()
         {
-            shopItems = ItemManager.GetInstance().GetRandomItems(6);
-
-            itemBoxMenu.ClearItems();
+            // itemBuyMenu 초기화
+            itemBuyMenu = new BoxMenu(10, Console.WindowHeight / 2, 60, 13, ConsoleColor.DarkGray);
+            itemBuyMenu.SetVisible(false);
 
             for (int i = 0; i < shopItemSlotLenth; i++)
             {
-                MenuItem item = itemBoxMenu.AddItem($"Item {i + 1}", () => Console.WriteLine($"Selected Item {i + 1}"), ConsoleColor.Green);
-                shopMenuItems.Add(item);
+                MenuItem item = itemBuyMenu.AddItem("", () => { }, ConsoleColor.Green);
             }
 
-            UpdateItemMenuSlots();
+            itemBuyMenu.AddEmptyItem();
+            buyGolTextSlot = itemBuyMenu.AddTextItem($"보유 골드 : {player.Gold} G");
+            itemBuyMenu.AddEmptyItem();
+            itemBuyMenu.AddItem($"돌리기 {rerollCost} G", RerollItmes);
+            itemBuyMenu.AddItem("돌아가기", BackMenu, ConsoleColor.Red);
 
-            itemBoxMenu.AddEmptyItem();
-            goldTextSlot = itemBoxMenu.AddTextItem($"보유 골드 : {gold} G");
-            itemBoxMenu.AddEmptyItem();
-            itemBoxMenu.AddItem($"돌리기 {rerollCost}", RerollItmes);
+            // itemSellMenu 초기화
+            if (player == null) return;
+            itemSellMenu = new BoxMenu(10, Console.WindowHeight / 2, 60, 13, ConsoleColor.DarkGray);
+            itemSellMenu.SetVisible(false);
 
-            itemBoxMenu.AddItem("돌아가기", () =>
+            for (int i = 0; i < shopItemSlotLenth; i++)
             {
-                itemBoxMenu.SetVisible(false);
-                currentMenu = actionBoxMenu;
-                UpdateComment(merchantLobbyComment);
+                MenuItem item = itemSellMenu.AddItem("", () => { }, ConsoleColor.Yellow);
             }
-            , ConsoleColor.Red);
+
+            itemSellMenu.AddEmptyItem();
+            sellGoldTextSlot = itemSellMenu.AddTextItem($"보유 골드 : {player.Gold} G");
+            itemSellMenu.AddEmptyItem();
+            itemSellMenu.AddItem("돌아가기", BackMenu, ConsoleColor.Red);
         }
 
-        // itemMenuSlot 업데이트
-        void UpdateItemMenuSlots()
+        void BackMenu()
         {
-            var menuItemList = itemBoxMenu.Items;
+            ChangeMenu(ShopMenuType.Lobby);
+        }
+
+        void UpdateShopItems()
+        {
+            shopBuyItems = ItemManager.GetInstance().GetRandomItems(shopItemSlotLenth, defaultItems);
+        }
+
+        void UpdateItemBuyMenuSlots()
+        {
+            var menuItemList = itemBuyMenu.Items;
             for (int i = 0; i < shopItemSlotLenth; i++)
             {
-                if (i < shopItems.Count)
+                if (i < shopBuyItems.Count)
                 {
                     int index = i; // 클로저 안전하게
-                    menuItemList[i].Text = GetItemBuyInfo(shopItems[i]);
-                    menuItemList[i].OnSelect = () => ShopBuy(shopItems[index]);
+                    menuItemList[i].Text = GetItemBuyInfo(shopBuyItems[i]);
+                    menuItemList[i].OnSelect = () => ShopBuy(shopBuyItems[index]);
+                    menuItemList[i].IsEnabled = true;
+                }
+                else
+                {
+                    menuItemList[i].Text = "";
+                    menuItemList[i].OnSelect = () => { };
+                    menuItemList[i].IsEnabled = false;
+                }
+            }
+        }
+
+        void UpdateItemSellMenuSlots()
+        {
+            var menuItemList = itemSellMenu.Items;
+            for (int i = 0; i < shopItemSlotLenth; i++)
+            {
+                if (i < player.Inventory.Count)
+                {
+                    int index = i; // 클로저 안전하게
+                    menuItemList[i].Text = GetItemSellInfo(player.Inventory[i]);
+                    menuItemList[i].OnSelect = () => ShopSell(player.Inventory[index]);
                     menuItemList[i].IsEnabled = true;
                 }
                 else
@@ -300,7 +340,7 @@ namespace TeamRPG.Game.Scene
         void RerollItmes()
         {
             string comment;
-            if (gold < rerollCost)
+            if (player.Gold < rerollCost)
             {
                 comment = """
                 상인
@@ -310,9 +350,9 @@ namespace TeamRPG.Game.Scene
                 return;
             }
 
-            gold -= rerollCost;
-            shopItems = ItemManager.GetInstance().GetRandomItems(6);
-            UpdateItemMenuSlots();
+            player.Gold -= rerollCost;
+            UpdateShopItems();
+            UpdateItemBuyMenuSlots();
             UpdateGoldText();
 
             comment = """
@@ -322,38 +362,72 @@ namespace TeamRPG.Game.Scene
             UpdateComment(comment);
         }
 
-        private void OnShopBuy()
+        void UpdateGoldText()
         {
-            currentMenu = itemBoxMenu;
-            itemBoxMenu.SetVisible(true);
+            goldText.SetText($"보유 금액 : {player.Gold} G");
+            buyGolTextSlot.Text = ($"보유 골드 : {player.Gold} G");
+            sellGoldTextSlot.Text = ($"보유 골드 : {player.Gold} G");
+        }
 
-            if(gold == 0)
+        void UpdateComment(string comment)
+        {
+            merchantCommentText.SetText(comment);
+        }
+
+        string GetItemBuyInfo(Item item)
+        {
+            return $"{item.Name} : {item.Description} ({item.Gold} G)";
+        }
+        string GetItemSellInfo(Item item)
+        {
+            return $"{item.Name} : {item.Description} ({GetItemSellGold(item)} G)";
+        }
+
+        int GetItemSellGold(Item item)
+        {
+            if (item == null) return 0;
+            return (int)(item.Gold * 0.8f);
+        }
+
+
+        public void ChangeMenu(ShopMenuType menuType)
+        {
+            ShopMenuType = menuType;
+            currentMenu.SetVisible(false);
+            string comment;
+
+            switch (menuType)
             {
-                string comment = """
-                    상인
-                    돈 없으면 저리 썩 꺼져!!
-                    """;
-                UpdateComment(comment);
+                case ShopMenuType.Buy:
+                    UpdateItemBuyMenuSlots();
+                    currentMenu = itemBuyMenu;
+                    comment = merchantBuyComment;
+                    break;
+
+                case ShopMenuType.Sell:
+                    UpdateItemSellMenuSlots();
+                    currentMenu = itemSellMenu;
+                    comment = merchantSellComment;
+                    break;
+
+                case ShopMenuType.Talk:
+                    ShopTalk();
+                    currentMenu = actionBoxMenu;
+                    comment = talkList.Count > 0 ? talkList[new Random().Next(talkList.Count)] : merchantLobbyComment;
+                    break;
+                case ShopMenuType.Lobby:
+                default:
+                    currentMenu = actionBoxMenu;
+                    comment = merchantLobbyComment;
+                    break;
             }
-            else
-                UpdateComment(merchantBuyComment);
 
-
-        }
-        private void OnShopSell()
-        {
-            currentMenu = itemBoxMenu;
-            itemBoxMenu.SetVisible(true);
-            UpdateComment(merchantSellComment);
-        }
-        private void OnShopTalk()
-        {
-            currentMenu = actionBoxMenu;
-            itemBoxMenu.SetVisible(false);
-            ShopTalk();
+            currentMenu.SetVisible(true);
+            UpdateComment(comment);
         }
 
         private void OnShopBack() {
+            ShopMenuType = ShopMenuType.Lobby;
             SceneManager.GetInstance().ChangeScene("UITestScene");
         }
 
@@ -361,7 +435,7 @@ namespace TeamRPG.Game.Scene
         {
             string comment;
             if (item == null) return;
-            if (gold < item.Gold)
+            if (player.Gold < item.Gold)
             {
                 comment = $"""
                     상인
@@ -372,8 +446,8 @@ namespace TeamRPG.Game.Scene
                 return;
             }
 
-            gold -= item.Gold;
-            // player.AddItem(item);
+            player.Gold -= item.Gold;
+            player.Inventory.Add(item);
 
             comment = $"""
                 상인
@@ -387,16 +461,30 @@ namespace TeamRPG.Game.Scene
         public void ShopSell(Item item)
         {
             if (item == null) return;
-            
-            gold += item.Gold;
-            // player.RemoveItem(item);
+            string comment;
+            player.Gold += GetItemSellGold(item);
 
-            string comment = $"""
+            // 플레이어 인벤토리에서 아이템 제거
+            if (player.Inventory.Contains(item) == false)
+            {
+                comment = """
+                        상인
+                        대체 뭐를 팔겠단거야!
+                        """;
+                UpdateComment(comment);
+                return;
+            }
+
+            player.Inventory.Remove(item);
+
+
+            comment = $"""
                 상인
                 {item.Name} 판매 감사합니다!
                 """;
 
             UpdateGoldText();
+            UpdateItemSellMenuSlots();
             UpdateComment(comment);
         }
 

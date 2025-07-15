@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -115,19 +116,19 @@ namespace TeamRPG.Core.ItemManager
             temp = StatusFactory.EmptyStatus;
             temp.MinAttack = 30;
             temp.MaxAttack = 30;
-            var holySword = new Weapon("성검", "공격력 +30 마계(성) 환경의 몬스터들의 물리, 마법 저항력을 무시", temp, 1000);
+            var holySword = new Weapon("성검", "공격력 +30 마계 환경의 몬스터들의 물리, 마법 저항력을 무시", temp, 1000);
             AddItem(holySword);
 
             temp = StatusFactory.EmptyStatus;
             temp.MinAttack = 15;
             temp.MaxAttack = 15;
             temp.HP = 20;
-            var guardianHammer = new Weapon("수호자의 망치", "공격력 +30 마계(성) 환경의 몬스터들의 물리, 마법 저항력을 무시", temp, 1000);
+            var guardianHammer = new Weapon("수호자의 망치", "공격력 +30 마계 환경의 몬스터들의 물리, 마법 저항력을 무시", temp, 1000);
 
             temp = StatusFactory.EmptyStatus;
             temp.MinAttack = 20;
             temp.MaxAttack = 20;
-            var dragonHunter = new Weapon("대룡궁", "공격력 +20 / 드래곤(Dragon) 계역의 몬스터에게 공격력 +20 추가", temp, 1000);
+            var dragonHunter = new Weapon("대룡궁", "공격력 +20 / 드래곤 계열의 몬스터에게 공격력 +20 추가", temp, 1000);
             AddItem(dragonHunter);
 
             temp = StatusFactory.EmptyStatus;
@@ -141,7 +142,6 @@ namespace TeamRPG.Core.ItemManager
             temp.MP = 30;
             var lunarDsut = new Weapon("달의 파편", "마법 공격력 +15 / 최대 마나 +30 /매 행동시 마나 5 회복", temp, 800, DamageType.Magical);
             AddItem(lunarDsut);
-
 
             //500G
             //엘릭서(Elixir) - 전투당 1번 사망시 최대 생명력의 50%로 1회 부활(Resurrection)
@@ -264,31 +264,30 @@ namespace TeamRPG.Core.ItemManager
         public List<Item> GetRandomItems(int count, List<string> defaultItems, List<string> randomItems)
         {
             if (itemDictionary == null) Init();
-            var allItemList = itemDictionary.Values.ToList();
+            var defaultItemList = defaultItems.Where(name => itemDictionary.ContainsKey(name)).Select(name => itemDictionary[name]).ToList();
+            var randomItemList = randomItems.Where(name => itemDictionary.ContainsKey(name)).Select(name => itemDictionary[name]).ToList();
             var resultItemList = new List<Item>();
             Random random = new Random();
 
             // 기본 아이템을 우선적으로 추가
-            foreach (var itemName in defaultItems)
+            foreach (var item in defaultItemList)
             {
-                if (resultItemList.Count <= count) break; // 아이템 개수가 지정된 수에 도달하면 중단
-
-                if (itemDictionary.TryGetValue(itemName, out Item item))
-                {
-                    resultItemList.Add(item);
-                    allItemList.Remove(item); // 중복 방지를 위해 제거
-                }
+                if (resultItemList.Count >= count) return resultItemList; // 아이템 개수가 지정된 수에 도달하면 중단
+                resultItemList.Add(item);
             }
 
-            // 모든 기본 아이템을 추가하면 랜덤 아이템 흭득 실행
-            for (int i = resultItemList.Count; i < count; i++)
+            var rand = new Random();
+            for (int i = randomItemList.Count - 1; i > 0; i--)
             {
-                if (resultItemList.Count <= count) break; // 아이템 개수가 지정된 수에 도달하면 중단
-                if (allItemList.Count == 0) break; // 아이템이 더 이상 없으면 중단
+                int j = rand.Next(i + 1);
+                (randomItemList[i], randomItemList[j]) = (randomItemList[j], randomItemList[i]);
+            }
 
-                int index = random.Next(allItemList.Count);
-                resultItemList.Add(allItemList[index]);
-                allItemList.RemoveAt(index); // 중복 방지를 위해 제거
+            // 랜덤 아이템을 추가
+            for (int i = 0; i < randomItemList.Count && resultItemList.Count < count; i++)
+            {
+                if (resultItemList.Count >= count) return resultItemList; // 아이템 개수가 지정된 수에 도달하면 중단
+                resultItemList.Add(randomItemList[i]);
             }
 
             return resultItemList;

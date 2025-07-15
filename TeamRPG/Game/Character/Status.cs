@@ -16,7 +16,10 @@ namespace TeamRPG.Game.Character
         public int Tenacity { get; set; }
         public int Luck { get; set; }
 
-        public Status(int hp, int mp, int minAtk, int maxAtk, int agi, int tena, int luck)
+        public int currentHp { get; set; }
+        public int currentMp { get; set; }
+
+        public Status(int hp, int mp, int minAtk, int maxAtk, int agi, int tena, int luck, int currentHP, int currentMP)
         {
             HP = hp;
             MP = mp;
@@ -25,6 +28,8 @@ namespace TeamRPG.Game.Character
             Agility = agi;
             Tenacity = tena;
             Luck = luck;
+            this.currentHp = currentHP;
+            this.currentMp = currentMP;
         }
 
         public Status Add(Status other)
@@ -36,13 +41,15 @@ namespace TeamRPG.Game.Character
                 MaxAttack + other.MaxAttack,
                 Agility + other.Agility,
                 Tenacity + other.Tenacity,
-                Luck + other.Luck
+                Luck + other.Luck,
+                currentHp,
+                currentMp
             );
         }
 
         public override string ToString()
         {
-            return $"HP:{HP}, MP:{MP}, ATK:{MinAttack}-{MaxAttack}, AGI:{Agility}, TEN:{Tenacity}, LUK:{Luck}";
+            return $"HP:{currentHp} / {HP}, MP:{currentMp}/ {MP}, ATK:{MinAttack}-{MaxAttack}, AGI:{Agility}, TEN:{Tenacity}, LUK:{Luck}";
         }
 
     }

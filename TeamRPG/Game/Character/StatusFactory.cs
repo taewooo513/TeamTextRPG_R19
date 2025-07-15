@@ -15,11 +15,11 @@ namespace TeamRPG.Game.Character
             switch (race)
             {
                 case Race.Human:
-                    return new Status(70, 50, 12, 16, 30, 50, 10);
+                    return new Status(70, 50, 12, 16, 30, 50, 10, 70, 50);
                 case Race.Dwarf:
-                    return new Status(80, 40, 14, 15, 10, 70, 10);
+                    return new Status(80, 40, 14, 15, 10, 70, 10, 80, 40);
                 case Race.HalfElf:
-                    return new Status(65, 70, 8, 18, 50, 30, 10);
+                    return new Status(65, 70, 8, 18, 50, 30, 10 ,65 ,70);
                 default:
                     throw new System.ArgumentException("Unknown race");
             }
@@ -41,21 +41,23 @@ namespace TeamRPG.Game.Character
             if (source == null)
                 return null;
 
-                return new Status(
-                            source.HP,
-                            source.MP,
-                            source.MinAttack,
-                            source.MaxAttack,
-                            source.Agility,
-                            source.Tenacity,
-                            source.Luck
-                    );
+            return new Status(
+                        source.HP,
+                        source.MP,
+                        source.MinAttack,
+                        source.MaxAttack,
+                        source.Agility,
+                        source.Tenacity,
+                        source.Luck,
+                        source.currentHp,
+                        source.currentMp
+                );
         }
         public static Status EmptyStatus
         {
             get
             {
-                return new Status(0, 0, 0, 0, 0, 0, 0);
+                return new Status(0, 0, 0, 0, 0, 0, 0, 0, 0);
             }
         }
     }

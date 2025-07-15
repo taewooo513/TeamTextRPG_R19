@@ -18,6 +18,8 @@ namespace TeamRPG.Game.Character
         public Status currentStatus { get; private set; }
 
         private List<Status> equipments = new List<Status>();
+        private List<Item> Inventory { get; set; } = new List<Item>();
+        public int Gold { get; set; } = 1000;
 
         public Player(string _name, Race _race)
         {

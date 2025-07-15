@@ -14,7 +14,7 @@ namespace TeamRPG.Core.UtilManager
         char[,] backBuffer;
         char[,] defaultBuffer;
         ConsoleColor[,] consoleColors;
-        private int winWidth, winHeight;
+        public int winWidth, winHeight;
         List<String>[] strs;
 
         public void Init(int width, int height)
@@ -50,7 +50,7 @@ namespace TeamRPG.Core.UtilManager
             {
                 int width = IsKorean(ch) ? 2 : 1;
 
-                if (_x >= winWidth)
+                if (_x >= winWidth && x <= 0)
                     break;
 
                 backBuffer[_x, y] = ch;
@@ -88,9 +88,10 @@ namespace TeamRPG.Core.UtilManager
             {
                 if (x + _x < winWidth)
                 {
+
                     consoleColors[x + _x, y] = color;
                     backBuffer[x + _x, y] = ch;
-                    backBuffer[x + _x +1, y] = '\0';
+                    backBuffer[x + _x + 1, y] = '\0';
 
                 }
                 _x += 2;
@@ -102,8 +103,11 @@ namespace TeamRPG.Core.UtilManager
             foreach (var ch in str)
             {
                 _x++;
-                consoleColors[x + _x, y] = color;
-                backBuffer[x + _x, y] = ch;
+                if (_x + x < winWidth && _x + x >= 0 && y < winHeight && y >= 0)
+                {
+                    consoleColors[x + _x, y] = color;
+                    backBuffer[x + _x, y] = ch;
+                }
             }
         }
         public void OutputText(char ch, int x, int y, ConsoleColor color = ConsoleColor.Magenta) // 출력은 이함수 사용하면됨

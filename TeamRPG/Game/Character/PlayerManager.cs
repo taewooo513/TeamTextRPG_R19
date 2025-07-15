@@ -1,40 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using TeamRPG.Core;
+using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
 
 namespace TeamRPG.Game.Character
 {
     public class PlayerManager : Singleton<PlayerManager>
     {
-        private Dictionary<string, Player> players = new Dictionary<string, Player>();
+        Player player;
 
-        public bool AddPlayer(Player player)
+        public void Init(String _name, Race _race)
         {
-            if (players.ContainsKey(player.name))
-                return false;
-
-            players.Add(player.name, player);
-            return true;
+            player = new Player(_name, _race);
         }
 
-        public bool RemovePlayer(string name)
+        public Player GetPlayer()
         {
-            return players.Remove(name);
-        }
-
-        public Player GetPlayer(string name)
-        {
-            players.TryGetValue(name, out Player player);
             return player;
-        }
-
-        public IEnumerable<Player> GetAllPlayers()
-        {
-            return players.Values;
         }
     }
 }

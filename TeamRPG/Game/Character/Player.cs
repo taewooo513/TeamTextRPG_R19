@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
 using TeamRPG.Game.Object.Item;
 
@@ -23,7 +24,7 @@ namespace TeamRPG.Game.Character
         private List<Status> equipments = new List<Status>();
         public List<Item> Inventory { get; set; } = new List<Item>();
         public int Gold { get; set; } = 1000;
-
+        private int selectNum = 0;
         public Player(string _name, Race _race)
         {
             name = _name;
@@ -42,8 +43,8 @@ namespace TeamRPG.Game.Character
 
             currentExp += _exp;
 
-            while (currentExp >= expToNextLevel && level < ExpTable.maxLevel) 
-            { 
+            while (currentExp >= expToNextLevel && level < ExpTable.maxLevel)
+            {
                 currentExp -= expToNextLevel;
                 LevelUp();
             }
@@ -98,6 +99,40 @@ namespace TeamRPG.Game.Character
             Console.WriteLine($"장비 개수: {equipments.Count}");
             Console.WriteLine($"현재 스탯: {currentStatus}");
             Console.WriteLine("");
+        }
+        public void Update()
+        {
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow))
+            {
+                selectNum++;
+            }
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.UpArrow))
+            {
+                selectNum--;
+            }
+        }
+        public void UIRender()
+        {
+            TextIOManager.GetInstance().OutputSmartText("Attack", 15, 20);
+            TextIOManager.GetInstance().OutputSmartText("Defense", 13, 22);
+            TextIOManager.GetInstance().OutputSmartText("Item", 11, 24);
+            TextIOManager.GetInstance().OutputSmartText("Skill", 14, 26);
+
+            switch (selectNum)
+            {
+                case 0:
+                    TextIOManager.GetInstance().OutputText4Byte("▶", 12, 20);
+                    break;
+                case 1:
+                    TextIOManager.GetInstance().OutputText4Byte("▶", 10, 22);
+                    break;
+                case 2:
+                    TextIOManager.GetInstance().OutputText4Byte("▶", 8, 24);
+                    break;
+                case 3:
+                    TextIOManager.GetInstance().OutputText4Byte("▶", 11, 26);
+                    break;
+            }
         }
     }
 }

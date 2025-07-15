@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.UtilManager;
+using TeamRPG.Game.Character;
 using TeamRPG.Game.Object.Enemy;
 
 namespace TeamRPG.Game.Scene
@@ -32,10 +33,10 @@ namespace TeamRPG.Game.Scene
             e.Render();
             e1.Render();
 
-           
-            
 
         }
+
+
 
         public void Update()
         {
@@ -43,14 +44,7 @@ namespace TeamRPG.Game.Scene
             e1.Update();
             e2.Update();
 
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow))
-            {
-                selectNum++;
-            }
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.UpArrow))
-            {
-                selectNum--;
-            }
+            PlayerManager.GetInstance().GetPlayer().UIRender();
         }
     }
 

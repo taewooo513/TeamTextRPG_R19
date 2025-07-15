@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Game.Character;
+using TeamRPG.Game.Object.Item;
 
 namespace TeamRPG.Game.Character
 {
@@ -17,6 +18,8 @@ namespace TeamRPG.Game.Character
         public Status currentStatus { get; private set; }
 
         private List<Status> equipments = new List<Status>();
+        public List<Item> Inventory { get; set; } = new List<Item>();
+        public int Gold { get; set; } = 1000;
 
         public Player(string _name, Race _race)
         {
@@ -36,6 +39,7 @@ namespace TeamRPG.Game.Character
 
             RecalculateCurrentStatus();
         }
+
 
         public void EquipItem(Status equip)
         {

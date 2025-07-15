@@ -13,13 +13,9 @@ namespace TeamRPG.Game.Object.Item
     {
         public int LifeBonus { get; private set; }
 
-        public Armor(string name, string desc, int gold, int lifeBonus, int maxDurability = 20) : base(maxDurability)
+        public Armor(string name, string desc, Status status, int gold, int maxDurability = 20) : base(name, desc, status, gold, maxDurability)
         {
-            Name = name;
-            Description = desc;
-            Gold = gold;
             Type = ItemType.Armor;
-            LifeBonus = lifeBonus;
         }
 
         public override void EquipTo(Player target)

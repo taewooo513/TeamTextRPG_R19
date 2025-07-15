@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Game.Character;
@@ -167,6 +168,36 @@ namespace TeamRPG.Core.ItemManager
             }
 
             return randomItems;
+        }
+
+
+        public List<Item> GetRandomItems(int count, List<string> defaultItems)
+        {
+            if (itemDictionary == null) Init();
+            var allItemList = itemDictionary.Values.ToList();
+            var resultItemList = new List<Item>();
+            Random random = new Random();
+
+            // 기본 아이템을 우선적으로 추가
+            foreach (var itemName in defaultItems)
+            {
+                if (itemDictionary.TryGetValue(itemName, out Item item))
+                {
+                    resultItemList.Add(item);
+                    allItemList.Remove(item); // 중복 방지를 위해 제거
+                }
+            }
+
+            for (int i = resultItemList.Count; i < count; i++)
+            {
+                if (allItemList.Count == 0) break; // 아이템이 더 이상 없으면 중단
+
+                int index = random.Next(allItemList.Count);
+                resultItemList.Add(allItemList[index]);
+                allItemList.RemoveAt(index); // 중복 방지를 위해 제거
+            }
+
+            return resultItemList;
         }
 
     }

@@ -21,7 +21,7 @@ namespace TeamRPG.Core.AnimationManager
         }
         public void AddAnimation(List<String>[] _strs, int _x, int _y, float _frame, bool _isLoop, ConsoleColor _color = ConsoleColor.Magenta)
         {
-            animations.Add(new Animation(_strs, _x, _y, _frame, _isLoop, _color));
+            //animations.Add(new Animation(_strs, _x, _y, _frame, _isLoop, _color));
         }
 
         public void Update()

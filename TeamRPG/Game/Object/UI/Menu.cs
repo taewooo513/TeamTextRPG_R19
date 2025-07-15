@@ -61,7 +61,7 @@ namespace TeamRPG.Game.Object.UI
                 var item = items[i];
 
                 // 선택된 항목은 강조 표시
-                string displayText = (i == selectedIndex) ? $"> {item.Text}" : $"{item.Text}";
+                string displayText = (i == selectedIndex) ? $"▶ {item.Text}" : $"{item.Text}";
                 ConsoleColor color = item.IsEnabled
                     ? (i == selectedIndex ? ConsoleColor.Yellow : item.Color)
                     : ConsoleColor.DarkGray;

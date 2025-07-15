@@ -93,7 +93,7 @@ namespace TeamRPG.Game.Scene
         void InitCommonUI()
         {
             merchantImageText = new RawText(ShopData.MerchantImage, Console.WindowWidth / 2, 0, ConsoleColor.Green, TextAlign.Center);
-            merchantCommentText = new RawText(ShopData.LobbyComment, Console.WindowWidth - 54, 4, ConsoleColor.White, TextAlign.Left);
+            merchantCommentText = new RawText(ShopData.GetNameComment(ShopData.LobbyComment), Console.WindowWidth - 54, 4, ConsoleColor.White, TextAlign.Left);
 
             actionBoxMenu = new BoxMenu(20, Console.WindowHeight / 2, 14, 6, ConsoleColor.DarkGray);
             actionBoxMenu.AddItem("Buy", () => ChangeMenu(ShopMenuType.Buy), ConsoleColor.Green);
@@ -108,13 +108,16 @@ namespace TeamRPG.Game.Scene
 
         void InitItemBoxMenu()
         {
+            int boxWidth = 78;
+            int boxHeight = 13;
+
             // itemBuyMenu 초기화
-            itemBuyMenu = new BoxMenu(10, Console.WindowHeight / 2, 60, 13, ConsoleColor.DarkGray);
+            itemBuyMenu = new BoxMenu(10, Console.WindowHeight / 2, boxWidth, boxHeight);
             itemBuyMenu.SetVisible(false);
 
             for (int i = 0; i < ShopData.ItemLength; i++)
             {
-                MenuItem item = itemBuyMenu.AddItem("", () => { }, ConsoleColor.Green);
+                MenuItem item = itemBuyMenu.AddItem("", () => { });
             }
 
             itemBuyMenu.AddEmptyItem();
@@ -125,18 +128,18 @@ namespace TeamRPG.Game.Scene
 
             // itemSellMenu 초기화
             if (player == null) return;
-            itemSellMenu = new BoxMenu(10, Console.WindowHeight / 2, 60, 13, ConsoleColor.DarkGray);
+            itemSellMenu = new BoxMenu(10, Console.WindowHeight / 2, boxWidth, boxWidth);
             itemSellMenu.SetVisible(false);
 
             for (int i = 0; i < ShopData.ItemLength; i++)
             {
-                MenuItem item = itemSellMenu.AddItem("", () => { }, ConsoleColor.Yellow);
+                MenuItem item = itemSellMenu.AddItem("", () => { });
             }
 
             itemSellMenu.AddEmptyItem();
             sellGoldTextSlot = itemSellMenu.AddTextItem($"보유 골드 : {player.Gold} G");
             itemSellMenu.AddEmptyItem();
-            itemSellMenu.AddItem("돌아가기", BackMenu, ConsoleColor.Red);
+            itemSellMenu.AddItem("돌아가기", BackMenu);
         }
 
         void BackMenu()
@@ -146,7 +149,7 @@ namespace TeamRPG.Game.Scene
 
         void UpdateShopItems()
         {
-            ShopData.Items = ItemManager.GetInstance().GetRandomItems(ShopData.ItemLength, defaultItems);
+            ShopData.RerollItems();
         }
 
         void UpdateItemBuyMenuSlots()
@@ -193,13 +196,10 @@ namespace TeamRPG.Game.Scene
 
         void RerollItmes()
         {
-            string comment;
+            string comment = player.Gold >= ShopData.RerollCost ? ShopData.RerollSuccessComment : ShopData.RerollFailComment;
+
             if (player.Gold < ShopData.RerollCost)
             {
-                comment = """
-                상인
-                돈이 부족해!!
-                """;
                 UpdateComment(comment);
                 return;
             }
@@ -209,10 +209,6 @@ namespace TeamRPG.Game.Scene
             UpdateItemBuyMenuSlots();
             UpdateGoldText();
 
-            comment = """
-                상인
-                새로운 상품입니다!
-                """;
             UpdateComment(comment);
         }
 
@@ -225,6 +221,7 @@ namespace TeamRPG.Game.Scene
 
         void UpdateComment(string comment)
         {
+            comment = ShopData.GetNameComment(comment);
             merchantCommentText.SetText(comment);
         }
 
@@ -248,7 +245,7 @@ namespace TeamRPG.Game.Scene
         {
             ShopMenuType = menuType;
             currentMenu.SetVisible(false);
-            string comment;
+            string comment = "";
 
             switch (menuType)
             {
@@ -265,9 +262,8 @@ namespace TeamRPG.Game.Scene
                     break;
 
                 case ShopMenuType.Talk:
-                    ShopTalk();
                     currentMenu = actionBoxMenu;
-                    comment = ShopData.TalkList.Count > 0 ? ShopData.TalkList[new Random().Next(ShopData.TalkList.Count)] : ShopData.LobbyComment;
+                    comment = ShopData.GetRandomTalk();
                     break;
                 case ShopMenuType.Lobby:
                 default:
@@ -287,26 +283,17 @@ namespace TeamRPG.Game.Scene
 
         public void ShopBuy(Item item)
         {
-            string comment;
+            string comment = player.Gold >= item.Gold? ShopData.BuySuccessComment : ShopData.BuyFailComment;
+            
             if (item == null) return;
             if (player.Gold < item.Gold)
             {
-                comment = $"""
-                    상인
-                    그 돈으로는 부족합니다!
-                    """;
-
                 UpdateComment(comment);
                 return;
             }
 
             player.Gold -= item.Gold;
             player.Inventory.Add(item);
-
-            comment = $"""
-                상인
-                {item.Name} 구매 감사합니다!
-                """;
 
             UpdateGoldText();
             UpdateComment(comment);
@@ -315,41 +302,20 @@ namespace TeamRPG.Game.Scene
         public void ShopSell(Item item)
         {
             if (item == null) return;
-            string comment;
+            string comment = player.Inventory.Contains(item)? ShopData.SellSuccessComment : ShopData.SellFailComment;
             player.Gold += GetItemSellGold(item);
 
             // 플레이어 인벤토리에서 아이템 제거
             if (player.Inventory.Contains(item) == false)
             {
-                comment = """
-                        상인
-                        대체 뭐를 팔겠단거야!
-                        """;
                 UpdateComment(comment);
                 return;
             }
 
             player.Inventory.Remove(item);
 
-
-            comment = $"""
-                상인
-                {item.Name} 판매 감사합니다!
-                """;
-
             UpdateGoldText();
             UpdateItemSellMenuSlots();
-            UpdateComment(comment);
-        }
-
-        public void ShopTalk()
-        {
-            if (ShopData.TalkList.Count == 0) return;
-
-            Random random = new Random();
-            int index = random.Next(ShopData.TalkList.Count);
-            string comment = ShopData.TalkList[index];
-
             UpdateComment(comment);
         }
     }

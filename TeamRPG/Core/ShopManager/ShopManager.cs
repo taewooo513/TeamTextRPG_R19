@@ -22,7 +22,7 @@ namespace TeamRPG.Core.ShopManager
 
         public List<Item> Items { get; set; } = new List<Item>();
 
-        public int ItemLength { get; set; } // 상점 아이템 개수 (6개로 고정)
+        public int ItemLength { get; set; } = 6; // 상점 아이템 개수 (6개로 고정)
         public int RerollCost { get; set; } = 30; // 아이템 리롤 비용
 
         public string MerchantImage { get; set; }
@@ -35,18 +35,12 @@ namespace TeamRPG.Core.ShopManager
         public string SellFailComment { get; set; } = "대체 뭐를 팔겠단거야!"; // 아이템 판매 실패 코멘트
 
         public string RerollSuccessComment { get; set; } = "새로운 상품입니다!"; // 아이템 리롤 코멘트
-        public List<string> TalkList { get; set; } = new List<string>
-        {
-            "안녕하세요, 여행자님!",
-            "이곳은 다양한 물건을 판매하는 상점입니다.",
-            "저희 상점에서는 다양한 아이템을 구매할 수 있습니다.",
-            "저도 한때는 모험가를 꿈꿔왔습니다...",
-            "그래서 물건은 사실건가요?"
-        };
+        public string RerollFailComment { get; set; } = "돈이 부족해!!"; // 아이템 리롤 실패 코멘트
+        public List<string> TalkList { get; set; } = new List<string>();
 
         public void RerollItems()
         {
-            Items = ItemManager.ItemManager.GetInstance().GetRandomItems(ItemLength);
+            Items = ItemManager.ItemManager.GetInstance().GetRandomItems(ItemLength, DefaultItemNames, RandomItemNames);
         }
         public void AddItem(Item item)
         {
@@ -61,6 +55,18 @@ namespace TeamRPG.Core.ShopManager
         public void ClearItems()
         {
             Items.Clear();
+        }
+
+        public string GetNameComment(string comment)
+        {
+            return $"{MerchantName}\n{comment}";
+        }
+
+        public string GetRandomTalk()
+        {
+            return TalkList.Count > 0 
+                ? TalkList[new Random().Next(TalkList.Count)] 
+                : "묵묵히 당신을 쳐다봅니다.";
         }
     }
 
@@ -160,6 +166,15 @@ namespace TeamRPG.Core.ShopManager
                         ShopName = "던전 상점",
                         MerchantName = "상인",
                         MerchantImage = normalMerchantImage, // 상인 이미지 파일 경로
+                        DefaultItemNames = new List<string>
+                        {
+                            "회복 포션"
+                        },
+                        RandomItemNames = new List<string>
+                        {
+                            "향긋한 허브", "마나 포션", "강철검", "수습생의 지팡이", "마력의 탈리스만",
+                            "라운드 실드", "현자의 로브", "마나의 탈리스만"
+                        },
                         LobbyComment = "필요한 물건이 있으신가요?",
                         BuyComment = "물건을 구매하시겠습니까?",
                         BuySuccessComment = "구매 감사합니다!",
@@ -167,7 +182,19 @@ namespace TeamRPG.Core.ShopManager
                         SellComment = "물건을 판매하시겠습니까?",
                         SellSuccessComment = "판매 감사합니다!",
                         SellFailComment = "대체 뭐를 팔겠단거야!",
-                        RerollSuccessComment = "새로운 상품입니다!"
+                        RerollSuccessComment = "새로운 상품입니다!",
+                        RerollFailComment = "돈이 없는데 뭘 보겠단거야!",
+                        ItemLength = 6,
+
+
+                        TalkList = new List<string>
+                        {
+                            "안녕하세요, 여행자님!",
+                            "이곳은 다양한 물건을 판매하는 상점입니다.",
+                            "저희 상점에서는 다양한 아이템을 구매할 수 있습니다.",
+                            "여기에는 저 말고도 다른 상인이 존재합니다.",
+                            "그래서 물건은 사실건가요?"
+                        }
                 });
 
             AddShop("방랑상인", new ShopData
@@ -175,6 +202,15 @@ namespace TeamRPG.Core.ShopManager
                 ShopName = "떠돌이의 휴식처",
                 MerchantName = "방랑상인",
                 MerchantImage = wanderingMerchantImage, // 상인 이미지 파일 경로
+                DefaultItemNames = new List<string>
+                {
+                    "회복 포션"
+                },
+                RandomItemNames = new List<string>
+                {
+                    "엘릭서", "성검", "수호자의 망치", "대룡궁",
+                    "철의의지", "달의 파편"
+                },
                 LobbyComment = "운명이군요.",
                 BuyComment = "가치는 충분합니다.",
                 BuySuccessComment = "편안한 여졍되시길...",
@@ -182,9 +218,19 @@ namespace TeamRPG.Core.ShopManager
                 SellComment = "의미없는 것들은 털어버리시죠.",
                 SellSuccessComment = "당신의 짐을 덜어드리겠습니다.",
                 SellFailComment = "Error",
-                RerollSuccessComment = "이번에는 괜찮은게 나왔나요?"
+                RerollSuccessComment = "이번에는 괜찮은게 나왔나요?",
+                RerollFailComment = "다음에 봅시다.",
+                ItemLength = 6,
+                TalkList = new List<string>
+                        {
+                            "반갑습니다.",
+                            "약초 하나 정도는 기회가된다면 가지고 다니시죠.",
+                            "수상한 버섯은 되도록 먹지 않는게 좋습니다.",
+                            "우물에는 많은 것이 있습니다. 해로운것도 말이죠...",
+                            "이곳은 위험한 곳입니다. 항상 조심하세요.",
+                            "상인은 취미입니다. 제 걱정은 괜찮습니다."
+                        }
             });
-
         }
 
         public void AddShop(string shopName, ShopData shopData)
@@ -215,11 +261,11 @@ namespace TeamRPG.Core.ShopManager
 
             var random = new Random();
             int index = random.Next(1, 101);
-            if (index <= 20) // 80% 확률로 기본 상점
+            if (index <= 95) // 95% 확률로 기본 상점
             {
                 return GetShop("상점");
             }
-            else // 50% 확률로 방랑상인
+            else // 5% 확률로 방랑상인
             {
                 return GetShop("방랑상인");
             }

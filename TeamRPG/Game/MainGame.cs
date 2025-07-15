@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using TeamRPG.Core.AnimationManager;
-using TeamRPG.Core.ItemManager;
 using TeamRPG.Core.EnemyManager;
+using TeamRPG.Core.ItemManager;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
+using TeamRPG.Game.Character;
 using TeamRPG.Game.Scene;
 using TeamRPG.Game.Scene.Specificity;
 using static System.Net.Mime.MediaTypeNames;
@@ -27,14 +29,16 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
             SceneManager.GetInstance().AddScene("GameScene", new GameScene());
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
+            SceneManager.GetInstance().AddScene("CharInfoScene", new CharInfoScene());
 
-            SceneManager.GetInstance().ChangeScene("CharSelectScene");
             TextIOManager.GetInstance().Init(156, 40);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();
             SoundManager.GetInstance().AddSound("Test", "Test2.mp3", true, true);
             SoundManager.GetInstance().AddSound("Clicksmall", "../../../../Sounds/Clicksmall.mp3", false, false);
             SoundManager.GetInstance().PlaySound("Test", .1f);
+            PlayerManager.GetInstance().Init("asd", (Race)1);
+            SceneManager.GetInstance().ChangeScene("TitleScene");
 
         }
         public void Update()

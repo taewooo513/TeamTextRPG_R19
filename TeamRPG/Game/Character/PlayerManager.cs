@@ -14,10 +14,10 @@ namespace TeamRPG.Game.Character
 
         public bool AddPlayer(Player player)
         {
-            if (players.ContainsKey(player.Name))
+            if (players.ContainsKey(player.name))
                 return false;
 
-            players.Add(player.Name, player);
+            players.Add(player.name, player);
             return true;
         }
 

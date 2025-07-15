@@ -9,64 +9,64 @@ namespace TeamRPG.Game.Character
 {
     public class Player
     {
-        public string Name { get; private set; }
-        public Race Race { get; private set; }
-        public int Level { get; private set; } = 1;
+        public string name { get; private set; }
+        public Race race { get; private set; }
+        public int level { get; private set; } = 1;
 
-        public Status BaseStatus { get; private set; }
-        public Status CurrentStatus { get; private set; }
+        public Status baseStatus { get; private set; }
+        public Status currentStatus { get; private set; }
 
-        private List<Status> Equipments = new List<Status>();
+        private List<Status> equipments = new List<Status>();
 
-        public Player(string name, Race race)
+        public Player(string _name, Race _race)
         {
-            Name = name;
-            Race = race;
-            BaseStatus = StatusFactory.GetStatusByRace(race);
-            CurrentStatus = BaseStatus;
+            name = _name;
+            race = _race;
+            baseStatus = StatusFactory.GetStatusByRace(race);
+            currentStatus = baseStatus;
         }
 
         public void LevelUp()
         {
-            Level++;
+            level++;
 
-            BaseStatus.HP += 5;
-            BaseStatus.MinAttack += 2;
-            BaseStatus.MaxAttack += 2;
+            baseStatus.HP += 5;
+            baseStatus.MinAttack += 2;
+            baseStatus.MaxAttack += 2;
 
             RecalculateCurrentStatus();
         }
 
         public void EquipItem(Status equip)
         {
-            Equipments.Add(equip);
+            equipments.Add(equip);
             RecalculateCurrentStatus();
         }
 
         public void UnequipItem(Status equip)
         {
-            Equipments.Remove(equip);
+            equipments.Remove(equip);
             RecalculateCurrentStatus();
         }
 
         private void RecalculateCurrentStatus()
         {
             Status totalEquip = new Status(0, 0, 0, 0, 0, 0, 0);
-            foreach (var equip in Equipments)
+            foreach (var equip in equipments)
             {
                 totalEquip = totalEquip.Add(equip);
             }
-            CurrentStatus = BaseStatus.Add(totalEquip);
+            currentStatus = baseStatus.Add(totalEquip);
         }
 
         public void ShowInfo()
         {
-            Console.WriteLine($"이름: {Name}");
-            Console.WriteLine($"종족: {Race}");
-            Console.WriteLine($"레벨: {Level}");
-            Console.WriteLine($"기본 스탯: {BaseStatus}");
-            Console.WriteLine($"장비 개수: {Equipments.Count}");
-            Console.WriteLine($"현재 스탯: {CurrentStatus}");
+            Console.WriteLine($"이름: {name}");
+            Console.WriteLine($"종족: {race}");
+            Console.WriteLine($"레벨: {level}");
+            Console.WriteLine($"기본 스탯: {baseStatus}");
+            Console.WriteLine($"장비 개수: {equipments.Count}");
+            Console.WriteLine($"현재 스탯: {currentStatus}");
             Console.WriteLine("");
         }
     }

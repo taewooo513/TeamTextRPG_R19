@@ -146,6 +146,27 @@ namespace TeamRPG.Game.Scene
                 SoundManager.GetInstance().PlaySound("Clicksmall", .1f);
                 selectChar++;
             }
+            InputName();
+        }
+
+        public string InputName()
+        {
+            string name = "";
+
+            while (true)
+            {
+                Console.WriteLine($"이름을 작성해 주세요.");
+                if (Console.KeyAvailable)
+                {
+
+                    name += Console.ReadKey();
+
+                    if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter)) break;
+                }
+            }
+
+            Console.WriteLine($"\n입력된 이름: {name}");
+            return name;
         }
     }
 }

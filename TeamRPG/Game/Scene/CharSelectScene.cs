@@ -5,14 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
+using TeamRPG.Game.Character;
 
 namespace TeamRPG.Game.Scene
 {
     public class CharSelectScene : Core.SceneManager.Scene
     {
         int selectChar;
+        Status[] state;
+
         public void Init()
         {
+            state = new Status[3];
+            state[0] = StatusFactory.GetStatusByRace((Race)0);
+            state[1] = StatusFactory.GetStatusByRace((Race)1);
+            state[2] = StatusFactory.GetStatusByRace((Race)2);
             selectChar = 0;
         }
 
@@ -23,13 +30,6 @@ namespace TeamRPG.Game.Scene
         public void Render()
         {
 
-            TextIOManager.GetInstance().OutputText4Byte("인간", 3, 5);
-            TextIOManager.GetInstance().OutputText4Byte("생명력", 3, 7);
-            TextIOManager.GetInstance().OutputText4Byte("마나", 3, 8);
-            TextIOManager.GetInstance().OutputText4Byte("공격력", 3, 9);
-            TextIOManager.GetInstance().OutputText4Byte("재빠름", 3, 10);
-            TextIOManager.GetInstance().OutputText4Byte("강인함", 3, 11);
-            TextIOManager.GetInstance().OutputText4Byte("행운", 3, 12);
 
 
 
@@ -118,43 +118,43 @@ namespace TeamRPG.Game.Scene
                     TextIOManager.GetInstance().OutputText(">", 65, 27);
                     break;
             }
+            TextIOManager.GetInstance().OutputText("┌─────────────┐", 1, 4);
+            TextIOManager.GetInstance().OutputText("│             │", 1, 5);
+            TextIOManager.GetInstance().OutputText("│             │", 1, 6);
+            TextIOManager.GetInstance().OutputText("│             │", 1, 7);
+            TextIOManager.GetInstance().OutputText("│             │", 1, 8);
+            TextIOManager.GetInstance().OutputText("│             │", 1, 9);
+            TextIOManager.GetInstance().OutputText("│             │", 1, 10);
+            TextIOManager.GetInstance().OutputText("│             │", 1, 11);
+            TextIOManager.GetInstance().OutputText("│             │", 1, 12);
+            TextIOManager.GetInstance().OutputText("│             │", 1, 13);
+            TextIOManager.GetInstance().OutputText("│             │", 1, 14);
+            TextIOManager.GetInstance().OutputText("│             │", 1, 15);
+            TextIOManager.GetInstance().OutputText("│             │", 1, 16);
+            TextIOManager.GetInstance().OutputText("│             │", 1, 17);
+            TextIOManager.GetInstance().OutputText("│             │", 1, 18);
+            TextIOManager.GetInstance().OutputText("└─────────────┘", 1, 19);
+            //public Status(int hp, int mp, int minAtk, int maxAtk, int agi, int tena, int luck)
+            TextIOManager.GetInstance().OutputText4Byte("인간", 4, 5);
+            TextIOManager.GetInstance().OutputText4Byte("생명력: " + state[0].HP.ToString(), 4, 8);
+            TextIOManager.GetInstance().OutputText4Byte("마나:" + state[0].MP.ToString(), 4, 10);
+            TextIOManager.GetInstance().OutputText4Byte("공격력:" + state[0].MaxAttack.ToString(), 4, 12);
+            TextIOManager.GetInstance().OutputText4Byte("재빠름:" + state[0].Agility.ToString(), 4, 14);
+            TextIOManager.GetInstance().OutputText4Byte("강인함:" + state[0].Tenacity.ToString(), 4, 16);
+            TextIOManager.GetInstance().OutputText4Byte("행운:" + state[0].ToString(), 4, 18);
         }
-
-        /*
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀
-
-
-
-
-
-
-
-
-
-
-
-
-⠀
-
-
-
-
-
-
-
-
-
-         */
 
         public void Update()
         {
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.LeftArrow))
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.LeftArrow) && selectChar > 0)
             {
+                SoundManager.GetInstance().PlaySound("Clicksmall", .1f);
+
                 selectChar--;
             }
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.RightArrow))
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.RightArrow) && selectChar < 2)
             {
+                SoundManager.GetInstance().PlaySound("Clicksmall", .1f);
                 selectChar++;
             }
         }

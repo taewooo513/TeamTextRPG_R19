@@ -80,6 +80,8 @@ namespace TeamRPG.Game.Object.UI
                 selectedIndex = (selectedIndex - 1 + count) % count;
             }
             while (!items[selectedIndex].IsEnabled);
+
+            SoundManager.GetInstance().PlaySound("Clicksmall", 1f);
         }
 
         public void MoveDown()
@@ -92,6 +94,8 @@ namespace TeamRPG.Game.Object.UI
                 selectedIndex = (selectedIndex + 1) % count;
             }
             while (!items[selectedIndex].IsEnabled);
+
+            SoundManager.GetInstance().PlaySound("Clicksmall", 1f);
         }
 
         public void Select()
@@ -104,6 +108,8 @@ namespace TeamRPG.Game.Object.UI
                     item.OnSelect?.Invoke();
                 }
             }
+
+            SoundManager.GetInstance().PlaySound("ShopSelect", 1f);
         }
 
         public void SelectByIndex(int index)

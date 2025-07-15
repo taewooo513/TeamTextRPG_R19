@@ -10,76 +10,10 @@ using TeamRPG.Game.Object.UI;
 using SceneClass = TeamRPG.Core.SceneManager.Scene;
 using TeamRPG.Game.Object.Item;
 using TeamRPG.Game.Character;
+using TeamRPG.Core.ShopManager;
 
 namespace TeamRPG.Game.Scene
 {
-    public class ShopData
-    {
-        public string ShopName { get; set; } = "상점"; // 상점 이름
-        public string MerchantName { get; set; } = "상인"; // 상인 이름
-        public List<Item> Items { get; set; } = new List<Item>();
-
-        public int ItemLenth { get; set; } // 상점 아이템 개수 (6개로 고정)
-        public int RerollCost { get; set; } = 30; // 아이템 리롤 비용
-
-        public string MerchantImage { get; set; }
-        public string LobbyComment { get; set; } = "필요한 물건이 있으신가요?"; // 상점 로비 코멘트
-        public string BuyComment { get; set; } = "물건을 구매하시겠습니까?"; // 상점 구매 코멘트
-        public string BuySuccessComment { get; set; } = "구매 감사합니다!"; // 아이템 구매 성공 코멘트
-        public string BuyFailComment { get; set; } = "돈이 부족해!!"; // 아이템 구매 실패 코멘트
-        public string SellComment { get; set; } = "물건을 판매하시겠습니까?"; // 상점 판매 코멘트
-        public string SellSuccessComment { get; set; } = "판매 감사합니다!"; // 아이템 판매 성공 코멘트
-        public string SellFailComment { get; set; } = "대체 뭐를 팔겠단거야!"; // 아이템 판매 실패 코멘트
-
-        public string RerollSuccessComment { get; set; } = "새로운 상품입니다!"; // 아이템 리롤 코멘트
-        public List<string> TalkList { get; set; } = new List<string>
-        {
-            "안녕하세요, 여행자님!",
-            "이곳은 다양한 물건을 판매하는 상점입니다.",
-            "저희 상점에서는 다양한 아이템을 구매할 수 있습니다.",
-            "저도 한때는 모험가를 꿈꿔왔습니다...",
-            "그래서 물건은 사실건가요?"
-        };
-        public ShopData()
-        {
-            // 초기 아이템 목록 생성
-            RerollItems();
-        }
-
-        public void RerollItems()
-        {
-            Items = ItemManager.GetInstance().GetRandomItems(6);
-        }
-        public void AddItem(Item item)
-        {
-            if (Items.Count < 6)
-            {
-                Items.Add(item);
-            }
-            else
-            {
-                Console.WriteLine("상점 아이템 슬롯이 가득 찼습니다.");
-            }
-        }
-        public void RemoveItem(Item item)
-        {
-            if (Items.Contains(item))
-            {
-                Items.Remove(item);
-            }
-            else
-            {
-                Console.WriteLine("해당 아이템이 상점에 없습니다.");
-            }
-        }
-        public void ClearItems()
-        {
-            Items.Clear();
-        }
-
-
-    }
-
     public enum ShopMenuType
     {
         Lobby, // 상점 로비
@@ -92,7 +26,7 @@ namespace TeamRPG.Game.Scene
 
     public class ShopScene : SceneClass
     {
-        private ShopData shopData;
+        public ShopData ShopData { get; set; }
         private ShopMenuType ShopMenuType { get; set; } = ShopMenuType.Buy; // 현재 메뉴 타입
 
         public List<string> defaultItems = new()
@@ -106,105 +40,20 @@ namespace TeamRPG.Game.Scene
         private RawText merchantImageText;
         private RawText merchantCommentText;
 
-        private string merchantLobbyComment = """
-                상인
-                필요한 물건이 있으신가요?
-                """;
-
-        public string merchantBuyComment = """
-                상인
-                물건을 구매하시겠습니까?
-                """;
-
-        public string merchantSellComment = """
-                상인
-                물건을 판매하시겠습니까?
-                """;
-
-        public List<string> talkList = new()
-        {
-            """
-            상인
-            안녕하세요, 여행자님!
-            """,
-            """
-            상인
-            이곳은 다양한 물건을 판매하는 상점입니다.
-            """,
-            """
-            상인
-            저희 상점에서는 다양한 아이템을 구매할 수 있습니다.
-            """,
-            """
-            상인
-            저도 한때는 모험가를 꿈꿔왔습니다...
-            """,
-            """
-            상인
-            그래서 물건은 사실건가요?
-            """
-        };
-
-        string merchantImage = """
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠐⡈⠔⣐⠢⡌⢂⠡⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡐⠠⡘⢤⡿⣾⢿⢿⣮⡢⢑⡀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⡀⠱⣨⢿⡽⣳⠯⣟⡾⣽⡢⠄⡁⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠄⢣⡼⢯⣟⠡⢂⡙⢯⣷⡳⢌⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠰⡁⢆⠱⡌⢆⡇⡘⡤⢌⠛⠤⢈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡐⢡⠊⡔⠡⢎⡼⢠⠑⡌⠌⠥⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⠌⢢⠑⡌⠱⡈⠔⡡⢎⠰⡉⠆⡤⢤⠤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠠⢀⠢⠄⡫⢖⣭⠐⣡⠊⠔⣡⢉⠬⡑⢌⠢⣉⠜⣷⡩⢞⠴⣩⠇⡐⢠⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠄⡂⠱⢈⠄⠃⡐⢀⡟⣼⣃⠒⡌⢧⠈⠄⢳⣖⢉⠢⡐⡴⢈⠞⣷⡩⢞⡥⣋⠐⠠⠑⡈⠅⢊⠄⡠⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⡡⠒⡈⠐⡁⢂⢈⡐⠄⣚⣼⠳⡜⢦⡸⣌⢧⠈⢧⣬⠓⣠⠝⣆⢣⡜⡹⣷⢩⠖⣭⠂⢡⠂⢄⠈⠄⡘⠠⢑⡀⠂⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢁⠂⠄⢁⠠⢁⠰⡀⠆⠠⠃⣼⣏⢳⡙⢦⠳⣌⠎⣧⢳⣜⡡⢇⡛⣬⠳⣜⡱⣹⣧⢛⡴⠈⡀⠊⢄⢊⡐⠠⠐⡀⠄⢉⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⡀⢂⠈⡀⠢⠌⡐⠠⠁⢂⢡⣟⢮⣗⡻⣎⢷⣌⡻⢤⠳⣌⠳⣍⠞⡴⣋⠶⣱⢣⢿⡜⡼⡁⢀⠁⠂⠄⢂⠑⡂⠄⡈⢀⠂⢡⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠨⡑⡄⠠⠐⡀⠐⠠⢀⠡⢀⡾⣝⡞⣮⢗⣯⢳⡞⣽⢫⣗⢮⡳⢮⣝⠶⣭⢞⣥⡳⢮⣿⡴⡇⠀⠂⡁⠐⡀⠂⠐⡀⠄⠂⣌⠲⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⣉⠒⡡⢄⠌⠀⠀⠀⣼⠡⠟⠞⡙⠚⠘⠋⠘⠉⠡⠈⡁⢉⠈⢈⠉⠠⠉⡀⠉⠡⠹⡇⠙⠀⠀⠀⠀⠐⠈⢠⡀⢆⠃⠆⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⢘⡀⠎⡐⡀⠀⢰⠇⣀⣂⣄⠐⡈⠤⢁⠌⠤⠁⢆⠐⠤⢈⠂⠤⠁⠆⢄⠡⠂⡔⣻⣤⢧⠀⠀⠀⠀⢀⠃⡌⠄⡩⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠒⡈⠔⡠⠀⡞⣰⢯⣝⠆⢈⠀⡁⠂⡈⢂⠉⠔⣈⠂⠅⣊⠐⠩⡐⠨⡐⠡⡐⠸⣯⡞⣧⠀⠀⠠⠌⡂⠔⠡⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠡⠒⡠⢑⡃⣟⡞⡞⠀⠄⠂⡀⠁⠄⠠⠈⠠⠀⠌⠐⠠⢊⠡⡐⠡⠄⢃⠰⠁⢿⡞⣵⠆⢀⠅⠢⢁⠊⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣵⢂⠳⢨⡌⢻⣥⣬⡴⣤⣤⣥⢦⣥⢦⣥⢦⣬⣤⣥⣤⣥⢦⣱⣬⢦⣬⣡⣞⣯⠗⣉⠎⡜⣡⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣌⢣⢁⠻⣟⣾⣵⣿⣳⣯⣾⣟⣾⣟⡾⣟⣾⢧⡿⣾⢾⣯⢷⡯⡿⢾⠷⡾⢽⡾⢏⡘⠴⡱⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⣰⢎⡷⡌⠀⠄⠠⢀⠀⠄⡀⠠⠀⠄⡀⠄⡀⠄⠠⢀⠠⠀⡐⠀⠆⢒⠠⢊⡴⢦⣌⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣯⢻⡼⢃⠈⠄⠂⠠⠈⠠⠐⢀⠡⠀⠄⡐⠀⡐⠠⠀⡐⢀⠐⠈⠌⢂⠢⠁⢿⡹⣞⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠰⡭⣗⣻⠀⡐⠠⠁⠄⡁⠐⢈⠠⠀⠌⢀⠐⡀⠐⡀⠁⠄⡀⠂⡁⠈⠤⣁⠩⢸⣝⡞⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡱⣏⡞⠀⠄⠂⡐⠀⡐⠈⠠⠐⢈⠀⢂⠠⠐⢀⠐⢈⠠⠐⠀⠄⡁⠰⠀⠆⡱⣞⠵⡂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡼⡱⣏⡞⠀⠂⡁⠄⠂⠐⢈⠠⠈⠠⠐⢀⠐⢀⠂⢈⠠⠐⠠⠁⡐⠀⢂⠩⡐⠄⣿⢱⡃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠁⠀⠀⠀⠀⠀⠀⠀⢷⡱⣏⡆⠁⡐⠀⠄⡁⠌⢀⠐⢈⠠⠈⠠⠐⢀⠈⠄⠐⠠⠁⡐⠀⠌⣀⠒⡠⢁⡟⣦⢣⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠠⠀⠀⠠⠀⠀⠄⠀⠀⠀⠀⠀⠀⢀⢧⢳⡝⡆⠁⠄⢈⠠⠀⢂⠠⠈⠠⠐⢈⠠⠈⡀⢂⠈⠐⡀⠁⠄⠈⢄⡐⢂⠡⢂⡽⣆⢳⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢘⣎⢳⡽⡃⠠⢈⠠⠐⢈⠀⡐⠈⠠⢈⠠⠐⠀⠄⠂⡈⠄⠐⢈⠠⢁⠆⠰⠈⡔⢂⡼⣏⢮⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡸⣌⢳⡽⡃⠠⠀⢂⠈⠠⠐⠀⠌⠠⠀⡐⠈⡀⠂⡁⠄⠠⣁⠢⠌⢂⡘⠄⡃⠔⢂⡼⣝⡲⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡵⢪⡝⡾⡅⡀⠡⢀⠂⠁⠄⡁⠂⠄⡁⠄⠂⢄⠡⢐⡈⠥⠐⣂⠩⢐⠠⡑⠐⡌⢂⡽⣺⠵⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣏⠳⡜⣽⢣⡐⡁⠆⡘⠐⠢⡐⠡⠒⡈⠔⡉⢄⠊⢄⠒⡈⠥⢐⠨⠐⡂⢌⠒⢠⠂⣽⢧⣛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⣎⢳⡹⡜⢯⡽⣝⡾⣲⢏⣦⡥⣎⣥⣘⣠⡘⣀⠎⡠⢊⡐⠌⡐⠌⣁⠒⢠⠊⢄⢊⡷⣫⢞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡌⢧⠳⣜⢣⠻⣜⣳⡭⣟⢶⣹⢳⣎⢷⡳⡽⣭⡻⣝⢯⣝⣻⢼⡳⣞⣞⡳⣞⡞⣮⢳⡝⢮⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢼⡘⢧⡛⣬⢣⡛⣬⢳⡹⢮⣻⢼⡳⣽⢺⡵⣻⢵⣛⡮⣟⡼⣣⢯⢷⡹⣎⡷⣝⠾⣭⠳⣜⢣⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣧⡙⢦⡙⢦⢣⡝⢦⢣⡝⢦⡙⢮⡙⡞⢧⠻⡵⣫⢞⡵⣏⠾⣭⡛⢮⡝⢧⡛⣬⠳⣌⢳⣌⢳⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡶⡩⢧⡙⣎⠳⣜⢣⠳⣜⢣⡝⣲⠹⣜⢣⡛⡴⢣⠞⡴⣩⠞⡴⣩⠳⣜⢣⡝⢦⡛⣬⠳⣌⢣⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡷⣙⢦⡹⣌⢳⡌⢧⡛⣬⠳⡜⣥⢛⡬⢣⡝⣜⢣⡛⡴⢣⡛⡴⢣⡛⣬⠳⣜⢣⡝⢆⠯⣜⢣⡃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠨⡵⣩⢖⡱⢎⠳⠜⢣⠙⠢⠙⠌⠄⡃⠌⡡⠌⡠⢃⠩⢘⠣⠙⡜⣣⠝⣦⢛⡬⡓⣬⢋⡞⣬⢣⡅⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠐⠌⠰⢈⠢⠘⠠⢁⠃⡉⠌⠒⡈⠔⡐⠌⡐⠂⡅⠢⠌⢡⠐⡠⢉⡐⠋⠴⣙⢦⢫⡜⢦⡓⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡀⢂⠠⠐⢀⠡⠀⡐⠀⠄⡁⠐⠠⠈⠠⠑⠈⠄⠱⢈⠂⠜⡀⠆⡠⠉⡔⠠⠌⢡⠘⢃⡙⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                """;
-
         private BoxMenu? actionBoxMenu; // 상점 액션 메뉴 (구매, 판매, 대화, 뒤로가기)
         private BoxMenu? itemBuyMenu; // 아이템 구매 메뉴
         private BoxMenu? itemSellMenu; // 아이템 판매 메뉴
         private BoxMenu? currentMenu = null; // 현재 활성화된 메뉴
 
-        private int shopItemSlotLenth = 6; // 상점 아이템 슬롯 개수 (6개로 고정)
-        private List<Item> shopBuyItems = new();
-
         private MenuItem? buyGolTextSlot;
         private MenuItem? sellGoldTextSlot;
-
-        private int rerollCost = 30; // 아이템 리롤 비용
 
         public void Init()
         {
             player = new("Name", Race.Human);
-            
+            SoundManager.GetInstance().PlaySound("ShopBGM", .2f);
+
+            InitShoptData();
             InitCommonUI();
             InitItemBoxMenu();
             UpdateShopItems();
@@ -217,6 +66,11 @@ namespace TeamRPG.Game.Scene
         public void Render() { }
 
         public void Release() { }
+
+        void InitShoptData()
+        {
+            ShopData = ShopManager.GetInstance().GetRandomShop();
+        }
 
         // actionMenu 입력 처리
         void InputMenu()
@@ -238,8 +92,8 @@ namespace TeamRPG.Game.Scene
 
         void InitCommonUI()
         {
-            merchantImageText = new RawText(merchantImage, Console.WindowWidth / 2, 0, ConsoleColor.Green, TextAlign.Center);
-            merchantCommentText = new RawText(merchantLobbyComment, Console.WindowWidth - 54, 4, ConsoleColor.White, TextAlign.Left);
+            merchantImageText = new RawText(ShopData.MerchantImage, Console.WindowWidth / 2, 0, ConsoleColor.Green, TextAlign.Center);
+            merchantCommentText = new RawText(ShopData.LobbyComment, Console.WindowWidth - 54, 4, ConsoleColor.White, TextAlign.Left);
 
             actionBoxMenu = new BoxMenu(20, Console.WindowHeight / 2, 14, 6, ConsoleColor.DarkGray);
             actionBoxMenu.AddItem("Buy", () => ChangeMenu(ShopMenuType.Buy), ConsoleColor.Green);
@@ -247,7 +101,7 @@ namespace TeamRPG.Game.Scene
             actionBoxMenu.AddItem("Talk", () => ChangeMenu(ShopMenuType.Talk), ConsoleColor.Cyan);
             actionBoxMenu.AddItem("Back", OnShopBack, ConsoleColor.Red);
 
-            titleText = new Text("Shop", Console.WindowWidth / 2, 1, ConsoleColor.Yellow, TextAlign.Center);
+            titleText = new Text($"{ShopData.ShopName}", Console.WindowWidth / 2, 1, ConsoleColor.Yellow, TextAlign.Center);
             goldText = new Text($"보유 금액 : {player.Gold} G", 2, 2, ConsoleColor.Yellow, TextAlign.Left);
             currentMenu = actionBoxMenu;
         }
@@ -258,7 +112,7 @@ namespace TeamRPG.Game.Scene
             itemBuyMenu = new BoxMenu(10, Console.WindowHeight / 2, 60, 13, ConsoleColor.DarkGray);
             itemBuyMenu.SetVisible(false);
 
-            for (int i = 0; i < shopItemSlotLenth; i++)
+            for (int i = 0; i < ShopData.ItemLength; i++)
             {
                 MenuItem item = itemBuyMenu.AddItem("", () => { }, ConsoleColor.Green);
             }
@@ -266,7 +120,7 @@ namespace TeamRPG.Game.Scene
             itemBuyMenu.AddEmptyItem();
             buyGolTextSlot = itemBuyMenu.AddTextItem($"보유 골드 : {player.Gold} G");
             itemBuyMenu.AddEmptyItem();
-            itemBuyMenu.AddItem($"돌리기 {rerollCost} G", RerollItmes);
+            itemBuyMenu.AddItem($"돌리기 {ShopData.RerollCost} G", RerollItmes);
             itemBuyMenu.AddItem("돌아가기", BackMenu, ConsoleColor.Red);
 
             // itemSellMenu 초기화
@@ -274,7 +128,7 @@ namespace TeamRPG.Game.Scene
             itemSellMenu = new BoxMenu(10, Console.WindowHeight / 2, 60, 13, ConsoleColor.DarkGray);
             itemSellMenu.SetVisible(false);
 
-            for (int i = 0; i < shopItemSlotLenth; i++)
+            for (int i = 0; i < ShopData.ItemLength; i++)
             {
                 MenuItem item = itemSellMenu.AddItem("", () => { }, ConsoleColor.Yellow);
             }
@@ -292,19 +146,19 @@ namespace TeamRPG.Game.Scene
 
         void UpdateShopItems()
         {
-            shopBuyItems = ItemManager.GetInstance().GetRandomItems(shopItemSlotLenth, defaultItems);
+            ShopData.Items = ItemManager.GetInstance().GetRandomItems(ShopData.ItemLength, defaultItems);
         }
 
         void UpdateItemBuyMenuSlots()
         {
             var menuItemList = itemBuyMenu.Items;
-            for (int i = 0; i < shopItemSlotLenth; i++)
+            for (int i = 0; i < ShopData.ItemLength; i++)
             {
-                if (i < shopBuyItems.Count)
+                if (i < ShopData.Items.Count)
                 {
                     int index = i; // 클로저 안전하게
-                    menuItemList[i].Text = GetItemBuyInfo(shopBuyItems[i]);
-                    menuItemList[i].OnSelect = () => ShopBuy(shopBuyItems[index]);
+                    menuItemList[i].Text = GetItemBuyInfo(ShopData.Items[i]);
+                    menuItemList[i].OnSelect = () => ShopBuy(ShopData.Items[index]);
                     menuItemList[i].IsEnabled = true;
                 }
                 else
@@ -319,7 +173,7 @@ namespace TeamRPG.Game.Scene
         void UpdateItemSellMenuSlots()
         {
             var menuItemList = itemSellMenu.Items;
-            for (int i = 0; i < shopItemSlotLenth; i++)
+            for (int i = 0; i < ShopData.ItemLength; i++)
             {
                 if (i < player.Inventory.Count)
                 {
@@ -340,7 +194,7 @@ namespace TeamRPG.Game.Scene
         void RerollItmes()
         {
             string comment;
-            if (player.Gold < rerollCost)
+            if (player.Gold < ShopData.RerollCost)
             {
                 comment = """
                 상인
@@ -350,7 +204,7 @@ namespace TeamRPG.Game.Scene
                 return;
             }
 
-            player.Gold -= rerollCost;
+            player.Gold -= ShopData.RerollCost;
             UpdateShopItems();
             UpdateItemBuyMenuSlots();
             UpdateGoldText();
@@ -401,24 +255,24 @@ namespace TeamRPG.Game.Scene
                 case ShopMenuType.Buy:
                     UpdateItemBuyMenuSlots();
                     currentMenu = itemBuyMenu;
-                    comment = merchantBuyComment;
+                    comment = ShopData.BuyComment;
                     break;
 
                 case ShopMenuType.Sell:
                     UpdateItemSellMenuSlots();
                     currentMenu = itemSellMenu;
-                    comment = merchantSellComment;
+                    comment = ShopData.SellComment;
                     break;
 
                 case ShopMenuType.Talk:
                     ShopTalk();
                     currentMenu = actionBoxMenu;
-                    comment = talkList.Count > 0 ? talkList[new Random().Next(talkList.Count)] : merchantLobbyComment;
+                    comment = ShopData.TalkList.Count > 0 ? ShopData.TalkList[new Random().Next(ShopData.TalkList.Count)] : ShopData.LobbyComment;
                     break;
                 case ShopMenuType.Lobby:
                 default:
                     currentMenu = actionBoxMenu;
-                    comment = merchantLobbyComment;
+                    comment = ShopData.LobbyComment;
                     break;
             }
 
@@ -490,11 +344,11 @@ namespace TeamRPG.Game.Scene
 
         public void ShopTalk()
         {
-            if (talkList.Count == 0) return;
+            if (ShopData.TalkList.Count == 0) return;
 
             Random random = new Random();
-            int index = random.Next(talkList.Count);
-            string comment = talkList[index];
+            int index = random.Next(ShopData.TalkList.Count);
+            string comment = ShopData.TalkList[index];
 
             UpdateComment(comment);
         }

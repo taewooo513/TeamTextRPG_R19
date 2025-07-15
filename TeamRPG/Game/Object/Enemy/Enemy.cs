@@ -11,17 +11,6 @@ namespace TeamRPG.Game.Object.Enemy
     {
         public struct State
         {
-            public State(int _hp, string _name, int _dmg, int _def, int _mgDef, int _dex, int _exDmg)
-            {
-                hp = _hp;
-                name = _name;
-                dmg = _dmg;
-                def = _def;
-                mgDef = _mgDef;
-                dex = _dex;
-                exDmg = _exDmg;
-            }
-
             public int hp;
             public string name;
             public int dmg;
@@ -31,9 +20,9 @@ namespace TeamRPG.Game.Object.Enemy
             public int exDmg;
         }
         public State state { get; private set; }
-        public Enemy(String _name, int _hp, int _dmg, int _def, int _mgDef, int _dex, int _exDmg)
+        public Enemy()
         {
-            state = new State(_hp, _name, _dmg, _def, _mgDef, _dex, _exDmg);
+            state = new State();
             Init();
         }
 

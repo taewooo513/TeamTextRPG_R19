@@ -34,7 +34,7 @@ namespace TeamRPG.Core.UtilManager
                     defaultBuffer[w, h] = ' ';
                 }
             }
-            Console.SetWindowSize(width + 2, height + 3);
+            Console.SetWindowSize(width, height );
             Console.CursorVisible = false;
             strs = new List<String>[winHeight];
             for (int i = 0; i < winHeight; i++)
@@ -50,7 +50,7 @@ namespace TeamRPG.Core.UtilManager
             {
                 int width = IsKorean(ch) ? 2 : 1;
 
-                if (_x >= winWidth && x <= 0)
+                if (_x >= winWidth )
                     break;
 
                 backBuffer[_x, y] = ch;
@@ -123,10 +123,6 @@ namespace TeamRPG.Core.UtilManager
             {
                 for (int w = 0; w < strs[h].Count; w++)
                 {
-                    //if (consoleColors[x, y] != ConsoleColor.Magenta) // 최적화를위해 defulat값을 마젠타로 잡고 마젠타면 실행안되게끔
-                    //{
-                    //    Console.ForegroundColor = consoleColors[x, y]; 색은 아직 생각중
-                    //}
                     Console.Write(strs[h][w]);
                 }
                 Console.WriteLine();

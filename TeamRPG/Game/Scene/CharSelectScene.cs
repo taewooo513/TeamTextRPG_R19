@@ -121,33 +121,6 @@ namespace TeamRPG.Game.Scene
             }
         }
 
-        /*
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀
-
-
-
-
-
-
-
-
-
-
-
-
-⠀
-
-
-
-
-
-
-
-
-
-         */
-
         public void Update()
         {
             if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.LeftArrow))
@@ -158,7 +131,6 @@ namespace TeamRPG.Game.Scene
             {
                 selectChar++;
             }
-            InputName();
         }
 
         public string InputName()

@@ -82,7 +82,7 @@ namespace TeamRPG.Game.Character
 
         private void RecalculateCurrentStatus()
         {
-            Status totalEquip = new Status(0, 0, 0, 0, 0, 0, 0);
+            Status totalEquip = new Status(0, 0, 0, 0, 0, 0, 0, 0, 0);
             foreach (var equip in equipments)
             {
                 totalEquip = totalEquip.Add(equip);

@@ -21,10 +21,22 @@ namespace TeamRPG.Game.Object.UI
             menu = new Menu(x + paddingLeft, y + paddingTop);
         }
 
-        public void AddItem(string text, Action onSelect, ConsoleColor? color = null, bool isEnabled = true)
+        public MenuItem AddItem(string text, Action onSelect, ConsoleColor? color = null, bool isEnabled = true)
         {
             string trimmedText = TrimTextToFit(text);
             menu.AddItem(trimmedText, onSelect, color ?? Color, isEnabled);
+            return menu.GetItem(menu.GetItems().Count - 1) ?? throw new InvalidOperationException("Failed to add item to menu.");
+        }
+
+
+        public void AddEmptyItem()
+        {
+            menu.AddItem("", () => { }, Color, false);
+        }
+
+        public MenuItem AddTextItem(string text)
+        {
+            return AddItem(text, () => { }, Color, false);
         }
 
         public void ClearItems()
@@ -65,15 +77,14 @@ namespace TeamRPG.Game.Object.UI
             for (int i = 0; i < Math.Min(items.Count, maxItems); i++)
             {
                 var item = items[i];
-                string prefix = $"{i + 1}. ";
                 string text = TrimTextToFit(item.Text);
-                string displayText = (i == selectedIndex) ? $"> {prefix}{text}" : $"  {prefix}{text}";
+                string displayText = (i == selectedIndex) ? $"▶ {text}" : $"{text}";
 
                 ConsoleColor color = item.IsEnabled
                     ? (i == selectedIndex ? ConsoleColor.Yellow : item.Color)
                     : ConsoleColor.DarkGray;
 
-                TextIOManager.GetInstance().OutputText4Byte(prefix + text, box.X + paddingLeft, box.Y + paddingTop + i, color);
+                TextIOManager.GetInstance().OutputSmartText(text, box.X + paddingLeft, box.Y + paddingTop + i, color);
             }
         }
         private string TrimTextToFit(string text)

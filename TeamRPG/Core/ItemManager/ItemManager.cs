@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Game.Character;
@@ -12,33 +13,97 @@ namespace TeamRPG.Core.ItemManager
     {
         private Dictionary<string, Item> itemDictionary;
 
+        //상점
+        //회복계열
+        //30G
+        //향긋한 약초 - 매 행동시 생명력 +3 / 서큐버스의 라이프 드레인과 유사한 매커니즘 // 이게 핵심 소모품으로써 자리하고자 설계 했습니다. / 전투 종료시 까지 지속
+        //가격 조율이 필요할 듯 합니다 / QA 돌려봐야 알겠지만 가성비가 좀 오밸같아 보임
+        //50G
+        //회복포션(생명력 30 회복) - %회복할지 고정값 회복을 할지 고민 해봤는데 스탯치가 높은편이 아니라 고정값 회복으로 채택했습니다
+        //마나포션(마나 50 회복)
+        //150G
+        //강철 검 - 공격력 +6 , 내구도 20
+        //라운드 실드 - 생명력 +12 , 내구도 20 / 스탯을 추가로 부여할지 고민을 많이 했으나, 방어력을 넣고 또 방어력 계산식을 넣는거보다 생명력으로 퉁치는게 편해서
+        //                 / 생명력으로 진행 스탯 상승폭 기준은 Tier 1 몬스터 기준으로 잡았습니다.
+        //수습생의 지팡이 - 마법공격력 +5 / 최대 마나 +10 / 내구도 20
+        //200G
+        //현자의 로브 - 생명력 +5 / 최대 마나 +10 / 내구도 20
+        //250G
+        //마력의 탈리스만 - 마법공격력 +10 / 내구도 무제한 / 스킬(마법)공격력을 향상시킬 수단으로 추가 했습니다.
+        //마나의 탈리스만 - 최대 마나 +20 / 내구도 무제한
+
+        //방랑상인
+        //500G
+        //엘릭서(Elixir) - 전투당 1번 사망시 최대 생명력의 50%로 1회 부활(Resurrection)
+        //1000G
+        //성검(HolySword) - 공격력 +30 마계(성) 환경의 몬스터들의 물리, 마법 저항력을 무시
+        //800G
+        //수호자의 망치(GuardianHammer) - 공격력 +15 생명력 +20
+        //1000G
+        //대룡궁(DragonHunter) - 공격력 +20 / 드래곤(Dragon) 계역의 몬스터에게 공격력 +20 추가
+        //800G
+        //철의의지(IronHeart) - 모든 상태이상 면역
+        //800G
+        //달의 파편(LunarDust) - 마법 공격력 +15 / 최대 마나 +30 /매 행동시 마나 5 회복
+
         public void Init()
         {
             itemDictionary = new Dictionary<string, Item>();
 
-            // 예시 아이템 추가
-            var hurb = new Consumable("향긋한 허브", "매 턴 생명력 +3", 30, 0, 0);
-            hurb.OnUseEffect = (Player target) =>
-            {
-            };
+            Status temp = StatusFactory.EmptyStatus;
+
+            // 소모품
+            var hurb = new Consumable("향긋한 허브", "매 턴 생명력 +3", StatusFactory.EmptyStatus, 30);
+
+            hurb.OnUseEffect = (Player target) => { };
             AddItem("Hurb", hurb);
 
-            var healingPotion = new Consumable("회복 포션", "HP 30 회복", 50, 30, 0);
+
+            temp = StatusFactory.EmptyStatus;
+            temp.HP = 30;
+            var healingPotion = new Consumable("회복 포션", "HP 30 회복", temp, 50);
             AddItem("HealingPotion", healingPotion);
 
-            var manaPotion = new Consumable("마나 포션", "MP 20 회복", 50, 0, 20);
+            temp = StatusFactory.EmptyStatus;
+            temp.MP = 50;
+            var manaPotion = new Consumable("마나 포션", "MP 20 회복", temp, 50);
             AddItem("ManaPotion", manaPotion);
 
-            var ironSword = new Weapon("강철검", "공격력 +6", 150, 6, 20, "", "");
+            // 무기
+            temp = StatusFactory.EmptyStatus;
+            var ironSword = new Weapon("강철검", "공격력 +6", temp, 150);
             AddItem("IronSword", ironSword);
 
-            // Armors
-            var roundShield = new Armor("라운드 실드", "HP +12", 150, 12);
+            temp = StatusFactory.EmptyStatus;
+            temp.MinAttack = 5;
+            temp.MaxAttack = 5;
+            temp.MP = 10;
+            var magicStaff = new Weapon("수습생의 지팡이", "마법 공격력 +5, 최대 마나 +10", temp, 150, DamageType.Magical);
+            AddItem("MagicStaff", magicStaff);
+
+            temp = StatusFactory.EmptyStatus;
+            temp.MinAttack = 10;
+            temp.MaxAttack = 10;
+            var talismanOfPower = new Weapon("마력의 탈리스만", "마법 공격력 +10, 내구도 무제한", temp, 250, DamageType.Magical, int.MaxValue);
+            AddItem("TalismanOfPower", talismanOfPower);
+
+            // 방어구
+            temp = StatusFactory.EmptyStatus;
+            temp.HP = 12;
+            var roundShield = new Armor("라운드 실드", "HP +12", temp, 150);
             AddItem("RoundShield", roundShield);
 
+            temp = StatusFactory.EmptyStatus;
+            temp.HP = 5;
+            temp.MP = 10;
+            var robeOfWisdom = new Armor("현자의 로브", "HP +5, 최대 MP +10", temp, 150);
+            AddItem("RobeOfWisdom", robeOfWisdom);
 
-            var squareShield = new Armor("사각 실드", "HP +15", 150, 12);
-            AddItem("RoundShield", roundShield);
+            temp = StatusFactory.EmptyStatus;
+            temp.MP = 20;
+            var talismanOfMana = new Armor("마나의 탈리스만", "최대 마나 +20, 내구도 무제한", temp, 250);
+            AddItem("TalismanOfMana", talismanOfMana);
+
         }
 
         public void AddItem(string itemName, Item item)
@@ -71,16 +136,14 @@ namespace TeamRPG.Core.ItemManager
             switch (original)
             {
                 case Consumable c:
-                    var newC = new Consumable(c.Name, c.Description, c.Gold, c.HealAmount, c.ManaAmount);
+                    var newC = new Consumable(c.Name, c.Description, StatusFactory.Clone(c.Status), c.Gold);
                     newC.OnUseEffect = c.OnUseEffect;
                     return newC;
 
                 case Weapon w:
-                    return new Weapon(w.Name, w.Description, w.Gold, w.AttackPower, w.MaxDurability,
-                                      w.AsciiArt, w.BrokenAsciiArt);
-
+                    return new Weapon(w.Name, w.Description, StatusFactory.Clone(w.Status), w.Gold, w.DamageType, w.MaxDurability);
                 case Armor a:
-                    return new Armor(a.Name, a.Description, a.Gold, a.LifeBonus, a.MaxDurability);
+                    return new Armor(a.Name, a.Description, StatusFactory.Clone(a.Status), a.Gold, a.MaxDurability);
             }
 
             return null;
@@ -105,6 +168,36 @@ namespace TeamRPG.Core.ItemManager
             }
 
             return randomItems;
+        }
+
+
+        public List<Item> GetRandomItems(int count, List<string> defaultItems)
+        {
+            if (itemDictionary == null) Init();
+            var allItemList = itemDictionary.Values.ToList();
+            var resultItemList = new List<Item>();
+            Random random = new Random();
+
+            // 기본 아이템을 우선적으로 추가
+            foreach (var itemName in defaultItems)
+            {
+                if (itemDictionary.TryGetValue(itemName, out Item item))
+                {
+                    resultItemList.Add(item);
+                    allItemList.Remove(item); // 중복 방지를 위해 제거
+                }
+            }
+
+            for (int i = resultItemList.Count; i < count; i++)
+            {
+                if (allItemList.Count == 0) break; // 아이템이 더 이상 없으면 중단
+
+                int index = random.Next(allItemList.Count);
+                resultItemList.Add(allItemList[index]);
+                allItemList.RemoveAt(index); // 중복 방지를 위해 제거
+            }
+
+            return resultItemList;
         }
 
     }

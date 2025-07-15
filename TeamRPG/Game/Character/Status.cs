@@ -44,5 +44,6 @@ namespace TeamRPG.Game.Character
         {
             return $"HP:{HP}, MP:{MP}, ATK:{MinAttack}-{MaxAttack}, AGI:{Agility}, TEN:{Tenacity}, LUK:{Luck}";
         }
+
     }
 }

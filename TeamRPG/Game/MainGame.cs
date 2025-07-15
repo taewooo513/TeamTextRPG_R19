@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.AnimationManager;
+using TeamRPG.Core.ItemManager;
 using TeamRPG.Core.EnemyManager;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
@@ -25,9 +26,10 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("CemeteryScene", new CemeteryScene());
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
             SceneManager.GetInstance().AddScene("GameScene", new GameScene());
+            SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
 
             SceneManager.GetInstance().ChangeScene("GameScene");
-            TextIOManager.GetInstance().Init(156, 29);
+            TextIOManager.GetInstance().Init(156, 40);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();
             SoundManager.GetInstance().AddSound("Test", "Test2.mp3", true, true);
@@ -57,3 +59,5 @@ namespace TeamRPG.Game
         }
     }
 }
+
+

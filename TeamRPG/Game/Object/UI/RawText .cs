@@ -15,6 +15,11 @@ namespace TeamRPG.Game.Object.UI
             Align = align;
         }
 
+        public void SetText(string text)
+        {
+            rawString = text; // \r 제거
+        }
+
         public override void Draw()
         {
             if (!IsVisible) return;

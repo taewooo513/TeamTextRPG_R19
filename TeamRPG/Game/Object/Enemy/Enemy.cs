@@ -37,19 +37,19 @@ namespace TeamRPG.Game.Object.Enemy
             Init();
         }
 
-        protected virtual void Init()
+        public virtual void Init()
         {
 
         }
-        protected virtual void Update()
+        public virtual void Update()
         {
             ExSkill();
         }
-        protected virtual void Render()
+        public virtual void Render()
         {
             DrawImage();
         }
-        protected virtual void Release()
+        public virtual void Release()
         {
 
         }

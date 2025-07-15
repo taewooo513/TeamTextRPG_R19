@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.SceneManager;
+using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Object.UI;
 
 namespace TeamRPG.Game.Scene
@@ -48,17 +49,19 @@ namespace TeamRPG.Game.Scene
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢳⡷⣻⣽⣺⢾⣢⠐⢀⠠⠐⢀⠂⠐⢀⠹⣽⢝⣗⡯⡿⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 ⠀⠀⠀⠀⠠⠀⠀⡀⠀⢀⠀⠀⠄⠂⠀⢿⣽⣺⣺⢯⡿⢀⢂⠂⠅⡂⠌⠌⠠⢀⠫⣟⢷⣛⣽⢾⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 """;
-
-            RawText rawText = new RawText(rawTextString, 50, 5, ConsoleColor.Green, TextAlign.Center);
-            menu.AddItem("Start Game", ()=> menu.GetItem(0).Text = "Hello!", ConsoleColor.Red);
-            menu.AddItem("Options", ()=> menu.GetItem(1).Text = "Oh!", ConsoleColor.DarkYellow);
-            menu.SelectByIndex(1);
+            if (KeyInputManager.GetInstance().GetKeyDownOnce(ConsoleKey.Enter))
+            {
+                RawText rawText = new RawText(rawTextString, 50, 5, ConsoleColor.Green, TextAlign.Center);
+                menu.AddItem("Start Game", () => menu.GetItem(0).Text = "Hello!", ConsoleColor.Red);
+                menu.AddItem("Options", () => menu.GetItem(1).Text = "Oh!", ConsoleColor.DarkYellow);
+                menu.SelectByIndex(1);
+            }
 
         }
 
         public void Update()
         {
         }
-            
+
     }
 }

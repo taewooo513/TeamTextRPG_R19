@@ -22,5 +22,21 @@ namespace TeamRPG.Core.EnemyManager
         {
             //enemies.Add(new Enemy(name));
         }
+
+        public void Update()
+        {
+            foreach (var item in enemies)
+            {
+                item.Update();
+            }
+        }
+
+        public void Render()
+        {
+            foreach (var item in enemies)
+            {
+                item.Render();
+            }
+        }
     }
 }

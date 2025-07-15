@@ -7,27 +7,29 @@ using TeamRPG.Core.AnimationManager;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Scene;
+using TeamRPG.Game.Scene.Specificity;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace TeamRPG.Game
 {
     public class MainGame // 여기선 씬선언 제외 사용하지마세요
     {
-        public void Init() // 씬선언 여기서 하세요
+        public void Init() // 씬선언 여기서 하세요, 싸운드 선언도 여기서 하세요
         {
             SceneManager.GetInstance().Init();
             SceneManager.GetInstance().AddScene("TestScene", new TestScene());
             SceneManager.GetInstance().AddScene("TitleScene", new TitleScene());
             SceneManager.GetInstance().AddScene("UITestScene", new UITestScene());
             SceneManager.GetInstance().AddScene("CharSelectScene", new CharSelectScene());
-            SceneManager.GetInstance().AddScene("SpecificityScene", new SpecificityScene());
+            SceneManager.GetInstance().AddScene("CemeteryScene", new CemeteryScene());
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
 
-            SceneManager.GetInstance().ChangeScene("ShopScene");
+            SceneManager.GetInstance().ChangeScene("TitleScene");
             TextIOManager.GetInstance().Init(120, 29);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();
             SoundManager.GetInstance().AddSound("Test", "Test2.mp3", true, true);
+            SoundManager.GetInstance().AddSound("Clicksmall", "../../../../Sounds/Clicksmall.mp3", false, false);
             SoundManager.GetInstance().PlaySound("Test", .1f);
 
         }

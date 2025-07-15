@@ -14,10 +14,10 @@ namespace TeamRPG.Core.AnimationManager
         int frameCount = 0;
         float nowTimer = 0;
         float frameTime = 0;
-        private List<String>[] strs;
+        private List<String[]> strs;
         bool isLoop;
         ConsoleColor color;
-        public Animation(List<String>[] _strs, int _x, int _y, float _frame, bool _isLoop = false, ConsoleColor _color = ConsoleColor.Magenta)
+        public Animation(List<String[]> _strs, int _x, int _y, float _frame, bool _isLoop = false, ConsoleColor _color = ConsoleColor.Magenta)
         {
             frameCount = 0;
             x = _x;
@@ -33,11 +33,11 @@ namespace TeamRPG.Core.AnimationManager
             nowTimer += TimerManager.GetInstance().GetMillisecond();
             if (nowTimer > frameTime)
             {
-                if (frameCount >= strs.Length && isLoop)
+                if (frameCount >= strs.Count && isLoop)
                 {
                     frameCount = 0;
                 }
-                else if (frameCount >= strs.Length)
+                else if (frameCount >= strs.Count)
                 {
                     ReleaseEvenet();
                 }
@@ -51,9 +51,9 @@ namespace TeamRPG.Core.AnimationManager
 
         public void Render()
         {
-            for (int i = 0; i < strs[frameCount].Count; i++)
+            for (int i = 0; i < strs[frameCount].Length; i++)
             {
-                TextIOManager.GetInstance().OutputText(strs[frameCount][i], x, y, color);
+                TextIOManager.GetInstance().OutputSmartText(strs[frameCount][i], x, y, color);
             }
         }
 

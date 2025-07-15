@@ -4,8 +4,19 @@ using TeamRPG.Game.Character;
 
 namespace TeamRPG.Game.Object.Item
 {
+    public enum DamageType
+    {
+        Physical,
+        Magical,
+        Fire,
+        Ice,
+        Lightning,
+        Poison
+    }
+
     public abstract class Equipment : Item
     {
+        public int Mana { get; private set; }
         public int MaxDurability { get; protected set; } = 10;
         public int CurrentDurability { get; protected set; }
 
@@ -14,6 +25,11 @@ namespace TeamRPG.Game.Object.Item
         public override void Init()
         {
             CurrentDurability = MaxDurability;
+        }
+
+        public Equipment(int mana = 0, int maxDurability = 20) : this(maxDurability)
+        {
+            Mana = mana;
         }
 
         public Equipment(int maxDurability = 20)

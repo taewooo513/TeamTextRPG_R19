@@ -13,7 +13,7 @@ namespace TeamRPG.Game.Object.Item
     {
         public int LifeBonus { get; private set; }
 
-        public Armor(string name, string desc, int gold, int lifeBonus, int maxDurability = 20) : base(maxDurability)
+        public Armor(string name, string desc, int gold, int lifeBonus, int mana = 0, int maxDurability = 20) : base(mana, maxDurability)
         {
             Name = name;
             Description = desc;

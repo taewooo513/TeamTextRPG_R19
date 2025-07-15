@@ -15,12 +15,15 @@ namespace TeamRPG.Game.Scene
 {
     public class ShopScene : SceneClass
     {
+
+
+        private int gold = 1000; // 테스트용 임시 골드 <- 나중에 캐릭터에 연결해야됨
+
         private Player player;
         private Text goldText;
         private Text titleText;
         private RawText merchantImageText;
         private RawText merchantCommentText;
-        private int gold = 1000; // 테스트용 임시 골드 <- 나중에 캐릭터에 연결해야됨
 
         private string merchantLobbyComment = """
                 상인
@@ -63,8 +66,6 @@ namespace TeamRPG.Game.Scene
 
         private BoxMenu actionBoxMenu;
         private BoxMenu itemBoxMenu;
-
-        int number = 1; // 메뉴 선택 번호
         private BoxMenu currentMenu = null; // 현재 활성화된 메뉴
 
         private int shopItemSlotLenth = 6; // 상점 아이템 슬롯 개수 (6개로 고정)
@@ -126,12 +127,12 @@ namespace TeamRPG.Game.Scene
             actionBoxMenu.AddItem("Talk", OnShopTalk, ConsoleColor.Cyan);
             actionBoxMenu.AddItem("Back", OnShopBack, ConsoleColor.Red);
 
-            itemBoxMenu = new BoxMenu(10, Console.WindowHeight / 2, 50, 13, ConsoleColor.DarkGray);
+            itemBoxMenu = new BoxMenu(10, Console.WindowHeight / 2, 60, 13, ConsoleColor.DarkGray);
             itemBoxMenu.SetVisible(false);
 
             InitItemBoxMenu();
 
-            merchantCommentText = new RawText(merchantLobbyComment, Console.WindowWidth - 40, 10, ConsoleColor.White, TextAlign.Left);
+            merchantCommentText = new RawText(merchantLobbyComment, Console.WindowWidth - 48, 5, ConsoleColor.White, TextAlign.Left);
             titleText = new Text("Shop", Console.WindowWidth / 2, 1, ConsoleColor.Yellow, TextAlign.Center);
 
             currentMenu = actionBoxMenu;
@@ -244,7 +245,19 @@ namespace TeamRPG.Game.Scene
         {
             currentMenu = itemBoxMenu;
             itemBoxMenu.SetVisible(true);
-            UpdateComment(merchantBuyComment);
+
+            if(gold == 0)
+            {
+                string comment = """
+                    상인
+                    돈 없으면 저리 썩 꺼져!!
+                    """;
+                UpdateComment(comment);
+            }
+            else
+                UpdateComment(merchantBuyComment);
+
+
         }
         private void OnShopSell()
         {

@@ -7,6 +7,7 @@ using TeamRPG.Core.AnimationManager;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Scene;
+using TeamRPG.Game.Scene.Specificity;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace TeamRPG.Game
@@ -20,10 +21,10 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("TitleScene", new TitleScene());
             SceneManager.GetInstance().AddScene("UITestScene", new UITestScene());
             SceneManager.GetInstance().AddScene("CharSelectScene", new CharSelectScene());
-            SceneManager.GetInstance().AddScene("SpecificityScene", new SpecificityScene());
+            SceneManager.GetInstance().AddScene("CemeteryScene", new CemeteryScene());
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
 
-            SceneManager.GetInstance().ChangeScene("CharSelectScene");
+            SceneManager.GetInstance().ChangeScene("TitleScene");
             TextIOManager.GetInstance().Init(120, 29);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();

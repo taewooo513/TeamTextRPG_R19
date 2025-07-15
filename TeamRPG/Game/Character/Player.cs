@@ -14,6 +14,9 @@ namespace TeamRPG.Game.Character
         public Race race { get; private set; }
         public int level { get; private set; } = 1;
 
+        public int currentExp { get; private set; } = 0;
+        public int expToNextLevel => ExpTable.GetExpToNextLevel(level);
+
         public Status baseStatus { get; private set; }
         public Status currentStatus { get; private set; }
 
@@ -29,8 +32,31 @@ namespace TeamRPG.Game.Character
             currentStatus = baseStatus;
         }
 
+        public void GainExp(int _exp)
+        {
+            if (level >= ExpTable.maxLevel)
+            {
+                //Console.WriteLine("최대 레벨입니다");
+                return;
+            }
+
+            currentExp += _exp;
+
+            while (currentExp >= expToNextLevel && level < ExpTable.maxLevel) 
+            { 
+                currentExp -= expToNextLevel;
+                LevelUp();
+            }
+        }
+
         public void LevelUp()
         {
+            if (level >= ExpTable.maxLevel)
+            {
+                //Console.WriteLine("최대 레벨입니다");
+                return;
+            }
+
             level++;
 
             baseStatus.HP += 5;

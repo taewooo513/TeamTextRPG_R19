@@ -29,7 +29,7 @@ namespace TeamRPG.Game.Character
             switch (enemyNum)
             {
                 case eEnemyNum.eWolf:
-                    return new Enemy.State(32, "Wolf", 5, 0, 0, 30, 25);
+                    return new Enemy.State();
                 default:
                     throw new System.ArgumentException("Unknown race");
             }

@@ -14,10 +14,10 @@ namespace TeamRPG.Core.AnimationManager
         int frameCount = 0;
         float nowTimer = 0;
         float frameTime = 0;
-        private List<String[]> strs;
+        private List<string[]> strs;
         bool isLoop;
         ConsoleColor color;
-        public Animation(List<String[]> _strs, int _x, int _y, float _frame, bool _isLoop = false, ConsoleColor _color = ConsoleColor.Magenta)
+        public Animation(List<string[]> _strs, int _x, int _y, float _frame, bool _isLoop = false, ConsoleColor _color = ConsoleColor.Magenta)
         {
             frameCount = 0;
             x = _x;
@@ -59,7 +59,6 @@ namespace TeamRPG.Core.AnimationManager
 
         protected void ReleaseEvenet()
         {
-            AnimationManager.GetInstance().ReleaseAnimation(this);
         }
     }
 }

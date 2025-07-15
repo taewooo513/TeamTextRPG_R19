@@ -1,15 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.AnimationManager;
 using TeamRPG.Core.ItemManager;
+using TeamRPG.Core.EnemyManager;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Scene;
 using TeamRPG.Game.Scene.Specificity;
-using TeamRPG.Core.ShopManager;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace TeamRPG.Game
@@ -25,39 +25,32 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("CharSelectScene", new CharSelectScene());
             SceneManager.GetInstance().AddScene("CemeteryScene", new CemeteryScene());
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
+            SceneManager.GetInstance().AddScene("GameScene", new GameScene());
+            SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
 
-            SceneManager.GetInstance().ChangeScene("ShopScene");
+            SceneManager.GetInstance().ChangeScene("GameScene");
             TextIOManager.GetInstance().Init(156, 40);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();
             SoundManager.GetInstance().AddSound("Test", "Test2.mp3", true, true);
             SoundManager.GetInstance().AddSound("Clicksmall", "../../../../Sounds/Clicksmall.mp3", false, false);
-            SoundManager.GetInstance().AddSound("ShopSelect", "../../../../Sounds/ShopSelect.mp3", false, false);
-            SoundManager.GetInstance().AddSound("BlopSound", "../../../../Sounds/BlopSound.mp3", false, false);
-            SoundManager.GetInstance().AddSound("ShopBGM", "../../../../Sounds/ShopBGM.mp3", true, true);
-            SoundManager.GetInstance().AddSound("DevildomBGM", "../../../../Sounds/DevildomBGM.mp3", true, true);
-            SoundManager.GetInstance().AddSound("Tier1NomalBattleBGM", "../../../../Sounds/Tier1NomalBattleBGM.mp3", true, true);
-            SoundManager.GetInstance().AddSound("BossmainTheme", "../../../../Sounds/BossmainTheme.mp3", true, true);
             SoundManager.GetInstance().PlaySound("Test", .1f);
 
-            ItemManager.GetInstance().Init();
-            ShopManager.GetInstance().Init();
         }
         public void Update()
         {
             KeyInputManager.GetInstance().Update();
             SceneManager.GetInstance().Update();
             TimerManager.GetInstance().Update();
-            AnimationManager.GetInstance().Update();
             SoundManager.GetInstance().Update();
+            EnemyManager.GetInstance().Update();
         }
         public void Render()
         {
             SceneManager.GetInstance().Render();
-            AnimationManager.GetInstance().Render();
+            EnemyManager.GetInstance().Render();
             TextIOManager.GetInstance().DrawText();
             UIManager.GetInstance().DrawUI();
-
             //Console.WriteLine(TimerManager.GetInstance().GetMillisecond().ToString());
             //Console.WriteLine(TimerManager.GetInstance().GetFrame().ToString());
         }
@@ -66,3 +59,5 @@ namespace TeamRPG.Game
         }
     }
 }
+
+

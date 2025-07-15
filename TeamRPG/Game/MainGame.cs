@@ -21,9 +21,10 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("UITestScene", new UITestScene());
             SceneManager.GetInstance().AddScene("CharSelectScene", new CharSelectScene());
             SceneManager.GetInstance().AddScene("SpecificityScene", new SpecificityScene());
+            SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
 
             SceneManager.GetInstance().ChangeScene("CharSelectScene");
-            TextIOManager.GetInstance().Init(100, 29);
+            TextIOManager.GetInstance().Init(120, 29);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();
             SoundManager.GetInstance().AddSound("Test", "Test2.mp3", true, true);

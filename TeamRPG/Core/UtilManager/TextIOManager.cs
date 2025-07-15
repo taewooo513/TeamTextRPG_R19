@@ -34,31 +34,53 @@ namespace TeamRPG.Core.UtilManager
                     defaultBuffer[w, h] = ' ';
                 }
             }
-            Console.SetWindowSize(width, height + 1);
+            Console.SetWindowSize(width + 2, height + 3);
             Console.CursorVisible = false;
             strs = new List<String>[winHeight];
             for (int i = 0; i < winHeight; i++)
             {
                 strs[i] = new List<string>();
             }
-
         }
 
-        public void OutputImage(string str, int x, int y, ConsoleColor color = ConsoleColor.Magenta)
+        public void OutputSmartText(string text, int x, int y, ConsoleColor color = ConsoleColor.White)
         {
-            int currentY = y;
-            foreach (var line in str.Split('\n'))
+            int _x = x;
+            foreach (char ch in text)
             {
-                int currentX = x;
-                foreach (var ch in line)
+                int width = IsKorean(ch) ? 2 : 1;
+
+                if (_x >= winWidth)
+                    break;
+
+                backBuffer[_x, y] = ch;
+                consoleColors[_x, y] = color;
+
+                if (width == 2 && _x + 1 < winWidth)
                 {
-                    consoleColors[currentX, currentY] = color;
-                    backBuffer[currentX, currentY] = ch;
-                    currentX++;
+                    backBuffer[_x + 1, y] = '\0'; // 덮어쓰기 방지
                 }
-                currentY++;
+
+                _x += width;
             }
         }
+
+        public int OutputSmartTextLength(string text)
+        {
+            int length = 0;
+            foreach (char ch in text)
+            {
+                length += IsKorean(ch) ? 2 : 1;
+            }
+            return length;
+        }
+
+
+        private bool IsKorean(char ch)
+        {
+            return (ch >= 0xAC00 && ch <= 0xD7A3);
+        }
+
         public void OutputText4Byte(String str, int x, int y, ConsoleColor color = ConsoleColor.Magenta)
         { // 한글이랑 특수문자가 4byte라 텍스트가 밀림
             int _x = 0;

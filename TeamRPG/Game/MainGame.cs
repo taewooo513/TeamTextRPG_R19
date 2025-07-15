@@ -11,6 +11,7 @@ using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Scene;
 using TeamRPG.Game.Scene.Specificity;
 using static System.Net.Mime.MediaTypeNames;
+using TeamRPG.Core.ShopManager;
 
 namespace TeamRPG.Game
 {
@@ -28,13 +29,24 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("GameScene", new GameScene());
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
 
-            SceneManager.GetInstance().ChangeScene("CharSelectScene");
+            SceneManager.GetInstance().ChangeScene("ShopScene");
             TextIOManager.GetInstance().Init(156, 40);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();
             SoundManager.GetInstance().AddSound("Test", "Test2.mp3", true, true);
             SoundManager.GetInstance().AddSound("Clicksmall", "../../../../Sounds/Clicksmall.mp3", false, false);
+            SoundManager.GetInstance().AddSound("ShopSelect", "../../../../Sounds/ShopSelect.mp3", false, false);
+            SoundManager.GetInstance().AddSound("BlopSound", "../../../../Sounds/BlopSound.mp3", false, false);
+            SoundManager.GetInstance().AddSound("BossmainTheme", "../../../../Sounds/BossmainTheme.mp3", true, true);
+            SoundManager.GetInstance().AddSound("BossmainTheme", "../../../../Sounds/BossmainTheme.mp3", true, true);
+            SoundManager.GetInstance().AddSound("DevildomBGM", "../../../../Sounds/DevildomBGM.mp3", true, true);
+            SoundManager.GetInstance().AddSound("ShopBGM", "../../../../Sounds/ShopBGM.mp3", true, true);
+            SoundManager.GetInstance().AddSound("Tier1NomalBattleBGM", "../../../../Sounds/Tier1NomalBattleBGM.mp3", true, true);
+            SoundManager.GetInstance().AddSound("FireplaceSound", "../../../../Sounds/FireplaceSound.mp3", true, true);
             SoundManager.GetInstance().PlaySound("Test", .1f);
+
+            ItemManager.GetInstance().Init();
+            ShopManager.GetInstance().Init();
 
         }
         public void Update()

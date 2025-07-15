@@ -13,7 +13,7 @@ namespace TeamRPG.Game
 {
     public class MainGame // 여기선 씬선언 제외 사용하지마세요
     {
-        public void Init() // 씬선언 여기서 하세요
+        public void Init() // 씬선언 여기서 하세요, 싸운드 선언도 여기서 하세요
         {
             SceneManager.GetInstance().Init();
             SceneManager.GetInstance().AddScene("TestScene", new TestScene());
@@ -24,10 +24,11 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
 
             SceneManager.GetInstance().ChangeScene("ShopScene");
-            TextIOManager.GetInstance().Init(120, 29);
+            TextIOManager.GetInstance().Init(140, 40);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();
             SoundManager.GetInstance().AddSound("Test", "Test2.mp3", true, true);
+            SoundManager.GetInstance().AddSound("Clicksmall", "../../../../Sounds/Clicksmall.mp3", false, false);
             SoundManager.GetInstance().PlaySound("Test", .1f);
 
         }

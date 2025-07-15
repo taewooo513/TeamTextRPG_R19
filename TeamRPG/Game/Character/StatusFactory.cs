@@ -34,5 +34,29 @@ namespace TeamRPG.Game.Character
                     throw new System.ArgumentException("Unknown race");
             }
         }
+
+
+        public static Status Clone(Status source)
+        {
+            if (source == null)
+                return null;
+
+            return new Status(
+                        source.HP,
+                        source.MP,
+                        source.MinAttack,
+                        source.MaxAttack,
+                        source.Agility,
+                        source.Tenacity,
+                        source.Luck
+                );
+        }
+        public static Status EmptyStatus
+        {
+            get
+            {
+                return new Status(0, 0, 0, 0, 0, 0, 0);
+            }
+        }
     }
 }

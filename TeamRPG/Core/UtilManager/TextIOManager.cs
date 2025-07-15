@@ -34,7 +34,7 @@ namespace TeamRPG.Core.UtilManager
                     defaultBuffer[w, h] = ' ';
                 }
             }
-            Console.SetWindowSize(width, height + 1);
+            Console.SetWindowSize(width + 2, height + 3);
             Console.CursorVisible = false;
             strs = new List<String>[winHeight];
             for (int i = 0; i < winHeight; i++)

@@ -7,7 +7,7 @@ namespace TeamRPG.Game.Object.UI
     internal class MenuItem
     {
         public string Text { get; set; }
-        public Action OnSelect { get; private set; }
+        public Action OnSelect { get; set; }
         public bool IsEnabled { get; set; }
         public ConsoleColor Color { get; set; }
 
@@ -23,6 +23,7 @@ namespace TeamRPG.Game.Object.UI
     internal class Menu : UIElement
     {
         private List<MenuItem> items = new List<MenuItem>();
+        private int selectedIndex = 0; // 현재 선택된 항목
 
         public Menu(int x, int y) : base(x, y, ConsoleColor.White) { }
         public Menu(int x, int y, List<MenuItem> menuItems) : base(x, y, ConsoleColor.White)
@@ -42,6 +43,8 @@ namespace TeamRPG.Game.Object.UI
             return items[index];
         }
 
+        public List<MenuItem> GetItems() => items;
+
         public void RemoveItem(int index)
         {
             if (index < 0 || index >= items.Count)
@@ -51,21 +54,52 @@ namespace TeamRPG.Game.Object.UI
 
         public override void Draw()
         {
+            if (!IsVisible) return;
+
             for (int i = 0; i < items.Count; i++)
             {
                 string prefix = $"{i + 1}. ";
                 var item = items[i];
 
-                ConsoleColor color = item.IsEnabled ? items[i].Color : ConsoleColor.DarkGray;
-                TextIOManager.GetInstance().OutputText(prefix + item.Text, X, Y + i, color);
+                // 선택된 항목은 강조 표시
+                string displayText = (i == selectedIndex) ? $"> {prefix}{item.Text}" : $"  {prefix}{item.Text}";
+                ConsoleColor color = item.IsEnabled
+                    ? (i == selectedIndex ? ConsoleColor.Yellow : item.Color)
+                    : ConsoleColor.DarkGray;
+
+                TextIOManager.GetInstance().OutputSmartText(displayText, X, Y + i, color);
             }
         }
 
-        public void SelectByIndex(int index)
+        public void MoveUp()
         {
-            if (index >= 0 && index < items.Count)
+            int count = items.Count;
+            if (count == 0) return;
+
+            do
             {
-                var item = items[index];
+                selectedIndex = (selectedIndex - 1 + count) % count;
+            }
+            while (!items[selectedIndex].IsEnabled);
+        }
+
+        public void MoveDown()
+        {
+            int count = items.Count;
+            if (count == 0) return;
+
+            do
+            {
+                selectedIndex = (selectedIndex + 1) % count;
+            }
+            while (!items[selectedIndex].IsEnabled);
+        }
+
+        public void Select()
+        {
+            if (selectedIndex >= 0 && selectedIndex < items.Count)
+            {
+                var item = items[selectedIndex];
                 if (item.IsEnabled)
                 {
                     item.OnSelect?.Invoke();
@@ -73,10 +107,23 @@ namespace TeamRPG.Game.Object.UI
             }
         }
 
+        public void SelectByIndex(int index)
+        {
+            if (index >= 0 && index < items.Count)
+            {
+                selectedIndex = index;
+                Select();
+            }
+        }
 
         public void SelectByNumber(int number)
         {
             SelectByIndex(number - 1);
+        }
+
+        public int GetSelectedIndex()
+        {
+            return selectedIndex;
         }
     }
 }

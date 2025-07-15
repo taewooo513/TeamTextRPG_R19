@@ -17,6 +17,8 @@ namespace TeamRPG.Game.Object.UI
 
         public override void Draw()
         {
+            if (!IsVisible) return;
+
             var lines = rawString.Replace("\r", "").Split('\n');
             var textIO = TextIOManager.GetInstance();
 
@@ -25,13 +27,15 @@ namespace TeamRPG.Game.Object.UI
                 string line = lines[i];
                 int drawX = X;
 
+                // 문자 길이 기준으로 정렬 위치 계산
+                int smartLength = textIO.OutputSmartTextLength(line);
                 switch (Align)
                 {
                     case TextAlign.Center:
-                        drawX = X - (line.Length / 2);
+                        drawX = X - (smartLength / 2);
                         break;
                     case TextAlign.Right:
-                        drawX = X - line.Length;
+                        drawX = X - smartLength;
                         break;
                     case TextAlign.Left:
                     default:
@@ -39,7 +43,7 @@ namespace TeamRPG.Game.Object.UI
                         break;
                 }
 
-                textIO.OutputText(line, drawX, Y + i, Color);
+                textIO.OutputSmartText(line, drawX, Y + i, Color);
             }
         }
     }

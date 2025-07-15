@@ -12,6 +12,7 @@ namespace TeamRPG.Game.Object.UI
         public int X { get; set; }
         public int Y { get; set; }
         public ConsoleColor Color { get; set; }
+        public bool IsVisible { get; set; } = true;
 
         protected UIElement() : this(0, 0, ConsoleColor.White) { }
 
@@ -24,5 +25,15 @@ namespace TeamRPG.Game.Object.UI
         }
 
         public abstract void Draw();
+
+        public static bool ContainsOnlyKorean(string text)
+        {
+            foreach (char c in text)
+            {
+                if (c < 0xAC00 || c > 0xD7A3) // 한글 유니코드 범위
+                    return false;
+            }
+            return true;
+        }
     }
 }

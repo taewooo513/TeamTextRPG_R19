@@ -11,6 +11,7 @@ using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Scene;
 using TeamRPG.Game.Scene.Specificity;
 using static System.Net.Mime.MediaTypeNames;
+using TeamRPG.Game.Character;
 
 namespace TeamRPG.Game
 {
@@ -28,13 +29,15 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("GameScene", new GameScene());
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
 
-            SceneManager.GetInstance().ChangeScene("CharSelectScene");
             TextIOManager.GetInstance().Init(156, 40);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();
             SoundManager.GetInstance().AddSound("Test", "Test2.mp3", true, true);
             SoundManager.GetInstance().AddSound("Clicksmall", "../../../../Sounds/Clicksmall.mp3", false, false);
             SoundManager.GetInstance().PlaySound("Test", .1f);
+
+            PlayerManager.GetInstance().Init("test", Race.Human);
+            SceneManager.GetInstance().ChangeScene("GameScene");
 
         }
         public void Update()

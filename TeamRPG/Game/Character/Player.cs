@@ -85,7 +85,7 @@ namespace TeamRPG.Game.Character
             Status totalEquip = new Status(0, 0, 0, 0, 0, 0, 0);
             foreach (var equip in equipments)
             {
-                totalEquip = totalEquip.Add(equip);
+                totalEquip.Add(equip);
             }
             currentStatus = baseStatus.Add(totalEquip);
         }
@@ -118,6 +118,24 @@ namespace TeamRPG.Game.Character
             TextIOManager.GetInstance().OutputSmartText("Item", 11, 24);
             TextIOManager.GetInstance().OutputSmartText("Skill", 14, 26);
 
+            TextIOManager.GetInstance().OutputSmartText(currentStatus.HP.ToString(), 130, 21);
+
+            TextIOManager.GetInstance().OutputText4Byte(name, 130, 24);
+
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
+            {
+                currentStatus.HP -= 10;
+            }
+            for (int i = 0; i < 7; i++)
+            {
+                if (currentStatus.HP / 7 > i)
+                {
+                    TextIOManager.GetInstance().OutputText4Byte("■", 130 + 2 * i, 24);
+                }
+                else
+                    TextIOManager.GetInstance().OutputText4Byte("□", 130 + 2 * i, 24);
+            }
+            HpBarRender();
             switch (selectNum)
             {
                 case 0:
@@ -133,6 +151,11 @@ namespace TeamRPG.Game.Character
                     TextIOManager.GetInstance().OutputText4Byte("▶", 11, 26);
                     break;
             }
+        }
+
+        private void HpBarRender()
+        {
+
         }
     }
 }

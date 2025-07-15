@@ -33,7 +33,7 @@ namespace TeamRPG.Game.Scene
             e.Render();
             e1.Render();
 
-
+            PlayerManager.GetInstance().GetPlayer().UIRender();
         }
 
 
@@ -44,7 +44,7 @@ namespace TeamRPG.Game.Scene
             e1.Update();
             e2.Update();
 
-            PlayerManager.GetInstance().GetPlayer().UIRender();
+            PlayerManager.GetInstance().GetPlayer().Update();
         }
     }
 

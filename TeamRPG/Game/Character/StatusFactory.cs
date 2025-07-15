@@ -41,15 +41,15 @@ namespace TeamRPG.Game.Character
             if (source == null)
                 return null;
 
-            return new Status(
-                        source.HP,
-                        source.MP,
-                        source.MinAttack,
-                        source.MaxAttack,
-                        source.Agility,
-                        source.Tenacity,
-                        source.Luck
-                );
+                return new Status(
+                            source.HP,
+                            source.MP,
+                            source.MinAttack,
+                            source.MaxAttack,
+                            source.Agility,
+                            source.Tenacity,
+                            source.Luck
+                    );
         }
         public static Status EmptyStatus
         {

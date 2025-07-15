@@ -25,6 +25,22 @@ namespace TeamRPG.Game.Object.UI
             var textIO = TextIOManager.GetInstance();
 
             // 상단
+            string top = '┌' + new string('─', Width - 2) + '┐';
+            textIO.OutputSmartText(top, X, Y, Color);
+
+            // 중간
+            for (int j = 1; j < Height - 1; j++)
+            {
+                string middle = '│' + new string(' ', Width - 2) + '│';
+                textIO.OutputSmartText(middle, X, Y + j, Color);
+            }
+
+            // 하단
+            string bottom = '└' + new string('─', Width - 2) + '┘';
+            textIO.OutputSmartText(bottom, X, Y + Height - 1, Color);
+
+            /*
+            // 상단
             textIO.OutputText('┌', X, Y, Color);
             for (int i = 1; i < Width - 1; i++)
                 textIO.OutputText('─', X + i, Y, Color);
@@ -44,6 +60,7 @@ namespace TeamRPG.Game.Object.UI
             for (int i = 1; i < Width - 1; i++)
                 textIO.OutputText('─', X + i, Y + Height - 1, Color);
             textIO.OutputText('┘', X + Width - 1, Y + Height - 1, Color);
+            */
         }
     }
 }

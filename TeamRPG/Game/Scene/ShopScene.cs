@@ -20,61 +20,121 @@ namespace TeamRPG.Game.Scene
         private Text titleText;
         private RawText merchantImageText;
         private RawText merchantCommentText;
+        private int gold = 1000; // 테스트용 임시 골드 <- 나중에 캐릭터에 연결해야됨
+
+        private string merchantLobbyComment = """
+                상인
+                필요한 물건이 있으신가요?
+                """;
+
+        public string merchantBuyComment = """
+                상인
+                물건을 구매하시겠습니까?
+                """;
+
+        public string merchantSellComment = """
+                상인
+                물건을 판매하시겠습니까?
+                """;
+
+        public List<string> talkList = new()
+        {
+            """
+            상인
+            안녕하세요, 여행자님!
+            """,
+            """
+            상인
+            이곳은 다양한 물건을 판매하는 상점입니다.
+            """,
+            """
+            상인
+            저희 상점에서는 다양한 아이템을 구매할 수 있습니다.
+            """,
+            """
+            상인
+            저도 한때는 모험가를 꿈꿔왔습니다...
+            """,
+            """
+            상인
+            그래서 물건은 사실건가요?
+            """
+        };
+
         private BoxMenu actionBoxMenu;
         private BoxMenu itemBoxMenu;
 
         int number = 1; // 메뉴 선택 번호
+        private BoxMenu currentMenu = null; // 현재 활성화된 메뉴
+
+        private int shopItemSlotLenth = 6; // 상점 아이템 슬롯 개수 (6개로 고정)
+        private List<MenuItem> shopMenuItems = new();
+        private List<Item> shopItems = new List<Item>();
+        private MenuItem goldTextSlot;
+
         public void Init()
         {
             string merchantImage = """
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣼⣿⡧⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⢰⣶⡴⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⢀⣠⣤⣶⣴⣶⣦⣦⣄⣀⢀⠀⠀⠀⠀⠀⠀⡇⢘⣷⣿⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣽⣳⠯⢾⣹⣎⠛⡳⢶⠀⠀⠀⡇⠈⠻⡏⠁⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⣼⣿⣟⣿⣿⡼⣻⢯⣳⣏⡗⡡⢎⡝⡄⢰⠇⠀⠀⠁⠀⠀⠀
-                ⠀⠀⠀⠀⠀⣠⡴⣿⣿⣯⣿⣿⣿⣷⣿⣷⣿⣝⣳⣯⣗⠃⢸⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⢀⡴⣋⢧⣿⣽⣿⣻⡿⣿⣿⣿⣿⣛⣭⣻⣿⠿⠀⠀⣸⠀⠀⠀⠀⠀⠀⠀
-                ⠀⢀⣿⣳⣽⡾⣿⣿⣿⣿⣿⣿⣚⣿⣿⣟⣖⡻⣏⠃⠀⢠⡟⡄⠀⠀⠀⠀⠀⠀
-                ⠀⠀⢿⣷⣿⣿⣾⣿⣷⣿⣯⣕⠙⣟⣿⡟⢶⣿⠇⡀⠀⣸⣿⠁⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠛⠿⠻⣧⣻⣿⣿⡝⣼⣧⢿⣈⢾⡳⢍⣷⣏⣷⢿⣯⠄⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⢸⣶⣟⡿⣟⣾⣿⣿⣞⡽⣁⣾⡛⢬⠌⠻⢾⢿⠃⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⣾⡟⠺⣟⣿⣿⣿⣿⣿⣲⢥⡿⣱⠞⠏⢀⡄⢸⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⣼⣿⠁⢰⢸⣾⣟⣷⣻⣽⡛⣿⡟⡳⢶⡞⠁⠀⣾⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠉⢀⣈⣷⠿⣻⢧⣿⣯⣱⣿⣳⣽⣏⡍⠀⠀⡏⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⢹⠦⡈⠀⢻⣿⣻⣴⣳⡼⢿⣷⡺⡜⡆⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠛⠞⣃⣴⣿⣷⢣⣜⠋⠁⠘⠛⣿⡵⣺⢰⡇⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠸⠛⠉⣾⣯⣷⠏⠀⠀⠀⠀⣽⡿⣽⣾⡅⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣳⡯⠀⠀⠀⠀⠀⢹⣿⣶⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⡀⠀⣽⣿⣳⢡⡄⣤⢠⣀⡀⢸⣿⡷⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠉⠒⡭⣽⣿⣼⣿⢣⢞⡲⡭⢶⡙⡾⢿⣿⣟⣿⣦⠴⡠⠤⠀⠀⠀⠀
-                ⠀⠀⠀⠀⠀⠀⠀⠙⠹⠉⠧⠋⠎⠱⠙⠆⠙⠑⠋⠘⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠐⡈⠔⣐⠢⡌⢂⠡⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡐⠠⡘⢤⡿⣾⢿⢿⣮⡢⢑⡀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⡀⠱⣨⢿⡽⣳⠯⣟⡾⣽⡢⠄⡁⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠄⢣⡼⢯⣟⠡⢂⡙⢯⣷⡳⢌⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠰⡁⢆⠱⡌⢆⡇⡘⡤⢌⠛⠤⢈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡐⢡⠊⡔⠡⢎⡼⢠⠑⡌⠌⠥⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⠌⢢⠑⡌⠱⡈⠔⡡⢎⠰⡉⠆⡤⢤⠤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠠⢀⠢⠄⡫⢖⣭⠐⣡⠊⠔⣡⢉⠬⡑⢌⠢⣉⠜⣷⡩⢞⠴⣩⠇⡐⢠⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠄⡂⠱⢈⠄⠃⡐⢀⡟⣼⣃⠒⡌⢧⠈⠄⢳⣖⢉⠢⡐⡴⢈⠞⣷⡩⢞⡥⣋⠐⠠⠑⡈⠅⢊⠄⡠⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⡡⠒⡈⠐⡁⢂⢈⡐⠄⣚⣼⠳⡜⢦⡸⣌⢧⠈⢧⣬⠓⣠⠝⣆⢣⡜⡹⣷⢩⠖⣭⠂⢡⠂⢄⠈⠄⡘⠠⢑⡀⠂⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢁⠂⠄⢁⠠⢁⠰⡀⠆⠠⠃⣼⣏⢳⡙⢦⠳⣌⠎⣧⢳⣜⡡⢇⡛⣬⠳⣜⡱⣹⣧⢛⡴⠈⡀⠊⢄⢊⡐⠠⠐⡀⠄⢉⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⡀⢂⠈⡀⠢⠌⡐⠠⠁⢂⢡⣟⢮⣗⡻⣎⢷⣌⡻⢤⠳⣌⠳⣍⠞⡴⣋⠶⣱⢣⢿⡜⡼⡁⢀⠁⠂⠄⢂⠑⡂⠄⡈⢀⠂⢡⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠨⡑⡄⠠⠐⡀⠐⠠⢀⠡⢀⡾⣝⡞⣮⢗⣯⢳⡞⣽⢫⣗⢮⡳⢮⣝⠶⣭⢞⣥⡳⢮⣿⡴⡇⠀⠂⡁⠐⡀⠂⠐⡀⠄⠂⣌⠲⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⣉⠒⡡⢄⠌⠀⠀⠀⣼⠡⠟⠞⡙⠚⠘⠋⠘⠉⠡⠈⡁⢉⠈⢈⠉⠠⠉⡀⠉⠡⠹⡇⠙⠀⠀⠀⠀⠐⠈⢠⡀⢆⠃⠆⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⢘⡀⠎⡐⡀⠀⢰⠇⣀⣂⣄⠐⡈⠤⢁⠌⠤⠁⢆⠐⠤⢈⠂⠤⠁⠆⢄⠡⠂⡔⣻⣤⢧⠀⠀⠀⠀⢀⠃⡌⠄⡩⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠒⡈⠔⡠⠀⡞⣰⢯⣝⠆⢈⠀⡁⠂⡈⢂⠉⠔⣈⠂⠅⣊⠐⠩⡐⠨⡐⠡⡐⠸⣯⡞⣧⠀⠀⠠⠌⡂⠔⠡⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠡⠒⡠⢑⡃⣟⡞⡞⠀⠄⠂⡀⠁⠄⠠⠈⠠⠀⠌⠐⠠⢊⠡⡐⠡⠄⢃⠰⠁⢿⡞⣵⠆⢀⠅⠢⢁⠊⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣵⢂⠳⢨⡌⢻⣥⣬⡴⣤⣤⣥⢦⣥⢦⣥⢦⣬⣤⣥⣤⣥⢦⣱⣬⢦⣬⣡⣞⣯⠗⣉⠎⡜⣡⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣌⢣⢁⠻⣟⣾⣵⣿⣳⣯⣾⣟⣾⣟⡾⣟⣾⢧⡿⣾⢾⣯⢷⡯⡿⢾⠷⡾⢽⡾⢏⡘⠴⡱⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⣰⢎⡷⡌⠀⠄⠠⢀⠀⠄⡀⠠⠀⠄⡀⠄⡀⠄⠠⢀⠠⠀⡐⠀⠆⢒⠠⢊⡴⢦⣌⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣯⢻⡼⢃⠈⠄⠂⠠⠈⠠⠐⢀⠡⠀⠄⡐⠀⡐⠠⠀⡐⢀⠐⠈⠌⢂⠢⠁⢿⡹⣞⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠰⡭⣗⣻⠀⡐⠠⠁⠄⡁⠐⢈⠠⠀⠌⢀⠐⡀⠐⡀⠁⠄⡀⠂⡁⠈⠤⣁⠩⢸⣝⡞⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡱⣏⡞⠀⠄⠂⡐⠀⡐⠈⠠⠐⢈⠀⢂⠠⠐⢀⠐⢈⠠⠐⠀⠄⡁⠰⠀⠆⡱⣞⠵⡂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡼⡱⣏⡞⠀⠂⡁⠄⠂⠐⢈⠠⠈⠠⠐⢀⠐⢀⠂⢈⠠⠐⠠⠁⡐⠀⢂⠩⡐⠄⣿⢱⡃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠁⠀⠀⠀⠀⠀⠀⠀⢷⡱⣏⡆⠁⡐⠀⠄⡁⠌⢀⠐⢈⠠⠈⠠⠐⢀⠈⠄⠐⠠⠁⡐⠀⠌⣀⠒⡠⢁⡟⣦⢣⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠠⠀⠀⠠⠀⠀⠄⠀⠀⠀⠀⠀⠀⢀⢧⢳⡝⡆⠁⠄⢈⠠⠀⢂⠠⠈⠠⠐⢈⠠⠈⡀⢂⠈⠐⡀⠁⠄⠈⢄⡐⢂⠡⢂⡽⣆⢳⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢘⣎⢳⡽⡃⠠⢈⠠⠐⢈⠀⡐⠈⠠⢈⠠⠐⠀⠄⠂⡈⠄⠐⢈⠠⢁⠆⠰⠈⡔⢂⡼⣏⢮⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡸⣌⢳⡽⡃⠠⠀⢂⠈⠠⠐⠀⠌⠠⠀⡐⠈⡀⠂⡁⠄⠠⣁⠢⠌⢂⡘⠄⡃⠔⢂⡼⣝⡲⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡵⢪⡝⡾⡅⡀⠡⢀⠂⠁⠄⡁⠂⠄⡁⠄⠂⢄⠡⢐⡈⠥⠐⣂⠩⢐⠠⡑⠐⡌⢂⡽⣺⠵⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣏⠳⡜⣽⢣⡐⡁⠆⡘⠐⠢⡐⠡⠒⡈⠔⡉⢄⠊⢄⠒⡈⠥⢐⠨⠐⡂⢌⠒⢠⠂⣽⢧⣛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⣎⢳⡹⡜⢯⡽⣝⡾⣲⢏⣦⡥⣎⣥⣘⣠⡘⣀⠎⡠⢊⡐⠌⡐⠌⣁⠒⢠⠊⢄⢊⡷⣫⢞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡌⢧⠳⣜⢣⠻⣜⣳⡭⣟⢶⣹⢳⣎⢷⡳⡽⣭⡻⣝⢯⣝⣻⢼⡳⣞⣞⡳⣞⡞⣮⢳⡝⢮⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢼⡘⢧⡛⣬⢣⡛⣬⢳⡹⢮⣻⢼⡳⣽⢺⡵⣻⢵⣛⡮⣟⡼⣣⢯⢷⡹⣎⡷⣝⠾⣭⠳⣜⢣⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣧⡙⢦⡙⢦⢣⡝⢦⢣⡝⢦⡙⢮⡙⡞⢧⠻⡵⣫⢞⡵⣏⠾⣭⡛⢮⡝⢧⡛⣬⠳⣌⢳⣌⢳⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡶⡩⢧⡙⣎⠳⣜⢣⠳⣜⢣⡝⣲⠹⣜⢣⡛⡴⢣⠞⡴⣩⠞⡴⣩⠳⣜⢣⡝⢦⡛⣬⠳⣌⢣⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡷⣙⢦⡹⣌⢳⡌⢧⡛⣬⠳⡜⣥⢛⡬⢣⡝⣜⢣⡛⡴⢣⡛⡴⢣⡛⣬⠳⣜⢣⡝⢆⠯⣜⢣⡃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠨⡵⣩⢖⡱⢎⠳⠜⢣⠙⠢⠙⠌⠄⡃⠌⡡⠌⡠⢃⠩⢘⠣⠙⡜⣣⠝⣦⢛⡬⡓⣬⢋⡞⣬⢣⡅⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠐⠌⠰⢈⠢⠘⠠⢁⠃⡉⠌⠒⡈⠔⡐⠌⡐⠂⡅⠢⠌⢡⠐⡠⢉⡐⠋⠴⣙⢦⢫⡜⢦⡓⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡀⢂⠠⠐⢀⠡⠀⡐⠀⠄⡁⠐⠠⠈⠠⠑⠈⠄⠱⢈⠂⠜⡀⠆⡠⠉⡔⠠⠌⢡⠘⢃⡙⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                 """;
-            merchantImageText = new RawText(merchantImage, 55, 0, ConsoleColor.Green, TextAlign.Center);
+            merchantImageText = new RawText(merchantImage, Console.WindowWidth / 2, 0, ConsoleColor.Green, TextAlign.Center);
 
-            actionBoxMenu = new BoxMenu(20, 10, 14, 6, ConsoleColor.DarkGray);
+            goldText = new Text($"보유 금액 : {gold} G", 2, 2, ConsoleColor.Yellow, TextAlign.Left);
+
+            actionBoxMenu = new BoxMenu(20, Console.WindowHeight / 2, 14, 6, ConsoleColor.DarkGray);
             actionBoxMenu.AddItem("Buy", OnShopBuy, ConsoleColor.Green);
             actionBoxMenu.AddItem("Sell", OnShopSell, ConsoleColor.Yellow);
             actionBoxMenu.AddItem("Talk", OnShopTalk, ConsoleColor.Cyan);
             actionBoxMenu.AddItem("Back", OnShopBack, ConsoleColor.Red);
 
-            itemBoxMenu = new BoxMenu(10, 6, 50, 8, ConsoleColor.DarkGray);
+            itemBoxMenu = new BoxMenu(10, Console.WindowHeight / 2, 50, 13, ConsoleColor.DarkGray);
             itemBoxMenu.SetVisible(false);
 
-            for (int i = 0; i < 6; i++) { 
-                itemBoxMenu.AddItem($"Item {i + 1}", () => Console.WriteLine($"Selected Item {i + 1}"), ConsoleColor.Green);
-            }
+            InitItemBoxMenu();
 
-            UpdateItemMenu();
+            merchantCommentText = new RawText(merchantLobbyComment, Console.WindowWidth - 40, 10, ConsoleColor.White, TextAlign.Left);
+            titleText = new Text("Shop", Console.WindowWidth / 2, 1, ConsoleColor.Yellow, TextAlign.Center);
 
-
-            string merchantComment = """
-                상인
-                필요한 물건이 있으신가요?
-                """;
-
-            merchantCommentText = new RawText(merchantComment, 80, 8, ConsoleColor.White, TextAlign.Left);
-            titleText = new Text("Shop", 60, 1, ConsoleColor.Yellow, TextAlign.Center);
+            currentMenu = actionBoxMenu;
         }
         public void Update()
         {
@@ -82,63 +142,121 @@ namespace TeamRPG.Game.Scene
             if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.UpArrow))
             {
 
-                actionBoxMenu.MoveUp();
+                currentMenu.MoveUp();
             }
             if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow))
             {
-                actionBoxMenu.MoveDown();
+                currentMenu.MoveDown();
             }
             if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
             {
-                actionBoxMenu.Select();
+                currentMenu.Select();
             }
         }
 
 
-        public void Render()
-        {
-
-        }
+        public void Render() { }
 
         public void Release() { }
 
-
-        void UpdateItemMenu()
+        void UpdateGoldText()
         {
-            var randomItems = ItemManager.GetInstance().GetRandomItems(6);
-            var menuItemList = itemBoxMenu.Items;
+            goldText.SetText($"보유 금액 : {gold} G");
+            goldTextSlot.Text = ($"보유 골드 : {gold} G");
+        }
 
-            for(int i = 0; i < menuItemList.Count; i++)
+        void UpdateComment(string comment)
+        {
+            merchantCommentText.SetText(comment);
+        }
+
+
+        string GetItemBuyInfo(Item item)
+        {
+            return $"{item.Name} : {item.Description} ({item.Gold} G)";
+        }
+
+        void InitItemBoxMenu()
+        {
+            shopItems = ItemManager.GetInstance().GetRandomItems(6);
+
+            itemBoxMenu.ClearItems();
+
+            for (int i = 0; i < shopItemSlotLenth; i++)
             {
-                if (i < randomItems.Count)
+                MenuItem item = itemBoxMenu.AddItem($"Item {i + 1}", () => Console.WriteLine($"Selected Item {i + 1}"), ConsoleColor.Green);
+                shopMenuItems.Add(item);
+            }
+
+            UpdateItemMenuSlots();
+
+            itemBoxMenu.AddEmptyItem();
+            goldTextSlot = itemBoxMenu.AddTextItem($"보유 골드 : {gold} G");
+            itemBoxMenu.AddEmptyItem();
+            itemBoxMenu.AddItem("돌리기", () =>
+            {
+                RerollItmes();
+                string comment = """
+                상인
+                새로운 상품입니다!
+                """;
+                UpdateComment(comment);
+            });
+
+            itemBoxMenu.AddItem("돌아가기", () =>
+            {
+                itemBoxMenu.SetVisible(false);
+                currentMenu = actionBoxMenu;
+                UpdateComment(merchantLobbyComment);
+            }
+            , ConsoleColor.Red);
+        }
+
+        // itemMenuSlot 업데이트
+        void UpdateItemMenuSlots()
+        {
+            var menuItemList = itemBoxMenu.Items;
+            for (int i = 0; i < shopItemSlotLenth; i++)
+            {
+                if (i < shopItems.Count)
                 {
-                    string text = $"{randomItems[i].Name} : {randomItems[i].Description} ({randomItems[i].Gold} G)";
-                    menuItemList[i].Text = text;
-                    menuItemList[i].OnSelect = () => ShopBuy(randomItems[i]);
+                    int index = i; // 클로저 안전하게
+                    menuItemList[i].Text = GetItemBuyInfo(shopItems[i]);
+                    menuItemList[i].OnSelect = () => ShopBuy(shopItems[index]);
                     menuItemList[i].IsEnabled = true;
                 }
                 else
                 {
-                    menuItemList[i].Text = "Empty";
+                    menuItemList[i].Text = "";
                     menuItemList[i].OnSelect = null;
                     menuItemList[i].IsEnabled = false;
                 }
-
             }
+        }
 
+        void RerollItmes()
+        {
+            shopItems = ItemManager.GetInstance().GetRandomItems(6);
+            UpdateItemMenuSlots();
         }
 
         private void OnShopBuy()
         {
+            currentMenu = itemBoxMenu;
             itemBoxMenu.SetVisible(true);
+            UpdateComment(merchantBuyComment);
         }
         private void OnShopSell()
         {
+            currentMenu = itemBoxMenu;
             itemBoxMenu.SetVisible(true);
+            UpdateComment(merchantSellComment);
         }
         private void OnShopTalk()
         {
+            currentMenu = actionBoxMenu;
             itemBoxMenu.SetVisible(false);
+            ShopTalk();
         }
 
         private void OnShopBack() {
@@ -147,24 +265,56 @@ namespace TeamRPG.Game.Scene
 
         public void ShopBuy(Item item)
         {
+            string comment;
             if (item == null) return;
-            /*
-            if (player.CurrentStatus.Gold < item.Gold) return;
+            if (gold < item.Gold)
+            {
+                comment = $"""
+                    상인
+                    그 돈으로는 부족합니다!
+                    """;
 
-            player.Gold -= item.Gold;
-            player.AddItem(item);
-            */
-            itemBoxMenu.SetVisible(false);
+                UpdateComment(comment);
+                return;
+            }
+
+            gold -= item.Gold;
+            // player.AddItem(item);
+
+            comment = $"""
+                상인
+                {item.Name} 구매 감사합니다!
+                """;
+
+            UpdateGoldText();
+            UpdateComment(comment);
         }
 
         public void ShopSell(Item item)
         {
             if (item == null) return;
-            /*
-            player.Gold += item.Gold / 2;
-            player.RemoveItem(item);
-            */
-            itemBoxMenu.SetVisible(false);
+            
+            gold += item.Gold;
+            // player.RemoveItem(item);
+
+            string comment = $"""
+                상인
+                {item.Name} 판매 감사합니다!
+                """;
+
+            UpdateGoldText();
+            UpdateComment(comment);
+        }
+
+        public void ShopTalk()
+        {
+            if (talkList.Count == 0) return;
+
+            Random random = new Random();
+            int index = random.Next(talkList.Count);
+            string comment = talkList[index];
+
+            UpdateComment(comment);
         }
     }
 

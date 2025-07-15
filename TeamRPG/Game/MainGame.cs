@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.AnimationManager;
+using TeamRPG.Core.ItemManager;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Scene;
@@ -15,6 +16,7 @@ namespace TeamRPG.Game
     {
         public void Init() // 씬선언 여기서 하세요
         {
+            ItemManager.GetInstance().Init();
             SceneManager.GetInstance().Init();
             SceneManager.GetInstance().AddScene("TestScene", new TestScene());
             SceneManager.GetInstance().AddScene("TitleScene", new TitleScene());
@@ -24,7 +26,7 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
 
             SceneManager.GetInstance().ChangeScene("ShopScene");
-            TextIOManager.GetInstance().Init(120, 29);
+            TextIOManager.GetInstance().Init(140, 40);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();
             SoundManager.GetInstance().AddSound("Test", "Test2.mp3", true, true);

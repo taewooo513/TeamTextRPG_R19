@@ -18,10 +18,10 @@ namespace TeamRPG.Game.Character
 
         private List<Status> equipments = new List<Status>();
 
-        public Player(string name, Race race)
+        public Player(string _name, Race _race)
         {
-            name = name;
-            race = race;
+            name = _name;
+            race = _race;
             baseStatus = StatusFactory.GetStatusByRace(race);
             currentStatus = baseStatus;
         }

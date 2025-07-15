@@ -28,7 +28,7 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("GameScene", new GameScene());
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
 
-            SceneManager.GetInstance().ChangeScene("GameScene");
+            SceneManager.GetInstance().ChangeScene("CharSelectScene");
             TextIOManager.GetInstance().Init(156, 40);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();

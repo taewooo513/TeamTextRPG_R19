@@ -52,6 +52,9 @@ namespace TeamRPG.Game
             ItemManager.GetInstance().Init();
             ShopManager.GetInstance().Init();
 
+            PlayerManager.GetInstance().Init("test", Race.Human);
+            SceneManager.GetInstance().ChangeScene("GameScene");
+
         }
         public void Update()
         {

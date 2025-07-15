@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.AnimationManager;
+using TeamRPG.Core.EnemyManager;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Scene;
@@ -23,9 +24,10 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("CharSelectScene", new CharSelectScene());
             SceneManager.GetInstance().AddScene("CemeteryScene", new CemeteryScene());
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
+            SceneManager.GetInstance().AddScene("GameScene", new GameScene());
 
-            SceneManager.GetInstance().ChangeScene("TitleScene");
-            TextIOManager.GetInstance().Init(120, 29);
+            SceneManager.GetInstance().ChangeScene("GameScene");
+            TextIOManager.GetInstance().Init(156, 29);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();
             SoundManager.GetInstance().AddSound("Test", "Test2.mp3", true, true);
@@ -38,16 +40,15 @@ namespace TeamRPG.Game
             KeyInputManager.GetInstance().Update();
             SceneManager.GetInstance().Update();
             TimerManager.GetInstance().Update();
-            AnimationManager.GetInstance().Update();
             SoundManager.GetInstance().Update();
+            EnemyManager.GetInstance().Update();
         }
         public void Render()
         {
             SceneManager.GetInstance().Render();
-            AnimationManager.GetInstance().Render();
+            EnemyManager.GetInstance().Render();
             TextIOManager.GetInstance().DrawText();
             UIManager.GetInstance().DrawUI();
-
             //Console.WriteLine(TimerManager.GetInstance().GetMillisecond().ToString());
             //Console.WriteLine(TimerManager.GetInstance().GetFrame().ToString());
         }

@@ -71,5 +71,15 @@ namespace TeamRPG.Core.SceneManager
             }
         }
 
+        public Scene GetScene(String key)
+        {
+            Scene val;
+            d_Scenes.TryGetValue(key, out val);
+            if (val == null)
+            {
+                Console.WriteLine("{0} key값 잘못됨", key);
+            }
+            return val;
+        }
     }
 }

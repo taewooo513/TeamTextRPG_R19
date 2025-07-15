@@ -20,6 +20,8 @@ namespace TeamRPG.Game.Object.UI
 
         public override void Draw()
         {
+            if (!IsVisible) return;
+
             var textIO = TextIOManager.GetInstance();
 
             // 상단

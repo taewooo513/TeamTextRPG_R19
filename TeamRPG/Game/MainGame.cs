@@ -42,6 +42,7 @@ namespace TeamRPG.Game
             SoundManager.GetInstance().AddSound("DevildomBGM", "../../../../Sounds/DevildomBGM.mp3", true, true);
             SoundManager.GetInstance().AddSound("ShopBGM", "../../../../Sounds/ShopBGM.mp3", true, true);
             SoundManager.GetInstance().AddSound("Tier1NomalBattleBGM", "../../../../Sounds/Tier1NomalBattleBGM.mp3", true, true);
+            SoundManager.GetInstance().AddSound("FireplaceSound", "../../../../Sounds/FireplaceSound.mp3", true, true);
             SoundManager.GetInstance().PlaySound("Test", .1f);
 
             ItemManager.GetInstance().Init();

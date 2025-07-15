@@ -9,24 +9,25 @@ namespace TeamRPG.Game.Object.Item
 {
     public class Consumable : Item
     {
-        public int HealAmount { get; private set; }
-        public int ManaAmount { get; private set; }
         public Action<Player> OnUseEffect { get; set; }
 
-        public Consumable(string name, string desc, int price, int heal, int mana)
+        public Consumable(string name, string description, Status status, int gold = 0)
+            : base(name, description, status, gold)
         {
-            Name = name;
-            Description = desc;
-            Gold = price;
             Type = ItemType.Consumable;
-            HealAmount = heal;
-            ManaAmount = mana;
         }
 
         public override void Init() { }
 
         public override void Use(Player target)
         {
+            if (target == null)
+                {
+                        throw new ArgumentNullException(nameof(target), "Target player cannot be null.");
+                }
+
+            target.currentStatus.Add(Status);
+
             /*
             if (HealAmount > 0)
                 target.CurrentStatus.HP += HealAmount;

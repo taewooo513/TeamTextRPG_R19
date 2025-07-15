@@ -10,20 +10,17 @@ namespace TeamRPG.Game.Object.Item
 {
     public class Weapon : Equipment
     {
-        public int DamagePoint { get; private set; }
         public DamageType DamageType { get; private set; } // 기본값은 물리 공격
         public string AsciiArt { get; private set; }
         public string BrokenAsciiArt { get; private set; }
 
+
         
-        public Weapon(string name, string desc, int gold, int damagePoint, DamageType damageType = DamageType.Physical, int mana = 0, int maxDurability = 20, string asciiArt = "", string brokenArt = "")
-            : base(mana, maxDurability)
+
+        public Weapon(string name, string desc, Status status, int gold, DamageType damageType = DamageType.Physical, int maxDurability = 20, string asciiArt = "", string brokenArt = "")
+            : base(name, desc, status, gold, maxDurability)
         {
-            Name = name;
-            Description = desc;
-            Gold = gold;
             Type = ItemType.Weapon;
-            DamagePoint = damagePoint;
             DamageType = damageType;
             AsciiArt = asciiArt;
             BrokenAsciiArt = brokenArt;

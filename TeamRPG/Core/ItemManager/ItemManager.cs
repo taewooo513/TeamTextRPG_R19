@@ -49,33 +49,59 @@ namespace TeamRPG.Core.ItemManager
         {
             itemDictionary = new Dictionary<string, Item>();
 
+            Status temp = StatusFactory.EmptyStatus;
+
             // 소모품
-            var hurb = new Consumable("향긋한 허브", "매 턴 생명력 +3", 30, 0, 0);
-            hurb.OnUseEffect = (Player target) =>
-            {
-            };
+            var hurb = new Consumable("향긋한 허브", "매 턴 생명력 +3", StatusFactory.EmptyStatus, 30);
+
+            hurb.OnUseEffect = (Player target) => { };
             AddItem("Hurb", hurb);
 
-            var healingPotion = new Consumable("회복 포션", "HP 30 회복", 50, 30, 0);
+
+            temp = StatusFactory.EmptyStatus;
+            temp.HP = 30;
+            var healingPotion = new Consumable("회복 포션", "HP 30 회복", temp, 50);
             AddItem("HealingPotion", healingPotion);
 
-            var manaPotion = new Consumable("마나 포션", "MP 20 회복", 50, 0, 20);
+            temp = StatusFactory.EmptyStatus;
+            temp.MP = 50;
+            var manaPotion = new Consumable("마나 포션", "MP 20 회복", temp, 50);
             AddItem("ManaPotion", manaPotion);
 
             // 무기
-            var ironSword = new Weapon("강철검", "공격력 +6", 150, 6);
+            temp = StatusFactory.EmptyStatus;
+            var ironSword = new Weapon("강철검", "공격력 +6", temp, 150);
             AddItem("IronSword", ironSword);
 
-            var magicStaff = new Weapon("수습생의 지팡이", "마법 공격력 +5, 최대 마나 +10", 150, 5, DamageType.Magical, 10);
+            temp = StatusFactory.EmptyStatus;
+            temp.MinAttack = 5;
+            temp.MaxAttack = 5;
+            temp.MP = 10;
+            var magicStaff = new Weapon("수습생의 지팡이", "마법 공격력 +5, 최대 마나 +10", temp, 150, DamageType.Magical);
             AddItem("MagicStaff", magicStaff);
 
+            temp = StatusFactory.EmptyStatus;
+            temp.MinAttack = 10;
+            temp.MaxAttack = 10;
+            var talismanOfPower = new Weapon("마력의 탈리스만", "마법 공격력 +10, 내구도 무제한", temp, 250, DamageType.Magical, int.MaxValue);
+            AddItem("TalismanOfPower", talismanOfPower);
 
             // 방어구
-            var roundShield = new Armor("라운드 실드", "HP +12", 150, 12);
+            temp = StatusFactory.EmptyStatus;
+            temp.HP = 12;
+            var roundShield = new Armor("라운드 실드", "HP +12", temp, 150);
             AddItem("RoundShield", roundShield);
 
-            var robeOfWisdom = new Armor("현자의 로브", "HP +5, 최대 MP +10", 200, 5, 10);
+            temp = StatusFactory.EmptyStatus;
+            temp.HP = 5;
+            temp.MP = 10;
+            var robeOfWisdom = new Armor("현자의 로브", "HP +5, 최대 MP +10", temp, 150);
             AddItem("RobeOfWisdom", robeOfWisdom);
+
+            temp = StatusFactory.EmptyStatus;
+            temp.MP = 20;
+            var talismanOfMana = new Armor("마나의 탈리스만", "최대 마나 +20, 내구도 무제한", temp, 250);
+            AddItem("TalismanOfMana", talismanOfMana);
 
         }
 
@@ -109,15 +135,14 @@ namespace TeamRPG.Core.ItemManager
             switch (original)
             {
                 case Consumable c:
-                    var newC = new Consumable(c.Name, c.Description, c.Gold, c.HealAmount, c.ManaAmount);
+                    var newC = new Consumable(c.Name, c.Description, StatusFactory.Clone(c.Status), c.Gold);
                     newC.OnUseEffect = c.OnUseEffect;
                     return newC;
 
                 case Weapon w:
-                    return new Weapon(w.Name, w.Description, w.Gold, w.DamagePoint, w.DamageType, w.Mana, w.MaxDurability, w.AsciiArt, w.BrokenAsciiArt);
-
+                    return new Weapon(w.Name, w.Description, StatusFactory.Clone(w.Status), w.Gold, w.DamageType, w.MaxDurability);
                 case Armor a:
-                    return new Armor(a.Name, a.Description, a.Gold, a.LifeBonus, a.MaxDurability);
+                    return new Armor(a.Name, a.Description, StatusFactory.Clone(a.Status), a.Gold, a.MaxDurability);
             }
 
             return null;

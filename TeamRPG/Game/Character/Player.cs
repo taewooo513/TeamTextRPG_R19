@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Game.Character;
+using TeamRPG.Game.Object.Item;
 
 namespace TeamRPG.Game.Character
 {
@@ -36,6 +37,7 @@ namespace TeamRPG.Game.Character
 
             RecalculateCurrentStatus();
         }
+
 
         public void EquipItem(Status equip)
         {

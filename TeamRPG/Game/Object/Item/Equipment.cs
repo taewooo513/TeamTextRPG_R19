@@ -16,10 +16,8 @@ namespace TeamRPG.Game.Object.Item
 
     public abstract class Equipment : Item
     {
-        public int Mana { get; private set; }
         public int MaxDurability { get; protected set; } = 10;
         public int CurrentDurability { get; protected set; }
-
         public bool IsBroken => CurrentDurability <= 0;
 
         public override void Init()
@@ -27,12 +25,7 @@ namespace TeamRPG.Game.Object.Item
             CurrentDurability = MaxDurability;
         }
 
-        public Equipment(int mana = 0, int maxDurability = 20) : this(maxDurability)
-        {
-            Mana = mana;
-        }
-
-        public Equipment(int maxDurability = 20)
+        public Equipment(string name, string desc, Status status, int gold = 0, int maxDurability = 20, ItemType itemType = ItemType.Weapon) : base(name, desc, status, gold, itemType)
         {
             MaxDurability = maxDurability;
             CurrentDurability = maxDurability;

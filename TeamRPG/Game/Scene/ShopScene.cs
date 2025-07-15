@@ -13,11 +13,79 @@ using TeamRPG.Game.Character;
 
 namespace TeamRPG.Game.Scene
 {
+    public class ShopData
+    {
+        public string ShopName { get; set; } = "상점"; // 상점 이름
+        public string MerchantName { get; set; } = "상인"; // 상인 이름
+        public List<Item> Items { get; set; } = new List<Item>();
+
+        public int ItemLenth { get; set; } // 상점 아이템 개수 (6개로 고정)
+        public int RerollCost { get; set; } = 30; // 아이템 리롤 비용
+        public int Gold { get; set; } = 1000; // 테스트용 임시 골드 <- 나중에 캐릭터에 연결해야됨
+
+        public string MerchantImage { get; set; }
+        public string LobbyComment { get; set; } = "필요한 물건이 있으신가요?"; // 상점 로비 코멘트
+        public string BuyComment { get; set; } = "물건을 구매하시겠습니까?"; // 상점 구매 코멘트
+        public string BuySuccessComment { get; set; } = "구매 감사합니다!"; // 아이템 구매 성공 코멘트
+        public string BuyFailComment { get; set; } = "돈이 부족해!!"; // 아이템 구매 실패 코멘트
+        public string SellComment { get; set; } = "물건을 판매하시겠습니까?"; // 상점 판매 코멘트
+        public string SellSuccessComment { get; set; } = "판매 감사합니다!"; // 아이템 판매 성공 코멘트
+        public string SellFailComment { get; set; } = "대체 뭐를 팔겠단거야!"; // 아이템 판매 실패 코멘트
+
+        public string RerollSuccessComment { get; set; } = "새로운 상품입니다!"; // 아이템 리롤 코멘트
+        public List<string> TalkList { get; set; } = new List<string>
+        {
+            "안녕하세요, 여행자님!",
+            "이곳은 다양한 물건을 판매하는 상점입니다.",
+            "저희 상점에서는 다양한 아이템을 구매할 수 있습니다.",
+            "저도 한때는 모험가를 꿈꿔왔습니다...",
+            "그래서 물건은 사실건가요?"
+        };
+        public ShopData()
+        {
+            // 초기 아이템 목록 생성
+            RerollItems();
+        }
+
+        public void RerollItems()
+        {
+            Items = ItemManager.GetInstance().GetRandomItems(6);
+        }
+        public void AddItem(Item item)
+        {
+            if (Items.Count < 6)
+            {
+                Items.Add(item);
+            }
+            else
+            {
+                Console.WriteLine("상점 아이템 슬롯이 가득 찼습니다.");
+            }
+        }
+        public void RemoveItem(Item item)
+        {
+            if (Items.Contains(item))
+            {
+                Items.Remove(item);
+            }
+            else
+            {
+                Console.WriteLine("해당 아이템이 상점에 없습니다.");
+            }
+        }
+        public void ClearItems()
+        {
+            Items.Clear();
+        }
+
+
+    }
+
     public class ShopScene : SceneClass
     {
-
-
         private int gold = 1000; // 테스트용 임시 골드 <- 나중에 캐릭터에 연결해야됨
+
+        private ShopData shopData;
 
         private Player player;
         private Text goldText;
@@ -72,6 +140,8 @@ namespace TeamRPG.Game.Scene
         private List<MenuItem> shopMenuItems = new();
         private List<Item> shopItems = new List<Item>();
         private MenuItem goldTextSlot;
+
+        private int rerollCost = 30; // 아이템 리롤 비용
 
         public void Init()
         {
@@ -194,15 +264,7 @@ namespace TeamRPG.Game.Scene
             itemBoxMenu.AddEmptyItem();
             goldTextSlot = itemBoxMenu.AddTextItem($"보유 골드 : {gold} G");
             itemBoxMenu.AddEmptyItem();
-            itemBoxMenu.AddItem("돌리기", () =>
-            {
-                RerollItmes();
-                string comment = """
-                상인
-                새로운 상품입니다!
-                """;
-                UpdateComment(comment);
-            });
+            itemBoxMenu.AddItem($"돌리기 {rerollCost}", RerollItmes);
 
             itemBoxMenu.AddItem("돌아가기", () =>
             {
@@ -237,8 +299,27 @@ namespace TeamRPG.Game.Scene
 
         void RerollItmes()
         {
+            string comment;
+            if (gold < rerollCost)
+            {
+                comment = """
+                상인
+                돈이 부족해!!
+                """;
+                UpdateComment(comment);
+                return;
+            }
+
+            gold -= rerollCost;
             shopItems = ItemManager.GetInstance().GetRandomItems(6);
             UpdateItemMenuSlots();
+            UpdateGoldText();
+
+            comment = """
+                상인
+                새로운 상품입니다!
+                """;
+            UpdateComment(comment);
         }
 
         private void OnShopBuy()

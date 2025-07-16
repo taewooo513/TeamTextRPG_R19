@@ -260,6 +260,10 @@ namespace TeamRPG.Game.Object.Enemy
         public void HitEnemy(int _dmg)
         {
             state.currentHp -= _dmg;
+            if (state.currentHp <= 0)
+            {
+                isDie = true;
+            }
         }
     }
 }

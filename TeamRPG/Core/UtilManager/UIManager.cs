@@ -8,6 +8,22 @@ namespace TeamRPG.Core.UtilManager
     {
         private List<UIElement> uiElements;
 
+        public static int HalfWidth
+        {
+            get
+            {
+                return Console.WindowWidth / 2;
+            }
+        }
+
+        public static int HalfHeight
+        {
+            get
+            {
+                return Console.WindowHeight / 2;
+            }
+        }
+
         public UIManager()
         {
             uiElements = new();

@@ -21,22 +21,22 @@ namespace TeamRPG.Game.Object.UI
             menu = new Menu(x + paddingLeft, y + paddingTop);
         }
 
-        public MenuItem AddItem(string text, Action onSelect, ConsoleColor? color = null, bool isEnabled = true)
+        public MenuItem AddItem(string text, Action onSelect, bool isEnabled = true, ConsoleColor? color = null)
         {
             string trimmedText = TrimTextToFit(text);
-            menu.AddItem(trimmedText, onSelect, color ?? Color, isEnabled);
+            menu.AddItem(trimmedText, onSelect, isEnabled, color ?? Color);
             return menu.GetItem(menu.GetItems().Count - 1) ?? throw new InvalidOperationException("Failed to add item to menu.");
         }
 
 
         public void AddEmptyItem()
         {
-            menu.AddItem("", () => { }, Color, false);
+            menu.AddItem("", () => { }, false);
         }
 
         public MenuItem AddTextItem(string text)
         {
-            return AddItem(text, () => { }, Color, false);
+            return AddItem(text, () => { }, false);
         }
 
         public void ClearItems()

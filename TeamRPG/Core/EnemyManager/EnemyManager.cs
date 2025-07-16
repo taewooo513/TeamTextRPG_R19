@@ -33,7 +33,6 @@ namespace TeamRPG.Core.EnemyManager
                 item.Update();
             }
         }
-
         public List<Enemy> GetEnemyList()
         {
             return enemies;

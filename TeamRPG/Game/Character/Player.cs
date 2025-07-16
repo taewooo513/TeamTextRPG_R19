@@ -19,6 +19,9 @@ namespace TeamRPG.Game.Character
         private int attackIndex;
         private bool isSkill;
         private List<Skill> skills;
+        public Stopwatch timer;
+        public int selectE = 0;
+        private bool isDefens = false;
         public string name { get; private set; }
         public Race race { get; private set; }
         public int level { get; private set; } = 1;
@@ -35,6 +38,7 @@ namespace TeamRPG.Game.Character
         private int selectNum = 0;
         public Player(string _name, Race _race)
         {
+            timer = new Stopwatch();
             name = _name;
             race = _race;
             baseStatus = StatusFactory.GetStatusByRace(race);
@@ -158,26 +162,31 @@ namespace TeamRPG.Game.Character
         {
             PlayerManager.GetInstance().gameMsg = "플레이어의 턴";
             isPlayerTurn = true;
+            selectE = 0; //이젠 무슨코드를 짜는지도모르겠다
         }
         public void UIRender()
         {
-            StateBox();
-            TextIOManager.GetInstance().OutputText(name, 7, 33);
             PlayerImageRender();
-            if (isSkill == false)
-            {
-                PlaySelectUI();
-            }
-            else
-            {
-                SkillSelectUI();
-            }
 
-            HpBarRender();
-            MpBarRender();
-            if (isAttack == true)
+            if (EnemyManager.GetInstance().GetEnemyList()[selectE].isExSkill == false)
             {
-                EnemyManager.GetInstance().GetEnemyList()[attackIndex].SelectEnemy();
+                StateBox();
+                TextIOManager.GetInstance().OutputText(name, 7, 33);
+
+                if (isSkill == false)
+                {
+                    PlaySelectUI();
+                }
+                else
+                {
+                    SkillSelectUI();
+                }
+                HpBarRender();
+                MpBarRender();
+                if (isAttack == true)
+                {
+                    EnemyManager.GetInstance().GetEnemyList()[attackIndex].SelectEnemy();
+                }
             }
         }
         private void SelectSkillButton()
@@ -224,6 +233,9 @@ namespace TeamRPG.Game.Character
                     case 0:
                         isAttack = true;
                         break;
+                    case 1:
+                        isDefens = true;
+                        break;
                     case 3:
                         isSkill = true;
                         break;
@@ -263,7 +275,10 @@ namespace TeamRPG.Game.Character
                     selectNum = 0;
                     PlayerManager.GetInstance().gameMsg = $" {EnemyManager.GetInstance().GetEnemyList()[attackIndex].GetName()}에게 {dmg}의 데미지를 입혔습니다.";
                 }
+                timer.Start();
                 attackIndex = 0;
+                selectE = 0;
+                isPlayerTurn = false;
                 isAttack = false;
                 isSkill = false;
             }

@@ -168,7 +168,31 @@ namespace TeamRPG.Game.Character
         {
             PlayerImageRender();
 
-            if (EnemyManager.GetInstance().GetEnemyList()[selectE].isExSkill == false)
+
+            if (EnemyManager.GetInstance().GetEnemyList().Count != 0)
+            {
+                if (EnemyManager.GetInstance().GetEnemyList()[selectE].isExSkill == false)
+                {
+                    StateBox();
+                    TextIOManager.GetInstance().OutputText(name, 7, 33);
+
+                    if (isSkill == false)
+                    {
+                        PlaySelectUI();
+                    }
+                    else
+                    {
+                        SkillSelectUI();
+                    }
+                    HpBarRender();
+                    MpBarRender();
+                    if (isAttack == true)
+                    {
+                        EnemyManager.GetInstance().GetEnemyList()[attackIndex].SelectEnemy();
+                    }
+                }
+            }
+            else
             {
                 StateBox();
                 TextIOManager.GetInstance().OutputText(name, 7, 33);
@@ -185,7 +209,10 @@ namespace TeamRPG.Game.Character
                 MpBarRender();
                 if (isAttack == true)
                 {
-                    EnemyManager.GetInstance().GetEnemyList()[attackIndex].SelectEnemy();
+                    if (EnemyManager.GetInstance().GetEnemyList().Count != 0)
+                    {
+                        EnemyManager.GetInstance().GetEnemyList()[attackIndex].SelectEnemy();
+                    }
                 }
             }
         }

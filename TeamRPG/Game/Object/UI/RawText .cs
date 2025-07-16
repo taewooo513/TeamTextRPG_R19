@@ -25,6 +25,7 @@ namespace TeamRPG.Game.Object.UI
         public override void Draw()
         {
             if (!IsVisible) return;
+            if (rawString == null) return;
 
             var lines = rawString.Replace("\r", "").Split('\n');
             var textIO = TextIOManager.GetInstance();

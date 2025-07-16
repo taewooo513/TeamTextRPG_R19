@@ -14,6 +14,7 @@ using TeamRPG.Game.Scene;
 using TeamRPG.Game.Scene.Specificity;
 using static System.Net.Mime.MediaTypeNames;
 using TeamRPG.Core.ShopManager;
+using TeamRPG.Core.EncounterManager;
 
 namespace TeamRPG.Game
 {
@@ -32,7 +33,8 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
             SceneManager.GetInstance().AddScene("CharInfoScene", new CharInfoScene());
             SceneManager.GetInstance().AddScene("RestScene", new RestScene());
-            
+            SceneManager.GetInstance().AddScene("EncounterScene", new EncounterScene());
+
             TextIOManager.GetInstance().Init(156, 40);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();
@@ -54,7 +56,8 @@ namespace TeamRPG.Game
             ShopManager.GetInstance().Init();
 
             PlayerManager.GetInstance().Init("test", Race.Human);
-            SceneManager.GetInstance().ChangeScene("RestScene");
+            SceneManager.GetInstance().ChangeScene("EncounterScene");
+            EncounterManager.GetInstance().Init();
 
         }
         public void Update()

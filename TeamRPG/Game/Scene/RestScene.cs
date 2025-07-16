@@ -15,7 +15,8 @@ namespace TeamRPG.Game.Scene
     {
         public string NextSceneName { get; set; } = "GameScene"; // 다음 씬 이름
 
-        private int restAmount = 20; // 회복량
+        private int restHpAmount = 20; // 회복량
+        private int restMpAmount = 10; // 마나 회복량
 
         RawText fireText;
         Text titleText;
@@ -85,13 +86,15 @@ namespace TeamRPG.Game.Scene
             var inputManager = KeyInputManager.GetInstance();
             if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Spacebar))
             {
+                Rest(PlayerManager.GetInstance().GetPlayer());
                 SceneManager.GetInstance().ChangeScene(NextSceneName);
             }
         }
 
         public void Rest(Player player)
         {
-            player.currentStatus.HP += restAmount;
+            player.currentStatus.HP += restHpAmount;
+            // player.currentStatus.MP += restMpAmount;
         }
         
     }

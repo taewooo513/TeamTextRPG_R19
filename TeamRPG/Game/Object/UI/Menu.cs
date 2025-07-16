@@ -36,9 +36,11 @@ namespace TeamRPG.Game.Object.UI
         public Menu(int x, int y, DirectionType directionType = DirectionType.Vertical) : base(x, y, ConsoleColor.White) {
             DirectionType = directionType;
         }
-        public void AddItem(string text, Action onSelect, bool isEnabled = true, ConsoleColor color = ConsoleColor.White)
+        public MenuItem AddItem(string text, Action onSelect, bool isEnabled = true, ConsoleColor color = ConsoleColor.White)
         {
-            items.Add(new MenuItem(text, onSelect, isEnabled, color));
+            var item = new MenuItem(text, onSelect, isEnabled, color);
+            items.Add(item);
+            return item;
         }
 
         public MenuItem? GetItem(int index)

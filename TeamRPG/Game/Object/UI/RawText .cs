@@ -6,13 +6,15 @@ namespace TeamRPG.Game.Object.UI
     internal class RawText : UIElement
     {
         private string rawString;
-        public TextAlign Align { get; set; }
+        public HorizontalAlign HorizontalAlign { get; set; }
+        public VerticalAlign VerticalAlign { get; set; } = VerticalAlign.Top; // 수직 정렬 기본값
 
-        public RawText(string text, int x, int y, ConsoleColor color = ConsoleColor.White, TextAlign align = TextAlign.Left)
+        public RawText(string text, int x, int y, HorizontalAlign horizontalAlign = HorizontalAlign.Left, VerticalAlign verticalAlign = VerticalAlign.Top, ConsoleColor color = ConsoleColor.White)
             : base(x, y, color)
         {
             rawString = text;
-            Align = align;
+            HorizontalAlign = horizontalAlign;
+            VerticalAlign = verticalAlign;
         }
 
         public void SetText(string text)
@@ -23,32 +25,51 @@ namespace TeamRPG.Game.Object.UI
         public override void Draw()
         {
             if (!IsVisible) return;
+            if (rawString == null) return;
 
             var lines = rawString.Replace("\r", "").Split('\n');
             var textIO = TextIOManager.GetInstance();
+
 
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i];
                 int drawX = X;
+                int drawY = Y;
 
                 // 문자 길이 기준으로 정렬 위치 계산
                 int smartLength = textIO.OutputSmartTextLength(line);
-                switch (Align)
+                switch (HorizontalAlign)
                 {
-                    case TextAlign.Center:
+                    case HorizontalAlign.Center:
                         drawX = X - (smartLength / 2);
                         break;
-                    case TextAlign.Right:
+                    case HorizontalAlign.Right:
                         drawX = X - smartLength;
                         break;
-                    case TextAlign.Left:
+                    case HorizontalAlign.Left:
                     default:
                         drawX = X;
                         break;
                 }
 
-                textIO.OutputSmartText(line, drawX, Y + i, Color);
+                // 수직 정렬 위치 계산
+                switch (VerticalAlign)
+                {
+                    case VerticalAlign.Middle:
+                        drawY = Y - (lines.Length / 2) + i;
+                        break;
+                    case VerticalAlign.Bottom:
+                        drawY = Y - lines.Length + i;
+                        break;
+                    case VerticalAlign.Top:
+                    default:
+                        drawY = Y + i;
+                        break;
+                }
+
+
+                textIO.OutputSmartText(line, drawX, drawY, Color);
             }
         }
     }

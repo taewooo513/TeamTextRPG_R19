@@ -11,6 +11,7 @@ using SceneClass = TeamRPG.Core.SceneManager.Scene;
 using TeamRPG.Game.Object.Item;
 using TeamRPG.Game.Character;
 using TeamRPG.Core.ShopManager;
+using Microsoft.VisualBasic.FileIO;
 
 namespace TeamRPG.Game.Scene
 {
@@ -65,7 +66,10 @@ namespace TeamRPG.Game.Scene
 
         public void Render() { }
 
-        public void Release() { }
+        public void Release() {
+            SoundManager.GetInstance().StopSound("ShopBGM");
+            UIManager.GetInstance().ClearUI();
+        }
 
         void InitShoptData()
         {
@@ -92,17 +96,17 @@ namespace TeamRPG.Game.Scene
 
         void InitCommonUI()
         {
-            merchantImageText = new RawText(ShopData.MerchantImage, Console.WindowWidth / 2, 0, ConsoleColor.Green, TextAlign.Center);
-            merchantCommentText = new RawText(ShopData.GetNameComment(ShopData.LobbyComment), Console.WindowWidth - 54, 4, ConsoleColor.White, TextAlign.Left);
+            merchantImageText = new RawText(ShopData.MerchantImage, Console.WindowWidth / 2, 0, HorizontalAlign.Center);
+            merchantCommentText = new RawText(ShopData.GetNameComment(ShopData.LobbyComment), Console.WindowWidth - 54, 4, HorizontalAlign.Left);
 
-            actionBoxMenu = new BoxMenu(20, Console.WindowHeight / 2, 14, 6, ConsoleColor.DarkGray);
-            actionBoxMenu.AddItem("Buy", () => ChangeMenu(ShopMenuType.Buy), ConsoleColor.Green);
-            actionBoxMenu.AddItem("Sell", () => ChangeMenu(ShopMenuType.Sell), ConsoleColor.Yellow);
-            actionBoxMenu.AddItem("Talk", () => ChangeMenu(ShopMenuType.Talk), ConsoleColor.Cyan);
-            actionBoxMenu.AddItem("Back", OnShopBack, ConsoleColor.Red);
+            actionBoxMenu = new BoxMenu(20, Console.WindowHeight / 2, 14, 6);
+            actionBoxMenu.AddItem("Buy", () => ChangeMenu(ShopMenuType.Buy));
+            actionBoxMenu.AddItem("Sell", () => ChangeMenu(ShopMenuType.Sell));
+            actionBoxMenu.AddItem("Talk", () => ChangeMenu(ShopMenuType.Talk));
+            actionBoxMenu.AddItem("Back", OnShopBack);
 
-            titleText = new Text($"{ShopData.ShopName}", Console.WindowWidth / 2, 1, ConsoleColor.Yellow, TextAlign.Center);
-            goldText = new Text($"보유 금액 : {player.Gold} G", 2, 2, ConsoleColor.Yellow, TextAlign.Left);
+            titleText = new Text($"{ShopData.ShopName}", Console.WindowWidth / 2, 1, ConsoleColor.Yellow, HorizontalAlign.Center);
+            goldText = new Text($"보유 금액 : {player.Gold} G", 2, 2, ConsoleColor.Yellow, HorizontalAlign.Left);
             currentMenu = actionBoxMenu;
         }
 
@@ -112,7 +116,7 @@ namespace TeamRPG.Game.Scene
             int boxHeight = 13;
 
             // itemBuyMenu 초기화
-            itemBuyMenu = new BoxMenu(10, Console.WindowHeight / 2, boxWidth, boxHeight);
+            itemBuyMenu = new BoxMenu(10, UIManager.HalfHeight, boxWidth, boxHeight);
             itemBuyMenu.SetVisible(false);
 
             for (int i = 0; i < ShopData.ItemLength; i++)
@@ -124,11 +128,11 @@ namespace TeamRPG.Game.Scene
             buyGolTextSlot = itemBuyMenu.AddTextItem($"보유 골드 : {player.Gold} G");
             itemBuyMenu.AddEmptyItem();
             itemBuyMenu.AddItem($"돌리기 {ShopData.RerollCost} G", RerollItmes);
-            itemBuyMenu.AddItem("돌아가기", BackMenu, ConsoleColor.Red);
+            itemBuyMenu.AddItem("돌아가기", BackMenu);
 
             // itemSellMenu 초기화
             if (player == null) return;
-            itemSellMenu = new BoxMenu(10, Console.WindowHeight / 2, boxWidth, boxWidth);
+            itemSellMenu = new BoxMenu(10, UIManager.HalfHeight, boxWidth, boxHeight);
             itemSellMenu.SetVisible(false);
 
             for (int i = 0; i < ShopData.ItemLength; i++)

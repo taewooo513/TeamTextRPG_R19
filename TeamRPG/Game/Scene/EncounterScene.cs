@@ -1,0 +1,159 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TeamRPG.Core.EncounterManager;
+using TeamRPG.Core.SceneManager;
+using TeamRPG.Core.UtilManager;
+using TeamRPG.Game.Character;
+using TeamRPG.Game.Object.UI;
+
+namespace TeamRPG.Game.Scene
+{
+    using Scene = Core.SceneManager.Scene;
+    public class EncounterScene : Scene
+    {
+        private Menu currentMenu; 
+
+        private EncounterData currentEncounterData;
+        private RawText encounterImage;
+        private RawText description;
+        private RawText comment;
+        private Menu selectionMenu;
+        private Menu resultMenu;
+
+        private Player player;
+
+        private bool isSelected = false;
+
+        string baseImage = """
+            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣾⣟⣳⣶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⡃⠉⢌⢣⠽⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠈⠛⠼⢲⣢⡔⡤⢆⢤⣀⣄⡠⣀⢀⡀⣿⠻⠟⡼⢟⡖⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⠈⠉⠉⠉⠐⠊⠓⠫⢧⣽⣽⣧⣿⣶⣏⣾⣽⣢⣴⣤⣄⡄⣠⢀⡄⣀⠀⣨⢿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣄⢸⣾⣿⣿⣿⣼⣯⣿⣿⣿⣿⣿⣿⣿⣿⣭⣿⣾⢶⣻⣽⣟⣿⣳⣯⡴⣆⠀⠀⠀⢀⣀⡀
+            ⠀⠀⠀⠀⠀⠀⢀⣠⣶⢿⣆⠆⡹⣿⢟⣿⣿⣟⣻⢿⣽⣿⣻⣿⣿⣿⣽⣿⣿⣿⣯⢹⣞⠿⣿⣿⣿⡿⠉⠛⠛⠫⡷⢾⡷
+            ⠀⠀⠀⠀⠀⠀⣿⣝⡎⠱⡌⣞⢱⢣⢯⠘⠛⡻⢿⣻⠿⣻⣯⣟⣹⣾⣿⣟⣿⣿⡿⠿⠛⢠⣿⣿⣿⠁⠀⠀⠀⠀⠉⠉⠀
+            ⠀⠀⠀⠀⠀⢨⣿⣻⠞⣯⣧⡘⡘⣦⡣⣁⡴⣸⠦⣄⠚⣭⢟⣿⣿⣿⣿⣿⣿⣿⣦⠀⢀⣼⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⣼⣟⣾⣿⣿⣶⣝⣦⣏⣧⢾⣟⡷⣞⣿⡟⠦⣿⣴⣿⣿⣿⣿⣯⣟⡽⣷⣾⣿⣿⣿⡷⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⢸⠿⣎⣷⢿⣿⣿⣿⣿⣿⣿⣿⣮⢿⠧⠏⡐⡰⣬⢷⣿⣿⣿⣿⣿⣞⣿⣿⣿⣿⣿⣷⡇⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⢸⣿⣿⣮⢾⣿⣿⣿⣿⣿⣷⣿⣿⠟⡈⠆⣱⢞⡵⢋⠻⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡝⠃⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⢠⣿⠿⣋⣻⣻⢿⠋⢿⣿⣿⣿⣯⣷⡲⡜⠯⣙⠼⣁⢦⣻⣿⣿⣿⣿⣿⣯⠻⣿⣿⢿⡛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠘⣿⣷⣾⣛⠛⣿⡁⠈⢽⣿⣿⣽⣞⣷⢪⡕⣬⠶⡛⡟⣿⣿⣿⣿⣿⡿⠿⣷⠀⠉⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠸⠿⢿⣿⣭⣧⠈⣳⠀⠹⣿⣿⣿⣿⣛⣧⣜⣤⡷⢿⣽⣿⣿⣿⢿⡿⢇⠀⠈⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠘⠿⣿⣷⣯⣌⢇⣸⣿⣿⣿⣯⣯⣿⣫⣿⡭⣿⣿⣿⣿⣦⢹⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠈⠻⣿⣾⢎⠻⡿⢿⢿⣟⣻⣷⡿⣿⣱⣿⣿⣿⣿⣿⡀⠙⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠀⢷⡈⢻⣿⣲⡟⣀⢯⢿⣿⣇⢞⣿⣷⣹⣾⣿⣿⣿⣿⠛⢻⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠀⠈⣷⢨⣿⣿⣷⣡⣾⣻⣿⣾⣿⣾⣽⡷⣿⣿⣿⣿⣽⣆⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠀⠀⣹⣿⣿⣿⣿⣿⣷⣿⣿⣿⢽⣾⣿⡱⣛⢾⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⡿⣿⢌⣻⢿⣷⣱⣹⢾⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⡻⣝⢢⡽⣿⣿⠳⣼⢯⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⡷⣽⣿⣿⣟⣇⢣⣽⣻⣿⣓⡞⡯⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⡿⣛⣿⣿⣯⡝⣢⠳⣼⣿⣿⢧⣹⡳⣭⢿⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⠀⢀⣾⣿⣯⣶⣿⣿⣿⣿⣝⢮⣛⡾⣿⣿⢧⣏⡷⣯⣿⣿⣿⣿⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⢀⣼⣿⣿⣿⣿⣿⣿⡿⣭⢟⢮⡳⣟⣿⣿⡿⣼⣳⢯⣽⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⣰⣿⣿⣿⣿⣿⣿⣷⣿⣜⡻⣎⣽⣽⣿⣿⣯⣷⢯⡟⣞⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣯⡿⣞⡷⣩⢿⣻⣾⣿⣽⢯⣻⡟⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⡿⣿⡱⣏⣳⣭⢯⣿⣿⣿⣿⢯⣳⢯⣳⢾⣻⣿⣿⡗⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣷⣹⣮⣷⣿⣿⣿⣿⡿⣏⣿⣼⣿⣿⣿⣿⣿⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⢀⣿⣿⣿⣿⣿⣽⣿⣻⣿⣿⣿⣿⣿⡏⠈⢻⣿⣿⣿⣿⣿⣿⣿⡿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⢸⣿⣿⣿⣿⣿⡯⠀⠀⠀⠉⠉⠉⠉⠀⠀⣾⣿⡟⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⢸⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⡿⠁⢹⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⢸⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡿⠃⠀⠀⢻⣿⣿⡿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⣸⣿⣽⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠁⠀⠀⠀⢈⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            """;
+
+
+        public void Init()
+        {
+            player = PlayerManager.GetInstance().GetPlayer();
+            isSelected = false;
+            InitEncounterData();
+            InitUI();
+        }
+
+        public void Update()
+        {
+            InputMenu();
+        }
+
+        public void Render() { }
+
+        void InputMenu()
+        {
+            KeyInputManager keyInputManager = KeyInputManager.GetInstance();
+
+            if (keyInputManager.GetKeyDown(ConsoleKey.LeftArrow) || keyInputManager.GetKeyDown(ConsoleKey.A))
+                currentMenu.MoveUp();
+            else if (keyInputManager.GetKeyDown(ConsoleKey.RightArrow) || keyInputManager.GetKeyDown(ConsoleKey.D))
+                currentMenu.MoveDown();
+            else if (keyInputManager.GetKeyDown(ConsoleKey.Enter) || keyInputManager.GetKeyDown(ConsoleKey.Spacebar))
+            {
+                // 선택지 선택
+                currentMenu.Select();
+            }
+        }
+
+        void InitEncounterData()
+        {
+            // currentEncounterData = EncounterManager.GetInstance().GetRandomEncounterData();
+            currentEncounterData = EncounterManager.GetInstance().GetEncounterData("버섯");
+        }
+
+        void InitUI()
+        {
+            string image = currentEncounterData.Image != string.Empty? currentEncounterData.Image : baseImage;
+
+            encounterImage = new RawText(image, UIManager.HalfWidth, UIManager.HalfHeight, HorizontalAlign.Center, VerticalAlign.Middle);
+            description = new RawText(currentEncounterData.Description, UIManager.HalfWidth, Console.WindowHeight - 3, HorizontalAlign.Center, VerticalAlign.Top);
+            comment = new RawText(currentEncounterData.Comment, 30, UIManager.HalfHeight - 5, HorizontalAlign.Center, VerticalAlign.Top);
+            selectionMenu = new Menu(60, Console.WindowHeight - 1, DirectionType.Horizontal);
+
+            for (int i = 0; i < currentEncounterData.Selections.Count; i++)
+            {
+                EncounterSelection encounterSelection = currentEncounterData.Selections[i];
+                MenuItem item = selectionMenu.AddItem("", () => { }); // 빈 아이템 추가
+                item.Text = encounterSelection.MenuText; // 초기 텍스트 설정
+                int index = i;
+                item.OnSelect = () =>
+                {
+                    encounterSelection.Select(player);
+                    OnSelectMenu(player, currentEncounterData.Selections[index]);
+                };
+            }
+
+            resultMenu = new Menu(60, Console.WindowHeight - 1, DirectionType.Horizontal);
+            resultMenu.AddItem("", () => { });
+
+            selectionMenu.IsVisible = true;
+            resultMenu.IsVisible = false;
+
+            currentMenu = selectionMenu;
+        }
+
+        public void OnSelectMenu(Player player, EncounterSelection selection)
+        {
+            currentMenu = resultMenu;
+
+            isSelected = true;
+            selectionMenu.IsVisible = false;
+            resultMenu.IsVisible = true;
+
+            // encounterImage.SetText(selection.Result.Image);
+            description.SetText(selection.Result.Description);
+            comment.SetText(selection.Result.Comment);
+            resultMenu.GetItem(0).Text = selection.Result.MenuText;
+            resultMenu.GetItem(0).OnSelect = () =>
+            {
+                selection.Result.Action?.Invoke(player);
+            };
+
+        }
+
+        public void Release()
+        {
+            UIManager.GetInstance().ClearUI();
+        }
+    }
+}

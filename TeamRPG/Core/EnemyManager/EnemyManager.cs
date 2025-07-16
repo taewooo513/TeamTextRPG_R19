@@ -28,12 +28,13 @@ namespace TeamRPG.Core.EnemyManager
 
         public void Update()
         {
-            foreach (var item in enemies)
+            for(int i = 0; i < enemies.Count; i ++)
             {
-                item.Update();
+                enemies[i].Update();
+                if (enemies[i].isDie == true)
+                enemies.Remove(enemies[i]);
             }
         }
-
         public List<Enemy> GetEnemyList()
         {
             return enemies;

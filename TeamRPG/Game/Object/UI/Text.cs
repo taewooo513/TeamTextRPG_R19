@@ -6,26 +6,32 @@ using System.Threading.Tasks;
 
 namespace TeamRPG.Game.Object.UI
 {
-    public enum TextAlign
+    public enum HorizontalAlign
     {
         Left,
         Center,
         Right
+    }
+    public enum VerticalAlign
+    {
+        Top,
+        Middle,
+        Bottom
     }
 
     internal class Text : UIElement
     {
         
         public string[] Lines { get; private set; }
-        public TextAlign Align { get; set; }
+        public HorizontalAlign Align { get; set; }
 
-        public Text(string text, int x, int y, ConsoleColor color = ConsoleColor.White, TextAlign align = TextAlign.Left) : base(x, y, color)
+        public Text(string text, int x, int y, ConsoleColor color = ConsoleColor.White, HorizontalAlign align = HorizontalAlign.Left) : base(x, y, color)
         {
             Lines = new string[] { text };
             Align = align;
         }
 
-        public Text(string[] lines, int x, int y, ConsoleColor color = ConsoleColor.White, TextAlign align = TextAlign.Left) : base(x, y, color)
+        public Text(string[] lines, int x, int y, ConsoleColor color = ConsoleColor.White, HorizontalAlign align = HorizontalAlign.Left) : base(x, y, color)
         {
             Lines = lines;
             Align = align;
@@ -51,13 +57,13 @@ namespace TeamRPG.Game.Object.UI
                 int smartLength = textIO.OutputSmartTextLength(line);
                 switch (Align)
                 {
-                    case TextAlign.Center:
+                    case HorizontalAlign.Center:
                         drawX = X - (smartLength / 2);
                         break;
-                    case TextAlign.Right:
+                    case HorizontalAlign.Right:
                         drawX = X - smartLength;
                         break;
-                    case TextAlign.Left:
+                    case HorizontalAlign.Left:
                     default:
                         drawX = X;
                         break;

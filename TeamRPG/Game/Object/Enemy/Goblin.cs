@@ -27,6 +27,10 @@ namespace TeamRPG.Game.Object.Enemy
         {
             state.name = name;
         }
+        public override void SelectEnemy()
+        {
+            TextIOManager.GetInstance().OutputText4Byte("▶", 69 + x, 3 + y);
+        }
         protected override void DrawImage()
         {
 

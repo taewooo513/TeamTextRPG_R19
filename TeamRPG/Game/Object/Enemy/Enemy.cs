@@ -14,6 +14,17 @@ namespace TeamRPG.Game.Object.Enemy
     {
         public struct State
         {
+            public State(int _hp, string _name, int _dmg, int _def, int _mgDef, int _dex, int _exDmg, int _currentHp)
+            {
+                hp = _hp;
+                name = _name;
+                dmg = _dmg;
+                def = _def;
+                mgDef = _mgDef;
+                dex = _dex;
+                exDmg = _exDmg;
+                currentHp = _currentHp;
+            }
             public int hp;
             public string name;
             public int dmg;
@@ -22,10 +33,18 @@ namespace TeamRPG.Game.Object.Enemy
             public int dex;
             public int exDmg;
             public int currentHp;
+
         }
+        Queue<ConsoleKey> keyPad;
+        public bool isDie = false;
+        bool isExSkill = false;
         protected State state;
         public Enemy()
         {
+        }
+        public String GetName()
+        {
+            return state.name;
         }
         public void SettingStatus(eEnemyNum num)
         {
@@ -34,17 +53,22 @@ namespace TeamRPG.Game.Object.Enemy
         }
         public virtual void Init()
         {
-
         }
         public virtual void Update()
         {
-            ExSkill();
+            if (state.currentHp <= 0)
+            {
+                isDie = true;
+            }
         }
         public virtual void Render()
         {
             DrawImage();
         }
         public virtual void Release()
+        {
+        }
+        public virtual void SelectEnemy()
         {
         }
         public virtual void EnemyUIBar(int y)
@@ -54,18 +78,73 @@ namespace TeamRPG.Game.Object.Enemy
             for (int i = 1; i <= 7; i++)
             {
                 int val = state.hp / 7 * i;
-                if (val <= state.currentHp)
+                if (val<= state.currentHp)
                 {
                     TextIOManager.GetInstance().OutputText4Byte("■", 130 + 2 * i, 8 + y);
                 }
-                else if (val - 10 <= state.currentHp)
+                else if (state.currentHp % 7 != 0)
                 {
                     TextIOManager.GetInstance().OutputText4Byte("□", 130 + 2 * i, 8 + y);
+                    break;
                 }
             }
         }
-        protected virtual void ExSkill() { } //특수기믹
+        public void EnemyTurnSetting()
+        {
+            keyPad = new Queue<ConsoleKey>();
+
+            SettingExSkill();
+        }
+        private void SettingExSkill()
+        {
+            Random rd = new Random();
+            for (int i = 0; i < 5; i++)
+            {
+                switch (rd.Next(0, 4))
+                {
+                    case 0:
+                        keyPad.Enqueue(ConsoleKey.RightArrow);
+                        break;
+                    case 1:
+                        keyPad.Enqueue(ConsoleKey.LeftArrow);
+                        break;
+                    case 2:
+                        keyPad.Enqueue(ConsoleKey.UpArrow);
+                        break;
+                    case 3:
+                        keyPad.Enqueue(ConsoleKey.DownArrow);
+                        break;
+                }
+            }
+        }
+        protected virtual void ExSkill()
+        {
+            PlayerManager.GetInstance().GetPlayer().HitPlayer(state.exDmg);
+        } //특수기믹
         protected virtual void DrawImage() { } //이미지 
 
+        public void InputKeyPad()
+        {
+            if (KeyInputManager.GetInstance().GetIsKeyDown())
+            {
+                if (KeyInputManager.GetInstance().KeyDown() != keyPad.Dequeue())
+                {
+                    ExSkill();
+                    keyPad.Clear();
+                }
+            }
+        }
+        public Queue<ConsoleKey> GetKeyPad()
+        {
+            return keyPad;
+        }
+        public void Attack()
+        {
+
+        }
+        public void HitEnemy(int _dmg)
+        {
+            state.currentHp -= _dmg;
+        }
     }
 }

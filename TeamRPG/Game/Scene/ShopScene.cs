@@ -11,6 +11,7 @@ using SceneClass = TeamRPG.Core.SceneManager.Scene;
 using TeamRPG.Game.Object.Item;
 using TeamRPG.Game.Character;
 using TeamRPG.Core.ShopManager;
+using TeamRPG.Game.Object.Data;
 using Microsoft.VisualBasic.FileIO;
 
 namespace TeamRPG.Game.Scene
@@ -298,8 +299,10 @@ namespace TeamRPG.Game.Scene
 
             player.Gold -= item.Gold;
             player.Inventory.Add(item);
+            ShopData.RemoveItem(item);
 
             UpdateGoldText();
+            UpdateItemBuyMenuSlots();
             UpdateComment(comment);
         }
 

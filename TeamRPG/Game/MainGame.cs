@@ -30,7 +30,6 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("CemeteryScene", new CemeteryScene());
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
             SceneManager.GetInstance().AddScene("GameScene", new GameScene());
-            SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
             SceneManager.GetInstance().AddScene("CharInfoScene", new CharInfoScene());
             SceneManager.GetInstance().AddScene("RestScene", new RestScene());
             SceneManager.GetInstance().AddScene("EncounterScene", new EncounterScene());
@@ -42,7 +41,6 @@ namespace TeamRPG.Game
             SoundManager.GetInstance().AddSound("Clicksmall", "../../../../Sounds/Clicksmall.mp3", false, false);
             SoundManager.GetInstance().AddSound("ShopSelect", "../../../../Sounds/ShopSelect.mp3", false, false);
             SoundManager.GetInstance().AddSound("BlopSound", "../../../../Sounds/BlopSound.mp3", false, false);
-            SoundManager.GetInstance().AddSound("BossmainTheme", "../../../../Sounds/BossmainTheme.mp3", true, true);
             SoundManager.GetInstance().AddSound("BossmainTheme", "../../../../Sounds/BossmainTheme.mp3", true, true);
             SoundManager.GetInstance().AddSound("DevildomBGM", "../../../../Sounds/DevildomBGM.mp3", true, true);
             SoundManager.GetInstance().AddSound("ShopBGM", "../../../../Sounds/ShopBGM.mp3", true, true);
@@ -56,7 +54,7 @@ namespace TeamRPG.Game
             ShopManager.GetInstance().Init();
 
             PlayerManager.GetInstance().Init("test", Race.Human);
-            SceneManager.GetInstance().ChangeScene("EncounterScene");
+            SceneManager.GetInstance().ChangeScene("ShopScene");
             EncounterManager.GetInstance().Init();
 
         }

@@ -51,11 +51,11 @@ namespace TeamRPG.Game.Scene
 
             if (status.stress >= 50 && status.stress < 100)
             {
-                TextIOManager.GetInstance().OutputSmartText("당신은 스트레스로 인한 피로감을 느끼고 있습니다.", 30, 29, ConsoleColor.DarkRed);
+                TextIOManager.GetInstance().OutputSmartText("당신은 스트레스로 인한 피로감을 느끼고 있습니다.", 30, 29);
             }
             else if (status.stress >= 100)
             {
-                TextIOManager.GetInstance().OutputSmartText("당신은 극도의 스트레스로 인해 탈진되었습니다.", 40, 29, ConsoleColor.Red);
+                TextIOManager.GetInstance().OutputSmartText("당신은 극도의 스트레스로 인해 탈진되었습니다.", 30, 29);
             }
             else
             {

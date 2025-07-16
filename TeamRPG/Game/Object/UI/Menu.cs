@@ -11,7 +11,7 @@ namespace TeamRPG.Game.Object.UI
         public bool IsEnabled { get; set; }
         public ConsoleColor Color { get; set; }
 
-        public MenuItem(string text, Action onSelect, ConsoleColor color = ConsoleColor.White, bool isEnabled = true)
+        public MenuItem(string text, Action onSelect, bool isEnabled = true, ConsoleColor color = ConsoleColor.White)
         {
             Text = text;
             OnSelect = onSelect;
@@ -31,9 +31,9 @@ namespace TeamRPG.Game.Object.UI
             items = menuItems ?? new List<MenuItem>();
         }
 
-        public void AddItem(string text, Action onSelect, ConsoleColor color = ConsoleColor.White, bool isEnabled = true)
+        public void AddItem(string text, Action onSelect, bool isEnabled = true, ConsoleColor color = ConsoleColor.White)
         {
-            items.Add(new MenuItem(text, onSelect, color, isEnabled));
+            items.Add(new MenuItem(text, onSelect, isEnabled, color));
         }
 
         public MenuItem? GetItem(int index)

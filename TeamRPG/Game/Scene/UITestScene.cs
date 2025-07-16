@@ -52,8 +52,8 @@ namespace TeamRPG.Game.Scene
             if (KeyInputManager.GetInstance().GetKeyDownOnce(ConsoleKey.Enter))
             {
                 RawText rawText = new RawText(rawTextString, 50, 5, ConsoleColor.Green, TextAlign.Center);
-                menu.AddItem("Start Game", () => menu.GetItem(0).Text = "Hello!", ConsoleColor.Red);
-                menu.AddItem("Options", () => menu.GetItem(1).Text = "Oh!", ConsoleColor.DarkYellow);
+                menu.AddItem("Start Game", () => menu.GetItem(0).Text = "Hello!");
+                menu.AddItem("Options", () => menu.GetItem(1).Text = "Oh!");
                 menu.SelectByIndex(1);
             }
 

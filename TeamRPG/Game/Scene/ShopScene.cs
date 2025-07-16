@@ -103,7 +103,7 @@ namespace TeamRPG.Game.Scene
             actionBoxMenu.AddItem("Buy", () => ChangeMenu(ShopMenuType.Buy));
             actionBoxMenu.AddItem("Sell", () => ChangeMenu(ShopMenuType.Sell));
             actionBoxMenu.AddItem("Talk", () => ChangeMenu(ShopMenuType.Talk));
-            actionBoxMenu.AddItem("Back", OnShopBack, ConsoleColor.Red);
+            actionBoxMenu.AddItem("Back", OnShopBack);
 
             titleText = new Text($"{ShopData.ShopName}", Console.WindowWidth / 2, 1, ConsoleColor.Yellow, TextAlign.Center);
             goldText = new Text($"보유 금액 : {player.Gold} G", 2, 2, ConsoleColor.Yellow, TextAlign.Left);
@@ -128,7 +128,7 @@ namespace TeamRPG.Game.Scene
             buyGolTextSlot = itemBuyMenu.AddTextItem($"보유 골드 : {player.Gold} G");
             itemBuyMenu.AddEmptyItem();
             itemBuyMenu.AddItem($"돌리기 {ShopData.RerollCost} G", RerollItmes);
-            itemBuyMenu.AddItem("돌아가기", BackMenu, ConsoleColor.Red);
+            itemBuyMenu.AddItem("돌아가기", BackMenu);
 
             // itemSellMenu 초기화
             if (player == null) return;

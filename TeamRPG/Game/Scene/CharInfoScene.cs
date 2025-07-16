@@ -12,8 +12,6 @@ namespace TeamRPG.Game.Scene
     {
         Player player;
         Status status;
-        Skill skill;
-        int selectChar;
 
 
         public void Init()

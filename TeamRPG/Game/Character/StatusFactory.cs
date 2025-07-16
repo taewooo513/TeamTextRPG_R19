@@ -19,19 +19,21 @@ namespace TeamRPG.Game.Character
                 case Race.Dwarf:
                     return new Status(80, 40, 14, 15, 10, 70, 10, 80, 40);
                 case Race.HalfElf:
-                    return new Status(65, 70, 8, 18, 50, 30, 10 ,65 ,70);
+                    return new Status(65, 70, 8, 18, 50, 30, 10, 65, 70);
                 default:
                     throw new System.ArgumentException("Unknown race");
             }
         }
         public static Enemy.State GetStatusByEnemy(eEnemyNum enemyNum) // (int _hp, string _name, int _dmg, int _def, int _mgDef, int _dex, int _exDmg)
         {
+            Random rd = new Random();
             switch (enemyNum)
             {
-                case eEnemyNum.eWolf:
-                    return new Enemy.State();
+                //case eEnemyNum.eWolf:
+                //    return new Enemy.State();
                 case eEnemyNum.eGoblin:
-                    return new Enemy.State();
+                    int h = rd.Next(15, 20);
+                    return new Enemy.State(h, "고블린", rd.Next(5, 7), 0, 0, 50, 10,h);
                 default:
                     throw new System.ArgumentException("Unknown race");
             }

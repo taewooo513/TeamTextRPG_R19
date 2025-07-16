@@ -19,8 +19,10 @@ namespace TeamRPG.Game.Scene
         Enemy e1;
         Enemy e2;
         int selectNum = 0;
+        int enemySelect = 0;
         public void Init()
         {
+            enemySelect = 0;
             isStartGame = false;
             timer = new Stopwatch();
             timer.Start();
@@ -33,7 +35,6 @@ namespace TeamRPG.Game.Scene
             EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eGoblin);
             e2 = new Goblin(30, 0, "C");
             EnemyManager.GetInstance().AddEnemy(e2, eEnemyNum.eGoblin);
-            e.EnemyTurnSetting();
         }
 
         public void Release()
@@ -49,50 +50,41 @@ namespace TeamRPG.Game.Scene
             {
                 e.EnemyUIBar(uiY);
                 uiY += 3;
-            });
-            ArroRender();
-            TextIOManager.GetInstance().OutputSmartText(PlayerManager.GetInstance().gameMsg, 3, 1);
-        }
-
-        void ArroRender()
-        {
-            int arrUiX = 0;
-            foreach (var item in e.GetKeyPad().ToList())
-            {
-                arrUiX += 3;
-                switch (item)
+                if(e.GetKeyPad().Count != 0)
                 {
-                    case ConsoleKey.UpArrow:
-                        TextIOManager.GetInstance().OutputText4Byte("↑", 14 + arrUiX, 32);
-                        break;
-                    case ConsoleKey.RightArrow:
-                        TextIOManager.GetInstance().OutputText4Byte("→", 14 + arrUiX, 32);
-                        break;
-                    case ConsoleKey.DownArrow:
-                        TextIOManager.GetInstance().OutputText4Byte("↓", 14 + arrUiX, 32);
-                        break;
-                    case ConsoleKey.LeftArrow:
-                        TextIOManager.GetInstance().OutputText4Byte("←", 14 + arrUiX, 32);
-                        break;
+                    e.ArroRender();
                 }
-            }
+            });
+            TextIOManager.GetInstance().OutputSmartText(PlayerManager.GetInstance().gameMsg, 3, 1);
         }
 
         public void Update()
         {
+            if (timer.ElapsedMilliseconds >= 3000 && isStartGame == false) // 시작시에 실행되는 첫번째 타이머
+            {
+                isStartGame = true;
+                PlayerManager.GetInstance().gameMsg = "플레이어의 턴";
+            }
             if (isStartGame == true)
             {
                 if (PlayerManager.GetInstance().GetPlayer().isPlayerTurn == true)
                 {
                     PlayerManager.GetInstance().GetPlayer().Update();
                 }
+                else if (PlayerManager.GetInstance().GetPlayer().timer.ElapsedMilliseconds > 2000)
+                {
+                    EnemyManager.GetInstance().GetEnemyList()[0].isTurn = true;
+                    EnemyManager.GetInstance().GetEnemyList()[0].EnemyTurnSetting();
+                    PlayerManager.GetInstance().GetPlayer().timer.Reset();
+                    PlayerManager.GetInstance().GetPlayer().timer.Stop();
+                }
+                else
+                {
+                    Enemy enemy = EnemyManager.GetInstance().GetEnemyList()[PlayerManager.GetInstance().GetPlayer().selectE];
+                    
+                }
             }
-            if (timer.ElapsedMilliseconds >= 3000 && isStartGame == false)
-            {
-                isStartGame = true;
-                PlayerManager.GetInstance().gameMsg = "플레이어의 턴";
-            }
-            // e.InputKeyPad();
+            // e.InputKeyPad(); 뜨거운 코딩 레츠고
         }
     }
 

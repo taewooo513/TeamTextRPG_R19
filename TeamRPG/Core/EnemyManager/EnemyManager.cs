@@ -10,6 +10,7 @@ namespace TeamRPG.Core.EnemyManager
     public enum eEnemyNum
     {
         eWolf,
+        eGoblin
     }
     public class EnemyManager : Singleton<EnemyManager>
     {
@@ -18,9 +19,11 @@ namespace TeamRPG.Core.EnemyManager
         {
             enemies = new List<Enemy>();
         }
-        public void AddEnemy(eEnemyNum name)
+        public Enemy AddEnemy(Enemy enemy, eEnemyNum eEnemyNum)
         {
-            //enemies.Add(new Enemy(name));
+            enemies.Add(enemy);
+            enemy.SettingStatus(eEnemyNum);
+            return enemy;
         }
 
         public void Update()
@@ -29,6 +32,11 @@ namespace TeamRPG.Core.EnemyManager
             {
                 item.Update();
             }
+        }
+
+        public List<Enemy> GetEnemyList()
+        {
+            return enemies;
         }
 
         public void Render()

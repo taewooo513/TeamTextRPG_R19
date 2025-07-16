@@ -11,6 +11,8 @@ namespace TeamRPG.Game.Character
 {
     public class Player
     {
+        private bool isAttack;
+        private int attackIndex;
         public string name { get; private set; }
         public Race race { get; private set; }
         public int level { get; private set; } = 1;
@@ -102,40 +104,114 @@ namespace TeamRPG.Game.Character
         }
         public void Update()
         {
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow))
+            if (isAttack == false)
+                SelectPlayButton();
+        }
+        public void PlayerImageRender()
+        {
+            TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⠛⠁⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 11);
+            TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⢤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣿⡿⠁⠀⠀⠀⠀⠀⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 10);
+            TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠈⢿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 9);
+            TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠙⠈⠛⠷⣤⣀⠀⠀⠀⠀⠀⠀⠀⣼⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 8);
+            TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠳⣦⣀⠀⠀⠀⣼⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 7);
+            TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠻⢦⣴⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 6);
+            TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠌⠙⢿⡿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 5);
+            TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢌⠐⠈⠀⠀⠙⠃⠉⠻⢶⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 4);
+            TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⡌⠠⢁⠂⠀⠀⠀⠀⠂⠀⠉⠻⠶⣤⡀⠀⠀⠀⠀⠀⣀⠄⣰⢢⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 3);
+            TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠊⠐⠀⠂⠀⡀⠂⠄⠂⠀⠀⠀⠀⠀⠉⠙⠷⣤⡀⣀⠀⠈⠻⣷⡡⢂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 2);
+            TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢂⠈⠀⠀⠄⠂⣜⣩⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠑⢦⣉⠒⡀⠀⠁⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 1);
+
+            //TextIOManager.GetInstance().OutputSmartText("⡤⠤⠠⠤⠠⢄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 70, TextIOManager.GetInstance().winHeight - 11);
+            //TextIOManager.GetInstance().OutputSmartText("⠈⠲⡕⣗⣷⢶⣄⡍⡒⠔⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 70, TextIOManager.GetInstance().winHeight - 10);
+            //TextIOManager.GetInstance().OutputSmartText("⠀⠀⠈⠪⢺⢸⡪⡻⡻⢶⢦⣬⡑⠢⢄⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 70, TextIOManager.GetInstance().winHeight - 9);
+            //TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠈⠘⠙⠜⠕⡕⡯⡻⡶⣦⣉⡒⠔⢄⡀⡀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 70, TextIOManager.GetInstance().winHeight - 8);
+            //TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠁⠃⠣⠓⢯⢻⡲⡬⣌⠢⠢⣀⡀⠀⠀⣰⡫⠒⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 70, TextIOManager.GetInstance().winHeight - 7);
+            //TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠊⠪⠫⠺⡤⡌⣓⢼⣱⢀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 70, TextIOManager.GetInstance().winHeight - 6);
+            //TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢉⡪⡳⠱⢡⠱⡑⢕⠔⢔⠈⠄⢄⠀⠀⠀⠀⠀⠀⠀⠀", 70, TextIOManager.GetInstance().winHeight - 5);
+            //TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣄⡲⣹⠁⠀⠀⠑⡕⡅⡣⡑⠡⠌⠂⡅⠀⠀⠀⠀⠀⠀⠀", 70, TextIOManager.GetInstance().winHeight - 4);
+            //TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠉⢪⠂⠀⠀⠀⡸⡐⢕⠸⡈⡅⡂⢌⠆⠀⠀⠀⠀⠀⠀", 70, TextIOManager.GetInstance().winHeight - 3);
+            //TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢎⢌⢪⢨⠀⠪⡢⠣⡑⢄⠀⠀⠀⠀⠀", 70, TextIOManager.GetInstance().winHeight - 2);
+            //TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡸⡐⡱⢨⠢⠁⠈⢎⢪⢘⠔⡄⠀", 70, TextIOManager.GetInstance().winHeight - 1);
+        }
+
+        /*
+         * 
+⡤⠤⠠⠤⠠⢄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠈⠲⡕⣗⣷⢶⣄⡍⡒⠔⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠈⠪⢺⢸⡪⡻⡻⢶⢦⣬⡑⠢⢄⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠈⠘⠙⠜⠕⡕⡯⡻⡶⣦⣉⡒⠔⢄⡀⡀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠁⠃⠣⠓⢯⢻⡲⡬⣌⠢⠢⣀⡀⠀⠀⣰⡫⠒⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠊⠪⠫⠺⡤⡌⣓⢼⣱⢀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢉⡪⡳⠱⢡⠱⡑⢕⠔⢔⠈⠄⢄⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣄⡲⣹⠁⠀⠀⠑⡕⡅⡣⡑⠡⠌⠂⡅⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠉⢪⠂⠀⠀⠀⡸⡐⢕⠸⡈⡅⡂⢌⠆⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⢎⢌⢪⢨⠀⠪⡢⠣⡑⢄⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡸⡐⡱⢨⠢⠁⠈⢎⢪⢘⠔⡄⠀
+
+         */
+        public void UIRender()
+        {
+            StateBox();
+            TextIOManager.GetInstance().OutputText(name, 7, 33);
+            PlayerImageRender();
+            AttackSelectUI();
+            PlaySelectUI();
+            HpBarRender();
+            MpBarRender();
+
+        }
+        private void SelectPlayButton()
+        {
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && selectNum < 3)
             {
                 selectNum++;
             }
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.UpArrow))
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.UpArrow) && selectNum > 0)
             {
                 selectNum--;
             }
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
+            {
+                switch (selectNum)
+                {
+                    case 1:
+                        isAttack = true;
+                        break;
+                }
+            }
         }
-        public void UIRender()
+        private void SelectAttackButton()
+        {
+
+        }
+        private void AttackSelectUI()
+        {
+            if (isAttack == true)
+            {
+                switch (selectNum)
+                {
+                    case 0:
+                        TextIOManager.GetInstance().OutputText4Byte("▶", 30, 20);
+                        break;
+                    case 1:
+                        TextIOManager.GetInstance().OutputText4Byte("▶", 10, 22);
+                        break;
+                    case 2:
+                        TextIOManager.GetInstance().OutputText4Byte("▶", 8, 24);
+                        break;
+                    case 3:
+                        TextIOManager.GetInstance().OutputText4Byte("▶", 11, 26);
+                        break;
+                }
+            }
+        }
+        private void PlaySelectUI()
         {
             TextIOManager.GetInstance().OutputSmartText("Attack", 15, 20);
             TextIOManager.GetInstance().OutputSmartText("Defense", 13, 22);
             TextIOManager.GetInstance().OutputSmartText("Item", 11, 24);
             TextIOManager.GetInstance().OutputSmartText("Skill", 14, 26);
 
-            TextIOManager.GetInstance().OutputSmartText(currentStatus.HP.ToString(), 130, 21);
-
-            TextIOManager.GetInstance().OutputText4Byte(name, 130, 24);
-
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
-            {
-                currentStatus.HP -= 10;
-            }
-            for (int i = 0; i < 7; i++)
-            {
-                if (currentStatus.HP / 7 > i)
-                {
-                    TextIOManager.GetInstance().OutputText4Byte("■", 130 + 2 * i, 24);
-                }
-                else
-                    TextIOManager.GetInstance().OutputText4Byte("□", 130 + 2 * i, 24);
-            }
-            HpBarRender();
             switch (selectNum)
             {
                 case 0:
@@ -152,9 +228,83 @@ namespace TeamRPG.Game.Character
                     break;
             }
         }
-
         private void HpBarRender()
         {
+            for (int i = 1; i <= currentStatus.HP / 10; i++)
+            {
+                int val = currentStatus.HP / 10 * i;
+                if (val <= currentStatus.currentHp)
+                {
+                    TextIOManager.GetInstance().OutputText4Byte("■", 5 + 2 * i, 35);
+                }
+                else if (val - 10 <= currentStatus.currentHp)
+                {
+                    TextIOManager.GetInstance().OutputText4Byte("□", 5 + 2 * i, 35);
+                }
+            }
+        }
+
+        private void MpBarRender()
+        {
+            for (int i = 1; i <= currentStatus.MP / 10; i++)
+            {
+                int val = currentStatus.MP / 10 * i;
+                if (val <= currentStatus.currentMp)
+                {
+                    TextIOManager.GetInstance().OutputText4Byte("■", 5 + 2 * i, 37);
+                }
+                else if (val - 10 <= currentStatus.currentMp)
+                {
+                    TextIOManager.GetInstance().OutputText4Byte("□", 5 + 2 * i, 37);
+                }
+            }
+        }
+        private void StateBox()
+        {
+            int uiX = 0;
+            int uiX2 = 0;
+
+            TextIOManager.GetInstance().OutputText("┌", 4, 34);
+            for (int i = 1; i <= currentStatus.HP / 10 * 2; i++)
+            {
+                TextIOManager.GetInstance().OutputText("─", 4 + i, 34);
+                TextIOManager.GetInstance().OutputText("─", 4 + i, 36);
+                uiX++;
+
+            }
+            TextIOManager.GetInstance().OutputText("┐", 4 + uiX + 2, 34);
+            TextIOManager.GetInstance().OutputText("│", 4, 35);
+            TextIOManager.GetInstance().OutputText("│", 4 + uiX + 2, 35);
+            TextIOManager.GetInstance().OutputText("├", 4, 36);
+            if (currentStatus.HP == currentStatus.MP)
+            {
+                TextIOManager.GetInstance().OutputText("┤", 4, 36);
+            }
+            else
+            {
+                int temp = Math.Abs(currentStatus.HP / 10 - currentStatus.MP / 10);
+                if (currentStatus.HP > currentStatus.MP)
+                {
+                    TextIOManager.GetInstance().OutputText("┘", 4 + currentStatus.HP / 10 * 2 + 2, 36);
+                    TextIOManager.GetInstance().OutputText("┬", 4 + (currentStatus.HP / 10 - temp) * 2 + 2, 36);
+                }
+                else
+                {
+                    TextIOManager.GetInstance().OutputText("┐", 4 + currentStatus.HP / 10 * 2 + 2, 36);
+                    TextIOManager.GetInstance().OutputText("┴", 4 + (currentStatus.MP / 10 - temp) * 2 + 2, 36);
+                }
+            }
+            for (int i = 1; i <= currentStatus.MP / 10 * 2; i++)
+            {
+                uiX2++;
+                TextIOManager.GetInstance().OutputText("─", 4 + i, 38);
+            }
+            TextIOManager.GetInstance().OutputText("└", 4, 38);
+            TextIOManager.GetInstance().OutputText("┘", 4 + currentStatus.MP / 10 * 2 + 2, 38);
+
+            TextIOManager.GetInstance().OutputText("│", 4, 37);
+            TextIOManager.GetInstance().OutputText("│", 4 + currentStatus.MP / 10 * 2 + 2, 37);
+
 
         }
     }

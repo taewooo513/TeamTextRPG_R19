@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.AnimationManager;
+using TeamRPG.Core.EnemyManager;
 using TeamRPG.Core.UtilManager;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -14,13 +15,18 @@ namespace TeamRPG.Game.Object.Enemy
         int x = 0;
         int y = 0;
         string gNum = "";
+        string name;
         public Goblin(int _x, int _y, string _num) // default는 중앙으로잡고 거기서 위치를잡게끔
         {
             gNum = _num;
+            name = "고블린" + gNum;
             x = _x;
             y = _y;
         }
-
+        public override void Init()
+        {
+            state.name = name;
+        }
         protected override void DrawImage()
         {
 

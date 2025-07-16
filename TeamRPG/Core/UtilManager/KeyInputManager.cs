@@ -10,19 +10,29 @@ namespace TeamRPG.Core.UtilManager
     {
         ConsoleKey key = 0;
         ConsoleKey lastKey = 0;
-
+        bool isKeyDown = false;
         public void Init()
         {
         }
 
         public void Update()
         {
+            isKeyDown = false;
             lastKey = key;
             key = 0;
             if (Console.KeyAvailable)
             {
-                key = Console.ReadKey().Key; 
+                key = Console.ReadKey().Key;
+                isKeyDown = true;
             }
+        }
+        public ConsoleKey KeyDown()
+        {
+            return key;
+        }
+        public bool GetIsKeyDown()
+        {
+            return isKeyDown;
         }
 
         public bool GetKeyDown(ConsoleKey _key)

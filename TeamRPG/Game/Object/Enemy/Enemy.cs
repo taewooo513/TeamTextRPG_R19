@@ -23,6 +23,8 @@ namespace TeamRPG.Game.Object.Enemy
             public int exDmg;
             public int currentHp;
         }
+        Queue<ConsoleKey> keyPad;
+        bool isExSkill = false;
         protected State state;
         public Enemy()
         {
@@ -34,17 +36,18 @@ namespace TeamRPG.Game.Object.Enemy
         }
         public virtual void Init()
         {
-
         }
         public virtual void Update()
         {
-            ExSkill();
         }
         public virtual void Render()
         {
             DrawImage();
         }
         public virtual void Release()
+        {
+        }
+        public virtual void SelectEnemy()
         {
         }
         public virtual void EnemyUIBar(int y)
@@ -64,8 +67,57 @@ namespace TeamRPG.Game.Object.Enemy
                 }
             }
         }
-        protected virtual void ExSkill() { } //특수기믹
+        public void EnemyTurnSetting()
+        {
+            keyPad = new Queue<ConsoleKey>();
+
+            SettingExSkill();
+        }
+        private void SettingExSkill()
+        {
+            Random rd = new Random();
+            for (int i = 0; i < 5; i++)
+            {
+                switch (rd.Next(0, 4))
+                {
+                    case 0:
+                        keyPad.Enqueue(ConsoleKey.RightArrow);
+                        break;
+                    case 1:
+                        keyPad.Enqueue(ConsoleKey.LeftArrow);
+                        break;
+                    case 2:
+                        keyPad.Enqueue(ConsoleKey.UpArrow);
+                        break;
+                    case 3:
+                        keyPad.Enqueue(ConsoleKey.DownArrow);
+                        break;
+                }
+            }
+        }
+        protected virtual void ExSkill()
+        {
+
+        } //특수기믹
         protected virtual void DrawImage() { } //이미지 
 
+        public void InputKeyPad()
+        {
+            if (KeyInputManager.GetInstance().GetIsKeyDown())
+            {
+                if (KeyInputManager.GetInstance().KeyDown() == keyPad.Dequeue())
+                {
+
+                }
+            }
+        }
+        public Queue<ConsoleKey> GetKeyPad()
+        {
+            return keyPad;
+        }
+        public void Attack()
+        {
+
+        }
     }
 }

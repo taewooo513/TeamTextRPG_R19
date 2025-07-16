@@ -63,7 +63,7 @@ namespace TeamRPG.Game.Character
             }
         }
 
-        public static List<Skill> getSkillsByRace(Race race) // (string _name, string _description, int _mpCost, int _power = 0, int _heal = 0)
+        public static List<Skill> GetSkillsByRace(Race race) // (string _name, string _description, int _mpCost, int _power = 0, int _heal = 0)
         {
             switch (race)
             {

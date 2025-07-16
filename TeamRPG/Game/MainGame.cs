@@ -48,7 +48,7 @@ namespace TeamRPG.Game
             SoundManager.GetInstance().AddSound("FireplaceSound", "../../../../Sounds/FireplaceSound.mp3", true, true);
             SoundManager.GetInstance().PlaySound("Test", .1f);
             PlayerManager.GetInstance().Init("asd", (Race)1);
-            SceneManager.GetInstance().ChangeScene("TitleScene");
+
 
             ItemManager.GetInstance().Init();
             ShopManager.GetInstance().Init();

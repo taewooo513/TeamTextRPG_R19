@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamRPG.Core.EnemyManager;
+using TeamRPG.Core.UtilManager;
+using TeamRPG.Game.Character;
 using static TeamRPG.Game.Object.Enemy.Enemy;
 
 namespace TeamRPG.Game.Object.Enemy
 {
-    public abstract class Enemy
+    public class Enemy
     {
         public struct State
         {
@@ -18,14 +21,17 @@ namespace TeamRPG.Game.Object.Enemy
             public int mgDef;
             public int dex;
             public int exDmg;
+            public int currentHp;
         }
-        public State state { get; private set; }
+        protected State state;
         public Enemy()
         {
-            state = new State();
+        }
+        public void SettingStatus(eEnemyNum num)
+        {
+            state = StatusFactory.GetStatusByEnemy(num);
             Init();
         }
-
         public virtual void Init()
         {
 
@@ -40,11 +46,26 @@ namespace TeamRPG.Game.Object.Enemy
         }
         public virtual void Release()
         {
-
         }
+        public virtual void EnemyUIBar(int y)
+        {
+            TextIOManager.GetInstance().OutputText4Byte(state.name, 132, 7 + y);
 
-        protected abstract void ExSkill(); //특수기믹
-        protected abstract void DrawImage(); //이미지 
+            for (int i = 1; i <= 7; i++)
+            {
+                int val = state.hp / 7 * i;
+                if (val <= state.currentHp)
+                {
+                    TextIOManager.GetInstance().OutputText4Byte("■", 130 + 2 * i, 8 + y);
+                }
+                else if (val - 10 <= state.currentHp)
+                {
+                    TextIOManager.GetInstance().OutputText4Byte("□", 130 + 2 * i, 8 + y);
+                }
+            }
+        }
+        protected virtual void ExSkill() { } //특수기믹
+        protected virtual void DrawImage() { } //이미지 
 
     }
 }

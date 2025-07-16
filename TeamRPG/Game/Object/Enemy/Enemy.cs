@@ -241,9 +241,6 @@ namespace TeamRPG.Game.Object.Enemy
                     if (keyPad.Count == 0 && isParreyFail == false)
                     {
                         PlayerManager.GetInstance().gameMsg = "패링성공 !!!";
-                        ExSkill();
-                        isParreyFail = true;
-                        keyPad.Clear();
                         parryStopwatch.Reset();
                         parryStopwatch.Stop();
                         stopwatch.Start();

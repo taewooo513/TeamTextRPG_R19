@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamRPG.Core.EnemyManager;
+using TeamRPG.Core.UtilManager;
 using static System.Formats.Asn1.AsnWriter;
 
 namespace TeamRPG.Core.SceneManager
@@ -52,6 +54,9 @@ namespace TeamRPG.Core.SceneManager
                 if (nowScene != null)
                 {
                     nowScene.Release();
+                    Console.Clear();
+                    UIManager.GetInstance().ClearUI();
+                    EnemyManager.EnemyManager.GetInstance().ClearEnemy();
                 }
                 nowScene = nextScene;
                 nextScene = null;

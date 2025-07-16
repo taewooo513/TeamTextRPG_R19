@@ -30,6 +30,7 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("CemeteryScene", new CemeteryScene());
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
             SceneManager.GetInstance().AddScene("GameScene", new GameScene());
+            SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
             SceneManager.GetInstance().AddScene("CharInfoScene", new CharInfoScene());
             SceneManager.GetInstance().AddScene("RestScene", new RestScene());
             SceneManager.GetInstance().AddScene("EncounterScene", new EncounterScene());
@@ -41,6 +42,7 @@ namespace TeamRPG.Game
             SoundManager.GetInstance().AddSound("Clicksmall", "../../../../Sounds/Clicksmall.mp3", false, false);
             SoundManager.GetInstance().AddSound("ShopSelect", "../../../../Sounds/ShopSelect.mp3", false, false);
             SoundManager.GetInstance().AddSound("BlopSound", "../../../../Sounds/BlopSound.mp3", false, false);
+            SoundManager.GetInstance().AddSound("BossmainTheme", "../../../../Sounds/BossmainTheme.mp3", true, true);
             SoundManager.GetInstance().AddSound("BossmainTheme", "../../../../Sounds/BossmainTheme.mp3", true, true);
             SoundManager.GetInstance().AddSound("DevildomBGM", "../../../../Sounds/DevildomBGM.mp3", true, true);
             SoundManager.GetInstance().AddSound("ShopBGM", "../../../../Sounds/ShopBGM.mp3", true, true);
@@ -54,13 +56,50 @@ namespace TeamRPG.Game
             ShopManager.GetInstance().Init();
 
             PlayerManager.GetInstance().Init("test", Race.Human);
-            SceneManager.GetInstance().ChangeScene("ShopScene");
+            SceneManager.GetInstance().ChangeScene("EncounterScene");
             EncounterManager.GetInstance().Init();
 
         }
         public void Update()
         {
             KeyInputManager.GetInstance().Update();
+            switch (KeyInputManager.GetInstance().KeyDown())
+            {
+                case ConsoleKey.F1:
+                    SceneManager.GetInstance().ChangeScene("TestScene");
+                    break;
+                case ConsoleKey.F2:
+                    SceneManager.GetInstance().ChangeScene("TitleScene");
+                    break;
+                case ConsoleKey.F3:
+                    SceneManager.GetInstance().ChangeScene("UITestScene");
+                    break;
+                case ConsoleKey.F4:
+                    SceneManager.GetInstance().ChangeScene("CharSelectScene");
+                    break;
+                case ConsoleKey.F5:
+                    SceneManager.GetInstance().ChangeScene("CemeteryScene");
+                    break;
+                case ConsoleKey.F6:
+                    SceneManager.GetInstance().ChangeScene("ShopScene");
+                    break;
+                case ConsoleKey.F7:
+                    SceneManager.GetInstance().ChangeScene("GameScene");
+                    break;
+                case ConsoleKey.F8:
+                    SceneManager.GetInstance().ChangeScene("ShopScene");
+                    break;
+                case ConsoleKey.F9:
+                    SceneManager.GetInstance().ChangeScene("CharInfoScene");
+                    break;
+                case ConsoleKey.F10:
+                    SceneManager.GetInstance().ChangeScene("RestScene");
+                    break;
+                case ConsoleKey.F11:
+                    SceneManager.GetInstance().ChangeScene("EncounterScene");
+                    break;
+            }
+
             SceneManager.GetInstance().Update();
             TimerManager.GetInstance().Update();
             SoundManager.GetInstance().Update();

@@ -61,7 +61,7 @@ namespace TeamRPG.Game.Object.Enemy
 
         protected override void ExSkill()
         {
-
+            base.ExSkill();
         }
 
 

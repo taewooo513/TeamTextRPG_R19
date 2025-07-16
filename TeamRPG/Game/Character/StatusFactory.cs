@@ -30,6 +30,8 @@ namespace TeamRPG.Game.Character
             {
                 case eEnemyNum.eWolf:
                     return new Enemy.State();
+                case eEnemyNum.eGoblin:
+                    return new Enemy.State();
                 default:
                     throw new System.ArgumentException("Unknown race");
             }

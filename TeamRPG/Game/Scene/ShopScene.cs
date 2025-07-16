@@ -283,7 +283,7 @@ namespace TeamRPG.Game.Scene
 
         private void OnShopBack() {
             ShopMenuType = ShopMenuType.Lobby;
-            SceneManager.GetInstance().ChangeScene("UITestScene");
+            SceneManager.GetInstance().ChangeScene("EncounterScene");
         }
 
         public void ShopBuy(Item item)

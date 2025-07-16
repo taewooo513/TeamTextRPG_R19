@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamRPG.Core.ImageManager;
 using TeamRPG.Core.ItemManager;
+using TeamRPG.Core.ShopManager;
 
 namespace TeamRPG.Game.Object.Data
 {
@@ -22,7 +24,19 @@ namespace TeamRPG.Game.Object.Data
         public int ItemLength { get; set; } = 6; // 상점 아이템 개수 (6개로 고정)
         public int RerollCost { get; set; } = 30; // 아이템 리롤 비용
 
-        public string MerchantImage { get; set; }
+        private string merchantImage = "";
+        public string MerchantImage
+        {
+            get
+            {
+                if (merchantImage == "")
+                    merchantImage = ImageManager.GetInstance().GetImage(MerchantName);
+
+                return merchantImage;
+            }
+        }
+
+        public string MerchantImageName { get; set; }
         public string LobbyComment { get; set; } = "필요한 물건이 있으신가요?"; // 상점 로비 코멘트
         public string BuyComment { get; set; } = "물건을 구매하시겠습니까?"; // 상점 구매 코멘트
         public string BuySuccessComment { get; set; } = "구매 감사합니다!"; // 아이템 구매 성공 코멘트

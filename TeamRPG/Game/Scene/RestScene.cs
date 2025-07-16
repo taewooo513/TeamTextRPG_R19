@@ -10,7 +10,7 @@ using TeamRPG.Game.Object.UI;
 
 namespace TeamRPG.Game.Scene
 {
-    using Scene = TeamRPG.Core.SceneManager.Scene;
+    using Scene = Core.SceneManager.Scene;
     public class RestScene : Scene
     {
         public string NextSceneName { get; set; } = "GameScene"; // 다음 씬 이름
@@ -23,7 +23,6 @@ namespace TeamRPG.Game.Scene
         Text effectText;
         Text descriptionText;
         RawText leftText;
-
 
         string fireImage = """
                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀

@@ -12,12 +12,16 @@ namespace TeamRPG.Game.Scene
     {
         Player player;
         Status status;
+        int select;
+        bool isSelect = false;
 
 
         public void Init()
         {
+            select = 0;
             player = new Player("asd", (Race)2);
             status = new Status(70, 50, 12, 16, 30, 50, 10, 70, 50);
+            isSelect = false;
         }
 
         public void Release()
@@ -51,16 +55,38 @@ namespace TeamRPG.Game.Scene
             {
                 TextIOManager.GetInstance().OutputSmartText("아직까지는 문제가 없어 보입니다.", 40, 26);
             }
+
+            TextIOManager.GetInstance().OutputSmartText($"1. 보유 스킬", 6, 28);
+            TextIOManager.GetInstance().OutputSmartText($"2. 인벤토리", 6, 29);
+
             List<Skill> skills = StatusFactory.GetSkillsByRace(player.race);
-            string skillLine = "";
-            for (int i = 0; i < skills.Count; i++)
+            if (isSelect == false)
             {
-                skillLine += $"{i + 1}. {skills[i].name}";
-                if (i < skills.Count - 1)
-                    skillLine += "   "; // 스킬 사이 간격
+                switch (select)
+                {
+                    case 0:
+                        TextIOManager.GetInstance().OutputText(">", 3, 28);
+                        if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter)){
+                            string skillLine = "";
+                            for (int i = 0; i < skills.Count; i++)
+                            {
+                                skillLine += $"{i + 1}. {skills[i].name}";
+                                if (i < skills.Count - 1)
+                                    skillLine += "   "; // 스킬 사이 간격
+                            }
+
+                            TextIOManager.GetInstance().OutputSmartText($"보유 스킬 : {skillLine}", 10, 30);
+                            Thread.Sleep(1000);
+                        }
+                        break;
+                    case 1:
+                        TextIOManager.GetInstance().OutputText(">", 3, 29);
+                        break;
+
+
+                }
             }
 
-            TextIOManager.GetInstance().OutputSmartText($"보유 스킬 : {skillLine}", 3, 28);
 
 
 
@@ -146,7 +172,14 @@ namespace TeamRPG.Game.Scene
 
         public void Update()
         {
-            
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.UpArrow) && select > 0)
+            {
+                select--;
+            }
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && select < 1)
+            {
+                select++;
+            }
         }
     }
 }

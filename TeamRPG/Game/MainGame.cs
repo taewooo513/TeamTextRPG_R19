@@ -31,6 +31,7 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("GameScene", new GameScene());
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
             SceneManager.GetInstance().AddScene("CharInfoScene", new CharInfoScene());
+            SceneManager.GetInstance().AddScene("RestScene", new RestScene());
             
             TextIOManager.GetInstance().Init(156, 40);
             TimerManager.GetInstance().Init();
@@ -53,7 +54,7 @@ namespace TeamRPG.Game
             ShopManager.GetInstance().Init();
 
             PlayerManager.GetInstance().Init("test", Race.Human);
-            SceneManager.GetInstance().ChangeScene("GameScene");
+            SceneManager.GetInstance().ChangeScene("RestScene");
 
         }
         public void Update()

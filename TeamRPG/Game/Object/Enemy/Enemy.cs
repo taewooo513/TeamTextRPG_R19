@@ -14,6 +14,17 @@ namespace TeamRPG.Game.Object.Enemy
     {
         public struct State
         {
+            public State(int _hp, string _name, int _dmg, int _def, int _mgDef, int _dex, int _exDmg, int _currentHp)
+            {
+                hp = _hp;
+                name = _name;
+                dmg = _dmg;
+                def = _def;
+                mgDef = _mgDef;
+                dex = _dex;
+                exDmg = _exDmg;
+                currentHp = _currentHp;
+            }
             public int hp;
             public string name;
             public int dmg;
@@ -22,12 +33,18 @@ namespace TeamRPG.Game.Object.Enemy
             public int dex;
             public int exDmg;
             public int currentHp;
+
         }
         Queue<ConsoleKey> keyPad;
+        public bool isDie = false;
         bool isExSkill = false;
         protected State state;
         public Enemy()
         {
+        }
+        public String GetName()
+        {
+            return state.name;
         }
         public void SettingStatus(eEnemyNum num)
         {
@@ -39,6 +56,10 @@ namespace TeamRPG.Game.Object.Enemy
         }
         public virtual void Update()
         {
+            if (state.currentHp <= 0)
+            {
+                isDie = true;
+            }
         }
         public virtual void Render()
         {
@@ -57,13 +78,14 @@ namespace TeamRPG.Game.Object.Enemy
             for (int i = 1; i <= 7; i++)
             {
                 int val = state.hp / 7 * i;
-                if (val <= state.currentHp)
+                if (val<= state.currentHp)
                 {
                     TextIOManager.GetInstance().OutputText4Byte("■", 130 + 2 * i, 8 + y);
                 }
-                else if (val - 10 <= state.currentHp)
+                else if (state.currentHp % 7 != 0)
                 {
                     TextIOManager.GetInstance().OutputText4Byte("□", 130 + 2 * i, 8 + y);
+                    break;
                 }
             }
         }
@@ -97,7 +119,7 @@ namespace TeamRPG.Game.Object.Enemy
         }
         protected virtual void ExSkill()
         {
-
+            PlayerManager.GetInstance().GetPlayer().HitPlayer(state.exDmg);
         } //특수기믹
         protected virtual void DrawImage() { } //이미지 
 
@@ -105,9 +127,10 @@ namespace TeamRPG.Game.Object.Enemy
         {
             if (KeyInputManager.GetInstance().GetIsKeyDown())
             {
-                if (KeyInputManager.GetInstance().KeyDown() == keyPad.Dequeue())
+                if (KeyInputManager.GetInstance().KeyDown() != keyPad.Dequeue())
                 {
-
+                    ExSkill();
+                    keyPad.Clear();
                 }
             }
         }
@@ -118,6 +141,10 @@ namespace TeamRPG.Game.Object.Enemy
         public void Attack()
         {
 
+        }
+        public void HitEnemy(int _dmg)
+        {
+            state.currentHp -= _dmg;
         }
     }
 }

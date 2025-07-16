@@ -63,6 +63,43 @@ namespace TeamRPG.Game
         public void Update()
         {
             KeyInputManager.GetInstance().Update();
+            switch (KeyInputManager.GetInstance().KeyDown())
+            {
+                case ConsoleKey.F1:
+                    SceneManager.GetInstance().ChangeScene("TestScene");
+                    break;
+                case ConsoleKey.F2:
+                    SceneManager.GetInstance().ChangeScene("TitleScene");
+                    break;
+                case ConsoleKey.F3:
+                    SceneManager.GetInstance().ChangeScene("UITestScene");
+                    break;
+                case ConsoleKey.F4:
+                    SceneManager.GetInstance().ChangeScene("CharSelectScene");
+                    break;
+                case ConsoleKey.F5:
+                    SceneManager.GetInstance().ChangeScene("CemeteryScene");
+                    break;
+                case ConsoleKey.F6:
+                    SceneManager.GetInstance().ChangeScene("ShopScene");
+                    break;
+                case ConsoleKey.F7:
+                    SceneManager.GetInstance().ChangeScene("GameScene");
+                    break;
+                case ConsoleKey.F8:
+                    SceneManager.GetInstance().ChangeScene("ShopScene");
+                    break;
+                case ConsoleKey.F9:
+                    SceneManager.GetInstance().ChangeScene("CharInfoScene");
+                    break;
+                case ConsoleKey.F10:
+                    SceneManager.GetInstance().ChangeScene("RestScene");
+                    break;
+                case ConsoleKey.F11:
+                    SceneManager.GetInstance().ChangeScene("EncounterScene");
+                    break;
+            }
+
             SceneManager.GetInstance().Update();
             TimerManager.GetInstance().Update();
             SoundManager.GetInstance().Update();

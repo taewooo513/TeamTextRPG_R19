@@ -47,5 +47,10 @@ namespace TeamRPG.Core.EnemyManager
                 item.Render();
             }
         }
+
+        public void ClearEnemy()
+        {
+            enemies.Clear();
+        }
     }
 }

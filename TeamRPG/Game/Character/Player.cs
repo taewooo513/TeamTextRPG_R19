@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamRPG.Core.EnemyManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
 using TeamRPG.Game.Object.Item;
@@ -106,6 +107,9 @@ namespace TeamRPG.Game.Character
         {
             if (isAttack == false)
                 SelectPlayButton();
+            if (isAttack == true)
+                SelectAttackButton();
+
         }
         public void PlayerImageRender()
         {
@@ -158,7 +162,10 @@ namespace TeamRPG.Game.Character
             PlaySelectUI();
             HpBarRender();
             MpBarRender();
-
+            if (isAttack == true)
+            {
+                EnemyManager.GetInstance().GetEnemyList()[attackIndex].SelectEnemy();
+            }
         }
         private void SelectPlayButton()
         {
@@ -174,15 +181,23 @@ namespace TeamRPG.Game.Character
             {
                 switch (selectNum)
                 {
-                    case 1:
+                    case 0:
                         isAttack = true;
                         break;
                 }
             }
+
         }
         private void SelectAttackButton()
         {
-
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.RightArrow) && attackIndex < EnemyManager.GetInstance().GetEnemyList().Count - 1)
+            {
+                attackIndex++;
+            }
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.LeftArrow) && attackIndex > 0)
+            {
+                attackIndex--;
+            }
         }
         private void AttackSelectUI()
         {
@@ -211,7 +226,6 @@ namespace TeamRPG.Game.Character
             TextIOManager.GetInstance().OutputSmartText("Defense", 13, 22);
             TextIOManager.GetInstance().OutputSmartText("Item", 11, 24);
             TextIOManager.GetInstance().OutputSmartText("Skill", 14, 26);
-
             switch (selectNum)
             {
                 case 0:

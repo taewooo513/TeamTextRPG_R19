@@ -50,7 +50,7 @@ namespace TeamRPG.Core.UtilManager
             {
                 int width = IsKorean(ch) ? 2 : 1;
 
-                if (_x >= winWidth )
+                if (_x + width - 1 >= winWidth)
                     break;
 
                 backBuffer[_x, y] = ch;
@@ -64,6 +64,7 @@ namespace TeamRPG.Core.UtilManager
                 _x += width;
             }
         }
+
 
         public int OutputSmartTextLength(string text)
         {

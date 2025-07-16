@@ -96,8 +96,8 @@ namespace TeamRPG.Game.Scene
 
         void InitCommonUI()
         {
-            merchantImageText = new RawText(ShopData.MerchantImage, Console.WindowWidth / 2, 0, ConsoleColor.Green, TextAlign.Center);
-            merchantCommentText = new RawText(ShopData.GetNameComment(ShopData.LobbyComment), Console.WindowWidth - 54, 4, ConsoleColor.White, TextAlign.Left);
+            merchantImageText = new RawText(ShopData.MerchantImage, Console.WindowWidth / 2, 0, HorizontalAlign.Center);
+            merchantCommentText = new RawText(ShopData.GetNameComment(ShopData.LobbyComment), Console.WindowWidth - 54, 4, HorizontalAlign.Left);
 
             actionBoxMenu = new BoxMenu(20, Console.WindowHeight / 2, 14, 6);
             actionBoxMenu.AddItem("Buy", () => ChangeMenu(ShopMenuType.Buy));
@@ -105,8 +105,8 @@ namespace TeamRPG.Game.Scene
             actionBoxMenu.AddItem("Talk", () => ChangeMenu(ShopMenuType.Talk));
             actionBoxMenu.AddItem("Back", OnShopBack);
 
-            titleText = new Text($"{ShopData.ShopName}", Console.WindowWidth / 2, 1, ConsoleColor.Yellow, TextAlign.Center);
-            goldText = new Text($"보유 금액 : {player.Gold} G", 2, 2, ConsoleColor.Yellow, TextAlign.Left);
+            titleText = new Text($"{ShopData.ShopName}", Console.WindowWidth / 2, 1, ConsoleColor.Yellow, HorizontalAlign.Center);
+            goldText = new Text($"보유 금액 : {player.Gold} G", 2, 2, ConsoleColor.Yellow, HorizontalAlign.Left);
             currentMenu = actionBoxMenu;
         }
 

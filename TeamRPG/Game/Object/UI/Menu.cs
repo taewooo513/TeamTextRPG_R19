@@ -1,9 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using TeamRPG.Core.UtilManager;
 
 namespace TeamRPG.Game.Object.UI
 {
+    public enum DirectionType
+    {
+        Horizontal,
+        Vertical
+    }
+
     internal class MenuItem
     {
         public string Text { get; set; }
@@ -22,15 +29,13 @@ namespace TeamRPG.Game.Object.UI
 
     internal class Menu : UIElement
     {
+        public DirectionType DirectionType { get; set; } = DirectionType.Vertical; // 메뉴 방향 (수평 또는 수직)
         private List<MenuItem> items = new List<MenuItem>();
         private int selectedIndex = 0; // 현재 선택된 항목
 
-        public Menu(int x, int y) : base(x, y, ConsoleColor.White) { }
-        public Menu(int x, int y, List<MenuItem> menuItems) : base(x, y, ConsoleColor.White)
-        {
-            items = menuItems ?? new List<MenuItem>();
+        public Menu(int x, int y, DirectionType directionType = DirectionType.Vertical) : base(x, y, ConsoleColor.White) {
+            DirectionType = directionType;
         }
-
         public void AddItem(string text, Action onSelect, bool isEnabled = true, ConsoleColor color = ConsoleColor.White)
         {
             items.Add(new MenuItem(text, onSelect, isEnabled, color));
@@ -56,17 +61,28 @@ namespace TeamRPG.Game.Object.UI
         {
             if (!IsVisible) return;
 
-            for (int i = 0; i < items.Count; i++)
+            if(DirectionType == DirectionType.Vertical)
             {
-                var item = items[i];
+                for (int i = 0; i < items.Count; i++)
+                {
+                    var item = items[i];
 
-                // 선택된 항목은 강조 표시
-                string displayText = (i == selectedIndex) ? $"▶ {item.Text}" : $"{item.Text}";
-                ConsoleColor color = item.IsEnabled
-                    ? (i == selectedIndex ? ConsoleColor.Yellow : item.Color)
-                    : ConsoleColor.DarkGray;
-
-                TextIOManager.GetInstance().OutputSmartText(displayText, X, Y + i, color);
+                    // 선택된 항목은 강조 표시
+                    string displayText = (i == selectedIndex) ? $"▶ {item.Text}" : $"{item.Text}";
+                    TextIOManager.GetInstance().OutputSmartText(displayText, X, Y + i);
+                }
+            }
+            else if (DirectionType == DirectionType.Horizontal)
+            {
+                int _x = 0;
+                for (int i = 0; i < items.Count; i++)
+                {
+                    var item = items[i];
+                    // 선택된 항목은 강조 표시
+                    string displayText = (i == selectedIndex) ? $"▶ {item.Text}" : $"{item.Text}";
+                    TextIOManager.GetInstance().OutputSmartText(displayText, X + _x, Y);
+                    _x += TextIOManager.GetInstance().OutputSmartTextLength(displayText) + 3; // 항목 간격 추가
+                }
             }
         }
 

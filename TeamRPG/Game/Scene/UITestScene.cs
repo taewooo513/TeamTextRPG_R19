@@ -22,7 +22,7 @@ namespace TeamRPG.Game.Scene
         public void Render()
         {
             Box box = new Box(0, 0, 100, 25, ConsoleColor.DarkGray);
-            Text label = new Text("Test Scene", 50, 1, ConsoleColor.Cyan, TextAlign.Left);
+            Text label = new Text("Test Scene", 50, 1, ConsoleColor.Cyan, HorizontalAlign.Left);
             Menu menu = new Menu(50, 3);
 
             string rawTextString = """
@@ -51,7 +51,7 @@ namespace TeamRPG.Game.Scene
                 """;
             if (KeyInputManager.GetInstance().GetKeyDownOnce(ConsoleKey.Enter))
             {
-                RawText rawText = new RawText(rawTextString, 50, 5, ConsoleColor.Green, TextAlign.Center);
+                RawText rawText = new RawText(rawTextString, 50, 5, HorizontalAlign.Center);
                 menu.AddItem("Start Game", () => menu.GetItem(0).Text = "Hello!");
                 menu.AddItem("Options", () => menu.GetItem(1).Text = "Oh!");
                 menu.SelectByIndex(1);

@@ -63,10 +63,10 @@ namespace TeamRPG.Game.Scene
         public void Init()
         {
             SoundManager.GetInstance().PlaySound("FireplaceSound", 1f);
-            fireText = new RawText(fireImage, UIManager.HalfWidth, 2, ConsoleColor.Yellow, TextAlign.Center);
-            effectText = new Text("생명력이 20 회복되었다!", UIManager.HalfWidth, Console.WindowHeight - 3, ConsoleColor.Yellow, TextAlign.Center);
-            descriptionText = new Text("스페이스바를 눌러 게임을 계속하세요.", UIManager.HalfWidth, Console.WindowHeight - 2, ConsoleColor.Yellow, TextAlign.Center);
-            leftText = new RawText("모닥불은 소리를 내며\n타오르고 있다.", 30, UIManager.HalfHeight, ConsoleColor.Yellow, TextAlign.Center);
+            fireText = new RawText(fireImage, UIManager.HalfWidth, 2, HorizontalAlign.Center);
+            effectText = new Text("생명력이 20 회복되었다!", UIManager.HalfWidth, Console.WindowHeight - 3, ConsoleColor.Yellow, HorizontalAlign.Center);
+            descriptionText = new Text("스페이스바를 눌러 게임을 계속하세요.", UIManager.HalfWidth, Console.WindowHeight - 2, ConsoleColor.Yellow, HorizontalAlign.Center);
+            leftText = new RawText("모닥불은 소리를 내며\n타오르고 있다.", 30, UIManager.HalfHeight, HorizontalAlign.Center);
             // titleText = new Text("휴식처", UIManager.HalfWidth, 2, ConsoleColor.Yellow, TextAlign.Center);
         }
 

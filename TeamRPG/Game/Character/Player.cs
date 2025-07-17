@@ -326,16 +326,16 @@ namespace TeamRPG.Game.Character
                     Random rd = new Random();
                     EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(skills[selectNum].power);
                     baseStatus.currentMp -= skills[selectNum].mpCost;
-                    selectNum = 0;
                     PlayerManager.GetInstance().gameMsg = $" !!! {skills[selectNum].name} !!! {EnemyManager.GetInstance().GetEnemyList()[attackIndex].GetName()}에게 {skills[selectNum].power}의 데미지를 입혔습니다.";
+                    selectNum = 0;
                 }
                 else
                 {
                     Random rd = new Random();
                     int dmg = rd.Next(currentStatus.MinAttack, currentStatus.MaxAttack);
                     EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(dmg);
-                    selectNum = 0;
                     PlayerManager.GetInstance().gameMsg = $" {EnemyManager.GetInstance().GetEnemyList()[attackIndex].GetName()}에게 {dmg}의 데미지를 입혔습니다.";
+                    selectNum = 0;
                 }
                 timer.Start();
                 attackIndex = 0;

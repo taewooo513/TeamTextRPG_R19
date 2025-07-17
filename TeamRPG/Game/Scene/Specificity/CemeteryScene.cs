@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,7 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Render()
         {
             base.Render();
+            DrawText();
         }
         public override void Release()
         {
@@ -74,9 +76,36 @@ namespace TeamRPG.Game.Scene.Specificity
             TextIOManager.GetInstance().OutputText("⢀⢀⠠⡠⡠⡢⣿⡯⣟⡷⣯⣷⣕⣵⣕⣧⡣⣎⡮⡞⡞⡗⢏⢏⠢⡑⡠⣡⡥⣣⠀⠀⠀⠀⠀⠀⠨⡨⡪⠯⡞⢽⢺⢽⢝⣮⡻⡽⣞⢷⢿⢾⣻⡮⣇⢎⡮⡺⡜⡎⡝⠜⠜⠘⠁⠄⠠⠀⠀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀         ", 25, 32);
             TextIOManager.GetInstance().OutputText("⣗⢦⢧⣪⢬⢨⣘⡘⡹⡙⡛⢗⢛⠎⢎⠪⢪⢂⣣⣢⢦⢌⢢⣓⢕⢜⡾⣽⣻⢮⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠁⠁⠁⡁⠁⠉⠋⠙⠪⡫⢯⠺⡸⠪⠊⠊⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀           ", 25, 33);
             TextIOManager.GetInstance().OutputText("⡿⣯⣳⣫⣟⣮⢾⣽⡺⣞⡶⣢⡂⣌⡖⣽⢝⡯⣗⣽⢫⣎⣮⡮⣾⣫⢯⢗⢓⠫⠨⠨⡐⣐⢰⠀⠀⢀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀             ", 25, 34);
-
+        }
+        protected virtual void DrawText()
+        {
             TextIOManager.GetInstance().OutputSmartText("잠든 자들의 속삭임 속에, 이승과 저승의 경계가 흐려질것 같다.", 48, 36);
-
+        }
+    }
+    internal class CemeteryStartScene : CemeteryScene
+    {
+        public override void Init()
+        {
+            base.Init();
+            stopwatch = new Stopwatch();
+            stopwatch.Start();
+        }
+        public override void Update()
+        {
+        }
+        public override void Release()
+        {
+            stopwatch.Stop();
+            stopwatch.Reset();
+        }
+        public override void Render()
+        {
+            base.GetSpecificityEvent();
+            DrawText();
+        }
+        protected override void DrawText()
+        {
+            TextIOManager.GetInstance().OutputSmartText("당신은 스산한 기운이 감도는 묘지에서 여정을 시작했다.", 48, 36);
         }
     }
 }

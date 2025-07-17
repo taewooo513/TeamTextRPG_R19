@@ -138,17 +138,30 @@ namespace TeamRPG.Game.Scene
             {
                 Random rd = new Random(2);
                 PlayerManager.GetInstance().environment = "";
-                switch (rd.Next(0, 2))
+                switch (rd.Next(0, 4))
                 {
                     case 0:
                         PlayerManager.GetInstance().environment = "ForestScene";
+                        SceneManager.GetInstance().ChangeScene("ForestStartScene");
+
                         break;
                     case 1:
                         PlayerManager.GetInstance().environment = "CemeteryScene";
+                        SceneManager.GetInstance().ChangeScene("CemeteryStartScene");
+
+                        break;
+                    case 2:
+                        PlayerManager.GetInstance().environment = "WildernessScene";
+                        SceneManager.GetInstance().ChangeScene("WildernessStartScene");
+
+                        break;
+                    case 3:
+                        PlayerManager.GetInstance().environment = "DevildomScene";
+                        SceneManager.GetInstance().ChangeScene("DevildomStartScene");
+
                         break;
                 }
 
-                SceneManager.GetInstance().ChangeScene(PlayerManager.GetInstance().environment);
             }
 
         }

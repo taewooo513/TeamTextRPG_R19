@@ -128,7 +128,8 @@ namespace TeamRPG.Game.Scene
             itemBuyMenu.AddEmptyItem();
             buyGolTextSlot = itemBuyMenu.AddTextItem($"보유 골드 : {player.Gold} G");
             itemBuyMenu.AddEmptyItem();
-            itemBuyMenu.AddItem($"돌리기 {ShopData.RerollCost} G", RerollItmes);
+            if(ShopData.MerchantName != "방랑상인")
+                itemBuyMenu.AddItem($"돌리기 {ShopData.RerollCost} G", RerollItmes);
             itemBuyMenu.AddItem("돌아가기", BackMenu);
 
             // itemSellMenu 초기화

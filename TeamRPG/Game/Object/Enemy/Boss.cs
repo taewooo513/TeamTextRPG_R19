@@ -120,8 +120,13 @@ namespace TeamRPG.Game.Object.Enemy
             {
                 BossText.SetText(bossEx);
             }
-
         }
+        protected override void SettingExSkill()
+        {
+            base.SettingExSkill();
+            SoundManager.GetInstance().PlaySound("염예찬 튜터님의 가소롭군!", 0.8f);
+        }
+
         protected override void ExSkill()
         {
             base.ExSkill();

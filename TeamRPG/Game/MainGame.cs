@@ -65,6 +65,7 @@ namespace TeamRPG.Game
             // battle
             SoundManager.GetInstance().AddSound("Bossmain", "../../../../Sounds/battle/bgm/Bossmain.mp3", true, true);
             SoundManager.GetInstance().AddSound("Tier1NomalBattleBGM", "../../../../Sounds/battle/bgm//Tier1NomalBattleBGM.mp3", true, true);
+            SoundManager.GetInstance().AddSound("염예찬 튜터님의 가소롭군!", "../../../../Sounds/battle/염예찬 튜터님의 가소롭군!.mp3", false, false);
 
             // bgm
             SoundManager.GetInstance().AddSound("FireplaceSound", "../../../../Sounds/Bgm/FireplaceSound.mp3", true, true);

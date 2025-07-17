@@ -193,7 +193,7 @@ namespace TeamRPG.Game.Object.Enemy
                 PlayerManager.GetInstance().GetPlayer().HitPlayer(state.dmg);
             }
         }
-        private void SettingExSkill()
+        protected virtual void SettingExSkill()
         {
             Random rd = new Random();
             isExSkill = true;

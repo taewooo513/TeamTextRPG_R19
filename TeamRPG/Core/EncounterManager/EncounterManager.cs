@@ -46,7 +46,7 @@ namespace TeamRPG.Core.EncounterManager
             goodResult.OnExit = (player) =>
             {
                 player.Inventory.AddItem("회복 포션", 1);
-                player.Inventory.AddItem("향긋한 허브", 1);
+                player.Inventory.AddItem("향긋한 약초", 1);
                 SceneManager.GetInstance().ChangeScene("ShopScene");
             };
 
@@ -141,7 +141,7 @@ namespace TeamRPG.Core.EncounterManager
             goodResult.OnExit = (player) =>
             {
                 player.PlusAttack(8);
-                player.Inventory.RemoveItem("향긋한 허브");
+                player.Inventory.RemoveItem("향긋한 약초");
                 SceneManager.GetInstance().ChangeScene("ShopScene");
             };
 
@@ -153,7 +153,7 @@ namespace TeamRPG.Core.EncounterManager
             mitigatedResult.OnExit = (player) =>
             {
                 player.PlusAttack(5);
-                player.Inventory.RemoveItem("향긋한 허브");
+                player.Inventory.RemoveItem("향긋한 약초");
                 SceneManager.GetInstance().ChangeScene("ShopScene");
             };
 
@@ -165,7 +165,7 @@ namespace TeamRPG.Core.EncounterManager
             badResult.OnExit = (player) =>
             {
                 player.PlusAttack(1);
-                player.Inventory.RemoveItem("향긋한 허브");
+                player.Inventory.RemoveItem("향긋한 약초");
                 SceneManager.GetInstance().ChangeScene("ShopScene");
             };
 
@@ -240,7 +240,7 @@ namespace TeamRPG.Core.EncounterManager
             goodResult.ImageName = "수상한 남자"; // 성공 이미지 경로 또는 데이터
             goodResult.OnExit = (player) =>
             {
-                player.Inventory.AddItem("향긋한 허브", 3); // 플레이어에게 약초 3개 추가
+                player.Inventory.AddItem("향긋한 약초", 3); // 플레이어에게 약초 3개 추가
                 SceneManager.GetInstance().ChangeScene("ShopScene"); // 상점 장면으로 이동
             };
 

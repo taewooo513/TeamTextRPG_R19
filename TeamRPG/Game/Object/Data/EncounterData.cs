@@ -91,6 +91,8 @@ namespace TeamRPG.Game.Object.Data
         public EncounterResult MitigatedResult = new EncounterResult(); // 완화된 선택지 결과 (강인함에 의해서 약화된 결말)
         public EncounterResult BadResult = new EncounterResult(); // 나쁜 선택지 결과
 
+        public List<string> NeedItems { get; set; } // 필요한 아이템 목록 (선택지에 따라 다를 수 있음)
+
         public void ChangeDescription(string desc)
         {
             Result.Description = desc;

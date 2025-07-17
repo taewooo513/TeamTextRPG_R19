@@ -142,13 +142,8 @@ namespace TeamRPG.Core.EncounterManager
                                 ImageName = "약초 스승",
                                 Action = (player) =>
                                 {
-                                    player.currentStatus.MinAttack += 5;
-                                    player.currentStatus.MaxAttack += 5;
-                                    
-                                    Item hurb = ItemManager.GetInstance().GetItem("향긋한 허브");
-                                    if(player.Inventory.Contains(hurb))
-                                        player.Inventory.Remove(hurb);
-
+                                    player.PlusAttack(8);
+                                    player.Inventory.RemoveItem("향긋한 허브");
                                     SceneManager.GetInstance().ChangeScene("ShopScene");
                                 }
                         },
@@ -161,12 +156,11 @@ namespace TeamRPG.Core.EncounterManager
                                 ImageName = "약초 스승",
                                 Action = (player) =>
                                 {
-                                    player.currentStatus.MinAttack += 5;
-                                    player.currentStatus.MaxAttack += 5;
 
+                                    player.PlusAttack(5);
                                     Item hurb = ItemManager.GetInstance().GetItem("향긋한 허브");
-                                    if(player.Inventory.Contains(hurb))
-                                        player.Inventory.Remove(hurb);
+
+                                    player.Inventory.RemoveItem("향긋한 허브");
 
                                     SceneManager.GetInstance().ChangeScene("ShopScene");
                                 }
@@ -180,12 +174,8 @@ namespace TeamRPG.Core.EncounterManager
                                 ImageName = "약초 스승",
                                 Action = (player) =>
                                 {
-                                    player.currentStatus.MinAttack -= 1;
-                                    player.currentStatus.MaxAttack -= 1;
-
-                                    Item hurb = ItemManager.GetInstance().GetItem("향긋한 허브");
-                                    if(player.Inventory.Contains(hurb))
-                                        player.Inventory.Remove(hurb);
+                                    player.PlusAttack(1);
+                                    player.Inventory.RemoveItem("향긋한 허브");
 
                                     SceneManager.GetInstance().ChangeScene("ShopScene");
                                 }
@@ -265,9 +255,7 @@ namespace TeamRPG.Core.EncounterManager
                                 ImageName = "수상한 남자",
                                 Action = (player) =>
                                 {
-                                    Item hurb = ItemManager.GetInstance().GetItem("향긋한 허브");
-                                    for(int i = 0; i < 3; i++)
-                                        player.Inventory.Add(hurb);
+                                    player.Inventory.AddItem("향긋한 허브", 3);
 
                                     SceneManager.GetInstance().ChangeScene("ShopScene");
                                 }
@@ -284,9 +272,6 @@ namespace TeamRPG.Core.EncounterManager
                                 ImageName = "수상한 남자",
                                 Action = (player) =>
                                 {
-                                    Item hurb = ItemManager.GetInstance().GetItem("향긋한 허브");
-                                    player.Inventory.Add(hurb);
-
                                     SceneManager.GetInstance().ChangeScene("ShopScene");
                                 }
                         },
@@ -375,7 +360,7 @@ namespace TeamRPG.Core.EncounterManager
                                 ImageName = "버섯",
                                 Action = (player) =>
                                 {
-                                    PlayerManager.GetInstance().GetPlayer().currentStatus.HP += 10;
+                                    player.HealPlayer(10);
                                     SceneManager.GetInstance().ChangeScene("ShopScene");
                                 }
                         },
@@ -387,7 +372,7 @@ namespace TeamRPG.Core.EncounterManager
                                 ImageName = "버섯",
                                 Action = (player) =>
                                 {
-                                    PlayerManager.GetInstance().GetPlayer().currentStatus.HP -= 15;
+                                    player.HitPlayer(15);
                                     SceneManager.GetInstance().ChangeScene("ShopScene");
                                 }
                         },
@@ -399,7 +384,7 @@ namespace TeamRPG.Core.EncounterManager
                                 ImageName = "버섯",
                                 Action = (player) =>
                                 {
-                                    PlayerManager.GetInstance().GetPlayer().currentStatus.HP -= 15;
+                                    player.HitPlayer(15);
                                     SceneManager.GetInstance().ChangeScene("ShopScene");
                                 }
                         },

@@ -52,7 +52,7 @@ namespace TeamRPG.Game.Scene
 
         public void Init()
         {
-            player = new("Name", Race.Human);
+            player = PlayerManager.GetInstance().GetPlayer();
             SoundManager.GetInstance().PlaySound("ShopBGM", .2f);
 
             InitShoptData();
@@ -181,13 +181,14 @@ namespace TeamRPG.Game.Scene
         void UpdateItemSellMenuSlots()
         {
             var menuItemList = itemSellMenu.Items;
+            var inventoryItemList = player.Inventory.AllItems;
             for (int i = 0; i < ShopData.ItemLength; i++)
             {
                 if (i < player.Inventory.Count)
                 {
                     int index = i; // 클로저 안전하게
-                    menuItemList[i].Text = GetItemSellInfo(player.Inventory[i]);
-                    menuItemList[i].OnSelect = () => ShopSell(player.Inventory[index]);
+                    menuItemList[i].Text = GetItemSellInfo(inventoryItemList[i]);
+                    menuItemList[i].OnSelect = () => ShopSell(inventoryItemList[index]);
                     menuItemList[i].IsEnabled = true;
                 }
                 else
@@ -298,7 +299,14 @@ namespace TeamRPG.Game.Scene
             }
 
             player.Gold -= item.Gold;
-            player.Inventory.Add(item);
+
+            if(player.Inventory == null)
+            {
+                UpdateComment("인벤토리가 초기화되지 않았습니다.");
+                return;
+            }
+
+            player.Inventory.AddItem(item);
             ShopData.RemoveItem(item);
 
             UpdateGoldText();
@@ -309,21 +317,20 @@ namespace TeamRPG.Game.Scene
         public void ShopSell(Item item)
         {
             if (item == null) return;
-            string comment = player.Inventory.Contains(item)? ShopData.SellSuccessComment : ShopData.SellFailComment;
             player.Gold += GetItemSellGold(item);
 
             // 플레이어 인벤토리에서 아이템 제거
-            if (player.Inventory.Contains(item) == false)
+            if (player.Inventory.ContainsItem(item.Name) == false)
             {
-                UpdateComment(comment);
+                UpdateComment(ShopData.SellFailComment);
                 return;
             }
 
-            player.Inventory.Remove(item);
+            player.Inventory.RemoveItem(item);
 
             UpdateGoldText();
             UpdateItemSellMenuSlots();
-            UpdateComment(comment);
+            UpdateComment(ShopData.SellSuccessComment);
         }
     }
 

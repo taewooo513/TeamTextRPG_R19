@@ -237,6 +237,8 @@ namespace TeamRPG.Game.Object.Enemy
                         keyPad.Clear();
                         parryStopwatch.Stop();
                         stopwatch.Start();
+                        isExSkill = false;
+
                     }
                     if (keyPad.Count == 0 && isParreyFail == false)
                     {

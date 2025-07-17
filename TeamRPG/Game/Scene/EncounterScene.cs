@@ -26,12 +26,10 @@ namespace TeamRPG.Game.Scene
 
         private Player player;
 
-        private bool isSelected = false;
-
         public void Init()
         {
             player = PlayerManager.GetInstance().GetPlayer();
-            isSelected = false;
+            SoundManager.GetInstance().PlaySound("RandomEncounterSound4", 0.4f);
             InitEncounterData();
             InitUI();
         }
@@ -117,7 +115,6 @@ namespace TeamRPG.Game.Scene
         {
             currentMenu = resultMenu;
 
-            isSelected = true;
             selectionMenu.IsVisible = false;
             resultMenu.IsVisible = true;
 
@@ -139,6 +136,7 @@ namespace TeamRPG.Game.Scene
         public void Release()
         {
             UIManager.GetInstance().ClearUI();
+            SoundManager.GetInstance().StopSound("RandomEncounterSound4");
         }
     }
 }

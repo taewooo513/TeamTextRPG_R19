@@ -26,8 +26,10 @@ namespace TeamRPG.Game.Scene
             isStartGame = false;
             timer = new Stopwatch();
             timer.Start();
+
             PlayerManager.GetInstance().GetPlayer().PlayerTurnSetting();
-            PlayerManager.GetInstance().gameMsg = "고블린 3명을 마주쳤습니다.";
+            SoundManager.GetInstance().PlaySound("Bossmain", .1f);
+            PlayerManager.GetInstance().gameMsg = "???을 마주쳤습니다.";
             selectNum = 0;
             //e1 = new Goblin(-30, 0, "A");
             //EnemyManager.GetInstance().AddEnemy(e1, eEnemyNum.eGoblin);

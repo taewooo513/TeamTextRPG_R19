@@ -63,7 +63,7 @@ namespace TeamRPG.Game
             SoundManager.GetInstance().AddSound("ShopSelect", "../../../../Sounds/shop/ShopSelect.mp3", false, false);
 
             // battle
-            SoundManager.GetInstance().AddSound("BossmainTheme", "../../../../Sounds/battle/bgm/BossmainTheme.mp3", true, true);
+            SoundManager.GetInstance().AddSound("Bossmain", "../../../../Sounds/battle/bgm/Bossmain.mp3", true, true);
             SoundManager.GetInstance().AddSound("Tier1NomalBattleBGM", "../../../../Sounds/battle/bgm//Tier1NomalBattleBGM.mp3", true, true);
 
             // bgm

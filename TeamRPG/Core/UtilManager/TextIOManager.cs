@@ -132,7 +132,9 @@ namespace TeamRPG.Core.UtilManager
                 {
                     Console.Write(strs[h][w]);
                 }
-                Console.WriteLine();
+
+                if (h != winHeight - 1) // 마지막 줄이 아니면 줄바꿈
+                    Console.WriteLine();
             }
             BufferCopy();
             BufferClear();

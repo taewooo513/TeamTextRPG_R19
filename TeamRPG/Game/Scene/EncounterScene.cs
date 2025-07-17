@@ -63,7 +63,7 @@ namespace TeamRPG.Game.Scene
         void InitEncounterData()
         {
             currentEncounterData = EncounterManager.GetInstance().GetRandomEncounterData();
-            // currentEncounterData = EncounterManager.GetInstance().GetEncounterData("버섯");
+            // currentEncounterData = EncounterManager.GetInstance().GetEncounterData("우물");
         }
 
         void InitUI()
@@ -73,7 +73,8 @@ namespace TeamRPG.Game.Scene
             encounterImage = new RawText(image, UIManager.HalfWidth, UIManager.HalfHeight, HorizontalAlign.Center, VerticalAlign.Middle);
             description = new RawText(currentEncounterData.Description, UIManager.HalfWidth, Console.WindowHeight - 5, HorizontalAlign.Center, VerticalAlign.Top);
             comment = new RawText(currentEncounterData.Comment, 30, UIManager.HalfHeight - 5, HorizontalAlign.Center, VerticalAlign.Top);
-            selectionMenu = new Menu(60, Console.WindowHeight - 3, DirectionType.Horizontal);
+            selectionMenu = new Menu(UIManager.HalfWidth, Console.WindowHeight - 3, DirectionType.Horizontal);
+            selectionMenu.HorizontalAlign = HorizontalAlign.Center;
 
             for (int i = 0; i < currentEncounterData.Selections.Count; i++)
             {
@@ -91,6 +92,7 @@ namespace TeamRPG.Game.Scene
             }
 
             resultMenu = new Menu(60, Console.WindowHeight - 3, DirectionType.Horizontal);
+            resultMenu.HorizontalAlign = HorizontalAlign.Center;
             resultMenu.AddItem("", () => { });
 
             selectionMenu.IsVisible = true;

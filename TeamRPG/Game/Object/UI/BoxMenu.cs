@@ -77,6 +77,8 @@ namespace TeamRPG.Game.Object.UI
             for (int i = 0; i < Math.Min(items.Count, maxItems); i++)
             {
                 var item = items[i];
+                if (!item.IsEnabled)
+                    continue;
                 string text = TrimTextToFit(item.Text);
                 string displayText = (i == selectedIndex) ? $"> {text}" : $"{text}";
 

@@ -291,7 +291,7 @@ namespace TeamRPG.Game.Scene
 
         private void OnShopBack() {
             ShopMenuType = ShopMenuType.Lobby;
-            SceneManager.GetInstance().ChangeScene("EncounterScene");
+            SceneManager.GetInstance().ChangeScene("CemeteryScene");
         }
 
         public void ShopBuy(Item item)

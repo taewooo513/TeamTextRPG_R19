@@ -61,7 +61,5 @@ namespace TeamRPG.Game.Object.Item
             OnUse?.Invoke(target); // 아이템 사용 이벤트 호출
         }
 
-        // 착용은 따로
-        public abstract void EquipTo(Player target);
     }
 }

@@ -13,7 +13,12 @@ namespace TeamRPG.Game.Character
         {
             new Trait("사형수의 면죄부", "아무 효과 없음"),
             new Trait("두둑한 주머니", "초기 소지금 500G 추가", player => player.Gold += 500),
-            new Trait("은퇴한 노장", " 최소 공격력 5감소", player => player.baseStatus.MinAttack -= 5)
+            new Trait("은퇴한 노장", " 최소 공격력 5감소", player => player.baseStatus.MinAttack -= 5),
+            new Trait("자연 친화력", "최대마나 20 증가", player =>
+             {
+                player.baseStatus.MP += 20;
+                player.baseStatus.currentMp += 20;
+             })
         };
 
         public static List<Trait> GetTraitsByRace(Race race)
@@ -45,10 +50,11 @@ namespace TeamRPG.Game.Character
                     return new List<Trait>
                     {
                         new Trait("가벼운 몸놀림", "재빠름 10 증가", player => player.baseStatus.Agility += 10),
-                        new Trait("자연 친화력", "최대마나 20 증가", player =>
-                        {
-                            player.baseStatus.MP += 20;
-                            player.baseStatus.currentMp += 20;
+                        new Trait("눈먼 숲의 사냥꾼", "최소 공격력 7 감소 / 최대 공격력 12 증가", 
+                        player => 
+                        { 
+                            player.baseStatus.MinAttack -= 7; 
+                            player.baseStatus.MaxAttack += 12;
                         })
                     };
                 default:

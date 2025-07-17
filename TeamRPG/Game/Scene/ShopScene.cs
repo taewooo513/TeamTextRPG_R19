@@ -181,14 +181,17 @@ namespace TeamRPG.Game.Scene
         void UpdateItemSellMenuSlots()
         {
             var menuItemList = itemSellMenu.Items;
-            var inventoryItemList = player.Inventory.AllItems;
+            var inventoryItemList = player.Inventory.ItemDictionary.Values.ToList();
+            
             for (int i = 0; i < ShopData.ItemLength; i++)
             {
                 if (i < player.Inventory.Count)
                 {
+                    Item inventoryItem = inventoryItemList[i][0]; // 첫 번째 아이템만 사용
+
                     int index = i; // 클로저 안전하게
-                    menuItemList[i].Text = GetItemSellInfo(inventoryItemList[i]);
-                    menuItemList[i].OnSelect = () => ShopSell(inventoryItemList[index]);
+                    menuItemList[i].Text = GetItemSellInfo(inventoryItem);
+                    menuItemList[i].OnSelect = () => ShopSell(inventoryItem);
                     menuItemList[i].IsEnabled = true;
                 }
                 else
@@ -237,7 +240,8 @@ namespace TeamRPG.Game.Scene
         }
         string GetItemSellInfo(Item item)
         {
-            return $"{item.Name} : {item.Description} ({GetItemSellGold(item)} G)";
+            int count = player.Inventory.GetItemCount(item.Name);
+            return $"{item.Name} : {item.Description} ({GetItemSellGold(item)} G) x{count}";
         }
 
         int GetItemSellGold(Item item)

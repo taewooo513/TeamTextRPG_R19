@@ -9,12 +9,24 @@ namespace TeamRPG.Game.Object.Item
 {
     public class Inventory
     {
-
         public List<Item> AllItems => itemDictionary.Values.SelectMany(items => items).ToList(); // 모든 아이템 목록을 반환
 
         public int Count => itemDictionary.Count; // 아이템 종류의 개수
 
-        public Dictionary<string, List<Item>> itemDictionary = new();
+        private Dictionary<string, List<Item>> itemDictionary = new();
+
+        public Dictionary<string, List<Item>> ItemDictionary
+        {
+            get
+            {
+                return itemDictionary;
+            }
+        }
+
+        public int GetItemCount(string itemName)
+        {
+            return itemDictionary.ContainsKey(itemName) ? itemDictionary[itemName].Count : 0; // 아이템 목록이 존재하면 개수 반환, 없으면 0 반환
+        }
 
         public bool ContainsItem(string itemName)
         {

@@ -23,6 +23,7 @@ namespace TeamRPG.Game.Character
         public int selectE = 0;
         private bool isDefens = false;
         public string name { get; private set; }
+        public Trait trait;
         public Race race { get; private set; }
         public int level { get; private set; } = 1;
 
@@ -326,16 +327,16 @@ namespace TeamRPG.Game.Character
                     Random rd = new Random();
                     EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(skills[selectNum].power);
                     baseStatus.currentMp -= skills[selectNum].mpCost;
-                    selectNum = 0;
                     PlayerManager.GetInstance().gameMsg = $" !!! {skills[selectNum].name} !!! {EnemyManager.GetInstance().GetEnemyList()[attackIndex].GetName()}에게 {skills[selectNum].power}의 데미지를 입혔습니다.";
+                    selectNum = 0;
                 }
                 else
                 {
                     Random rd = new Random();
                     int dmg = rd.Next(currentStatus.MinAttack, currentStatus.MaxAttack);
                     EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(dmg);
-                    selectNum = 0;
                     PlayerManager.GetInstance().gameMsg = $" {EnemyManager.GetInstance().GetEnemyList()[attackIndex].GetName()}에게 {dmg}의 데미지를 입혔습니다.";
+                    selectNum = 0;
                 }
                 timer.Start();
                 attackIndex = 0;
@@ -489,8 +490,18 @@ namespace TeamRPG.Game.Character
 
             TextIOManager.GetInstance().OutputText("│", 4, 37);
             TextIOManager.GetInstance().OutputText("│", 4 + currentStatus.MP / 10 * 2 + 2, 37);
+        }
 
+        public void RandomTrait()
+        {
+            List<Trait> allTraits = new List<Trait>();
+            allTraits.AddRange(TraitDatabase.commonTraits);
+            allTraits.AddRange(TraitDatabase.GetTraitsByRace(this.race));
 
+            Random rand = new Random();
+            this.trait = allTraits[rand.Next(allTraits.Count)];
+
+            this.trait.ApplyEffect(this);
         }
     }
 }

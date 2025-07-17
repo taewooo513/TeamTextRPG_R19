@@ -13,6 +13,8 @@ namespace TeamRPG.Game.Character
 {
     public class PlayerManager : Singleton<PlayerManager>
     { // 플레이어 매니저가 있으니까 그냥 플레이어 매니저를 게임매니저 처럼 사용합시다
+        public String environment = "";
+
         public String gameMsg = "";
         Player player;
 

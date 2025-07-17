@@ -11,7 +11,7 @@ namespace TeamRPG.Game.Object.UI
         Vertical
     }
 
-    internal class MenuItem
+    public class MenuItem
     {
         public string Text { get; set; }
         public Action OnSelect { get; set; }
@@ -27,7 +27,7 @@ namespace TeamRPG.Game.Object.UI
         }
     }
 
-    internal class Menu : UIElement
+    public class Menu : UIElement
     {
         public DirectionType DirectionType { get; set; } = DirectionType.Vertical; // 메뉴 방향 (수평 또는 수직)
         private List<MenuItem> items = new List<MenuItem>();
@@ -70,7 +70,7 @@ namespace TeamRPG.Game.Object.UI
                     var item = items[i];
 
                     // 선택된 항목은 강조 표시
-                    string displayText = (i == selectedIndex) ? $"▶ {item.Text}" : $"{item.Text}";
+                    string displayText = (i == selectedIndex) ? $"> {item.Text}" : $"{item.Text}";
                     TextIOManager.GetInstance().OutputSmartText(displayText, X, Y + i);
                 }
             }
@@ -81,7 +81,7 @@ namespace TeamRPG.Game.Object.UI
                 {
                     var item = items[i];
                     // 선택된 항목은 강조 표시
-                    string displayText = (i == selectedIndex) ? $"▶ {item.Text}" : $"{item.Text}";
+                    string displayText = (i == selectedIndex) ? $"> {item.Text}" : $"{item.Text}";
                     TextIOManager.GetInstance().OutputSmartText(displayText, X + _x, Y);
                     _x += TextIOManager.GetInstance().OutputSmartTextLength(displayText) + 3; // 항목 간격 추가
                 }

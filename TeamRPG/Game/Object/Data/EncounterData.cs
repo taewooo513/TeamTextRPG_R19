@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.ImageManager;
+using TeamRPG.Core.SceneManager;
 using TeamRPG.Game.Character;
+using TeamRPG.Game.Object.UI;
 
 namespace TeamRPG.Game.Object.Data
 {
@@ -29,15 +31,6 @@ namespace TeamRPG.Game.Object.Data
         public string ImageName { get; set; }
 
         public List<EncounterSelection> Selections { get; set; } // 선택지들
-
-        public void Select(Player player, int selectionIndex)
-        {
-            if (selectionIndex < 0 || selectionIndex >= Selections.Count)
-                return;
-
-            EncounterSelection selection = Selections[selectionIndex];
-            selection.Select(player);
-        }
     }
 
     public class EncounterResult
@@ -59,12 +52,24 @@ namespace TeamRPG.Game.Object.Data
         }
 
         public string ImageName { get; set; }
-        public Action<Player> Action { get; set; } // 결과 액션
+
+        public Action OnEnter { get; set; } = () => { }; // 결과 초기화 액션
+        public Action<Player> OnExit { get; set; } // 결과 액션
     }
 
     public class EncounterSelection
     {
-        public EncounterData Data { get; set; }
+        public enum ResultType
+        {
+            Good, // 좋은 결과
+            Mitigated, // 완화된 결과
+            Bad // 나쁜 결과
+        }
+
+        public ResultType GetResultType()
+        {
+            return isAvoid ? ResultType.Good : isMitigated ? ResultType.Mitigated : ResultType.Bad;
+        }
 
         private bool isAvoid = false; // 회피 여부
         private bool isMitigated = false; // 강인함에 의한 완화 여부
@@ -86,6 +91,13 @@ namespace TeamRPG.Game.Object.Data
         public EncounterResult MitigatedResult = new EncounterResult(); // 완화된 선택지 결과 (강인함에 의해서 약화된 결말)
         public EncounterResult BadResult = new EncounterResult(); // 나쁜 선택지 결과
 
+        public List<string> NeedItems { get; set; } // 선택지에 필요한 아이템들
+
+        public void ChangeDescription(string desc)
+        {
+            Result.Description = desc;
+        }
+
         public void Select(Player player)
         {
             int luck = player.currentStatus.Luck;
@@ -98,6 +110,8 @@ namespace TeamRPG.Game.Object.Data
                 else
                     isMitigated = TryMitigatedTrap(player.currentStatus.Tenacity);
             }
+
+            Result?.OnEnter?.Invoke();
         }
 
         bool TryAvoidTrap(int luck)

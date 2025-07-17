@@ -19,7 +19,7 @@ namespace TeamRPG.Game.Object.UI
         Bottom
     }
 
-    internal class Text : UIElement
+    public class Text : UIElement
     {
         
         public string[] Lines { get; private set; }

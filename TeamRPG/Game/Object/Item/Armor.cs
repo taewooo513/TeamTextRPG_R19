@@ -23,9 +23,5 @@ namespace TeamRPG.Game.Object.Item
             // target.EquipArmor(this);
         }
 
-        protected override void OnUseEffect(Player target)
-        {
-
-        }
     }
 }

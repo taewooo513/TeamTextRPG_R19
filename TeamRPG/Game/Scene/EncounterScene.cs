@@ -15,7 +15,7 @@ namespace TeamRPG.Game.Scene
     using Scene = Core.SceneManager.Scene;
     public class EncounterScene : Scene
     {
-        private Menu currentMenu; 
+        private Menu currentMenu;
 
         private EncounterData currentEncounterData;
         private RawText encounterImage;
@@ -26,12 +26,10 @@ namespace TeamRPG.Game.Scene
 
         private Player player;
 
-        private bool isSelected = false;
-
         public void Init()
         {
             player = PlayerManager.GetInstance().GetPlayer();
-            isSelected = false;
+            SoundManager.GetInstance().PlaySound("RandomEncounterSound4", 0.4f);
             InitEncounterData();
             InitUI();
         }
@@ -42,8 +40,9 @@ namespace TeamRPG.Game.Scene
             InputMenu();
         }
 
-        public void Render() { 
-            
+        public void Render()
+        {
+
         }
 
         void InputMenu()
@@ -69,7 +68,7 @@ namespace TeamRPG.Game.Scene
 
         void InitUI()
         {
-            string image = currentEncounterData.Image != string.Empty? currentEncounterData.Image : "";
+            string image = currentEncounterData.Image != string.Empty ? currentEncounterData.Image : "";
 
             encounterImage = new RawText(image, UIManager.HalfWidth, UIManager.HalfHeight, HorizontalAlign.Center, VerticalAlign.Middle);
             description = new RawText(currentEncounterData.Description, UIManager.HalfWidth, Console.WindowHeight - 3, HorizontalAlign.Center, VerticalAlign.Top);
@@ -116,7 +115,6 @@ namespace TeamRPG.Game.Scene
         {
             currentMenu = resultMenu;
 
-            isSelected = true;
             selectionMenu.IsVisible = false;
             resultMenu.IsVisible = true;
 
@@ -124,7 +122,10 @@ namespace TeamRPG.Game.Scene
 
             resultMenu.GetItem(0).OnSelect = () =>
             {
-                selection.Result.Action?.Invoke(player);
+                selection.Result.OnExit?.Invoke(player);
+                resultMenu.GetItem(0).Text = selection.Result.MenuText;
+                comment.SetText(selection.Result.Comment);
+                description.SetText(selection.Result.Description); 
             };
 
             resultMenu.GetItem(0).Text = selection.Result.MenuText;
@@ -135,6 +136,7 @@ namespace TeamRPG.Game.Scene
         public void Release()
         {
             UIManager.GetInstance().ClearUI();
+            SoundManager.GetInstance().StopSound("RandomEncounterSound4");
         }
     }
 }

@@ -66,7 +66,6 @@ namespace TeamRPG.Core.ShopManager
                 MerchantImageName = "방랑상인", // 상인 이미지 이름
                 DefaultItemNames = new List<string>
                 {
-                    "회복 포션"
                 },
                 RandomItemNames = new List<string>
                 {

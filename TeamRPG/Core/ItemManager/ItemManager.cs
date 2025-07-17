@@ -55,8 +55,7 @@ namespace TeamRPG.Core.ItemManager
 
             // 상점
             // 소모품
-            var hurb = new Consumable("향긋한 허브", "매 턴 생명력 +3", StatusFactory.EmptyStatus, 30);
-            hurb.OnUseEffect = (Player target) => { };
+            var hurb = new Consumable("향긋한 약초", "매 턴 생명력 +3", StatusFactory.EmptyStatus, 30);
             AddItem(hurb);
 
 
@@ -124,6 +123,7 @@ namespace TeamRPG.Core.ItemManager
             temp.MaxAttack = 15;
             temp.HP = 20;
             var guardianHammer = new Weapon("수호자의 망치", "공격력 +30 마계 환경의 몬스터들의 물리, 마법 저항력을 무시", temp, 1000);
+            AddItem(guardianHammer);
 
             temp = StatusFactory.EmptyStatus;
             temp.MinAttack = 20;
@@ -194,7 +194,7 @@ namespace TeamRPG.Core.ItemManager
             {
                 case Consumable c:
                     var newC = new Consumable(c.Name, c.Description, StatusFactory.Clone(c.Status), c.Gold);
-                    newC.OnUseEffect = c.OnUseEffect;
+                    // newC.OnUseEffect = c.OnUseEffect;
                     return newC;
 
                 case Weapon w:

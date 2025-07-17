@@ -16,9 +16,10 @@ namespace TeamRPG.Game.Object.UI
 
         protected UIElement() : this(0, 0, ConsoleColor.White) { }
 
-        protected UIElement(int x, int y, ConsoleColor color = ConsoleColor.White)
+        protected UIElement(int x, int y, ConsoleColor color = ConsoleColor.White, bool addUIElement = true)
         {
-            UIManager.GetInstance().AddUIElement(this);
+            if(addUIElement)
+                UIManager.GetInstance().AddUIElement(this);
             X = x;
             Y = y;
             Color = color;

@@ -10,7 +10,8 @@ namespace TeamRPG.Core.EnemyManager
     public enum eEnemyNum
     {
         eWolf,
-        eGoblin
+        eGoblin,
+        eBoss
     }
     public class EnemyManager : Singleton<EnemyManager>
     {
@@ -28,11 +29,12 @@ namespace TeamRPG.Core.EnemyManager
 
         public void Update()
         {
-            for(int i = 0; i < enemies.Count; i ++)
+            for (int i = 0; i < enemies.Count; i++)
             {
-                enemies[i].Update();
                 if (enemies[i].isDie == true)
-                enemies.Remove(enemies[i]);
+                    enemies.Remove(enemies[i]);
+                else
+                    enemies[i].Update();
             }
         }
         public List<Enemy> GetEnemyList()

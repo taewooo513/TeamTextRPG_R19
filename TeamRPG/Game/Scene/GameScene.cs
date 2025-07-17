@@ -29,12 +29,12 @@ namespace TeamRPG.Game.Scene
             PlayerManager.GetInstance().GetPlayer().PlayerTurnSetting();
             PlayerManager.GetInstance().gameMsg = "고블린 3명을 마주쳤습니다.";
             selectNum = 0;
-            e1 = new Goblin(-30, 0, "A");
-            EnemyManager.GetInstance().AddEnemy(e1, eEnemyNum.eGoblin);
-            e = new Goblin(0, 5, "B");
-            EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eGoblin);
-            e2 = new Goblin(30, 0, "C");
-            EnemyManager.GetInstance().AddEnemy(e2, eEnemyNum.eGoblin);
+            //e1 = new Goblin(-30, 0, "A");
+            //EnemyManager.GetInstance().AddEnemy(e1, eEnemyNum.eGoblin);
+            e = new Boss(0, 5, "??");
+            EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eBoss);
+            //e2 = new Goblin(30, 0, "C");
+            //EnemyManager.GetInstance().AddEnemy(e2, eEnemyNum.eGoblin);
         }
 
         public void Release()
@@ -50,7 +50,7 @@ namespace TeamRPG.Game.Scene
             {
                 e.EnemyUIBar(uiY);
                 uiY += 3;
-                if(e.GetKeyPad().Count != 0)
+                if (e.GetKeyPad().Count != 0)
                 {
                     e.ArroRender();
                 }
@@ -73,15 +73,13 @@ namespace TeamRPG.Game.Scene
                 }
                 else if (PlayerManager.GetInstance().GetPlayer().timer.ElapsedMilliseconds > 2000)
                 {
-                    EnemyManager.GetInstance().GetEnemyList()[0].isTurn = true;
-                    EnemyManager.GetInstance().GetEnemyList()[0].EnemyTurnSetting();
+                    if (EnemyManager.GetInstance().GetEnemyList().Count != 0)
+                    {
+                        EnemyManager.GetInstance().GetEnemyList()[0].isTurn = true;
+                        EnemyManager.GetInstance().GetEnemyList()[0].EnemyTurnSetting();
+                    }
                     PlayerManager.GetInstance().GetPlayer().timer.Reset();
                     PlayerManager.GetInstance().GetPlayer().timer.Stop();
-                }
-                else
-                {
-                    Enemy enemy = EnemyManager.GetInstance().GetEnemyList()[PlayerManager.GetInstance().GetPlayer().selectE];
-                    
                 }
             }
             // e.InputKeyPad(); 뜨거운 코딩 레츠고

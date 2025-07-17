@@ -35,12 +35,28 @@ namespace TeamRPG.Game.Object.UI
 
         public Menu(int x, int y, DirectionType directionType = DirectionType.Vertical) : base(x, y, ConsoleColor.White) {
             DirectionType = directionType;
+
+            InitSelectedIndex();
         }
         public MenuItem AddItem(string text, Action onSelect, bool isEnabled = true, ConsoleColor color = ConsoleColor.White)
         {
             var item = new MenuItem(text, onSelect, isEnabled, color);
             items.Add(item);
+
+            InitSelectedIndex();
             return item;
+        }
+
+        private void InitSelectedIndex()
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].IsEnabled)
+                {
+                    selectedIndex = i;
+                    return;
+                }
+            }
         }
 
         public MenuItem? GetItem(int index)
@@ -63,12 +79,12 @@ namespace TeamRPG.Game.Object.UI
         {
             if (!IsVisible) return;
 
-            if(DirectionType == DirectionType.Vertical)
+            if (DirectionType == DirectionType.Vertical)
             {
                 for (int i = 0; i < items.Count; i++)
                 {
                     var item = items[i];
-
+                    if (!item.IsEnabled) continue;
                     // 선택된 항목은 강조 표시
                     string displayText = (i == selectedIndex) ? $"> {item.Text}" : $"{item.Text}";
                     TextIOManager.GetInstance().OutputSmartText(displayText, X, Y + i);
@@ -80,6 +96,7 @@ namespace TeamRPG.Game.Object.UI
                 for (int i = 0; i < items.Count; i++)
                 {
                     var item = items[i];
+                    if (!item.IsEnabled) continue;
                     // 선택된 항목은 강조 표시
                     string displayText = (i == selectedIndex) ? $"> {item.Text}" : $"{item.Text}";
                     TextIOManager.GetInstance().OutputSmartText(displayText, X + _x, Y);

@@ -14,9 +14,6 @@ namespace TeamRPG.Game.Object.Item
         public string AsciiArt { get; private set; }
         public string BrokenAsciiArt { get; private set; }
 
-
-        
-
         public Weapon(string name, string desc, Status status, int gold, DamageType damageType = DamageType.Physical, int maxDurability = 20, string asciiArt = "", string brokenArt = "")
             : base(name, desc, status, gold, maxDurability)
         {
@@ -25,13 +22,6 @@ namespace TeamRPG.Game.Object.Item
             AsciiArt = asciiArt;
             BrokenAsciiArt = brokenArt;
         }
-        
-
-        public override void EquipTo(Player target)
-        {
-            //target.EquipItem(this);
-        }
-
 
         public string GetAsciiArt()
         {

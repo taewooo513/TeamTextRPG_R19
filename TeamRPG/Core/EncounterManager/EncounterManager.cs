@@ -132,7 +132,10 @@ namespace TeamRPG.Core.EncounterManager
             // 약초 스승 선택지 1
             selection = new EncounterSelection();
             selection.MenuText = "약초를 준다";
-
+            selection.RequiredItems = new List<(string, int)>
+            {
+                ("향긋한 약초", 1)
+            };
             goodResult = new EncounterResult();
             goodResult.Description = "약초를 받고 당신에게 비기를 전수해준다. [공격력 +8 약초 -1]";
             goodResult.Comment = "내 모든 것을 전수해주마";

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TeamRPG.Core.ImageManager;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Game.Character;
+using TeamRPG.Game.Object.Item;
 using TeamRPG.Game.Object.UI;
 
 namespace TeamRPG.Game.Object.Data
@@ -91,7 +92,33 @@ namespace TeamRPG.Game.Object.Data
         public EncounterResult MitigatedResult = new EncounterResult(); // 완화된 선택지 결과 (강인함에 의해서 약화된 결말)
         public EncounterResult BadResult = new EncounterResult(); // 나쁜 선택지 결과
 
-        public List<string> NeedItems { get; set; } // 선택지에 필요한 아이템들
+        public List<(string, int)> RequiredItems { get; set; } // 선택지에 필요한 아이템 및 개수 (아이템 이름, 필요 개수)
+
+        public bool HasRequiredItems
+        {
+            get
+            {
+                if(RequiredItems == null || RequiredItems.Count == 0)
+                    return true; // 필수 아이템이 없으면 항상 true
+
+                Inventory inventory = PlayerManager.GetInstance().GetPlayer().Inventory;
+
+                foreach (var item in RequiredItems)
+                {
+                    if (inventory.TryGetItemLength(item.Item1, out int length))
+                    {
+                        // 아이템 개수 부족하면 중단
+                        if (length < item.Item2)
+                            return false;
+                    }
+                    else
+                        return false;
+                    
+                }
+
+                return true;
+            }
+        }
 
         public void ChangeDescription(string desc)
         {

@@ -237,6 +237,8 @@ namespace TeamRPG.Game.Object.Enemy
                         keyPad.Clear();
                         parryStopwatch.Stop();
                         stopwatch.Start();
+                        isExSkill = false;
+
                     }
                     if (keyPad.Count == 0 && isParreyFail == false)
                     {
@@ -260,6 +262,10 @@ namespace TeamRPG.Game.Object.Enemy
         public void HitEnemy(int _dmg)
         {
             state.currentHp -= _dmg;
+            if (state.currentHp <= 0)
+            {
+                isDie = true;
+            }
         }
     }
 }

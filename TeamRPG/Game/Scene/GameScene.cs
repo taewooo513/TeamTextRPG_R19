@@ -50,7 +50,7 @@ namespace TeamRPG.Game.Scene
             {
                 e.EnemyUIBar(uiY);
                 uiY += 3;
-                if(e.GetKeyPad().Count != 0)
+                if (e.GetKeyPad().Count != 0)
                 {
                     e.ArroRender();
                 }
@@ -73,15 +73,13 @@ namespace TeamRPG.Game.Scene
                 }
                 else if (PlayerManager.GetInstance().GetPlayer().timer.ElapsedMilliseconds > 2000)
                 {
-                    EnemyManager.GetInstance().GetEnemyList()[0].isTurn = true;
-                    EnemyManager.GetInstance().GetEnemyList()[0].EnemyTurnSetting();
+                    if (EnemyManager.GetInstance().GetEnemyList().Count != 0)
+                    {
+                        EnemyManager.GetInstance().GetEnemyList()[0].isTurn = true;
+                        EnemyManager.GetInstance().GetEnemyList()[0].EnemyTurnSetting();
+                    }
                     PlayerManager.GetInstance().GetPlayer().timer.Reset();
                     PlayerManager.GetInstance().GetPlayer().timer.Stop();
-                }
-                else
-                {
-                    Enemy enemy = EnemyManager.GetInstance().GetEnemyList()[PlayerManager.GetInstance().GetPlayer().selectE];
-                    
                 }
             }
             // e.InputKeyPad(); 뜨거운 코딩 레츠고

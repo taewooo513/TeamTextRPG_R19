@@ -5,7 +5,7 @@ using TeamRPG.Core.UtilManager;
 
 namespace TeamRPG.Game.Object.UI
 {
-    internal class BoxMenu : UIElement
+    public class BoxMenu : UIElement
     {
         private Box box;
         private Menu menu;
@@ -78,7 +78,7 @@ namespace TeamRPG.Game.Object.UI
             {
                 var item = items[i];
                 string text = TrimTextToFit(item.Text);
-                string displayText = (i == selectedIndex) ? $"▶ {text}" : $"{text}";
+                string displayText = (i == selectedIndex) ? $"> {text}" : $"{text}";
 
                 ConsoleColor color = item.IsEnabled
                     ? (i == selectedIndex ? ConsoleColor.Yellow : item.Color)

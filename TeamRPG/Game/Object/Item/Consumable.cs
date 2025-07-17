@@ -9,8 +9,6 @@ namespace TeamRPG.Game.Object.Item
 {
     public class Consumable : Item
     {
-        public Action<Player> OnUseEffect { get; set; }
-
         public Consumable(string name, string description, Status status, int gold = 0)
             : base(name, description, status, gold)
         {
@@ -22,19 +20,15 @@ namespace TeamRPG.Game.Object.Item
         public override void Use(Player target)
         {
             if (target == null)
-                {
-                        throw new ArgumentNullException(nameof(target), "Target player cannot be null.");
-                }
+                return;
 
+            BaseEffect(target);
+            OnUse?.Invoke(target); // 아이템 사용 이벤트 호출
+        }
+
+        public virtual void BaseEffect(Player target)
+        {
             target.currentStatus.Add(Status);
-
-            /*
-            if (HealAmount > 0)
-                target.CurrentStatus.HP += HealAmount;
-            if (ManaAmount > 0)
-                target.CurrentStatus.MP += ManaAmount;
-            */
-            OnUseEffect?.Invoke(target);
         }
     }
 

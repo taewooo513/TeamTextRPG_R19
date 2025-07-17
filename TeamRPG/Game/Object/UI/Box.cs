@@ -7,7 +7,7 @@ using TeamRPG.Core.UtilManager;
 
 namespace TeamRPG.Game.Object.UI
 {
-    internal class Box : UIElement
+    public class Box : UIElement
     {
         public int Width { get; set; }
         public int Height { get; set; }

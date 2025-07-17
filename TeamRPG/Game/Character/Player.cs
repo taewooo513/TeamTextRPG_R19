@@ -34,7 +34,8 @@ namespace TeamRPG.Game.Character
         public Status currentStatus { get; private set; }
 
         private List<Status> equipments = new List<Status>();
-        public List<Item> Inventory { get; set; } = new List<Item>();
+        // public List<Item> Inventory { get; set; } = new List<Item>();
+        public Inventory Inventory = new();
         public int Gold { get; set; } = 1000;
         private int selectNum = 0;
         public Player(string _name, Race _race)
@@ -45,6 +46,7 @@ namespace TeamRPG.Game.Character
             baseStatus = StatusFactory.GetStatusByRace(race);
             skills = StatusFactory.GetSkillsByRace(race);
             currentStatus = baseStatus;
+            Inventory = new Inventory();
         }
 
         public void GainExp(int _exp)
@@ -80,10 +82,43 @@ namespace TeamRPG.Game.Character
 
             RecalculateCurrentStatus();
         }
+
+        public void AddGold(int amount)
+        {
+            Gold += amount;
+            if (Gold < 0)
+            {
+                Gold = 0; // 금액이 음수가 되지 않도록 조정
+            }
+        }
+
+        public void PlusAttack(int amount)
+        {
+            baseStatus.MinAttack += amount;
+            baseStatus.MaxAttack += amount;
+            RecalculateCurrentStatus();
+        }
+
+
         public void HitPlayer(int _dmg)
         {
-            baseStatus.currentHp -= _dmg;
+            currentStatus.currentHp -= _dmg;
         }
+
+        public void HealPlayer(int amount)
+        {
+            currentStatus.currentHp += amount;
+            if (currentStatus.currentHp > baseStatus.HP)
+            {
+                currentStatus.currentHp = baseStatus.HP; // 최대 HP를 초과하지 않도록 조정
+            }
+        }
+
+        public void AddItem()
+        {
+
+        }
+
 
         public void EquipItem(Status equip)
         {
@@ -97,7 +132,7 @@ namespace TeamRPG.Game.Character
             RecalculateCurrentStatus();
         }
 
-        public void RecalculateCurrentStatus()
+        private void RecalculateCurrentStatus()
         {
             Status totalEquip = new Status(0, 0, 0, 0, 0, 0, 0, 0, 0);
             foreach (var equip in equipments)

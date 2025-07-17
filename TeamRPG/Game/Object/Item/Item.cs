@@ -26,6 +26,8 @@ namespace TeamRPG.Game.Object.Item
 
     public abstract class Item
     {
+        public Action<Player> OnUse = (player) => { }; // 아이템 사용 시 호출되는 이벤트
+
         public string Name { get; protected set; }        // 표시 이름
         public string Description { get; protected set; } // 설명
         public Status Status { get; protected set; } // 아이템이 가진 상태 정보

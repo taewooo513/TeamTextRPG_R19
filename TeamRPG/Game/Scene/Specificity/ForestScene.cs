@@ -1,4 +1,5 @@
-﻿using TeamRPG.Core.AnimationManager;
+﻿using System.Diagnostics;
+using TeamRPG.Core.AnimationManager;
 using TeamRPG.Core.UtilManager;
 
 namespace TeamRPG.Game.Scene.Specificity
@@ -16,6 +17,7 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Render()
         {
             base.Render();
+            DrawText();
         }
         public override void Release()
         {
@@ -57,8 +59,37 @@ namespace TeamRPG.Game.Scene.Specificity
             TextIOManager.GetInstance().OutputText("⣾⡿⣾⡿⣇⢑⢰⣻⣿⢿⣿⣔⢄⣑⢸⣿⡐⡌⡐⡜⡨⡢⡡⡡⡌⣂⢣⢱⢨⠢⡱⠌⠌⢌⠮⢌⡪⢜⢜⡳⢝⢺⠪⢎⢎⠎⠆⠣⢑⠌⠪⠘⢜⢊⢎⢊⢣⢣⣃⡃⡇⢇⢕⢭⡪⡪⡕⣝⢜⢮⢺⡪⣞⡵⡕⡷⣝⢮⡺⣕⡳⡽⣪⣫⢺⣙⣞⣝⢮⡻⣺⣪⣿⣯⣿⣿⣯⡷⡽⣺", 25, 32);
             TextIOManager.GetInstance().OutputText("⣯⣿⣿⣻⣗⢔⢼⣯⣿⣿⢷⢉⢇⡳⡼⡫⡟⡳⡱⣞⢞⠾⣜⠮⢮⢮⠾⣜⢦⡳⣝⢮⢏⣮⡪⣖⣎⣣⢕⡕⣕⢑⢕⠱⠡⠣⠡⡁⡅⡅⡅⡥⡢⣕⢜⠼⡜⡲⡢⡇⠧⡣⠇⠧⠳⡱⡹⡸⡕⡵⠕⢗⠵⢝⢝⢝⢵⢳⢹⢸⢹⡚⣺⢸⢝⢶⡳⡓⣏⣟⡞⣏⢿⢝⢾⡻⣺⡫⢟⣽", 25, 33);
             TextIOManager.GetInstance().OutputText("⣯⣷⣿⢿⣽⢴⣿⣻⣽⡾⣿⣧⣥⡱⣘⢜⣌⢮⢪⢢⢱⢹⡸⡩⡘⢌⠜⢬⠺⡸⡨⠪⢍⢢⢩⢎⢎⢎⠫⣚⠪⡫⡊⡣⡉⠪⡁⠅⠅⠅⠣⢁⢑⢐⢁⢑⠈⠌⢌⢌⠱⡈⡣⢣⢳⢘⢌⢆⠬⠬⢕⢕⢭⢜⢜⢜⢜⢜⣜⢼⡲⡳⡵⡫⡳⠳⡹⡙⡪⠪⡊⡪⡸⡘⣄⢇⢕⣌⡮⣞", 25, 34);
-            TextIOManager.GetInstance().OutputSmartText("새가 짖는 소리가들린다....", 65, 36);
 
+        }
+        protected virtual void DrawText()
+        {
+            TextIOManager.GetInstance().OutputSmartText("새가 짖는 소리가들린다....", 65, 36);
+        }
+    }
+    internal class ForestStartScene : ForestScene
+    {
+        public override void Init()
+        {
+            base.Init();
+            stopwatch = new Stopwatch();
+            stopwatch.Start();
+        }
+        public override void Update()
+        {
+        }
+        public override void Release()
+        {
+            stopwatch.Stop();
+            stopwatch.Reset();
+        }
+        public override void Render()
+        {
+            base.GetSpecificityEvent();
+            DrawText();
+        }
+        protected override void DrawText()
+        {
+            TextIOManager.GetInstance().OutputSmartText("당신은 스산한 기운이 감도는 숲에서 여정을 시작했다.", 48, 36);
         }
     }
 }

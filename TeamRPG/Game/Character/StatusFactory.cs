@@ -51,16 +51,16 @@ namespace TeamRPG.Game.Character
                 return null;
 
             return new Status(
-                        source.HP,
-                        source.MP,
-                        source.MinAttack,
-                        source.MaxAttack,
-                        source.Agility,
-                        source.Tenacity,
-                        source.Luck,
-                        source.currentHp,
-                        source.currentMp
-                );
+                    source.HP,
+                    source.MP,
+                    source.MinAttack,
+                    source.MaxAttack,
+                    source.Agility,
+                    source.Tenacity,
+                    source.Luck,
+                    source.currentHp,
+                    source.currentMp
+            );
         }
         public static Status EmptyStatus
         {

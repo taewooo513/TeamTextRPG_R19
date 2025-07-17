@@ -19,6 +19,7 @@ namespace TeamRPG.Game.Character
         private int attackIndex;
         private bool isSkill;
         private List<Skill> skills;
+        public Trait trait;
         public Stopwatch timer;
         public int selectE = 0;
         private bool isDefens = false;
@@ -96,7 +97,7 @@ namespace TeamRPG.Game.Character
             RecalculateCurrentStatus();
         }
 
-        private void RecalculateCurrentStatus()
+        public void RecalculateCurrentStatus()
         {
             Status totalEquip = new Status(0, 0, 0, 0, 0, 0, 0, 0, 0);
             foreach (var equip in equipments)
@@ -456,6 +457,18 @@ namespace TeamRPG.Game.Character
             TextIOManager.GetInstance().OutputText("│", 4 + currentStatus.MP / 10 * 2 + 2, 37);
 
 
+        }
+
+        public void RandomTrait()
+        {
+            List<Trait> allTraits = new List<Trait>();
+            allTraits.AddRange(TraitDatabase.commonTraits);
+            allTraits.AddRange(TraitDatabase.GetTraitsByRace(this.race));
+
+            Random rand = new Random();
+            this.trait = allTraits[rand.Next(allTraits.Count)];
+
+            this.trait.ApplyEffect(this);
         }
     }
 }

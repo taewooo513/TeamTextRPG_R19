@@ -18,6 +18,7 @@ namespace TeamRPG.Game.Scene
         int skillSelectIndex = 0;
         bool showingSkillDetail = false;
         List<Skill> skills;
+        //Trait trait;
 
 
         public void Init()
@@ -25,9 +26,11 @@ namespace TeamRPG.Game.Scene
             select = 0;
             menuState = 0;
             player = new Player("asd", (Race)1);
-            status = new Status(70, 50, 12, 16, 30, 50, 10, 70, 50);
+            status = StatusFactory.GetStatusByRace(player.race);
             isSelect = false;
             skills = StatusFactory.GetSkillsByRace(player.race);
+            player.RandomTrait();
+            
         }
 
         public void Release()
@@ -39,14 +42,15 @@ namespace TeamRPG.Game.Scene
         {
             TextIOManager.GetInstance().OutputSmartText($"이름 : {player.name}({player.race})", 3, 6);
             TextIOManager.GetInstance().OutputSmartText($"레벨 : {player.level}", 3, 8);
-            TextIOManager.GetInstance().OutputSmartText($"체력 : {status.currentHp} / {status.HP}", 3, 9);
-            TextIOManager.GetInstance().OutputSmartText($"마나 : {status.currentMp} / {status.MP}", 3, 10);
-            TextIOManager.GetInstance().OutputSmartText($"공격력 : {status.MinAttack} ~ {status.MaxAttack}", 3, 11);
-            TextIOManager.GetInstance().OutputSmartText($"재빠름 : {status.Agility}", 3, 12);
-            TextIOManager.GetInstance().OutputSmartText($"강인함 : {status.Tenacity}", 3, 13);
+            TextIOManager.GetInstance().OutputSmartText($"체력 : {player.currentStatus.HP} / {player.baseStatus.HP}", 3, 9);
+            TextIOManager.GetInstance().OutputSmartText($"마나 : {player.currentStatus.currentMp} / {player.baseStatus.MP}", 3, 10);
+            TextIOManager.GetInstance().OutputSmartText($"공격력 : {player.currentStatus.MinAttack} ~ {status.MaxAttack}", 3, 11);
+            TextIOManager.GetInstance().OutputSmartText($"재빠름 : {player.currentStatus.Agility}", 3, 12);
+            TextIOManager.GetInstance().OutputSmartText($"강인함 : {player.currentStatus.Tenacity}", 3, 13);
             TextIOManager.GetInstance().OutputSmartText($"운 : {status.Luck}", 3, 14);
             TextIOManager.GetInstance().OutputSmartText($"소지금 {player.Gold}G", 3, 16);
-            TextIOManager.GetInstance().OutputSmartText($"스트레스 수치 {status.stress}", 3, 20);
+            TextIOManager.GetInstance().OutputSmartText($"스트레스 수치 {player.currentStatus.stress}", 3, 20);
+            TextIOManager.GetInstance().OutputSmartText($"특성 : {player.trait.name}", 3, 21);
             TextIOManager.GetInstance().OutputSmartText($"다음 레벨까지 EXP {player.expToNextLevel}",3, 22);
 
             if (status.stress >= 50 && status.stress < 100)

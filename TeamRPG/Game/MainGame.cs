@@ -58,7 +58,7 @@ namespace TeamRPG.Game
             PlayerManager.GetInstance().Init("test", Race.Human);
 
 
-            SceneManager.GetInstance().ChangeScene("GameScene");
+            SceneManager.GetInstance().ChangeScene("CharInfoScene");
 
             EncounterManager.GetInstance().Init();
 

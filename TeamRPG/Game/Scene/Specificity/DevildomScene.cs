@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Render()
         {
             base.Render();
+            DrawText();
         }
         public override void Release()
         {
@@ -62,12 +64,39 @@ namespace TeamRPG.Game.Scene.Specificity
             TextIOManager.GetInstance().OutputText("⣯⢎⢮⣷⢿⣯⡿⣯⣿⣻⢿⡾⣯⣿⢿⣾⣻⣯⣷⡿⣟⣿⣻⣽⡷⣟⣿⣻⣽⣾⣟⣯⣿⣟⣿⣳⡿⣾⢯⣿⣽⡾⣷⣻⣽⣟⣯⣿⢯⡿⣷⢿⣽⢿⣽⢷⣿⣻⣽⣯⡿⣯⣿⡽⣿⣝⢮⢗⡽⡪⣇⢗⣝⢮⣳⣟⣯⣿⣻⢷⣻⣽⣾⣻⡾⣯⣷⣿⣽⡾⣯⣿⣻⣯", 25, 32);
             TextIOManager.GetInstance().OutputText("⢯⡳⣽⣾⣟⣷⢿⣻⣾⣻⣟⣿⣻⣾⣟⣷⣟⣷⢿⣽⢿⣯⣿⣽⣟⣿⣽⣯⡿⣞⣯⡿⣾⢯⣿⡽⣿⡽⣟⣷⢿⣽⢿⣽⢷⡿⣽⣾⢿⣻⣟⣯⣿⣻⣽⣿⣽⣯⣷⣟⣿⣻⣾⣻⣟⡾⣝⡵⣫⣳⣕⣯⡺⡵⣳⣯⡷⣿⡽⣟⣯⡿⣞⣯⡿⣯⣷⡿⣞⣿⣽⣾⣻⢾", 25, 33);
             TextIOManager.GetInstance().OutputText("⣟⣾⣻⣾⣻⡾⣟⣿⢾⣯⢿⣾⣻⣾⣻⣾⣻⡾⣟⣯⣿⢷⡿⣞⣯⣷⢿⣞⣿⣻⣽⣟⣿⣻⡷⣿⣯⢿⣻⣽⢿⣽⢿⡽⣟⣟⣯⣿⣻⣯⢿⣽⡾⣟⣷⢿⣞⣷⢿⣽⣯⢿⡾⣯⣿⣽⣺⣺⣗⡿⣾⣗⡯⡯⣞⣷⣟⣯⣿⣻⣽⣟⣿⡽⣟⣯⣷⣿⢿⣽⡾⣷⣻⣟", 25, 34);
+        }
+
+        protected virtual void DrawText()
+        {
             TextIOManager.GetInstance().OutputSmartText("끝없는 혼돈의 땅, 공포라는 말이 실체화 된듯 공기마서 서늘하며 뜨겁다.", 42, 36);
         }
     }
-    /*
-     
+    internal class DevildomStartScene : DevildomScene
+    {
+        public override void Init()
+        {
+            base.Init();
+            stopwatch = new Stopwatch();
+            stopwatch.Start();
+        }
+        public override void Update()
+        {
+        }
+        public override void Release()
+        {
+            stopwatch.Stop();
+            stopwatch.Reset();
+        }
+        public override void Render()
+        {
+            base.GetSpecificityEvent();
+            DrawText();
+        }
+        protected override void DrawText()
+        {
+            TextIOManager.GetInstance().OutputSmartText("당신은 스산한 기운이 감도는 마계에서 여정을 시작했다.", 48, 36);
 
+        }
+    }
 
-     */
 }

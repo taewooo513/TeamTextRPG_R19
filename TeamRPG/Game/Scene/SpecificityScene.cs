@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,10 +13,12 @@ namespace TeamRPG.Game.Scene
     internal class SpecificityScene : Core.SceneManager.Scene
     {
         public int selectNum = 0;
+        protected Stopwatch stopwatch;
         public virtual void Init()
         {
             selectNum = 0;
         }
+
 
         public virtual void Release()
         {
@@ -51,8 +54,60 @@ namespace TeamRPG.Game.Scene
                 }
             }
         }
-            
-        
+
+        protected void GetSpecificityEvent()
+        {
+            if (stopwatch.ElapsedMilliseconds < 8000)
+            {
+                DrawMap();
+            }
+            else if (stopwatch.ElapsedMilliseconds < 14000)
+            {
+                DrawSpecificity();
+            }
+            else if(stopwatch.ElapsedMilliseconds<14500)
+            {
+                SceneManager.GetInstance().ChangeScene("GameScene");
+            }
+        }
+
+        private void DrawSpecificity()
+        {
+            TextIOManager.GetInstance().OutputText("⢌⠢⡁⡢⢂⠌⡐⡐⡐⡐⡐⢐⠐⡀⢂⢐⠐⠄⠅⡂⢐⠐⠐⡀⢂⠂⡁⡂⠅⡂⠅⠂⢌⢐⠨⢐⠨⡐⠨⢐⠨⢐⠨⢐⠌⠢⡑⢌⢌⠪⡨⠪⡨", 48, 1);
+            TextIOManager.GetInstance().OutputText("⠢⡑⡐⡐⡐⠨⢐⠠⠂⡀⢂⢐⢀⠂⢂⠀⡂⢁⠂⠂⢂⠨⠐⡀⡂⢂⠂⡂⠅⡐⠈⠌⠄⡂⠌⠄⡂⠌⠌⠄⠌⡐⠨⡐⠌⢌⢐⠔⡠⡑⢌⢊⠢", 48, 2);
+            TextIOManager.GetInstance().OutputText("⢅⢂⠢⢂⠌⠨⢀⠂⠡⠐⡀⠂⠄⠨⠀⡂⢐⠠⠈⠌⡀⢂⠁⠄⡐⢀⠂⡐⢀⢂⠡⢁⢂⠢⠨⢐⠠⢁⠊⠌⠢⠨⢂⠢⢑⢐⠄⢅⠢⠨⢂⠌⢌", 48, 3);
+            TextIOManager.GetInstance().OutputText("⢐⠠⢑⠐⡈⡐⢐⠈⠄⠅⢂⠡⠈⠄⠡⠐⡀⠄⡁⢂⠐⠠⠈⠄⢂⠐⡀⢂⠐⡀⠂⡂⠄⠂⠌⠄⠌⡐⠨⠨⠨⡈⠢⡈⡂⡂⠪⡐⠌⢌⢂⠪⢐", 48, 4);
+            TextIOManager.GetInstance().OutputText("⠢⠨⢐⠐⡐⡈⡐⡈⠌⢐⠀⡂⠡⠈⠄⠡⠀⡂⢐⠠⠈⠄⠡⠈⠄⢂⠐⡀⢂⠂⠡⢐⠈⠌⡐⠡⠡⠨⠨⢈⠢⢈⢂⢂⢂⠪⢐⢐⠡⢂⠢⠑⢄", 48, 5);
+            TextIOManager.GetInstance().OutputText("⠨⢐⠐⡈⠄⡂⡐⠠⠈⠄⢂⠐⡈⠠⠁⠂⡁⠄⠂⠠⠁⠌⠄⠡⠈⠄⢂⠐⡠⠨⠈⠄⠌⡐⠄⡑⠨⢈⠌⡐⠨⢐⢐⠐⢄⢑⠐⢄⢑⠐⠌⢌⢐", 48, 6);
+            TextIOManager.GetInstance().OutputText("⠈⠄⡂⠄⠡⢀⠂⠌⠠⢁⠐⠠⠐⡀⢁⠂⠄⠂⡁⠌⠐⡀⠅⠨⢈⠐⡐⢐⠐⡈⠌⠨⢐⠠⢁⠂⠅⡂⠢⠨⢈⢐⢐⠨⢐⠠⢑⠐⠄⢅⢑⢐⢐", 48, 7);
+            TextIOManager.GetInstance().OutputText("⢈⠐⠠⢈⠈⠄⠂⠡⠈⠄⠨⠐⠐⡀⢂⠐⠠⠁⠄⠂⡁⠄⠨⠐⠐⡐⠐⡐⢐⠠⠁⠅⡂⠌⡐⠨⢐⠠⠡⡁⡂⡂⠢⡈⠢⡈⡂⠅⡑⢐⢐⠐⡐", 48, 8);
+            TextIOManager.GetInstance().OutputText("⡂⠨⠐⢐⠈⠄⠡⠈⠄⡁⢂⠁⡂⢐⠠⠈⠄⡁⠂⡁⠄⠨⢀⢁⠡⠐⢐⢀⠂⢄⢑⠐⡐⡐⠄⠅⡂⠌⡐⡐⠠⠂⠅⡂⠅⡂⢂⠅⡂⠅⡂⠌⠄", 48, 9);
+            TextIOManager.GetInstance().OutputText("⠠⠁⠌⡀⢂⠁⡁⡁⠡⠐⡀⢂⢐⢀⠂⠅⡂⠄⠡⠐⡈⢐⢀⠂⠄⠅⢂⢐⠨⢀⠂⠌⠄⡂⠌⡐⠄⠅⡂⢂⠅⠅⠅⡂⠅⡂⠅⡂⡂⠅⡂⠅⡑", 48, 10);
+            TextIOManager.GetInstance().OutputText("⠌⠄⠅⡐⡀⠢⢐⠠⠨⢀⠂⠔⡀⠢⡈⠢⠨⠨⡊⠔⡀⡂⢐⠈⠄⡁⢂⢐⠈⠄⠌⢂⠡⠠⢁⠂⡁⠢⠈⠄⡂⠅⡊⠄⠅⡂⠅⡂⠄⠅⡂⡁⡂", 48, 11);
+            TextIOManager.GetInstance().OutputText("⠅⠅⡊⠄⡂⡑⡐⠨⠠⡁⡊⠔⡈⠢⠨⠨⡈⡂⠢⢑⢐⠨⡀⡂⡡⡰⣔⢤⠈⠄⡁⡂⠄⠅⠂⠌⠄⠅⠅⠅⡢⡁⡂⠅⡂⡂⠅⡂⠅⡡⢂⠐⠄", 48, 12);
+            TextIOManager.GetInstance().OutputText("⡅⡅⡂⠅⡂⠔⠠⡁⡂⢂⠂⠅⠌⡨⠈⠔⡐⠨⢈⠐⠄⡂⡂⡂⡂⢳⢱⠫⠨⢐⢀⠂⠌⠄⡑⢈⠄⠅⠌⡐⠔⢌⠢⡁⡂⠄⠅⡂⠅⢂⠂⠅⡁", 48, 13);
+            TextIOManager.GetInstance().OutputText("⢣⢣⢣⢣⢣⢪⢢⢢⢢⢡⢌⢐⠡⠠⠡⢁⠂⠅⡂⢅⠑⠌⡂⢆⣪⡮⣯⢷⣥⣂⠂⠌⠄⠅⢂⠂⠌⠄⠅⠢⠡⡑⠨⡐⢄⠅⢅⢢⢸⢰⢸⢸⢰", 48, 14);
+            TextIOManager.GetInstance().OutputText("⢊⢂⠣⡑⢅⠣⠱⡑⢕⠱⡡⢣⢙⠜⡸⡐⢅⢕⢐⠄⠅⠅⢌⣯⣗⣯⢿⡽⣞⣞⣇⠅⠅⠡⡂⠌⡌⢔⢅⢣⢱⢘⢜⢌⢆⢇⢇⢇⠣⡣⠣⡣⠣", 48, 15);
+            TextIOManager.GetInstance().OutputText("⢐⠄⢕⠐⡄⢅⠕⡨⠠⠡⠨⡐⡐⠡⢂⠌⡂⢂⠢⡁⠣⡉⢲⣻⢾⡽⣯⣟⣯⢻⣞⣎⠌⡊⢌⠪⠨⠢⢑⠡⠡⡡⠡⡡⢑⠌⠢⠨⡨⢂⠕⡨⠨", 48, 16);
+            TextIOManager.GetInstance().OutputText("⡑⡌⠢⡑⠌⡎⡪⡢⡡⢃⠕⡐⠌⢌⢂⢂⢂⢂⢂⢊⠌⠌⣞⣯⡿⣽⢷⣻⣮⢂⣿⡺⠐⠨⢐⠨⠨⡈⡂⠅⢅⠢⡑⠄⢕⠨⡘⡨⡐⢔⠡⡂⡑", 48, 17);
+            TextIOManager.GetInstance().OutputText("⠣⡊⢌⢢⢣⢣⠪⡘⢔⡁⡂⡂⢅⢂⠢⡁⡂⡊⡐⡐⢨⠨⡾⣯⡿⣯⢿⣳⣯⣟⠞⡠⠡⡑⡐⡕⡕⡢⡪⡊⣆⢕⡅⢕⢐⢅⠢⡂⡪⢠⢑⠰⡐", 48, 18);
+            TextIOManager.GetInstance().OutputText("⢃⡪⡸⡸⡸⡰⣑⢮⣳⡳⡴⡸⡐⡥⡕⡔⡕⡌⡂⡪⡂⣇⣿⢿⣽⣟⣯⡿⣞⣷⢁⢪⢨⢢⢣⢣⢣⢳⢸⢪⡺⡸⣪⢲⠰⡘⡜⡌⡪⡢⡑⢌⠢", 48, 19);
+            TextIOManager.GetInstance().OutputText("⡗⡜⡜⡔⡱⡸⡮⡯⣺⣝⣞⡇⣇⡯⡯⣎⣞⢮⡊⡆⡕⡼⣾⢿⡷⣟⣷⣟⣯⣿⡕⢅⠣⡊⢎⢎⢎⢞⢜⢕⢕⠝⡜⡜⡕⣕⢕⢅⢃⠢⢊⠐⠄", 48, 20);
+            TextIOManager.GetInstance().OutputText("⡇⡇⡇⡇⣗⢯⣻⡺⣳⡣⣗⢽⣺⡺⡝⢎⢪⡳⡕⡜⣜⢮⡿⣯⡻⠫⡓⣿⣽⠞⠩⡂⢕⠨⢂⢑⢌⠪⡨⢂⠅⠕⢌⢊⠪⡂⠇⡅⠕⠨⢐⠈⠄", 48, 21);
+            TextIOManager.GetInstance().OutputText("⡇⣇⢧⡳⡽⣝⢞⢮⢳⢙⢎⢣⢳⠹⡈⡢⢃⠇⡗⡝⡎⡗⣿⣟⠜⣬⢮⣿⢾⡬⣌⠎⡂⢅⢑⢐⠐⠅⡊⠔⡁⡣⢑⠄⠕⡨⢊⠔⡡⢑⠐⠌⠄", 48, 22);
+            TextIOManager.GetInstance().OutputText("⡝⢜⠢⡣⠫⡪⠪⡑⢌⠆⡢⢑⠐⢅⡂⡪⣐⣅⣂⡪⣌⣊⣿⡇⢥⣿⣻⣽⡿⣯⡿⣽⢦⡂⡢⢂⠅⠅⡂⢅⠢⡊⡂⡪⢐⢐⠅⡪⢐⠅⡪⡘⡌", 48, 23);
+            TextIOManager.GetInstance().OutputText("⢌⠢⡃⡪⠨⡂⢕⠨⡂⠕⡠⢑⢨⣞⣮⢷⣳⣗⡷⣽⣺⣳⢿⣶⣽⡷⣟⣿⣽⡷⣿⢯⣿⡽⡶⣔⢨⠨⡢⡡⡑⡌⢆⢊⢢⢑⢌⠢⡱⢨⠢⡑⢌", 48, 24);
+            TextIOManager.GetInstance().OutputText("⡢⢣⠱⡘⢌⠢⡑⢌⠢⢑⠌⡂⡻⣽⣟⣿⣽⣾⣟⣿⣽⣯⢿⣾⢷⣿⢿⣟⣷⢿⣻⣯⢷⡿⣿⣳⣥⡣⡣⡱⡸⡌⡎⡎⡢⡣⡢⢃⠪⡂⢕⠰⡐", 48, 25);
+            TextIOManager.GetInstance().OutputText("⢘⢔⡑⢜⢨⠨⡨⡢⡱⡱⡨⣢⡱⣹⣯⣿⣽⣾⣿⣽⣾⣟⣿⣽⣿⢽⡿⣟⣿⣻⣿⣾⢿⣟⣿⣻⣽⣮⡳⣝⠼⡸⡈⡢⢊⠔⡨⡘⡜⡎⡮⡪⡸", 48, 26);
+            TextIOManager.GetInstance().OutputText("⢇⢕⡜⣆⡣⢅⢣⠎⡞⡝⡝⡎⡏⣧⣻⣽⣯⣷⣿⣯⣷⣿⣯⣷⡿⣯⣿⣽⣯⣿⣷⣿⣿⣟⣯⣿⣽⣯⣷⢵⢵⣔⣌⣢⢑⢌⠢⡪⡘⡜⡪⡪⡣", 48, 27);
+            TextIOManager.GetInstance().OutputText("⡕⡇⡗⣕⢕⢅⢕⠌⡆⢕⢅⢕⢌⣿⣯⣷⣿⢿⣽⣯⣿⣾⣯⣷⣿⣿⡾⣿⣾⢿⣯⣿⣷⣿⣿⢿⣯⣿⣯⣿⣿⣽⣿⢾⣷⢌⡪⣆⡣⡣⡣⡕⡜", 48, 28);
+            TextIOManager.GetInstance().OutputText("⡣⡳⡱⡱⡕⣕⣵⣻⣞⣿⢦⣳⣼⣾⣯⣿⢿⣿⢿⣿⣽⣾⣿⣯⣷⣿⣿⡿⣿⡿⣿⣽⣾⣷⣿⣿⢿⣟⣿⣿⣽⣷⣿⢿⣻⢤⣟⣯⢿⣺⢾⡜⡜", 48, 29);
+            TextIOManager.GetInstance().OutputText("⢣⡣⣣⣿⣽⣯⣿⣽⣯⣿⢿⣻⣯⣷⣿⢿⣿⣻⣿⣟⣯⣿⣷⡿⣯⣷⣿⣿⣿⢿⣟⣿⣽⣿⣷⣿⣿⢿⡿⣾⣿⣻⣽⣿⣟⣯⣷⣟⣯⣿⡽⣧⣷", 48, 30);
+            TextIOManager.GetInstance().OutputText("⣜⣼⣺⣽⣾⡿⣾⡿⣾⡿⣿⣿⣻⣽⣿⣻⣽⣿⣯⣿⣿⣿⣽⣿⣿⣿⡿⣿⣾⣿⣿⣿⣟⣯⣿⣾⣿⣻⣿⣻⣾⣿⣻⣷⢿⣻⣽⣿⣽⡾⣟⣿⣽", 48, 31);
+            TextIOManager.GetInstance().OutputText("⣾⣻⣟⣿⣽⣿⣟⣿⡿⣿⣟⣯⣿⣟⣯⣿⣟⣯⣿⣯⣷⣿⣿⣯⣿⣾⣿⣿⣿⣻⣽⣾⣿⣿⣿⣻⣽⣿⣻⣿⣽⣾⣿⢿⡿⣟⣿⣽⢷⣿⣟⣯⣿", 48, 32);
+            TextIOManager.GetInstance().OutputText("⣾⣟⣿⣻⣽⣾⣿⣽⣿⣟⣿⡿⣟⣿⣿⢿⣿⢿⣻⣽⣿⣻⣾⣿⣟⣿⣿⣽⣾⣿⣿⣿⡿⣷⣿⢿⣟⣯⣿⣿⣻⣯⣿⣟⣿⣟⣿⡾⣿⣷⡿⣿⣽", 48, 33);
+            TextIOManager.GetInstance().OutputText("⣽⣯⣿⢿⡿⣟⣯⣿⣾⣿⡿⣿⣿⢿⣻⣿⣿⣿⣿⣿⣟⣿⣿⣷⣿⣿⣾⣿⣻⣽⣿⣾⣿⣿⡿⣿⡿⣿⣻⣽⣿⣯⣷⣿⣯⣿⣟⣿⣿⣷⣿⣿⣿", 48, 34);
+        }
 
         public virtual void Update()
         {

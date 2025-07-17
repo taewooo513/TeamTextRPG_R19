@@ -158,7 +158,6 @@ namespace TeamRPG.Game.Scene
                     case 3:
                         PlayerManager.GetInstance().environment = "DevildomScene";
                         SceneManager.GetInstance().ChangeScene("DevildomStartScene");
-
                         break;
                 }
 

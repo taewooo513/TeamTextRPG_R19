@@ -101,15 +101,15 @@ namespace TeamRPG.Game.Character
 
         public void HitPlayer(int _dmg)
         {
-            baseStatus.currentHp -= _dmg;
+            currentStatus.currentHp -= _dmg;
         }
 
         public void HealPlayer(int amount)
         {
-            baseStatus.currentHp += amount;
-            if (baseStatus.currentHp > baseStatus.HP)
+            currentStatus.currentHp += amount;
+            if (currentStatus.currentHp > baseStatus.HP)
             {
-                baseStatus.currentHp = baseStatus.HP; // 최대 HP를 초과하지 않도록 조정
+                currentStatus.currentHp = baseStatus.HP; // 최대 HP를 초과하지 않도록 조정
             }
         }
 

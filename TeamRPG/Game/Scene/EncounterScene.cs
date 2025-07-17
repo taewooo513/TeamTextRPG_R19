@@ -63,8 +63,8 @@ namespace TeamRPG.Game.Scene
 
         void InitEncounterData()
         {
-            currentEncounterData = EncounterManager.GetInstance().GetRandomEncounterData();
-            //currentEncounterData = EncounterManager.GetInstance().GetEncounterData("약초 스승");
+            // currentEncounterData = EncounterManager.GetInstance().GetRandomEncounterData();
+            currentEncounterData = EncounterManager.GetInstance().GetEncounterData("버섯");
         }
 
         void InitUI()
@@ -110,7 +110,6 @@ namespace TeamRPG.Game.Scene
             selectionMenu.Y = Console.WindowHeight - 1;
             resultMenu.X = 60;
             resultMenu.Y = Console.WindowHeight - 1;
-
         }
 
         public void OnSelectMenu(Player player, EncounterSelection selection)
@@ -122,14 +121,15 @@ namespace TeamRPG.Game.Scene
             resultMenu.IsVisible = true;
 
             // encounterImage.SetText(selection.Result.Image);
-            description.SetText(selection.Result.Description);
-            comment.SetText(selection.Result.Comment);
-            resultMenu.GetItem(0).Text = selection.Result.MenuText;
+
             resultMenu.GetItem(0).OnSelect = () =>
             {
                 selection.Result.Action?.Invoke(player);
             };
 
+            resultMenu.GetItem(0).Text = selection.Result.MenuText;
+            comment.SetText(selection.Result.Comment);
+            description.SetText(selection.Result.Description);
         }
 
         public void Release()

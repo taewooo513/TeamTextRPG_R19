@@ -43,8 +43,8 @@ namespace TeamRPG.Game.Object.Data
     public class EncounterResult
     {
         public string MenuText { get; set; } // 결과 메뉴 텍스트
-        public string Description { get; set; } // 결과 설명
-        public string Comment { get; set; } // 결과 코멘트
+        public string Description { get; set; } // 결과 설명 ex) 약초를 가져갔다, 10의 피해를 입었다.
+        public string Comment { get; set; } // 결과 코멘트 ex) 나 좀 도와주게나, 매정한 녀석
 
         private string image = "";
         public string Image
@@ -97,18 +97,6 @@ namespace TeamRPG.Game.Object.Data
                     isMitigated = false;
                 else
                     isMitigated = TryMitigatedTrap(player.currentStatus.Tenacity);
-            }
-            else
-            {
-
-                if (isMitigated)
-                {
-                    // MitigatedResult.Image = !string.IsNullOrWhiteSpace(MitigatedResult.Image) ? MitigatedResult.Image : Data.Image;
-                }
-                else
-                {
-                    // BadResult.Image = !string.IsNullOrWhiteSpace(BadResult.Image) ? BadResult.Image : Data.Image;
-                }
             }
         }
 

@@ -37,7 +37,8 @@ namespace TeamRPG.Game.Character
 
                 case eEnemyNum.eBoss:
                     int bosshp = rd.Next(150, 151);
-                    return new Enemy.State(bosshp, "???", rd.Next(35, 45), 80, 80, 80, 100, 0);
+                    return new Enemy.State(bosshp, "???", rd.Next(35, 45), 80, 80, 80, 100, bosshp);
+
 
                 default:
                     throw new System.ArgumentException("Unknown race");
@@ -51,16 +52,16 @@ namespace TeamRPG.Game.Character
                 return null;
 
             return new Status(
-                        source.HP,
-                        source.MP,
-                        source.MinAttack,
-                        source.MaxAttack,
-                        source.Agility,
-                        source.Tenacity,
-                        source.Luck,
-                        source.currentHp,
-                        source.currentMp
-                );
+                    source.HP,
+                    source.MP,
+                    source.MinAttack,
+                    source.MaxAttack,
+                    source.Agility,
+                    source.Tenacity,
+                    source.Luck,
+                    source.currentHp,
+                    source.currentMp
+            );
         }
         public static Status EmptyStatus
         {

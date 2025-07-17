@@ -32,10 +32,6 @@ namespace TeamRPG.Game.Object.Enemy
             y = _y;
         }
 
-        public override void SelectEnemy()
-        {
-            TextIOManager.GetInstance().OutputText4Byte("▶", 69 + x, 3 + y);
-        }
 
         protected override void DrawImage()
             {

@@ -1,4 +1,5 @@
-﻿using System;
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -490,8 +491,6 @@ namespace TeamRPG.Game.Character
 
             TextIOManager.GetInstance().OutputText("│", 4, 37);
             TextIOManager.GetInstance().OutputText("│", 4 + currentStatus.MP / 10 * 2 + 2, 37);
-
-
         }
 
         public void RandomTrait()

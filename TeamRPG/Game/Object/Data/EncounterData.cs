@@ -53,8 +53,8 @@ namespace TeamRPG.Game.Object.Data
 
         public string ImageName { get; set; }
 
-        public Action OnInit { get; set; } = () => { }; // 결과 초기화 액션
-        public Action<Player> Action { get; set; } // 결과 액션
+        public Action OnEnter { get; set; } = () => { }; // 결과 초기화 액션
+        public Action<Player> OnExit { get; set; } // 결과 액션
     }
 
     public class EncounterSelection
@@ -109,7 +109,7 @@ namespace TeamRPG.Game.Object.Data
                     isMitigated = TryMitigatedTrap(player.currentStatus.Tenacity);
             }
 
-            Result?.OnInit?.Invoke();
+            Result?.OnEnter?.Invoke();
         }
 
         bool TryAvoidTrap(int luck)

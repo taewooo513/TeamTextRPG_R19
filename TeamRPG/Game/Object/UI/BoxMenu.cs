@@ -78,7 +78,7 @@ namespace TeamRPG.Game.Object.UI
             {
                 var item = items[i];
                 string text = TrimTextToFit(item.Text);
-                string displayText = (i == selectedIndex) ? $"▶ {text}" : $"{text}";
+                string displayText = (i == selectedIndex) ? $"> {text}" : $"{text}";
 
                 ConsoleColor color = item.IsEnabled
                     ? (i == selectedIndex ? ConsoleColor.Yellow : item.Color)

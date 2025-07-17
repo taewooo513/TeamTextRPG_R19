@@ -15,7 +15,7 @@ namespace TeamRPG.Game.Scene
     using Scene = Core.SceneManager.Scene;
     public class EncounterScene : Scene
     {
-        private Menu currentMenu; 
+        private Menu currentMenu;
 
         private EncounterData currentEncounterData;
         private RawText encounterImage;
@@ -42,8 +42,9 @@ namespace TeamRPG.Game.Scene
             InputMenu();
         }
 
-        public void Render() { 
-            
+        public void Render()
+        {
+
         }
 
         void InputMenu()
@@ -69,7 +70,7 @@ namespace TeamRPG.Game.Scene
 
         void InitUI()
         {
-            string image = currentEncounterData.Image != string.Empty? currentEncounterData.Image : "";
+            string image = currentEncounterData.Image != string.Empty ? currentEncounterData.Image : "";
 
             encounterImage = new RawText(image, UIManager.HalfWidth, UIManager.HalfHeight, HorizontalAlign.Center, VerticalAlign.Middle);
             description = new RawText(currentEncounterData.Description, UIManager.HalfWidth, Console.WindowHeight - 3, HorizontalAlign.Center, VerticalAlign.Top);

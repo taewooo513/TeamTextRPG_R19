@@ -350,16 +350,16 @@ namespace TeamRPG.Core.EncounterManager
 
             // 완화
             mitigatedResult = new();
-            mitigatedResult.Description = "초기 텍스트";
+            mitigatedResult.Description = "속이 쓰리다. 하지만 후유증은 없을 것 같다. [생명력 -15]";
             mitigatedResult.MenuText = "다음 지역으로";
             mitigatedResult.ImageName = "버섯";
             mitigatedResult.Action = (player) =>
             {
                
                 if (player.baseStatus.currentHp - 15 <= 0)
-                    mitigatedResult.Description = "아프다.. 곧 죽을 것 같다. [생명력 -15]";
+                    selection.Result.Description = "아프다.. 곧 죽을 것 같다. [생명력 -15]";
                 else
-                    mitigatedResult.Description = "속이 쓰리다. 하지만 후유증은 없을 것 같다. [생명력 -15]";
+                    selection.Result.Description = "속이 쓰리다. 하지만 후유증은 없을 것 같다. [생명력 -15]";
 
                 player.HitPlayer(15);
                 SceneManager.GetInstance().ChangeScene("ShopScene");
@@ -367,7 +367,7 @@ namespace TeamRPG.Core.EncounterManager
 
             // 실패
             badResult = new();
-            badResult.Description = "초기 텍스트";
+            badResult.Description = "속이 쓰리다. 괜히 먹은 것 같다. [생명력 -15, +랜덤 디버프]";
             badResult.MenuText = "다음 지역으로";
             badResult.ImageName = "버섯";
             badResult.Action = (player) =>
@@ -395,9 +395,9 @@ namespace TeamRPG.Core.EncounterManager
                 }
 
                 if (player.baseStatus.currentHp - 15 <= 0)
-                    badResult.Description = $"내가 버섯 때문에 죽다니. [생명력 -15, +{debuffText}]";
+                    selection.Result.Description = $"내가 버섯 때문에 죽다니. [생명력 -15, +{debuffText}]";
                 else
-                    badResult.Description = $"속이 쓰리다. 괜히 먹은 것 같다. [생명력 -15, +{debuffText}]";
+                    selection.Result.Description = $"속이 쓰리다. 괜히 먹은 것 같다. [생명력 -15, +{debuffText}]";
 
                 player.HitPlayer(15);
                 SceneManager.GetInstance().ChangeScene("ShopScene");

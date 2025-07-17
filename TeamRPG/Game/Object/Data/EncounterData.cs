@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamRPG.Core.ImageManager;
 using TeamRPG.Game.Character;
 
 namespace TeamRPG.Game.Object.Data
@@ -12,7 +13,20 @@ namespace TeamRPG.Game.Object.Data
         public string Name { get; set; }
         public string Description { get; set; } // 상황 설명 ex) 누가 도움을 요청한다, 약초 3개를 가져갔다.
         public string Comment { get; set; } // 인물 코멘트 ex) 나를 도와줄 수 있겠나?
-        public string Image { get; set; }
+
+        private string image = "";
+        public string Image
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(image))
+                    image = ImageManager.GetInstance().GetImage(ImageName);
+
+                return image;
+            }
+        }
+    
+        public string ImageName { get; set; }
 
         public List<EncounterSelection> Selections { get; set; } // 선택지들
 
@@ -29,9 +43,22 @@ namespace TeamRPG.Game.Object.Data
     public class EncounterResult
     {
         public string MenuText { get; set; } // 결과 메뉴 텍스트
-        public string Description { get; set; } // 결과 설명
-        public string Comment { get; set; } // 결과 코멘트
-        public string Image { get; set; } // 결과 이미지
+        public string Description { get; set; } // 결과 설명 ex) 약초를 가져갔다, 10의 피해를 입었다.
+        public string Comment { get; set; } // 결과 코멘트 ex) 나 좀 도와주게나, 매정한 녀석
+
+        private string image = "";
+        public string Image
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(image))
+                    image = ImageManager.GetInstance().GetImage(ImageName);
+
+                return image;
+            }
+        }
+
+        public string ImageName { get; set; }
         public Action<Player> Action { get; set; } // 결과 액션
     }
 
@@ -64,25 +91,12 @@ namespace TeamRPG.Game.Object.Data
             int luck = player.currentStatus.Luck;
             isAvoid = TryAvoidTrap(luck);
 
-            if (isAvoid)
-            {
-                GoodReulst.Image = !string.IsNullOrWhiteSpace(GoodReulst.Image) ? GoodReulst.Image : Data.Image;
-            }
-            else
+            if (!isAvoid)
             {
                 if (MitigatedResult == null)
                     isMitigated = false;
                 else
-                    isMitigated = TryMitigatedTrap(player.currentStatus.Agility);
-
-                if (isMitigated)
-                {
-                    MitigatedResult.Image = !string.IsNullOrWhiteSpace(MitigatedResult.Image) ? MitigatedResult.Image : Data.Image;
-                }
-                else
-                {
-                    BadResult.Image = !string.IsNullOrWhiteSpace(BadResult.Image) ? BadResult.Image : Data.Image;
-                }
+                    isMitigated = TryMitigatedTrap(player.currentStatus.Tenacity);
             }
         }
 
@@ -95,11 +109,11 @@ namespace TeamRPG.Game.Object.Data
 
             return roll < avoidChance;
         }
-        bool TryMitigatedTrap(int agility)
+        bool TryMitigatedTrap(int tenacity)
         {
             // 회피 확률 계산 (luck%)
             Random rand = new Random();
-            int avoidChance = agility + MitigatedChanceModifier;
+            int avoidChance = tenacity + MitigatedChanceModifier;
             int roll = rand.Next(0, 101); // 0부터 100 사이의 랜덤 숫자 생성
 
             return roll < avoidChance;

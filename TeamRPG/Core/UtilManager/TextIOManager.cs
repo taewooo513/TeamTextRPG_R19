@@ -35,6 +35,7 @@ namespace TeamRPG.Core.UtilManager
                 }
             }
             Console.SetWindowSize(width, height );
+
             Console.CursorVisible = false;
             strs = new List<String>[winHeight];
             for (int i = 0; i < winHeight; i++)
@@ -45,6 +46,9 @@ namespace TeamRPG.Core.UtilManager
 
         public void OutputSmartText(string text, int x, int y, ConsoleColor color = ConsoleColor.White)
         {
+            if (x < 0 || y < 0 || x >= winWidth || y >= winHeight)
+                        return; // 범위 체크
+
             int _x = x;
             foreach (char ch in text)
             {
@@ -119,6 +123,8 @@ namespace TeamRPG.Core.UtilManager
 
         public void DrawText() // 백버퍼에 새로운 값을넣어주고 프론트버퍼가 출력이되면 프론트버퍼에 백버퍼를 넣어주고 백버퍼 초기화
         {
+            CheckAndResizeIfNeeded();  // 여기서 체크
+
             MergeStr();
             for (int h = 0; h < winHeight; h++)
             {
@@ -132,6 +138,18 @@ namespace TeamRPG.Core.UtilManager
             BufferClear();
             Console.SetCursorPosition(0, 0);
         }
+        public void CheckAndResizeIfNeeded()
+        {
+            int currentWidth = Console.WindowWidth;
+            int currentHeight = Console.WindowHeight;
+
+            if (currentWidth != winWidth || currentHeight != winHeight)
+            {
+                Init(currentWidth, currentHeight); // 재초기화
+            }
+        }
+
+
 
         private void BufferCopy()
         {

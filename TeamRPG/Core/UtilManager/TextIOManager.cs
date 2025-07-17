@@ -123,7 +123,7 @@ namespace TeamRPG.Core.UtilManager
 
         public void DrawText() // 백버퍼에 새로운 값을넣어주고 프론트버퍼가 출력이되면 프론트버퍼에 백버퍼를 넣어주고 백버퍼 초기화
         {
-            CheckAndResizeIfNeeded();  // 여기서 체크
+            //CheckAndResizeIfNeeded();  // 여기서 체크
 
             MergeStr();
             for (int h = 0; h < winHeight; h++)
@@ -133,7 +133,7 @@ namespace TeamRPG.Core.UtilManager
                     Console.Write(strs[h][w]);
                 }
 
-                if (h != winHeight - 1) // 마지막 줄이 아니면 줄바꿈
+                //if (h != winHeight - 1) // 마지막 줄이 아니면 줄바꿈
                     Console.WriteLine();
             }
             BufferCopy();

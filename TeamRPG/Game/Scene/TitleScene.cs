@@ -91,10 +91,19 @@ namespace TeamRPG.Game.Scene
                 case 18:
                 case 19:
                 case 20:
+                case 21:
+                case 22:
+                case 23:
+                case 24:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
                     TextIOManager.GetInstance().OutputText("해당 게임은 전체화면에 최적화 되어있습니다.", 25, 12);
                     TextIOManager.GetInstance().OutputText("전체화면으로 이용해 주시는 것을 권장 드립니다.", 25, 15);
                     break;
-                case 25:
+                case 35:
                     SceneManager.GetInstance().ChangeScene("CharSelectScene");
                     break;
             }

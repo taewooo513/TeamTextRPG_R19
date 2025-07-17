@@ -15,7 +15,6 @@ using TeamRPG.Game.Scene.Specificity;
 using static System.Net.Mime.MediaTypeNames;
 using TeamRPG.Core.ShopManager;
 using TeamRPG.Core.EncounterManager;
-using TeamRPG.Core.ImageManager;
 
 namespace TeamRPG.Game
 {
@@ -29,15 +28,13 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("UITestScene", new UITestScene());
             SceneManager.GetInstance().AddScene("CharSelectScene", new CharSelectScene());
             SceneManager.GetInstance().AddScene("CemeteryScene", new CemeteryScene());
-            SceneManager.GetInstance().AddScene("ForestScene", new ForestScene());
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
             SceneManager.GetInstance().AddScene("GameScene", new GameScene());
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
             SceneManager.GetInstance().AddScene("CharInfoScene", new CharInfoScene());
             SceneManager.GetInstance().AddScene("RestScene", new RestScene());
             SceneManager.GetInstance().AddScene("EncounterScene", new EncounterScene());
-            SceneManager.GetInstance().AddScene("WildernessScene", new WildernessScene());
-            SceneManager.GetInstance().AddScene("DevildomScene", new DevildomScene());
+            SceneManager.GetInstance().AddScene("BossEnemyScene", new BossEnemyScene());
 
             TextIOManager.GetInstance().Init(156, 40);
             TimerManager.GetInstance().Init();
@@ -55,13 +52,14 @@ namespace TeamRPG.Game
             SoundManager.GetInstance().PlaySound("Test", .1f);
             PlayerManager.GetInstance().Init("asd", (Race)1);
 
-            
+
             ItemManager.GetInstance().Init();
             ShopManager.GetInstance().Init();
-            ImageManager.GetInstance().Init();
 
             PlayerManager.GetInstance().Init("test", Race.Human);
-            SceneManager.GetInstance().ChangeScene("CharSelectScene");
+
+
+            SceneManager.GetInstance().ChangeScene("GameScene");
 
             EncounterManager.GetInstance().Init();
 
@@ -72,13 +70,13 @@ namespace TeamRPG.Game
             switch (KeyInputManager.GetInstance().KeyDown())
             {
                 case ConsoleKey.F1:
-                    SceneManager.GetInstance().ChangeScene("ForestScene");
+                    SceneManager.GetInstance().ChangeScene("TestScene");
                     break;
                 case ConsoleKey.F2:
-                    SceneManager.GetInstance().ChangeScene("WildernessScene");
+                    SceneManager.GetInstance().ChangeScene("TitleScene");
                     break;
                 case ConsoleKey.F3:
-                    SceneManager.GetInstance().ChangeScene("DevildomScene");
+                    SceneManager.GetInstance().ChangeScene("UITestScene");
                     break;
                 case ConsoleKey.F4:
                     SceneManager.GetInstance().ChangeScene("CharSelectScene");

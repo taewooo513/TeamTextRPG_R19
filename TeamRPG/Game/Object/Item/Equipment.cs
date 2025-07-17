@@ -57,12 +57,9 @@ namespace TeamRPG.Game.Object.Item
         {
             if (IsBroken) return;
 
-            OnUseEffect(target); // 무기나 방어구의 효과 실행
             ReduceDurability(1);
+            OnUse?.Invoke(target); // 아이템 사용 이벤트 호출
         }
-
-        // 이건 무기/방어구가 구체적으로 구현할 부분
-        protected abstract void OnUseEffect(Player target);
 
         // 착용은 따로
         public abstract void EquipTo(Player target);

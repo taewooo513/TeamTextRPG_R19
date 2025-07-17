@@ -39,7 +39,6 @@ namespace TeamRPG.Game.Character
                     int bosshp = rd.Next(150, 151);
                     return new Enemy.State(bosshp, "???", rd.Next(35, 45), 80, 80, 80, 100, bosshp);
 
-
                 default:
                     throw new System.ArgumentException("Unknown race");
             }

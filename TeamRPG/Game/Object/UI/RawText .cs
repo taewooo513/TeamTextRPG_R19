@@ -3,7 +3,7 @@ using TeamRPG.Core.UtilManager;
 
 namespace TeamRPG.Game.Object.UI
 {
-    internal class RawText : UIElement
+    public class RawText : UIElement
     {
         private string rawString;
         public HorizontalAlign HorizontalAlign { get; set; }

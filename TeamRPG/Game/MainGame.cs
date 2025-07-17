@@ -52,16 +52,31 @@ namespace TeamRPG.Game
             TextIOManager.GetInstance().Init(156, 40);
             TimerManager.GetInstance().Init();
             SoundManager.GetInstance().Init();
+
+            // basics
             SoundManager.GetInstance().AddSound("Test", "Test2.mp3", true, true);
-            SoundManager.GetInstance().AddSound("Clicksmall", "../../../../Sounds/Clicksmall.mp3", false, false);
-            SoundManager.GetInstance().AddSound("ShopSelect", "../../../../Sounds/ShopSelect.mp3", false, false);
-            SoundManager.GetInstance().AddSound("BlopSound", "../../../../Sounds/BlopSound.mp3", false, false);
-            SoundManager.GetInstance().AddSound("BossmainTheme", "../../../../Sounds/BossmainTheme.mp3", true, true);
-            SoundManager.GetInstance().AddSound("BossmainTheme", "../../../../Sounds/BossmainTheme.mp3", true, true);
+            SoundManager.GetInstance().AddSound("Clicksmall", "../../../../Sounds/basics/Clicksmall.mp3", false, false);
+            SoundManager.GetInstance().AddSound("BlopSound", "../../../../Sounds/basics/BlopSound.mp3", false, false);
+
+            // shop
+            SoundManager.GetInstance().AddSound("ShopBGM", "../../../../Sounds/shop/ShopBGM.mp3", true, true);
+            SoundManager.GetInstance().AddSound("ShopSelect", "../../../../Sounds/shop/ShopSelect.mp3", false, false);
+
+            // battle
+            SoundManager.GetInstance().AddSound("BossmainTheme", "../../../../Sounds/battle/bgm/BossmainTheme.mp3", true, true);
+            SoundManager.GetInstance().AddSound("Tier1NomalBattleBGM", "../../../../Sounds/battle/bgm//Tier1NomalBattleBGM.mp3", true, true);
+
+            // bgm
+            SoundManager.GetInstance().AddSound("FireplaceSound", "../../../../Sounds/Bgm/FireplaceSound.mp3", true, true);
+
+            // encounter
+            SoundManager.GetInstance().AddSound("RandomEncounterSound4", "../../../../Sounds/encounter/RandomEncounterSound4.mp3", true, true);
+
+
+            // empty
             SoundManager.GetInstance().AddSound("DevildomBGM", "../../../../Sounds/DevildomBGM.mp3", true, true);
-            SoundManager.GetInstance().AddSound("ShopBGM", "../../../../Sounds/ShopBGM.mp3", true, true);
-            SoundManager.GetInstance().AddSound("Tier1NomalBattleBGM", "../../../../Sounds/Tier1NomalBattleBGM.mp3", true, true);
-            SoundManager.GetInstance().AddSound("FireplaceSound", "../../../../Sounds/FireplaceSound.mp3", true, true);
+
+
             SoundManager.GetInstance().PlaySound("Test", .1f);
             PlayerManager.GetInstance().Init("asd", (Race)1);
 

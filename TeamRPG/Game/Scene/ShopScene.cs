@@ -113,7 +113,7 @@ namespace TeamRPG.Game.Scene
 
         void InitItemBoxMenu()
         {
-            int boxWidth = 78;
+            int boxWidth = 88;
             int boxHeight = 13;
 
             // itemBuyMenu 초기화
@@ -128,7 +128,10 @@ namespace TeamRPG.Game.Scene
             itemBuyMenu.AddEmptyItem();
             buyGolTextSlot = itemBuyMenu.AddTextItem($"보유 골드 : {player.Gold} G");
             itemBuyMenu.AddEmptyItem();
-            itemBuyMenu.AddItem($"돌리기 {ShopData.RerollCost} G", RerollItmes);
+
+            // 방랑상인은 리롤없음
+            if(ShopData.MerchantName != "방랑상인")
+                itemBuyMenu.AddItem($"돌리기 {ShopData.RerollCost} G", RerollItmes);
             itemBuyMenu.AddItem("돌아가기", BackMenu);
 
             // itemSellMenu 초기화

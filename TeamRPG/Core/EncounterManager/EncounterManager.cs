@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Game.Character;
 using TeamRPG.Game.Object.Data;
 using TeamRPG.Game.Object.Item;
+using TeamRPG.Game.Object.UI;
 
 namespace TeamRPG.Core.EncounterManager
 {
@@ -32,7 +34,6 @@ namespace TeamRPG.Core.EncounterManager
 
             // 버려진 폐가 선택지 1
             selection = new();
-            selection.Data = encounter;
             selection.MenuText = "들어간다";
 
             goodResult = new EncounterResult();
@@ -80,7 +81,6 @@ namespace TeamRPG.Core.EncounterManager
 
             // 버려진 폐가 선택지 2
             selection = new EncounterSelection();
-            selection.Data = encounter;
             selection.MenuText = "들어가지 않는다";
 
             goodResult = new EncounterResult();
@@ -131,7 +131,6 @@ namespace TeamRPG.Core.EncounterManager
 
             // 약초 스승 선택지 1
             selection = new EncounterSelection();
-            selection.Data = encounter;
             selection.MenuText = "약초를 준다";
 
             goodResult = new EncounterResult();
@@ -179,7 +178,6 @@ namespace TeamRPG.Core.EncounterManager
             // 약초 스승 선택지 2
 
             selection = new();
-            selection.Data = encounter;
             selection.MenuText = "주지 않는다";
 
             goodResult = new();
@@ -233,7 +231,6 @@ namespace TeamRPG.Core.EncounterManager
             // 수상한 남자 선택지 1
 
             selection = new();
-            selection.Data = encounter;
             selection.MenuText = "다가간다"; // 선택지 메뉴 텍스트
 
             goodResult = new();
@@ -282,7 +279,6 @@ namespace TeamRPG.Core.EncounterManager
             // 수상한 남자 선택지 2
 
             selection = new();
-            selection.Data = encounter;
             selection.MenuText = "무시한다"; // 선택지 메뉴 텍스트
             goodResult = new();
             goodResult.MenuText = "무시한다"; // 성공 결과 메뉴 텍스트
@@ -334,7 +330,6 @@ namespace TeamRPG.Core.EncounterManager
 
             // 선택지 1: 먹는다
             selection = new();
-            selection.Data = encounter;
             selection.MenuText = "먹는다";
 
             // 성공
@@ -353,14 +348,18 @@ namespace TeamRPG.Core.EncounterManager
             mitigatedResult.Description = "속이 쓰리다. 하지만 후유증은 없을 것 같다. [생명력 -15]";
             mitigatedResult.MenuText = "다음 지역으로";
             mitigatedResult.ImageName = "버섯";
+
+            mitigatedResult.OnInit = () =>
+            {
+                Player player = PlayerManager.GetInstance().GetPlayer();
+                if (player.currentStatus.currentHp - 15 <= 0)
+                    GetEncounterData("버섯").Selections[0].MitigatedResult.Description = "곧 죽을 것 같다. [생명력 -15]";
+                else
+                    GetEncounterData("버섯").Selections[0].MitigatedResult.Description = "속이 쓰리다. 하지만 후유증은 없을 것 같다. [생명력 -15]";
+            };
+
             mitigatedResult.Action = (player) =>
             {
-               
-                if (player.baseStatus.currentHp - 15 <= 0)
-                    selection.Result.Description = "아프다.. 곧 죽을 것 같다. [생명력 -15]";
-                else
-                    selection.Result.Description = "속이 쓰리다. 하지만 후유증은 없을 것 같다. [생명력 -15]";
-
                 player.HitPlayer(15);
                 SceneManager.GetInstance().ChangeScene("ShopScene");
             };
@@ -370,8 +369,10 @@ namespace TeamRPG.Core.EncounterManager
             badResult.Description = "속이 쓰리다. 괜히 먹은 것 같다. [생명력 -15, +랜덤 디버프]";
             badResult.MenuText = "다음 지역으로";
             badResult.ImageName = "버섯";
-            badResult.Action = (player) =>
+
+            badResult.OnInit = () =>
             {
+                Player player = PlayerManager.GetInstance().GetPlayer();
                 Random random = new Random();
                 int debuffType = random.Next(0, 3); // 0: 중독, 1: 마비, 2: 출혈
                 string debuffText = "";
@@ -379,26 +380,29 @@ namespace TeamRPG.Core.EncounterManager
                 switch (debuffType)
                 {
                     case 0:
-                        int poisonDamage = (int)(player.baseStatus.currentHp * 0.1);
+                        int poisonDamage = (int)(player.currentStatus.currentHp * 0.1);
                         player.HitPlayer(poisonDamage);
                         debuffText = "중독";
                         break;
                     case 1:
-                        player.baseStatus.Agility = Math.Max(0, player.baseStatus.Agility - 10);
+                        player.currentStatus.Agility = Math.Max(0, player.currentStatus.Agility - 10);
                         debuffText = "마비";
                         break;
                     case 2:
-                        int bleedDamage = (int)(player.baseStatus.HP * 0.1);
+                        int bleedDamage = (int)(player.currentStatus.HP * 0.1);
                         player.HitPlayer(bleedDamage);
                         debuffText = "출혈";
                         break;
                 }
 
-                if (player.baseStatus.currentHp - 15 <= 0)
-                    selection.Result.Description = $"내가 버섯 때문에 죽다니. [생명력 -15, +{debuffText}]";
+                if (player.currentStatus.currentHp - 15 <= 0)
+                    GetEncounterData("버섯").Selections[0].BadResult.Description = $"내가 버섯 때문에 죽다니. [생명력 -15, +{debuffText}]";
                 else
-                    selection.Result.Description = $"속이 쓰리다. 괜히 먹은 것 같다. [생명력 -15, +{debuffText}]";
+                    GetEncounterData("버섯").Selections[0].BadResult.Description = $"독버섯이였다... [생명력 -15, +{debuffText}]";
+            };
 
+            badResult.Action = (player) =>
+            {
                 player.HitPlayer(15);
                 SceneManager.GetInstance().ChangeScene("ShopScene");
             };
@@ -410,7 +414,6 @@ namespace TeamRPG.Core.EncounterManager
 
             // 선택지 2: 먹지 않는다
             selection = new();
-            selection.Data = encounter;
             selection.MenuText = "먹지 않는다";
 
             goodResult = new();
@@ -467,6 +470,15 @@ namespace TeamRPG.Core.EncounterManager
                 return encounter;
 
             return null;
+        }
+
+
+        public static void ChangeDesc(RawText rawText, string text)
+        {
+            if (rawText != null)
+            {
+                rawText.SetText(text);
+            }
         }
     }
 }

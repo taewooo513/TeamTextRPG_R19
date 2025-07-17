@@ -126,6 +126,9 @@ namespace TeamRPG.Game.Scene
             resultMenu.GetItem(0).OnSelect = () =>
             {
                 selection.Result.Action?.Invoke(player);
+                resultMenu.GetItem(0).Text = selection.Result.MenuText;
+                comment.SetText(selection.Result.Comment);
+                description.SetText(selection.Result.Description); 
             };
 
             resultMenu.GetItem(0).Text = selection.Result.MenuText;

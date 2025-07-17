@@ -17,37 +17,41 @@ namespace TeamRPG.Game.Scene
         bool isSelect = false;
         int skillSelectIndex = 0;
         bool showingSkillDetail = false;
+        bool showingTraitDetail = false;
         List<Skill> skills;
+        //Trait trait;
 
 
         public void Init()
         {
-            select = 0;
+            select = 1;
             menuState = 0;
-            player = new Player("asd", (Race)1);
-            status = new Status(70, 50, 12, 16, 30, 50, 10, 70, 50);
+            player = new Player("asd", (Race)2);
+            status = StatusFactory.GetStatusByRace(player.race);
             isSelect = false;
             skills = StatusFactory.GetSkillsByRace(player.race);
+            player.RandomTrait();
+
         }
 
         public void Release()
         {
-            
+
         }
 
         public void Render()
         {
             TextIOManager.GetInstance().OutputSmartText($"이름 : {player.name}({player.race})", 3, 6);
             TextIOManager.GetInstance().OutputSmartText($"레벨 : {player.level}", 3, 8);
-            TextIOManager.GetInstance().OutputSmartText($"체력 : {status.currentHp} / {status.HP}", 3, 9);
-            TextIOManager.GetInstance().OutputSmartText($"마나 : {status.currentMp} / {status.MP}", 3, 10);
-            TextIOManager.GetInstance().OutputSmartText($"공격력 : {status.MinAttack} ~ {status.MaxAttack}", 3, 11);
-            TextIOManager.GetInstance().OutputSmartText($"재빠름 : {status.Agility}", 3, 12);
-            TextIOManager.GetInstance().OutputSmartText($"강인함 : {status.Tenacity}", 3, 13);
+            TextIOManager.GetInstance().OutputSmartText($"체력 : {player.currentStatus.HP} / {player.baseStatus.HP}", 3, 9);
+            TextIOManager.GetInstance().OutputSmartText($"마나 : {player.currentStatus.currentMp} / {player.baseStatus.MP}", 3, 10);
+            TextIOManager.GetInstance().OutputSmartText($"공격력 : {player.currentStatus.MinAttack} ~ {player.currentStatus.MaxAttack}", 3, 11);
+            TextIOManager.GetInstance().OutputSmartText($"재빠름 : {player.currentStatus.Agility}", 3, 12);
+            TextIOManager.GetInstance().OutputSmartText($"강인함 : {player.currentStatus.Tenacity}", 3, 13);
             TextIOManager.GetInstance().OutputSmartText($"운 : {status.Luck}", 3, 14);
             TextIOManager.GetInstance().OutputSmartText($"소지금 {player.Gold}G", 3, 16);
-            TextIOManager.GetInstance().OutputSmartText($"스트레스 수치 {status.stress}", 3, 20);
-            TextIOManager.GetInstance().OutputSmartText($"다음 레벨까지 EXP {player.expToNextLevel}",3, 22);
+            TextIOManager.GetInstance().OutputSmartText($"스트레스 수치 {player.currentStatus.stress}", 3, 20);
+            TextIOManager.GetInstance().OutputSmartText($"다음 레벨까지 EXP {player.expToNextLevel}", 3, 22);
 
             if (status.stress >= 50 && status.stress < 100)
             {
@@ -62,6 +66,7 @@ namespace TeamRPG.Game.Scene
                 TextIOManager.GetInstance().OutputSmartText("아직까지는 문제가 없어 보입니다.", 40, 29);
             }
 
+            TextIOManager.GetInstance().OutputSmartText($"특성 : {player.trait.name}", 40, 2);
             TextIOManager.GetInstance().OutputSmartText($"1. 보유 스킬", 6, 32);
             TextIOManager.GetInstance().OutputSmartText($"2. 인벤토리", 6, 33);
 
@@ -71,16 +76,23 @@ namespace TeamRPG.Game.Scene
                 switch (select)
                 {
                     case 0:
+                        TextIOManager.GetInstance().OutputText(">", 37, 2);
+                        if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
+                        {
+                            menuState = 2;
+                            showingTraitDetail = true;
+                        }
+                        break;
+                    case 1:
                         TextIOManager.GetInstance().OutputText(">", 3, 32);
                         if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
                         {
                             menuState = 1;
                         }
                         break;
-                    case 1:
+                    case 2:
                         TextIOManager.GetInstance().OutputText(">", 3, 33);
                         break;
-
 
                 }
             }
@@ -114,6 +126,10 @@ namespace TeamRPG.Game.Scene
                     if (selectedSkill.heal > 0)
                         TextIOManager.GetInstance().OutputSmartText($"회복량 : {selectedSkill.heal}", 34, 37);
                 }
+            }
+            else if (menuState == 2)
+            {
+                TextIOManager.GetInstance().OutputSmartText($"{player.trait.name} : {player.trait.description}", 39, 31);
             }
 
 
@@ -197,7 +213,7 @@ namespace TeamRPG.Game.Scene
                     break;
             }
         }
-        
+
 
         public void Update()
         {
@@ -205,7 +221,7 @@ namespace TeamRPG.Game.Scene
             {
                 select--;
             }
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && select < 1)
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && select < 2)
             {
                 select++;
             }
@@ -236,6 +252,14 @@ namespace TeamRPG.Game.Scene
                 {
                     menuState = 0;
                     showingSkillDetail = false;
+                }
+            }
+            else if (menuState == 2)
+            {
+                if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Escape))
+                {
+                    menuState = 0;
+                    showingTraitDetail = false;
                 }
             }
         }

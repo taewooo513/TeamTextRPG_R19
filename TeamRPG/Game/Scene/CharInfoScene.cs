@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
 
@@ -69,6 +70,7 @@ namespace TeamRPG.Game.Scene
             TextIOManager.GetInstance().OutputSmartText($"특성 : {player.trait.name}", 40, 2);
             TextIOManager.GetInstance().OutputSmartText($"1. 보유 스킬", 6, 32);
             TextIOManager.GetInstance().OutputSmartText($"2. 인벤토리", 6, 33);
+            TextIOManager.GetInstance().OutputSmartText($"3. 돌아가기", 6, 34);
 
             List<Skill> skills = StatusFactory.GetSkillsByRace(player.race);
             if (menuState == 0)
@@ -93,6 +95,13 @@ namespace TeamRPG.Game.Scene
                     case 2:
                         TextIOManager.GetInstance().OutputText(">", 3, 33);
                         break;
+                    case 3:
+                        if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
+                        {
+                            SceneManager.GetInstance().ChangeScene(PlayerManager.GetInstance().environment);
+                        }
+                        TextIOManager.GetInstance().OutputText(">", 3, 34);
+                        break;
 
                 }
             }
@@ -115,17 +124,16 @@ namespace TeamRPG.Game.Scene
                 }
 
                 // 상세 정보 출력
-                if (showingSkillDetail)
-                {
-                    var selectedSkill = skills[skillSelectIndex];
-                    TextIOManager.GetInstance().OutputSmartText($"[{selectedSkill.name}]", 34, 34);
-                    TextIOManager.GetInstance().OutputSmartText($"{selectedSkill.description}", 34, 35);
-                    TextIOManager.GetInstance().OutputSmartText($"MP 소모량 : {selectedSkill.mpCost}", 34, 36);
-                    if (selectedSkill.power > 0)
-                        TextIOManager.GetInstance().OutputSmartText($"공격력 : {selectedSkill.power}", 34, 37);
-                    if (selectedSkill.heal > 0)
-                        TextIOManager.GetInstance().OutputSmartText($"회복량 : {selectedSkill.heal}", 34, 37);
-                }
+
+                var selectedSkill = skills[skillSelectIndex];
+                TextIOManager.GetInstance().OutputSmartText($"[{selectedSkill.name}]", 34, 34);
+                TextIOManager.GetInstance().OutputSmartText($"{selectedSkill.description}", 34, 35);
+                TextIOManager.GetInstance().OutputSmartText($"MP 소모량 : {selectedSkill.mpCost}", 34, 36);
+                if (selectedSkill.power > 0)
+                    TextIOManager.GetInstance().OutputSmartText($"공격력 : {selectedSkill.power}", 34, 37);
+                if (selectedSkill.heal > 0)
+                    TextIOManager.GetInstance().OutputSmartText($"회복량 : {selectedSkill.heal}", 34, 37);
+
             }
             else if (menuState == 2)
             {
@@ -221,7 +229,7 @@ namespace TeamRPG.Game.Scene
             {
                 select--;
             }
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && select < 2)
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && select < 3)
             {
                 select++;
             }
@@ -233,25 +241,17 @@ namespace TeamRPG.Game.Scene
                 {
                     skillSelectIndex--;
                     if (skillSelectIndex < 0) skillSelectIndex = 0;
-                    showingSkillDetail = false;
                 }
 
                 if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.RightArrow))
                 {
                     skillSelectIndex++;
                     if (skillSelectIndex > maxIndex) skillSelectIndex = maxIndex;
-                    showingSkillDetail = false;
-                }
-
-                if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
-                {
-                    showingSkillDetail = true;
                 }
 
                 if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Escape))
                 {
                     menuState = 0;
-                    showingSkillDetail = false;
                 }
             }
             else if (menuState == 2)

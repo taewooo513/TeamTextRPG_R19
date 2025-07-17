@@ -30,7 +30,6 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("CharSelectScene", new CharSelectScene());
             SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
             SceneManager.GetInstance().AddScene("GameScene", new GameScene());
-            SceneManager.GetInstance().AddScene("ShopScene", new ShopScene());
             SceneManager.GetInstance().AddScene("CharInfoScene", new CharInfoScene());
             SceneManager.GetInstance().AddScene("RestScene", new RestScene());
             SceneManager.GetInstance().AddScene("EncounterScene", new EncounterScene());

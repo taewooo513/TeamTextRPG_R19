@@ -51,6 +51,9 @@ namespace TeamRPG.Game.Scene
                     case 3:
                         SceneManager.GetInstance().ChangeScene("GameScene");
                         break;
+                    case 4:
+                        SceneManager.GetInstance().ChangeScene("CharInfoScene");
+                        break;
                 }
             }
         }

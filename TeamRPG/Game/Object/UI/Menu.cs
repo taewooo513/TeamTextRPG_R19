@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using TeamRPG.Core.UtilManager;
 
 namespace TeamRPG.Game.Object.UI
@@ -10,7 +9,6 @@ namespace TeamRPG.Game.Object.UI
         Horizontal,
         Vertical
     }
-
     public class MenuItem
     {
         public string Text { get; set; }
@@ -29,18 +27,37 @@ namespace TeamRPG.Game.Object.UI
 
     public class Menu : UIElement
     {
-        public DirectionType DirectionType { get; set; } = DirectionType.Vertical; // 메뉴 방향 (수평 또는 수직)
-        private List<MenuItem> items = new List<MenuItem>();
-        private int selectedIndex = 0; // 현재 선택된 항목
+        public DirectionType DirectionType { get; set; } = DirectionType.Vertical;
+        public HorizontalAlign HorizontalAlign { get; set; } = HorizontalAlign.Left;
+        public VerticalAlign VerticalAlign { get; set; } = VerticalAlign.Top;
 
-        public Menu(int x, int y, DirectionType directionType = DirectionType.Vertical) : base(x, y, ConsoleColor.White) {
+        private List<MenuItem> items = new List<MenuItem>();
+        private int selectedIndex = 0;
+
+        public Menu(int x, int y, DirectionType directionType = DirectionType.Vertical) : base(x, y, ConsoleColor.White)
+        {
             DirectionType = directionType;
+            InitSelectedIndex();
         }
+
         public MenuItem AddItem(string text, Action onSelect, bool isEnabled = true, ConsoleColor color = ConsoleColor.White)
         {
             var item = new MenuItem(text, onSelect, isEnabled, color);
             items.Add(item);
+            InitSelectedIndex();
             return item;
+        }
+
+        private void InitSelectedIndex()
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].IsEnabled)
+                {
+                    selectedIndex = i;
+                    return;
+                }
+            }
         }
 
         public MenuItem? GetItem(int index)
@@ -63,27 +80,96 @@ namespace TeamRPG.Game.Object.UI
         {
             if (!IsVisible) return;
 
-            if(DirectionType == DirectionType.Vertical)
+            var textIO = TextIOManager.GetInstance();
+
+            if (DirectionType == DirectionType.Vertical)
             {
+                int totalHeight = items.Count;
+                int baseY = Y;
+
+                // 수직 정렬
+                switch (VerticalAlign)
+                {
+                    case VerticalAlign.Middle:
+                        baseY = Y - totalHeight / 2;
+                        break;
+                    case VerticalAlign.Bottom:
+                        baseY = Y - totalHeight;
+                        break;
+                    case VerticalAlign.Top:
+                    default:
+                        break;
+                }
+
                 for (int i = 0; i < items.Count; i++)
                 {
                     var item = items[i];
+                    if (!item.IsEnabled) continue;
 
-                    // 선택된 항목은 강조 표시
                     string displayText = (i == selectedIndex) ? $"> {item.Text}" : $"{item.Text}";
-                    TextIOManager.GetInstance().OutputSmartText(displayText, X, Y + i);
+                    int smartLength = textIO.OutputSmartTextLength(displayText);
+
+                    int drawX = X;
+
+                    switch (HorizontalAlign)
+                    {
+                        case HorizontalAlign.Center:
+                            drawX = X - smartLength / 2;
+                            break;
+                        case HorizontalAlign.Right:
+                            drawX = X - smartLength;
+                            break;
+                        case HorizontalAlign.Left:
+                        default:
+                            break;
+                    }
+
+                    textIO.OutputSmartText(displayText, drawX, baseY + i, item.Color);
                 }
             }
             else if (DirectionType == DirectionType.Horizontal)
             {
                 int _x = 0;
+                int baseY = Y;
+
+                switch (VerticalAlign)
+                {
+                    case VerticalAlign.Middle:
+                        baseY = Y;
+                        break;
+                    case VerticalAlign.Bottom:
+                        baseY = Y;
+                        break;
+                    case VerticalAlign.Top:
+                    default:
+                        break;
+                }
+
                 for (int i = 0; i < items.Count; i++)
                 {
                     var item = items[i];
-                    // 선택된 항목은 강조 표시
+                    if (!item.IsEnabled) continue;
+
                     string displayText = (i == selectedIndex) ? $"> {item.Text}" : $"{item.Text}";
-                    TextIOManager.GetInstance().OutputSmartText(displayText, X + _x, Y);
-                    _x += TextIOManager.GetInstance().OutputSmartTextLength(displayText) + 3; // 항목 간격 추가
+                    int smartLength = textIO.OutputSmartTextLength(displayText);
+
+                    int drawX = X + _x;
+
+                    switch (HorizontalAlign)
+                    {
+                        case HorizontalAlign.Center:
+                            drawX -= smartLength / 2;
+                            break;
+                        case HorizontalAlign.Right:
+                            drawX -= smartLength;
+                            break;
+                        case HorizontalAlign.Left:
+                        default:
+                            break;
+                    }
+
+                    textIO.OutputSmartText(displayText, drawX, baseY, item.Color);
+                    _x += smartLength + 3;
                 }
             }
         }

@@ -56,6 +56,12 @@ namespace TeamRPG.Core.ItemManager
             // 상점
             // 소모품
             var hurb = new Consumable("향긋한 약초", "매 턴 생명력 +3", StatusFactory.EmptyStatus, 30);
+            hurb.OnUse = (target =>
+            {
+                if (target == null) return;
+                // 매턴 행동할 때마다 발생하는 이벤트에 매 턴 생명력 +3하는 코드 추가
+                // target.currentStatus.HP += 3; // 매 턴 생명력 +3
+            });
             AddItem(hurb);
 
 
@@ -65,12 +71,14 @@ namespace TeamRPG.Core.ItemManager
             AddItem(healingPotion);
 
             temp = StatusFactory.EmptyStatus;
-            temp.MP = 50;
+            temp.MP = 20;
             var manaPotion = new Consumable("마나 포션", "MP 20 회복", temp, 50);
             AddItem(manaPotion);
 
             // 무기
             temp = StatusFactory.EmptyStatus;
+            temp.MinAttack = 6;
+            temp.MaxAttack = 6;
             var ironSword = new Weapon("강철검", "공격력 +6", temp, 150);
             AddItem(ironSword);
 
@@ -101,7 +109,7 @@ namespace TeamRPG.Core.ItemManager
 
             temp = StatusFactory.EmptyStatus;
             temp.MP = 20;
-            var talismanOfMana = new Armor("마나의 탈리스만", "최대 마나 +20, 내구도 무제한", temp, 250);
+            var talismanOfMana = new Armor("마나의 탈리스만", "최대 마나 +20, 내구도 무제한", temp, 250, int.MaxValue);
             AddItem(talismanOfMana);
 
             // 방랑 상인
@@ -109,6 +117,11 @@ namespace TeamRPG.Core.ItemManager
             temp = StatusFactory.EmptyStatus;
             temp.MP = 10;
             var elixir = new Consumable("엘릭서", "전투당 1번 사망시 최대 생명력의 50%로 1회 부활", temp, 500);
+            elixir.OnUse = (target) =>
+            {
+                if (target == null) return;
+                // 플레이어 사망시 호출하는 이벤트에 부활하는 기능 추가
+            };
             AddItem(elixir);
 
             // 무기
@@ -116,6 +129,11 @@ namespace TeamRPG.Core.ItemManager
             temp.MinAttack = 30;
             temp.MaxAttack = 30;
             var holySword = new Weapon("성검", "공격력 +30 마계 환경의 몬스터들의 물리, 마법 저항력을 무시", temp, 1000);
+            holySword.OnUse = (target) =>
+            {
+                if (target == null) return;
+                // 성검 사용시 마계 환경의 몬스터에 대한 저항력 무시 기능 추가
+            };
             AddItem(holySword);
 
             temp = StatusFactory.EmptyStatus;
@@ -123,16 +141,27 @@ namespace TeamRPG.Core.ItemManager
             temp.MaxAttack = 15;
             temp.HP = 20;
             var guardianHammer = new Weapon("수호자의 망치", "공격력 +30 마계 환경의 몬스터들의 물리, 마법 저항력을 무시", temp, 1000);
+            guardianHammer.OnUse = (target) =>
+            {
+                if (target == null) return;
+                // 마계 환경의 몬스터들의 물리, 마법 저항력을 무시
+            };
+
             AddItem(guardianHammer);
 
             temp = StatusFactory.EmptyStatus;
             temp.MinAttack = 20;
             temp.MaxAttack = 20;
             var dragonHunter = new Weapon("대룡궁", "공격력 +20 / 드래곤 계열의 몬스터에게 공격력 +20 추가", temp, 1000);
+            dragonHunter.OnUse = (target) =>
+            {
+                if (target == null) return;
+                // 드래곤 계열의 몬스터에게 공격력 +20 기능 추가
+            };
             AddItem(dragonHunter);
 
             temp = StatusFactory.EmptyStatus;
-            temp.Agility = 1000;
+            temp.Tenacity = 1000; // 상태이상 면역
             var ironHeart = new Armor("철의의지", "모든 상태이상 면역", temp, 800);
             AddItem(ironHeart);
 
@@ -141,6 +170,13 @@ namespace TeamRPG.Core.ItemManager
             temp.MaxAttack = 15;
             temp.MP = 30;
             var lunarDsut = new Weapon("달의 파편", "마법 공격력 +15 / 최대 마나 +30 /매 행동시 마나 5 회복", temp, 800, DamageType.Magical);
+
+            lunarDsut.OnUse = (target) =>
+            {
+                if (target == null) return;
+                // 매 행동시 마나 5 회복 기능 추가
+            };
+
             AddItem(lunarDsut);
 
             //500G

@@ -33,7 +33,12 @@ namespace TeamRPG.Game.Character
                 //    return new Enemy.State();
                 case eEnemyNum.eGoblin:
                     int h = rd.Next(15, 20);
-                    return new Enemy.State(h, "고블린", rd.Next(5, 7), 0, 0, 50, 10,h);
+                    return new Enemy.State(h, "고블린", rd.Next(5, 7), 0, 0, 50, 10, h);
+
+                case eEnemyNum.eBoss:
+                    int bosshp = rd.Next(150, 151);
+                    return new Enemy.State(bosshp, "???", rd.Next(35, 45), 80, 80, 80, 100, h);
+
                 default:
                     throw new System.ArgumentException("Unknown race");
             }

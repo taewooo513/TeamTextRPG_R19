@@ -47,19 +47,19 @@ namespace TeamRPG.Core.EncounterManager
             {
                 player.Inventory.AddItem("회복 포션", 1);
                 player.Inventory.AddItem("향긋한 약초", 1);
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             mitigatedResult = new EncounterResult();
             mitigatedResult.Description = """
                                 버려진 집은 고블린들의 소굴이였다.
-                                모두 잡으러가자..
+                                고블린들이 나를 반긴다.
                                 """;
             mitigatedResult.MenuText = "공격한다";
             mitigatedResult.ImageName = "폐가"; // 완화 이미지 경로 또는 데이터
             mitigatedResult.OnExit = (player) =>
             {
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("GameScene");
             };
 
             badResult = new EncounterResult();
@@ -71,7 +71,7 @@ namespace TeamRPG.Core.EncounterManager
             badResult.ImageName = "폐가"; // 실패 이미지 경로 또는 데이터
             badResult.OnExit = (player) =>
             {
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("GameScene");
             };
 
             selection.GoodReulst = goodResult;
@@ -89,7 +89,7 @@ namespace TeamRPG.Core.EncounterManager
             goodResult.ImageName = "폐가"; // 성공 이미지 경로 또는 데이터
             goodResult.OnExit = (player) =>
             {
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             mitigatedResult = new EncounterResult();
@@ -98,7 +98,7 @@ namespace TeamRPG.Core.EncounterManager
             mitigatedResult.ImageName = "폐가"; // 완화 이미지 경로 또는 데이터
             mitigatedResult.OnExit = (player) =>
             {
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             badResult = new EncounterResult();
@@ -107,7 +107,7 @@ namespace TeamRPG.Core.EncounterManager
             badResult.ImageName = "폐가"; // 실패 이미지 경로 또는 데이터
             badResult.OnExit = (player) =>
             {
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             selection.GoodReulst = goodResult;
@@ -145,7 +145,7 @@ namespace TeamRPG.Core.EncounterManager
             {
                 player.PlusAttack(8);
                 player.Inventory.RemoveItem("향긋한 약초");
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             mitigatedResult = new EncounterResult();
@@ -157,7 +157,7 @@ namespace TeamRPG.Core.EncounterManager
             {
                 player.PlusAttack(5);
                 player.Inventory.RemoveItem("향긋한 약초");
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             badResult = new EncounterResult();
@@ -169,7 +169,7 @@ namespace TeamRPG.Core.EncounterManager
             {
                 player.PlusAttack(1);
                 player.Inventory.RemoveItem("향긋한 약초");
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             selection.GoodReulst = goodResult;
@@ -189,7 +189,7 @@ namespace TeamRPG.Core.EncounterManager
             goodResult.ImageName = "약초 스승"; // 성공 이미지 경로 또는 데이터
             goodResult.OnExit = (player) =>
             {
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             mitigatedResult = new();
@@ -198,7 +198,7 @@ namespace TeamRPG.Core.EncounterManager
             mitigatedResult.ImageName = "약초 스승"; // 완화 이미지 경로 또는 데이터
             mitigatedResult.OnExit = (player) =>
             {
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             badResult = new();
@@ -208,7 +208,7 @@ namespace TeamRPG.Core.EncounterManager
             badResult.ImageName = "약초 스승"; // 실패 이미지 경로 또는 데이터
             badResult.OnExit = (player) =>
             {
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("GameScene");
             };
 
             selection.GoodReulst = goodResult;
@@ -244,7 +244,7 @@ namespace TeamRPG.Core.EncounterManager
             goodResult.OnExit = (player) =>
             {
                 player.Inventory.AddItem("향긋한 약초", 3); // 플레이어에게 약초 3개 추가
-                SceneManager.GetInstance().ChangeScene("ShopScene"); // 상점 장면으로 이동
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             mitigatedResult = new();
@@ -257,7 +257,7 @@ namespace TeamRPG.Core.EncounterManager
             mitigatedResult.ImageName = "수상한 남자"; // 완화 이미지 경로 또는 데이터
             mitigatedResult.OnExit = (player) =>
             {
-                SceneManager.GetInstance().ChangeScene("ShopScene"); // 상점 장면으로 이동
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             badResult = new();
@@ -270,7 +270,7 @@ namespace TeamRPG.Core.EncounterManager
             badResult.ImageName = "수상한 남자"; // 실패 이미지 경로 또는 데이터
             badResult.OnExit = (player) =>
             {
-                SceneManager.GetInstance().ChangeScene("ShopScene"); // 상점 장면으로 이동
+                SceneManager.GetInstance().ChangeScene("GameScene");
             };
 
             selection.GoodReulst = goodResult; // 선택지에 성공 결과 설정
@@ -290,7 +290,7 @@ namespace TeamRPG.Core.EncounterManager
             goodResult.ImageName = "수상한 남자"; // 성공 이미지 경로 또는 데이터
             goodResult.OnExit = (player) =>
             {
-                SceneManager.GetInstance().ChangeScene("ShopScene"); // 상점 장면으로 이동
+                SceneManager.GetInstance().ChangeScene("CemeteryScene"); // 상점 장면으로 이동
             };
 
             mitigatedResult = new();
@@ -300,7 +300,7 @@ namespace TeamRPG.Core.EncounterManager
             mitigatedResult.ImageName = "수상한 남자"; // 완화 이미지 경로 또는 데이터
             mitigatedResult.OnExit = (player) =>
             {
-                SceneManager.GetInstance().ChangeScene("ShopScene"); // 상점 장면으로 이동
+                SceneManager.GetInstance().ChangeScene("CemeteryScene"); // 상점 장면으로 이동
             };
 
             badResult = new();
@@ -310,7 +310,7 @@ namespace TeamRPG.Core.EncounterManager
             badResult.ImageName = "수상한 남자"; // 실패 이미지 경로 또는 데이터
             badResult.OnExit = (player) =>
             {
-                SceneManager.GetInstance().ChangeScene("ShopScene"); // 상점 장면으로 이동
+                SceneManager.GetInstance().ChangeScene("CemeteryScene"); // 상점 장면으로 이동
             };
 
             selection.GoodReulst = goodResult; // 선택지에 성공 결과 설정
@@ -321,7 +321,9 @@ namespace TeamRPG.Core.EncounterManager
 
             encounters.Add(encounter.Name, encounter);
 
-            // 버섯 이벤트
+            // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+            // 버섯
             encounter = new EncounterData();
             encounter.Selections = new List<EncounterSelection>();
             encounter.Name = "버섯";
@@ -343,7 +345,7 @@ namespace TeamRPG.Core.EncounterManager
             goodResult.OnExit = (player) =>
             {
                 player.HealPlayer(10);
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             // 완화
@@ -364,7 +366,7 @@ namespace TeamRPG.Core.EncounterManager
             mitigatedResult.OnExit = (player) =>
             {
                 player.HitPlayer(15);
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             // 실패
@@ -407,7 +409,7 @@ namespace TeamRPG.Core.EncounterManager
             badResult.OnExit = (player) =>
             {
                 player.HitPlayer(15);
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             selection.GoodReulst = goodResult;
@@ -425,7 +427,7 @@ namespace TeamRPG.Core.EncounterManager
             goodResult.ImageName = "버섯";
             goodResult.OnExit = (player) =>
             {
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             mitigatedResult = new();
@@ -434,7 +436,7 @@ namespace TeamRPG.Core.EncounterManager
             mitigatedResult.ImageName = "버섯";
             mitigatedResult.OnExit = (player) =>
             {
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             badResult = new();
@@ -443,7 +445,7 @@ namespace TeamRPG.Core.EncounterManager
             badResult.ImageName = "버섯";
             badResult.OnExit = (player) =>
             {
-                SceneManager.GetInstance().ChangeScene("ShopScene");
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
             };
 
             selection.GoodReulst = goodResult;
@@ -454,6 +456,133 @@ namespace TeamRPG.Core.EncounterManager
             // 추가
             encounters.Add(encounter.Name, encounter);
 
+            // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+            // 마법사
+            encounter = new EncounterData();
+            encounter.Selections = new List<EncounterSelection>();
+            encounter.Name = "마법사";
+            encounter.Comment = """
+                    이봐 너 
+                    잠시 내 실험을 도와줄 수 있겠나?
+                    """;
+            encounter.ImageName = "마법사";
+
+            // 선택지 1: 도와준다
+            selection = new();
+            selection.MenuText = "도와준다";
+
+            // 성공
+            goodResult = new();
+            goodResult.Description = "내 몸에서 마나가 느껴진다 [마법 공격력 +5]";
+            goodResult.MenuText = "다음 지역으로";
+            goodResult.ImageName = "마법사";
+            goodResult.OnEnter = () =>
+            {
+                Player player = PlayerManager.GetInstance().GetPlayer();
+
+                Random random = new Random();
+                int rand = random.Next(0, 3);
+
+                goodResult.Comment = "실험 성공이다!";
+                if (rand == 0)
+                {
+                    player.currentStatus.MP += 10;
+                    GetEncounterData("마법사").Selections[0].GoodReulst.Description = "내 몸에서 마나가 느껴진다 [마나 +10]";
+                }
+                else if (rand == 1)
+                {
+                    player.HealPlayer(5);
+                    GetEncounterData("마법사").Selections[0].GoodReulst.Description = "기력이 차올랐다 [체력 +5]";
+                }
+                else
+                {
+                    player.Gold += 100;
+                    GetEncounterData("마법사").Selections[0].GoodReulst.Comment = "수고했네";
+                    GetEncounterData("마법사").Selections[0].GoodReulst.Description = "마법사가 돈을 건네줬다 [Gold +100]";
+                }
+            };
+
+            goodResult.OnExit = (player) =>
+            {
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
+            };
+
+            // 완화
+            mitigatedResult = new();
+            mitigatedResult.Description = "별다른 변화가 없다";
+            mitigatedResult.MenuText = "다음 지역으로";
+            mitigatedResult.ImageName = "마법사";
+
+            mitigatedResult.OnExit = (player) =>
+            {
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
+            };
+
+            // 실패
+            badResult = new();
+            badResult.Description = "괜히 도와준 것 같다... [생명력 -10]";
+            badResult.MenuText = "다음 지역으로";
+            badResult.ImageName = "버섯";
+            badResult.OnEnter = () =>
+            {
+                Player player = PlayerManager.GetInstance().GetPlayer();
+                if (player.currentStatus.currentHp - 10 <= 0)
+                    GetEncounterData("마법사").Selections[0].BadResult.Description = "몸이 불타오른다. [생명력 -10]";
+                else
+                    GetEncounterData("마법사").Selections[0].BadResult.Description = "실험은 실패했다. [생명력 -10]";
+
+                player.HitPlayer(10);
+            };
+
+            badResult.OnExit = (player) =>
+            {
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
+            };
+
+            selection.GoodReulst = goodResult;
+            selection.MitigatedResult = mitigatedResult;
+            selection.BadResult = badResult;
+            encounter.Selections.Add(selection);
+
+            // 선택지 2: 무시한다
+            selection = new();
+            selection.MenuText = "무시한다";
+
+            goodResult = new();
+            goodResult.Description = "그럴 시간은 없다.";
+            goodResult.MenuText = "다음 지역으로";
+            goodResult.ImageName = "마법사";
+            goodResult.OnExit = (player) =>
+            {
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
+            };
+
+            mitigatedResult = new();
+            mitigatedResult.Description = "함부로 도와줄 수는 없다.";
+            mitigatedResult.MenuText = "다음 지역으로";
+            mitigatedResult.ImageName = "마법사";
+            mitigatedResult.OnExit = (player) =>
+            {
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
+            };
+
+            badResult = new();
+            badResult.Description = "지금은 여유가 없다.";
+            badResult.MenuText = "다음 지역으로";
+            badResult.ImageName = "마법사";
+            badResult.OnExit = (player) =>
+            {
+                SceneManager.GetInstance().ChangeScene("CemeteryScene");
+            };
+
+            selection.GoodReulst = goodResult;
+            selection.MitigatedResult = mitigatedResult;
+            selection.BadResult = badResult;
+            encounter.Selections.Add(selection);
+
+            // 추가
+            encounters.Add(encounter.Name, encounter);
         }
 
         public EncounterData GetRandomEncounterData()

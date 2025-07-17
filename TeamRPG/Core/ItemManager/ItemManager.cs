@@ -56,7 +56,6 @@ namespace TeamRPG.Core.ItemManager
             // 상점
             // 소모품
             var hurb = new Consumable("향긋한 약초", "매 턴 생명력 +3", StatusFactory.EmptyStatus, 30);
-            hurb.OnUseEffect = (Player target) => { };
             AddItem(hurb);
 
 
@@ -195,7 +194,7 @@ namespace TeamRPG.Core.ItemManager
             {
                 case Consumable c:
                     var newC = new Consumable(c.Name, c.Description, StatusFactory.Clone(c.Status), c.Gold);
-                    newC.OnUseEffect = c.OnUseEffect;
+                    // newC.OnUseEffect = c.OnUseEffect;
                     return newC;
 
                 case Weapon w:

@@ -32,11 +32,6 @@ namespace TeamRPG.Game.Object.Item
             //target.EquipItem(this);
         }
 
-        protected override void OnUseEffect(Player target)
-        {
-            // 공격 처리 로직
-            //target.Attack(AttackPower);
-        }
 
         public string GetAsciiArt()
         {

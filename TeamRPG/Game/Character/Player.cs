@@ -23,7 +23,7 @@ namespace TeamRPG.Game.Character
         public int selectE = 0;
         private bool isDefens = false;
         public string name { get; private set; }
-        Trait trait;
+        public Trait trait;
         public Race race { get; private set; }
         public int level { get; private set; } = 1;
 

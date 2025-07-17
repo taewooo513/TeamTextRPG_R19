@@ -11,7 +11,7 @@ namespace TeamRPG.Game.Object.UI
         Vertical
     }
 
-    internal class MenuItem
+    public class MenuItem
     {
         public string Text { get; set; }
         public Action OnSelect { get; set; }
@@ -27,7 +27,7 @@ namespace TeamRPG.Game.Object.UI
         }
     }
 
-    internal class Menu : UIElement
+    public class Menu : UIElement
     {
         public DirectionType DirectionType { get; set; } = DirectionType.Vertical; // 메뉴 방향 (수평 또는 수직)
         private List<MenuItem> items = new List<MenuItem>();

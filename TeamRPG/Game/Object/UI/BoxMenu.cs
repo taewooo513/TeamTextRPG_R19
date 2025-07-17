@@ -5,7 +5,7 @@ using TeamRPG.Core.UtilManager;
 
 namespace TeamRPG.Game.Object.UI
 {
-    internal class BoxMenu : UIElement
+    public class BoxMenu : UIElement
     {
         private Box box;
         private Menu menu;

@@ -19,6 +19,8 @@ namespace TeamRPG.Game.Character
         public int currentHp { get; set; }
         public int currentMp { get; set; }
 
+        public int stress { get; set; } = 0;
+
         public Status(int hp, int mp, int minAtk, int maxAtk, int agi, int tena, int luck, int currentHP, int currentMP)
         {
             HP = hp;

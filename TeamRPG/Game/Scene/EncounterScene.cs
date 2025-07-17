@@ -8,6 +8,7 @@ using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
 using TeamRPG.Game.Object.UI;
+using TeamRPG.Game.Object.Data;
 
 namespace TeamRPG.Game.Scene
 {
@@ -27,44 +28,6 @@ namespace TeamRPG.Game.Scene
 
         private bool isSelected = false;
 
-        string baseImage = """
-            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣾⣟⣳⣶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⡃⠉⢌⢣⠽⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠈⠛⠼⢲⣢⡔⡤⢆⢤⣀⣄⡠⣀⢀⡀⣿⠻⠟⡼⢟⡖⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠀⠈⠉⠉⠉⠐⠊⠓⠫⢧⣽⣽⣧⣿⣶⣏⣾⣽⣢⣴⣤⣄⡄⣠⢀⡄⣀⠀⣨⢿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣄⢸⣾⣿⣿⣿⣼⣯⣿⣿⣿⣿⣿⣿⣿⣿⣭⣿⣾⢶⣻⣽⣟⣿⣳⣯⡴⣆⠀⠀⠀⢀⣀⡀
-            ⠀⠀⠀⠀⠀⠀⢀⣠⣶⢿⣆⠆⡹⣿⢟⣿⣿⣟⣻⢿⣽⣿⣻⣿⣿⣿⣽⣿⣿⣿⣯⢹⣞⠿⣿⣿⣿⡿⠉⠛⠛⠫⡷⢾⡷
-            ⠀⠀⠀⠀⠀⠀⣿⣝⡎⠱⡌⣞⢱⢣⢯⠘⠛⡻⢿⣻⠿⣻⣯⣟⣹⣾⣿⣟⣿⣿⡿⠿⠛⢠⣿⣿⣿⠁⠀⠀⠀⠀⠉⠉⠀
-            ⠀⠀⠀⠀⠀⢨⣿⣻⠞⣯⣧⡘⡘⣦⡣⣁⡴⣸⠦⣄⠚⣭⢟⣿⣿⣿⣿⣿⣿⣿⣦⠀⢀⣼⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠀⣼⣟⣾⣿⣿⣶⣝⣦⣏⣧⢾⣟⡷⣞⣿⡟⠦⣿⣴⣿⣿⣿⣿⣯⣟⡽⣷⣾⣿⣿⣿⡷⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⢸⠿⣎⣷⢿⣿⣿⣿⣿⣿⣿⣿⣮⢿⠧⠏⡐⡰⣬⢷⣿⣿⣿⣿⣿⣞⣿⣿⣿⣿⣿⣷⡇⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⢸⣿⣿⣮⢾⣿⣿⣿⣿⣿⣷⣿⣿⠟⡈⠆⣱⢞⡵⢋⠻⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡝⠃⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⢠⣿⠿⣋⣻⣻⢿⠋⢿⣿⣿⣿⣯⣷⡲⡜⠯⣙⠼⣁⢦⣻⣿⣿⣿⣿⣿⣯⠻⣿⣿⢿⡛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠘⣿⣷⣾⣛⠛⣿⡁⠈⢽⣿⣿⣽⣞⣷⢪⡕⣬⠶⡛⡟⣿⣿⣿⣿⣿⡿⠿⣷⠀⠉⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠸⠿⢿⣿⣭⣧⠈⣳⠀⠹⣿⣿⣿⣿⣛⣧⣜⣤⡷⢿⣽⣿⣿⣿⢿⡿⢇⠀⠈⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠘⠿⣿⣷⣯⣌⢇⣸⣿⣿⣿⣯⣯⣿⣫⣿⡭⣿⣿⣿⣿⣦⢹⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠀⠀⠈⠻⣿⣾⢎⠻⡿⢿⢿⣟⣻⣷⡿⣿⣱⣿⣿⣿⣿⣿⡀⠙⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠀⠀⠀⢷⡈⢻⣿⣲⡟⣀⢯⢿⣿⣇⢞⣿⣷⣹⣾⣿⣿⣿⣿⠛⢻⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠀⠀⠀⠈⣷⢨⣿⣿⣷⣡⣾⣻⣿⣾⣿⣾⣽⡷⣿⣿⣿⣿⣽⣆⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠀⠀⠀⠀⣹⣿⣿⣿⣿⣿⣷⣿⣿⣿⢽⣾⣿⡱⣛⢾⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⡿⣿⢌⣻⢿⣷⣱⣹⢾⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⡻⣝⢢⡽⣿⣿⠳⣼⢯⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⡷⣽⣿⣿⣟⣇⢣⣽⣻⣿⣓⡞⡯⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⡿⣛⣿⣿⣯⡝⣢⠳⣼⣿⣿⢧⣹⡳⣭⢿⣿⣿⣷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠀⠀⢀⣾⣿⣯⣶⣿⣿⣿⣿⣝⢮⣛⡾⣿⣿⢧⣏⡷⣯⣿⣿⣿⣿⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠀⢀⣼⣿⣿⣿⣿⣿⣿⡿⣭⢟⢮⡳⣟⣿⣿⡿⣼⣳⢯⣽⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⠀⣰⣿⣿⣿⣿⣿⣿⣷⣿⣜⡻⣎⣽⣽⣿⣿⣯⣷⢯⡟⣞⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣯⡿⣞⡷⣩⢿⣻⣾⣿⣽⢯⣻⡟⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⡿⣿⡱⣏⣳⣭⢯⣿⣿⣿⣿⢯⣳⢯⣳⢾⣻⣿⣿⡗⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣷⣹⣮⣷⣿⣿⣿⣿⡿⣏⣿⣼⣿⣿⣿⣿⣿⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⢀⣿⣿⣿⣿⣿⣽⣿⣻⣿⣿⣿⣿⣿⡏⠈⢻⣿⣿⣿⣿⣿⣿⣿⡿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⢸⣿⣿⣿⣿⣿⡯⠀⠀⠀⠉⠉⠉⠉⠀⠀⣾⣿⡟⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⢸⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⡿⠁⢹⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⢸⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡿⠃⠀⠀⢻⣿⣿⡿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            ⠀⠀⠀⣸⣿⣽⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠁⠀⠀⠀⢈⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-            """;
-
-
         public void Init()
         {
             player = PlayerManager.GetInstance().GetPlayer();
@@ -75,10 +38,13 @@ namespace TeamRPG.Game.Scene
 
         public void Update()
         {
+            UpdateUI();
             InputMenu();
         }
 
-        public void Render() { }
+        public void Render() { 
+            
+        }
 
         void InputMenu()
         {
@@ -103,7 +69,7 @@ namespace TeamRPG.Game.Scene
 
         void InitUI()
         {
-            string image = currentEncounterData.Image != string.Empty? currentEncounterData.Image : baseImage;
+            string image = currentEncounterData.Image != string.Empty? currentEncounterData.Image : "";
 
             encounterImage = new RawText(image, UIManager.HalfWidth, UIManager.HalfHeight, HorizontalAlign.Center, VerticalAlign.Middle);
             description = new RawText(currentEncounterData.Description, UIManager.HalfWidth, Console.WindowHeight - 3, HorizontalAlign.Center, VerticalAlign.Top);
@@ -132,6 +98,20 @@ namespace TeamRPG.Game.Scene
             currentMenu = selectionMenu;
         }
 
+        void UpdateUI()
+        {
+            encounterImage.X = UIManager.HalfWidth;
+            encounterImage.Y = UIManager.HalfHeight;
+            description.X = UIManager.HalfWidth;
+            description.Y = Console.WindowHeight - 3;
+            comment.X = 30;
+            comment.Y = UIManager.HalfHeight - 5;
+            selectionMenu.X = 60;
+            selectionMenu.Y = Console.WindowHeight - 1;
+            resultMenu.X = 60;
+            resultMenu.Y = Console.WindowHeight - 1;
+        }
+
         public void OnSelectMenu(Player player, EncounterSelection selection)
         {
             currentMenu = resultMenu;
@@ -141,14 +121,15 @@ namespace TeamRPG.Game.Scene
             resultMenu.IsVisible = true;
 
             // encounterImage.SetText(selection.Result.Image);
-            description.SetText(selection.Result.Description);
-            comment.SetText(selection.Result.Comment);
-            resultMenu.GetItem(0).Text = selection.Result.MenuText;
+
             resultMenu.GetItem(0).OnSelect = () =>
             {
                 selection.Result.Action?.Invoke(player);
             };
 
+            resultMenu.GetItem(0).Text = selection.Result.MenuText;
+            comment.SetText(selection.Result.Comment);
+            description.SetText(selection.Result.Description);
         }
 
         public void Release()

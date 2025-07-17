@@ -15,6 +15,7 @@ using TeamRPG.Game.Scene.Specificity;
 using static System.Net.Mime.MediaTypeNames;
 using TeamRPG.Core.ShopManager;
 using TeamRPG.Core.EncounterManager;
+using TeamRPG.Core.ImageManager;
 
 namespace TeamRPG.Game
 {
@@ -35,8 +36,10 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("CharInfoScene", new CharInfoScene());
             SceneManager.GetInstance().AddScene("RestScene", new RestScene());
             SceneManager.GetInstance().AddScene("EncounterScene", new EncounterScene());
+            SceneManager.GetInstance().AddScene("BossEnemyScene", new BossEnemyScene());
             SceneManager.GetInstance().AddScene("WildernessScene", new WildernessScene());
             SceneManager.GetInstance().AddScene("DevildomScene", new DevildomScene());
+
 
             TextIOManager.GetInstance().Init(156, 40);
             TimerManager.GetInstance().Init();
@@ -57,6 +60,7 @@ namespace TeamRPG.Game
             
             ItemManager.GetInstance().Init();
             ShopManager.GetInstance().Init();
+            ImageManager.GetInstance().Init();
 
             PlayerManager.GetInstance().Init("test", Race.Human);
             SceneManager.GetInstance().ChangeScene("TitleScene");

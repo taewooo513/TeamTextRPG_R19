@@ -9,8 +9,8 @@ namespace TeamRPG.Game.Object.UI
         public HorizontalAlign HorizontalAlign { get; set; }
         public VerticalAlign VerticalAlign { get; set; } = VerticalAlign.Top; // 수직 정렬 기본값
 
-        public RawText(string text, int x, int y, HorizontalAlign horizontalAlign = HorizontalAlign.Left, VerticalAlign verticalAlign = VerticalAlign.Top, ConsoleColor color = ConsoleColor.White)
-            : base(x, y, color)
+        public RawText(string text, int x, int y, HorizontalAlign horizontalAlign = HorizontalAlign.Left, VerticalAlign verticalAlign = VerticalAlign.Top, ConsoleColor color = ConsoleColor.White, bool addUIElement = true)
+            : base(x, y, color, addUIElement)
         {
             rawString = text;
             HorizontalAlign = horizontalAlign;

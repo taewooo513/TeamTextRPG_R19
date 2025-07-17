@@ -34,6 +34,7 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("CharInfoScene", new CharInfoScene());
             SceneManager.GetInstance().AddScene("RestScene", new RestScene());
             SceneManager.GetInstance().AddScene("EncounterScene", new EncounterScene());
+            SceneManager.GetInstance().AddScene("BossEnemyScene", new BossEnemyScene());
 
             TextIOManager.GetInstance().Init(156, 40);
             TimerManager.GetInstance().Init();

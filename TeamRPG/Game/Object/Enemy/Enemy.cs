@@ -37,7 +37,7 @@ namespace TeamRPG.Game.Object.Enemy
             public int currentHp;
 
         }
-        bool isParreyFail = false; // 패링 스펠링몰라요
+        bool isParreyFail = false; // 패링 스펠링몰라요 // Parry 라고 하는데 명사,동사 전부 Parry 라네요 이렇게쓰면 댈듯 저도 몰랐음;
         Stopwatch stopwatch;
         Stopwatch parryStopwatch;
 

@@ -1,5 +1,4 @@
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -20,11 +19,11 @@ namespace TeamRPG.Game.Character
         private int attackIndex;
         private bool isSkill;
         private List<Skill> skills;
-        public Trait trait;
         public Stopwatch timer;
         public int selectE = 0;
         private bool isDefens = false;
         public string name { get; private set; }
+        public Trait trait;
         public Race race { get; private set; }
         public int level { get; private set; } = 1;
 
@@ -328,16 +327,16 @@ namespace TeamRPG.Game.Character
                     Random rd = new Random();
                     EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(skills[selectNum].power);
                     baseStatus.currentMp -= skills[selectNum].mpCost;
-                    selectNum = 0;
                     PlayerManager.GetInstance().gameMsg = $" !!! {skills[selectNum].name} !!! {EnemyManager.GetInstance().GetEnemyList()[attackIndex].GetName()}에게 {skills[selectNum].power}의 데미지를 입혔습니다.";
+                    selectNum = 0;
                 }
                 else
                 {
                     Random rd = new Random();
                     int dmg = rd.Next(currentStatus.MinAttack, currentStatus.MaxAttack);
                     EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(dmg);
-                    selectNum = 0;
                     PlayerManager.GetInstance().gameMsg = $" {EnemyManager.GetInstance().GetEnemyList()[attackIndex].GetName()}에게 {dmg}의 데미지를 입혔습니다.";
+                    selectNum = 0;
                 }
                 timer.Start();
                 attackIndex = 0;

@@ -41,6 +41,8 @@ namespace TeamRPG.Game.Scene
 
         public void Release()
         {
+            SoundManager.GetInstance().StopSound("Bossmain");
+            UIManager.GetInstance().ClearUI();
         }
 
         public void Render()

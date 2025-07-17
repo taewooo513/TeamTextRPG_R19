@@ -42,7 +42,9 @@ namespace TeamRPG.Core.EncounterManager
                                 ImageName = "폐가",
                                 Action = (player) =>
                                 {
-
+                                    player.Inventory.AddItem("회복 포션", 1);
+                                    player.Inventory.AddItem("향긋한 허브", 1);
+                                    SceneManager.GetInstance().ChangeScene("ShopScene");
                                 }
                         },
                         // 완화
@@ -367,7 +369,7 @@ namespace TeamRPG.Core.EncounterManager
                         // 완화
                         MitigatedResult = new EncounterResult
                         {
-                                Description = "아프지만 버틸만하다. [생명력 -15]",
+                                Description = "아프다. 하지만 후유증은  [생명력 -15]",
                                 MenuText = "다음 지역으로",
                                 ImageName = "버섯",
                                 Action = (player) =>
@@ -379,11 +381,33 @@ namespace TeamRPG.Core.EncounterManager
                         // 실패
                         BadResult = new EncounterResult
                         {
+                                
                                 Description = "속이 아프다... 괜히 먹은 것 같다. [생명력 -15 랜덤 디버프]",
                                 MenuText = "다음 지역으로",
                                 ImageName = "버섯",
                                 Action = (player) =>
                                 {
+                                    Random random = new Random();
+                                    int debuffType = random.Next(0, 3); // 0: 중독, 1: 마비, 2: 출혈
+                                    //중독 : 현재 체력의 10% 감소 - 소수점 아래 내림 처리
+                                    //마비 : 재빠름 수치 -10
+                                    //출혈 : 전체 체력의 10% 감소 - 소수점 아래 내림 처리
+                                    switch (debuffType)
+                                    {
+                                        case 0:
+                                            int poisonDamage = (int)(player.baseStatus.currentHp * 0.1);
+                                            player.HitPlayer(poisonDamage);
+                                            break;
+                                        case 1:
+                                            player.baseStatus.Agility = Math.Max(0, player.baseStatus.Agility - 10); // 속도 감소
+                                            break;
+                                        case 2:
+                                            int bleedDamage = (int)(player.baseStatus.HP * 0.1);
+                                            player.HitPlayer(bleedDamage);
+                                            break;
+
+                                    }
+
                                     player.HitPlayer(15);
                                     SceneManager.GetInstance().ChangeScene("ShopScene");
                                 }

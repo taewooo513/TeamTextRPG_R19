@@ -96,7 +96,7 @@ namespace TeamRPG.Game.Object.Data
                 if (MitigatedResult == null)
                     isMitigated = false;
                 else
-                    isMitigated = TryMitigatedTrap(player.currentStatus.Agility);
+                    isMitigated = TryMitigatedTrap(player.currentStatus.Tenacity);
             }
             else
             {
@@ -121,11 +121,11 @@ namespace TeamRPG.Game.Object.Data
 
             return roll < avoidChance;
         }
-        bool TryMitigatedTrap(int agility)
+        bool TryMitigatedTrap(int tenacity)
         {
             // 회피 확률 계산 (luck%)
             Random rand = new Random();
-            int avoidChance = agility + MitigatedChanceModifier;
+            int avoidChance = tenacity + MitigatedChanceModifier;
             int roll = rand.Next(0, 101); // 0부터 100 사이의 랜덤 숫자 생성
 
             return roll < avoidChance;

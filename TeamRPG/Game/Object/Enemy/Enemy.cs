@@ -198,7 +198,7 @@ namespace TeamRPG.Game.Object.Enemy
                 }
                 else
                 {
-                    PlayerManager.GetInstance().gameMsg = $"{state.name}을 피했습니다.";
+                    PlayerManager.GetInstance().gameMsg = $"{state.name}의 공격을 피했습니다.";
                 }
             }
         }

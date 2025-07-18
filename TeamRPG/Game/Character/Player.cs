@@ -90,9 +90,9 @@ namespace TeamRPG.Game.Character
             level++;
             str += $" 레벨업 ";
 
-            currentStatus.HP += 5;
-            currentStatus.MinAttack += 2;
-            currentStatus.MaxAttack += 2;
+            baseStatus.HP += 5;
+            baseStatus.MinAttack += 2;
+            baseStatus.MaxAttack += 2;
 
             RecalculateCurrentStatus();
         }
@@ -551,7 +551,7 @@ namespace TeamRPG.Game.Character
             TextIOManager.GetInstance().OutputText("│", 4 + currentStatus.MP / 10 * 2 + 2, 37);
         }
 
-        public void RandomTrait()
+        public Trait RandomTrait()
         {
             List<Trait> allTraits = new List<Trait>();
             allTraits.AddRange(TraitDatabase.commonTraits);
@@ -561,6 +561,7 @@ namespace TeamRPG.Game.Character
             this.trait = allTraits[rand.Next(allTraits.Count)];
 
             this.trait.ApplyEffect(this);
+            return this.trait;
         }
     }
 }

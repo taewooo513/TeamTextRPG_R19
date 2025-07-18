@@ -8,6 +8,8 @@ namespace TeamRPG.Game.Scene.Specificity
     {
         public override void Init()
         {
+            base.Init();
+
         }
 
         public override void Update()
@@ -61,7 +63,7 @@ namespace TeamRPG.Game.Scene.Specificity
             TextIOManager.GetInstance().OutputText("⣯⣷⣿⢿⣽⢴⣿⣻⣽⡾⣿⣧⣥⡱⣘⢜⣌⢮⢪⢢⢱⢹⡸⡩⡘⢌⠜⢬⠺⡸⡨⠪⢍⢢⢩⢎⢎⢎⠫⣚⠪⡫⡊⡣⡉⠪⡁⠅⠅⠅⠣⢁⢑⢐⢁⢑⠈⠌⢌⢌⠱⡈⡣⢣⢳⢘⢌⢆⠬⠬⢕⢕⢭⢜⢜⢜⢜⢜⣜⢼⡲⡳⡵⡫⡳⠳⡹⡙⡪⠪⡊⡪⡸⡘⣄⢇⢕⣌⡮⣞", 25, 34);
 
         }
-        protected virtual void DrawText()
+        protected override void DrawText()
         {
             TextIOManager.GetInstance().OutputSmartText("새가 짖는 소리가들린다....", 65, 36);
         }

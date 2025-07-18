@@ -12,6 +12,8 @@ namespace TeamRPG.Game.Scene.Specificity
     {
         public override void Init()
         {
+            base.Init();
+
         }
 
         public override void Update()
@@ -61,7 +63,7 @@ namespace TeamRPG.Game.Scene.Specificity
 
         }
 
-        protected virtual void DrawText()
+        protected override void DrawText()
         {
             TextIOManager.GetInstance().OutputSmartText("끝없는 모래빛 속에서, 누군가는 사냥감이 될것 같다.", 52, 36);
         }
@@ -85,7 +87,6 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Render()
         {
             base.GetSpecificityEvent();
-            DrawText();
         }
         protected override void DrawText()
         {

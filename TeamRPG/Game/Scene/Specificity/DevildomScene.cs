@@ -12,6 +12,7 @@ namespace TeamRPG.Game.Scene.Specificity
     {
         public override void Init()
         {
+            base.Init();
         }
 
         public override void Update()
@@ -66,7 +67,7 @@ namespace TeamRPG.Game.Scene.Specificity
             TextIOManager.GetInstance().OutputText("⣟⣾⣻⣾⣻⡾⣟⣿⢾⣯⢿⣾⣻⣾⣻⣾⣻⡾⣟⣯⣿⢷⡿⣞⣯⣷⢿⣞⣿⣻⣽⣟⣿⣻⡷⣿⣯⢿⣻⣽⢿⣽⢿⡽⣟⣟⣯⣿⣻⣯⢿⣽⡾⣟⣷⢿⣞⣷⢿⣽⣯⢿⡾⣯⣿⣽⣺⣺⣗⡿⣾⣗⡯⡯⣞⣷⣟⣯⣿⣻⣽⣟⣿⡽⣟⣯⣷⣿⢿⣽⡾⣷⣻⣟", 25, 34);
         }
 
-        protected virtual void DrawText()
+        protected override void DrawText()
         {
             TextIOManager.GetInstance().OutputSmartText("끝없는 혼돈의 땅, 공포라는 말이 실체화 된듯 공기마서 서늘하며 뜨겁다.", 42, 36);
         }
@@ -90,7 +91,6 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Render()
         {
             base.GetSpecificityEvent();
-            DrawText();
         }
         protected override void DrawText()
         {

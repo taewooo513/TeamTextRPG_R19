@@ -53,34 +53,36 @@ namespace TeamRPG.Game.Scene
         {
             int a = (int)(timerEnd.ElapsedMilliseconds / 100);
 
+            TextIOManager.GetInstance().OutputSmartText("Team 19세넘었조", 1, 1);
+            TextIOManager.GetInstance().OutputSmartText("TeamLeader ms.Park", 1, 2);
 
             switch (a)
             {
                 case 0:
                     goto case 1;
                 case 1:
-                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⢀⢩⣾⣿⣿⡿⢡⣿⡟⣡⠟⣰⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⣌⢻⡜⣿⣷⡘⣿⣿⣿⣿⣇⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 25, 12 + yUp);
+                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⢀⢩⣾⣿⣿⡿⢡⣿⡟⣡⠟⣰⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⣌⢻⡜⣿⣷⡘⣿⣿⣿⣿⣇⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 45, 12 + yUp);
                     goto case 2;
                 case 2:
-                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣹⣾⣿⣿⡿⢀⣾⡟⢫⡴⢋⠴⠉⠂⠈⠀⠀⠀⠈⠑⠲⣌⠹⢦⡹⣿⣧⠘⣿⣿⣿⣷⣷⠀⢀⠀⠀⠀⠀⠀", 25, 11 + yUp);
+                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣹⣾⣿⣿⡿⢀⣾⡟⢫⡴⢋⠴⠉⠂⠈⠀⠀⠀⠈⠑⠲⣌⠹⢦⡹⣿⣧⠘⣿⣿⣿⣷⣷⠀⢀⠀⠀⠀⠀⠀", 45, 11 + yUp);
                     goto case 3;
                 case 3:
-                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣐⢞⣾⣿⣿⣟⠋⣰⢮⡗⣋⡴⠒⢋⡑⢡⡉⢌⡙⠚⠤⣍⡛⢾⡷⣌⠻⣿⣿⣿⣾⣧⠀⠠⠀⠀⠀⠀⠀", 25, 10 + yUp);
+                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣐⢞⣾⣿⣿⣟⠋⣰⢮⡗⣋⡴⠒⢋⡑⢡⡉⢌⡙⠚⠤⣍⡛⢾⡷⣌⠻⣿⣿⣿⣾⣧⠀⠠⠀⠀⠀⠀⠀", 45, 10 + yUp);
                     goto case 4;
                 case 4:
-                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⣎⣾⣷⣿⢯⡿⢉⢢⣄⢯⡖⠳⡙⣋⠛⣑⠳⠞⣽⣲⢤⣈⠻⢿⣿⣿⣿⣷⣄⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 25, 9 + yUp);
+                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⣎⣾⣷⣿⢯⡿⢉⢢⣄⢯⡖⠳⡙⣋⠛⣑⠳⠞⣽⣲⢤⣈⠻⢿⣿⣿⣿⣷⣄⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 45, 9 + yUp);
                     goto case 5;
                 case 5:
-                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠐⣤⣻⣼⡿⣽⢮⠷⠙⢊⡁⡡⢌⠤⣁⣉⡈⠓⠻⢞⣯⡿⣿⣷⣛⣦⠀⠀⡀⠀⠀", 25, 8 + yUp);
+                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠐⣤⣻⣼⡿⣽⢮⠷⠙⢊⡁⡡⢌⠤⣁⣉⡈⠓⠻⢞⣯⡿⣿⣷⣛⣦⠀⠀⡀⠀⠀", 45, 8 + yUp);
                     goto case 6;
                 case 6:
-                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⣆⡳⣜⣶⡻⣭⢟⡶⣹⢞⡼⣋⡷⣭⢷⡻⣷⢧⣯⠴⣄⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 25, 7 + yUp);
+                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⣆⡳⣜⣶⡻⣭⢟⡶⣹⢞⡼⣋⡷⣭⢷⡻⣷⢧⣯⠴⣄⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 45, 7 + yUp);
                     goto case 7;
                 case 7:
-                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⣄⠰⣒⠬⣥⣙⢦⣍⢧⡹⣔⡢⡔⡤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 25, 6 + yUp);
+                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⣄⠰⣒⠬⣥⣙⢦⣍⢧⡹⣔⡢⡔⡤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 45, 6 + yUp);
                     goto case 8;
                 case 8:
-                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 25, 5 + yUp);
+                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 45, 5 + yUp);
                     break;
                 case 12:
                 case 13:
@@ -100,8 +102,8 @@ namespace TeamRPG.Game.Scene
                 case 27:
                 case 28:
                 case 29:
-                    TextIOManager.GetInstance().OutputSmartText("해당 게임은 전체화면에 최적화 되어있습니다.", 25, 12);
-                    TextIOManager.GetInstance().OutputSmartText("전체화면으로 이용해 주시는 것을 권장 드립니다.", 25, 15);
+                    TextIOManager.GetInstance().OutputSmartText("해당 게임은 전체화면에 최적화 되어있습니다.", 50, 12);
+                    TextIOManager.GetInstance().OutputSmartText("전체화면으로 이용해 주시는 것을 권장 드립니다.", 50, 15);
                     break;
                 case 35:
                     SceneManager.GetInstance().ChangeScene("CharSelectScene");
@@ -116,25 +118,25 @@ namespace TeamRPG.Game.Scene
             switch (a)
             {
                 case 0:
-                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⣟⣿⣿⣿⣿⡘⣿⣷⡹⣧⠙⣦⠀⡀⠈⠀⠀⠀⠀⠀⠀⠄⣀⠾⣁⣾⢋⣿⣿⢡⣿⣿⣿⣿⡟⠀⠈⠀", 25, 18 + yDown);
+                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⣟⣿⣿⣿⣿⡘⣿⣷⡹⣧⠙⣦⠀⡀⠈⠀⠀⠀⠀⠀⠀⠄⣀⠾⣁⣾⢋⣿⣿⢡⣿⣿⣿⣿⡟⠀⠈⠀", 45, 18 + yDown);
                     goto case 1;
                 case 1:
-                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢾⣿⣿⣿⣧⡘⣿⣷⣜⢷⣌⠳⢦⣄⡐⣀⢀⢂⣡⢰⡚⢌⣱⡞⣣⣿⡿⢃⣾⣿⣿⣿⡟⠀⠐⠀", 25, 19 + yDown);
+                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢾⣿⣿⣿⣧⡘⣿⣷⣜⢷⣌⠳⢦⣄⡐⣀⢀⢂⣡⢰⡚⢌⣱⡞⣣⣿⡿⢃⣾⣿⣿⣿⡟⠀⠐⠀", 45, 19 + yDown);
                     goto case 2;
                 case 2:
-                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠘⢟⣿⣿⣿⣿⣷⣌⡙⠿⣿⣷⣮⣬⣭⣯⣭⣴⣶⣿⡿⠟⢋⣤⣿⣿⣿⣿⡿⠟⠀⠠⠀⠀⠀⠀", 25, 20 + yDown);
+                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠘⢟⣿⣿⣿⣿⣷⣌⡙⠿⣿⣷⣮⣬⣭⣯⣭⣴⣶⣿⡿⠟⢋⣤⣿⣿⣿⣿⡿⠟⠀⠠⠀⠀⠀⠀", 45, 20 + yDown);
                     goto case 3;
                 case 3:
-                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠀⠺⡽⣿⣿⣿⣿⣿⣶⣤⣍⣙⢋⠛⠛⡛⢩⣉⣥⣴⣾⣿⣿⣿⣿⣿⠿⠉⢀⠈⠀⠀⠀⠀⠀⠀", 25, 21 + yDown);
+                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠀⠺⡽⣿⣿⣿⣿⣿⣶⣤⣍⣙⢋⠛⠛⡛⢩⣉⣥⣴⣾⣿⣿⣿⣿⣿⠿⠉⢀⠈⠀⠀⠀⠀⠀⠀", 45, 21 + yDown);
                     goto case 4;
                 case 4:
-                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠘⢽⡻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢟⡻⠈⠀⠐⠀⠀⠀⠀⠀⠀⠀", 25, 22 + yDown);
+                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠘⢽⡻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢟⡻⠈⠀⠐⠀⠀⠀⠀⠀⠀⠀", 45, 22 + yDown);
                     goto case 5;
                 case 5:
-                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠀⠀⠘⠹⢋⠿⠿⣿⡿⣿⡿⣿⢿⡿⢟⡟⠽⠃⠉⡀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 25, 23 + yDown);
+                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠀⠀⠘⠹⢋⠿⠿⣿⡿⣿⡿⣿⢿⡿⢟⡟⠽⠃⠉⡀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 45, 23 + yDown);
                     goto case 6;
                 case 6:
-                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⢈⠈⠁⠑⠁⡁⠀⠈⠀⠀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 25, 24 + yDown);
+                    TextIOManager.GetInstance().OutputText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⢈⠈⠁⠑⠁⡁⠀⠈⠀⠀⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 45, 24 + yDown);
                     break;
             }
             //어때요
@@ -153,15 +155,11 @@ namespace TeamRPG.Game.Scene
                 if (timerTextTimer.ElapsedMilliseconds > 7)
                 {
                     x++;
-                    if (x == 29)
+                    if (x == 29 + 20)
                     {
                         isStop = true;
                     }
                     timerTextTimer.Restart();
-                }
-                if (x > TextIOManager.GetInstance().winWidth)
-                {
-                    //SceneManager.GetInstance().ChangeScene("CharSelectScene");
                 }
             }
             else

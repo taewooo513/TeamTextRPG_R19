@@ -45,7 +45,7 @@ namespace TeamRPG.Game.Scene
             // e = new Slime(UIManager.HalfWidth, 5, "Slime");
             // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eSlime);
 
-            e = new Mimic(UIManager.HalfWidth, 5, "Mimic");
+            e = new Skeleton(UIManager.HalfWidth, 5, "");
             EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eMimic);
         }
 

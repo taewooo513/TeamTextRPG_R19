@@ -189,9 +189,17 @@ namespace TeamRPG.Game.Object.Enemy
             }
             else
             {
+                Random _rd = new Random();
                 stopwatch.Start();
-                PlayerManager.GetInstance().gameMsg = $"{state.name}에게 {state.dmg}의 피해를 입었습니다.";
-                PlayerManager.GetInstance().GetPlayer().HitPlayer(state.dmg);
+                if (_rd.Next(0, 100) < PlayerManager.GetInstance().GetPlayer().currentStatus.Luck)
+                {
+                    PlayerManager.GetInstance().gameMsg = $"{state.name}에게 {state.dmg}의 피해를 입었습니다.";
+                    PlayerManager.GetInstance().GetPlayer().HitPlayer(state.dmg);
+                }
+                else
+                {
+                    PlayerManager.GetInstance().gameMsg = $"{state.name}을 피했습니다.";
+                }
             }
         }
         protected virtual void SettingExSkill()

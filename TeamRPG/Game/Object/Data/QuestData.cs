@@ -51,11 +51,17 @@ namespace TeamRPG.Game.Object.Data
         public void AcceptQuest()
         {
             QuestManager.GetInstance().CurrentQuest = this;
+            QuestManager.GetInstance().CurrentQuest.IsCompleted = false;
             SceneManager sceneManager = SceneManager.GetInstance();
             GameScene gameScene = sceneManager.GetScene("GameScene") as GameScene;
             if (gameScene == null) return;
             if (QuestEnemy == null) return;
-            gameScene.SetEnemy(QuestManager.GetInstance().CurrentQuest.QuestEnemy, QuestManager.GetInstance().CurrentQuest.eEnemyNum);
+
+            QuestEnemy.isDie = false;
+            (Enemy, eEnemyNum) enemy = (QuestEnemy, eEnemyNum);
+
+            EnemyManager.GetInstance().ClearInitialEnemies();
+            EnemyManager.GetInstance().AddInitialEnemy(enemy);
             SceneManager.GetInstance().ChangeScene("GameScene");
         }
 

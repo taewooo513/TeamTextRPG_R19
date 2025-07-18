@@ -57,9 +57,7 @@ namespace TeamRPG.Core.SceneManager
                     nowScene.Release();
                     Console.Clear();
                     UIManager.GetInstance().ClearUI();
-                    
-                    if(!QuestManager.QuestManager.GetInstance().IsQuestting)
-                        EnemyManager.EnemyManager.GetInstance().ClearEnemy();
+                    EnemyManager.EnemyManager.GetInstance().ClearEnemy();
                 }
                 nowScene = nextScene;
                 nextScene = null;

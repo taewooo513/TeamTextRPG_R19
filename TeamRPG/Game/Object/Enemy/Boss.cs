@@ -14,7 +14,7 @@ namespace TeamRPG.Game.Object.Enemy
 
     public class Boss : Enemy
     {
-        //RawText BossText;      //당장은 필요 없음
+        //RawText BossText;      //당장은 필요 없음   //릴리즈 > ui매니저 > 클리어 // 씬에서!
         //Text titleText;
         //Text effectText;
         //Text descriptionText;

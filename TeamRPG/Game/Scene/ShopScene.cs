@@ -253,7 +253,15 @@ namespace TeamRPG.Game.Scene
         int GetItemSellGold(Item item)
         {
             if (item == null) return 0;
-            return (int)(item.Gold * 0.8f);
+            Equipment equipment = item as Equipment;
+            if(equipment != null)
+            {
+
+                float ratio = (float)equipment.CurrentDurability / equipment.MaxDurability;
+                return (int)(item.Gold * 0.6f * ratio);
+            }
+
+            return (int)(item.Gold * 0.6f);
         }
 
 

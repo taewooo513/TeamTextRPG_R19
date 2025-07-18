@@ -127,6 +127,7 @@ namespace TeamRPG.Game.Object.Enemy
         }
         public virtual void Release()
         {
+            UIManager.GetInstance().ClearUI();
         }
         public virtual void SelectEnemy()
         {

@@ -51,6 +51,8 @@ namespace TeamRPG.Game.Scene
 
             // e = new Golem(UIManager.HalfWidth, 5, "Golem");
             // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eGolem);
+            InitEnemies();
+
         }
 
         public void Release()
@@ -78,20 +80,12 @@ namespace TeamRPG.Game.Scene
             TextIOManager.GetInstance().OutputSmartText(PlayerManager.GetInstance().gameMsg, 3, 1);
         }
 
-        public void SetEnemy(Enemy _e, eEnemyNum _eEnemyNum)
+        public void InitEnemies()
         {
-            e = _e;
-            EnemyManager.GetInstance().AddEnemy(e, _eEnemyNum);
-        }
+            var initialEnemies = EnemyManager.GetInstance().GetInitialEnemies();
 
-        public void SetEnemies(Enemy _e, eEnemyNum _eEnemyNum, Enemy _e1, eEnemyNum _eEnemyNum1, Enemy _e2, eEnemyNum eEnemyNum2)
-        {
-            e = _e;
-            EnemyManager.GetInstance().AddEnemy(e, _eEnemyNum);
-            e1 = _e1;
-            EnemyManager.GetInstance().AddEnemy(e1, _eEnemyNum1);
-            e2 = _e2;
-            EnemyManager.GetInstance().AddEnemy(e2, eEnemyNum2);
+            for(int i = 0; i < initialEnemies.Count; i++)
+                EnemyManager.GetInstance().AddEnemy(initialEnemies[0].Item1, initialEnemies[0].Item2);
         }
 
         public void Update()

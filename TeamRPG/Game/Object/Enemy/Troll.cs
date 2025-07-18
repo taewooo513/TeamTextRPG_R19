@@ -23,7 +23,7 @@ namespace TeamRPG.Game.Object.Enemy
         {
         }
 
-        public virtual void Update()
+        public override void Update()
         {
             if (isTurn == true)
             {
@@ -42,6 +42,7 @@ namespace TeamRPG.Game.Object.Enemy
                             PlayerManager.GetInstance().GetPlayer().PlayerTurnSetting();
                         }
                         state.currentHp += 3;
+
                         stopwatch.Reset();
                         stopwatch.Stop();
                     }

@@ -14,6 +14,8 @@ namespace TeamRPG.Game.Scene.Specificity
         Animation nextSceneAni;
         public override void Init()
         {
+            base.Init();
+
             //List<String[]> strings = new List<String[]>();
             //for (int w = 0; w < TextIOManager.GetInstance().winWidth / 2; w++)
             //{
@@ -77,7 +79,7 @@ namespace TeamRPG.Game.Scene.Specificity
             TextIOManager.GetInstance().OutputText("⣗⢦⢧⣪⢬⢨⣘⡘⡹⡙⡛⢗⢛⠎⢎⠪⢪⢂⣣⣢⢦⢌⢢⣓⢕⢜⡾⣽⣻⢮⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠁⠁⠁⡁⠁⠉⠋⠙⠪⡫⢯⠺⡸⠪⠊⠊⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀           ", 25, 33);
             TextIOManager.GetInstance().OutputText("⡿⣯⣳⣫⣟⣮⢾⣽⡺⣞⡶⣢⡂⣌⡖⣽⢝⡯⣗⣽⢫⣎⣮⡮⣾⣫⢯⢗⢓⠫⠨⠨⡐⣐⢰⠀⠀⢀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀             ", 25, 34);
         }
-        protected virtual void DrawText()
+        protected override void DrawText()
         {
             TextIOManager.GetInstance().OutputSmartText("잠든 자들의 속삭임 속에, 이승과 저승의 경계가 흐려질것 같다.", 48, 36);
         }

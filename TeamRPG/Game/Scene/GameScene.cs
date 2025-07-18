@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.EnemyManager;
+using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
 using TeamRPG.Game.Object.Enemy;
@@ -16,31 +17,37 @@ namespace TeamRPG.Game.Scene
         bool isStartGame = false;
         Stopwatch timer;
         Enemy e;
+        bool isEnd = false;
         Enemy e1;
         Enemy e2;
         int selectNum = 0;
         int enemySelect = 0;
+        bool isReword = false;
         public void Init()
         {
+            isReword = false;
             enemySelect = 0;
+            isReword = false;
             isStartGame = false;
             timer = new Stopwatch();
             timer.Start();
-
+            isEnd = false;
             PlayerManager.GetInstance().GetPlayer().PlayerTurnSetting();
             SoundManager.GetInstance().PlaySound("Bossmain", .1f);
             PlayerManager.GetInstance().gameMsg = "???을 마주쳤습니다.";
             selectNum = 0;
             //e1 = new Goblin(-30, 0, "A");
             //EnemyManager.GetInstance().AddEnemy(e1, eEnemyNum.eGoblin);
-            e = new Boss(0, 5, "???");
-            EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eBoss);
+            e = new Goblin(0, 5, "???");
+            EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eGoblin);
             //e2 = new Goblin(30, 0, "C");
             //EnemyManager.GetInstance().AddEnemy(e2, eEnemyNum.eGoblin);
         }
 
         public void Release()
         {
+            timer.Reset();
+            timer.Stop();
             SoundManager.GetInstance().StopSound("Bossmain");
             UIManager.GetInstance().ClearUI();
         }
@@ -69,8 +76,9 @@ namespace TeamRPG.Game.Scene
                 isStartGame = true;
                 PlayerManager.GetInstance().gameMsg = "플레이어의 턴";
             }
-            if (isStartGame == true)
+            if (isStartGame == true && isEnd == false)
             {
+
                 if (PlayerManager.GetInstance().GetPlayer().isPlayerTurn == true)
                 {
                     PlayerManager.GetInstance().GetPlayer().Update();
@@ -84,6 +92,27 @@ namespace TeamRPG.Game.Scene
                     }
                     PlayerManager.GetInstance().GetPlayer().timer.Reset();
                     PlayerManager.GetInstance().GetPlayer().timer.Stop();
+                }
+            }
+            if (isEnd == false)
+            {
+                if (EnemyManager.GetInstance().GetEnemyList().Count == 0)
+                {
+                    timer.Restart();
+                    isEnd = true;
+                }
+            }
+            else
+            {
+                if (timer.ElapsedMilliseconds > 3000 && isReword == false)
+                {
+                    timer.Restart();
+                    isReword = true;
+                    PlayerManager.GetInstance().GetPlayer().GetReword(100000, 100);
+                }
+                else if (timer.ElapsedMilliseconds > 3000)
+                {
+                    SceneManager.GetInstance().ChangeScene(PlayerManager.GetInstance().environment);
                 }
             }
         }

@@ -56,40 +56,53 @@ namespace TeamRPG.Game.Character
             playerDieStopWatch = new Stopwatch();
         }
 
-        public void GainExp(int _exp)
+        public void GainExp(int _exp, ref string str)
         {
             if (level >= ExpTable.maxLevel)
             {
                 //Console.WriteLine("최대 레벨입니다");
+                str += "";
                 return;
             }
-
+            int lastLv = level; 
             currentExp += _exp;
 
             while (currentExp >= expToNextLevel && level < ExpTable.maxLevel)
             {
                 currentExp -= expToNextLevel;
-                LevelUp();
+                LevelUp(ref str);
+            }
+            if(lastLv != level)
+            {
+                str += $"현재 레벨: {level}";
             }
         }
 
-        public void LevelUp()
+        public void LevelUp(ref string str)
         {
             if (level >= ExpTable.maxLevel)
             {
+                str += "";
                 //Console.WriteLine("최대 레벨입니다");
                 return;
             }
 
             level++;
+            str += $" 레벨업 ";
 
-            baseStatus.HP += 5;
-            baseStatus.MinAttack += 2;
-            baseStatus.MaxAttack += 2;
+            currentStatus.HP += 5;
+            currentStatus.MinAttack += 2;
+            currentStatus.MaxAttack += 2;
 
             RecalculateCurrentStatus();
         }
-
+        public void GetReword(int amount, int _exp)
+        {
+            AddGold(amount);
+            string str ="";
+            GainExp(_exp , ref str);
+            PlayerManager.GetInstance().gameMsg = $"{amount}원, {_exp}exp를 획득하였다." + str;
+        }
         public void AddGold(int amount)
         {
             Gold += amount;
@@ -181,7 +194,7 @@ namespace TeamRPG.Game.Character
                 dieY += 1;
                 playerDieStopWatch.Restart();
             }
-            if(dieY == 14)
+            if (dieY == 14)
             {
                 SceneManager.GetInstance().ChangeScene("DiedScene");
             }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.EnemyManager;
+using TeamRPG.Core.QuestManager;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
@@ -44,9 +45,15 @@ namespace TeamRPG.Game.Scene
             //EnemyManager.GetInstance().AddEnemy(e2, eEnemyNum.eGoblin);
             // e = new Slime(UIManager.HalfWidth, 5, "Slime");
             // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eSlime);
+            // e = new Skeleton(UIManager.HalfWidth, 5, "");
+            // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eMimic);
+            // e = new Mimic(UIManager.HalfWidth, 5, "Mimic");
+            // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eMimic);
 
-            e = new Skeleton(UIManager.HalfWidth, 5, "");
-            EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eMimic);
+            // e = new Golem(UIManager.HalfWidth, 5, "Golem");
+            // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eGolem);
+            InitEnemies();
+
         }
 
         public void Release()
@@ -72,6 +79,14 @@ namespace TeamRPG.Game.Scene
                 }
             });
             TextIOManager.GetInstance().OutputSmartText(PlayerManager.GetInstance().gameMsg, 3, 1);
+        }
+
+        public void InitEnemies()
+        {
+            var initialEnemies = EnemyManager.GetInstance().GetInitialEnemies();
+
+            for(int i = 0; i < initialEnemies.Count; i++)
+                EnemyManager.GetInstance().AddEnemy(initialEnemies[0].Item1, initialEnemies[0].Item2);
         }
 
         public void Update()
@@ -117,7 +132,13 @@ namespace TeamRPG.Game.Scene
                 }
                 else if (timer.ElapsedMilliseconds > 3000)
                 {
-                    SceneManager.GetInstance().ChangeScene(PlayerManager.GetInstance().environment);
+                    if (QuestManager.GetInstance().IsQuestting)
+                    {
+                        QuestManager.GetInstance().CurrentQuest.IsCompleted = true;
+                        SceneManager.GetInstance().ChangeScene("ShopScene");
+                    }
+                    else
+                        SceneManager.GetInstance().ChangeScene(PlayerManager.GetInstance().environment);
                 }
             }
         }

@@ -117,6 +117,7 @@ namespace TeamRPG.Game.Object.Enemy
 
             state.name = name;
         }
+
         public override void SelectEnemy()
         {
             TextIOManager.GetInstance().OutputSmartText("▶", nameText.X - 10, nameText.Y);
@@ -132,7 +133,11 @@ namespace TeamRPG.Game.Object.Enemy
                 imageText.SetText(parryImage);
             }
         }
-
+        protected override void ExSkill()
+        {
+            base.ExSkill();
+            state.currentHp += 10;
+        }
         public override void Release()
         {
             UIManager.GetInstance().RemoveUIElement(nameText);

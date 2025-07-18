@@ -95,7 +95,7 @@ namespace TeamRPG.Core.EncounterManager
             badResult.Description = "누군가의 시선을 애써 무시한다.";
             badResult.MenuText = "도망친다";
             badResult.ImageName = "폐가"; // 실패 이미지 경로 또는 데이터
-
+                
             selection.GoodReulst = goodResult;
             selection.MitigatedResult = mitigatedResult;
             selection.BadResult = badResult;

@@ -74,7 +74,7 @@ namespace TeamRPG.Game.Scene
             description = new RawText(currentEncounterData.Description, UIManager.HalfWidth, Console.WindowHeight - 5, HorizontalAlign.Center, VerticalAlign.Top);
             comment = new RawText(currentEncounterData.Comment, 30, UIManager.HalfHeight - 5, HorizontalAlign.Center, VerticalAlign.Top);
             selectionMenu = new Menu(UIManager.HalfWidth, Console.WindowHeight - 3, DirectionType.Horizontal);
-            selectionMenu.HorizontalAlign = HorizontalAlign.Center;
+            // selectionMenu.HorizontalAlign = HorizontalAlign.Center;
 
             for (int i = 0; i < currentEncounterData.Selections.Count; i++)
             {
@@ -92,7 +92,7 @@ namespace TeamRPG.Game.Scene
             }
 
             resultMenu = new Menu(UIManager.HalfWidth, Console.WindowHeight - 3, DirectionType.Horizontal);
-            resultMenu.HorizontalAlign = HorizontalAlign.Center;
+            // resultMenu.HorizontalAlign = HorizontalAlign.Center;
             resultMenu.AddItem("", () => { });
 
             selectionMenu.IsVisible = true;

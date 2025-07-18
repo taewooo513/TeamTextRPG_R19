@@ -54,6 +54,9 @@ namespace TeamRPG.Game.Scene
             // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eGolem);
             InitEnemies();
 
+            //e = new Mimic(UIManager.HalfWidth, 5, "Mimic");
+            e = new Troll(-50, 0, "Troll");
+            EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eTroll);
         }
 
         public void Release()

@@ -37,12 +37,12 @@ namespace TeamRPG.Game.Object.Enemy
             public int currentHp;
 
         }
-        bool isParreyFail = false; // 패링 스펠링몰라요
-        Stopwatch stopwatch;
-        Stopwatch parryStopwatch;
+        protected bool isParreyFail = false; // 패링 스펠링몰라요
+        protected Stopwatch stopwatch;
+        protected Stopwatch parryStopwatch;
 
         public bool isTurn = false;
-        Queue<ConsoleKey> keyPad;
+        protected Queue<ConsoleKey> keyPad;
         public bool isDie = false;
         public bool isExSkill = false;
         protected State state;

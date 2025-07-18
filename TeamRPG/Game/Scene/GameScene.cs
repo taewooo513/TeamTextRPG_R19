@@ -77,16 +77,20 @@ namespace TeamRPG.Game.Scene
             TextIOManager.GetInstance().OutputSmartText(PlayerManager.GetInstance().gameMsg, 3, 1);
         }
 
-        public void SetEnemy(Enemy _e)
+        public void SetEnemy(Enemy _e, eEnemyNum _eEnemyNum)
         {
             e = _e;
+            EnemyManager.GetInstance().AddEnemy(e, _eEnemyNum);
         }
 
-        public void SetEnemies(Enemy _e, Enemy _e1, Enemy _e2)
+        public void SetEnemies(Enemy _e, eEnemyNum _eEnemyNum, Enemy _e1, eEnemyNum _eEnemyNum1, Enemy _e2, eEnemyNum eEnemyNum2)
         {
             e = _e;
+            EnemyManager.GetInstance().AddEnemy(e, _eEnemyNum);
             e1 = _e1;
+            EnemyManager.GetInstance().AddEnemy(e1, _eEnemyNum1);
             e2 = _e2;
+            EnemyManager.GetInstance().AddEnemy(e2, eEnemyNum2);
         }
 
         public void Update()

@@ -315,13 +315,15 @@ namespace TeamRPG.Game.Scene
                     if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.UpArrow))
                     {
                         inventorySelectIndex--;
-                        if (inventorySelectIndex < 0) inventorySelectIndex = 0;
+                        if (inventorySelectIndex < 0)
+                            inventorySelectIndex = itemCount - 1; // 맨 위에서 위로 누르면 맨 마지막으로
                     }
 
                     if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow))
                     {
                         inventorySelectIndex++;
-                        if (inventorySelectIndex >= itemCount) inventorySelectIndex = itemCount - 1;
+                        if (inventorySelectIndex >= itemCount)
+                            inventorySelectIndex = 0; // 맨 아래에서 아래로 누르면 처음으로
                     }
                 }
 

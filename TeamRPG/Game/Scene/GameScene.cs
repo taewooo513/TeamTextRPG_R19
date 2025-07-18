@@ -54,9 +54,6 @@ namespace TeamRPG.Game.Scene
             // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eGolem);
             InitEnemies();
 
-            //e = new Mimic(UIManager.HalfWidth, 5, "Mimic");
-            e = new Troll(-50, 0, "Troll");
-            EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eTroll);
         }
 
         public void Release()
@@ -89,7 +86,7 @@ namespace TeamRPG.Game.Scene
             var initialEnemies = EnemyManager.GetInstance().GetInitialEnemies();
 
             for(int i = 0; i < initialEnemies.Count; i++)
-                EnemyManager.GetInstance().AddEnemy(initialEnemies[0].Item1, initialEnemies[0].Item2);
+                EnemyManager.GetInstance().AddEnemy(initialEnemies[i].Item1, initialEnemies[i].Item2);
         }
 
         public void Update()
@@ -146,5 +143,4 @@ namespace TeamRPG.Game.Scene
             }
         }
     }
-
 }

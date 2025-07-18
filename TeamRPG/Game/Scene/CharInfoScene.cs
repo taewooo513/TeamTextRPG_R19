@@ -27,7 +27,8 @@ namespace TeamRPG.Game.Scene
         {
             select = 1;
             menuState = 0;
-            player = new Player("asd", (Race)2);
+            //player = new Player(player.name, player.race);
+            player = PlayerManager.GetInstance().GetPlayer();
             status = StatusFactory.GetStatusByRace(player.race);
             isSelect = false;
             skills = StatusFactory.GetSkillsByRace(player.race);

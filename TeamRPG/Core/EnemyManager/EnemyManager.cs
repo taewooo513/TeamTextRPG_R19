@@ -29,17 +29,51 @@ namespace TeamRPG.Core.EnemyManager
     }
     public class EnemyManager : Singleton<EnemyManager>
     {
+        List<(Enemy, eEnemyNum)> initialEnemies = new(); // GameScene이 시작되면 생성할 적들
         List<Enemy> enemies;
-
-        public void Init()
-        {
-            enemies = new List<Enemy>();
-        }
 
         public EnemyManager()
         {
             enemies = new List<Enemy>();
         }
+
+        public void AddInitialEnemy((Enemy, eEnemyNum) enemy)
+        {
+            if(initialEnemies == null)
+                initialEnemies = new();
+
+            if (initialEnemies.Count > 3) return;
+
+            if (!initialEnemies.Contains(enemy))
+                initialEnemies.Add(enemy);
+        }
+
+        public void RemoveInitialEnemy((Enemy, eEnemyNum) enemy)
+        {
+            if (initialEnemies == null)
+                initialEnemies = new();
+
+            if (initialEnemies.Contains(enemy))
+                initialEnemies.Remove(enemy);
+        }
+
+        public void ClearInitialEnemies()
+        {
+            if (initialEnemies == null)
+                initialEnemies = new();
+
+            initialEnemies.Clear();
+        }
+
+        public List<(Enemy, eEnemyNum)> GetInitialEnemies()
+        {
+            if (initialEnemies == null)
+                initialEnemies = new();
+
+            return initialEnemies;
+        }
+
+
         public Enemy AddEnemy(Enemy enemy, eEnemyNum eEnemyNum)
         {
             enemies.Add(enemy);

@@ -16,6 +16,9 @@ namespace TeamRPG.Game.Character
 {
     public class Player
     {
+        public Armor? eArmor;
+        public Weapon? eWeapon;
+
         public bool isPlayerTurn = false;
         private bool isAttack;
         private int attackIndex;
@@ -27,7 +30,7 @@ namespace TeamRPG.Game.Character
         public string name { get; private set; }
         public Trait trait;
         bool isDie = false;
-        Box itemBoxUI;
+        public Box itemBoxUI;
         public Race race { get; private set; }
         public int level { get; private set; } = 1;
 
@@ -37,18 +40,19 @@ namespace TeamRPG.Game.Character
         public Status baseStatus { get; private set; }
         public Status currentStatus { get; private set; }
 
-        private List<Status> equipments = new List<Status>();
+        public List<Status> equipments = new List<Status>();
         // public List<Item> Inventory { get; set; } = new List<Item>();
         public Inventory Inventory = new();
         Stopwatch playerDieStopWatch;
         int dieY = 0;
         bool isItemBag = false;
-        public int Gold { get; set; } = 1000;
+        public int Gold { get; set; } = 100000;
         private int selectNum = 0;
         public Player(string _name, Race _race)
         {
             isItemBag = true;
-            itemBoxUI = new Box(3, 20, 10, 10);
+            itemBoxUI = new Box(8, 6, 10, 10);
+            itemBoxUI.IsVisible = false;
             isDie = false;
             dieY = 0;
             timer = new Stopwatch();
@@ -59,6 +63,8 @@ namespace TeamRPG.Game.Character
             currentStatus = baseStatus;
             Inventory = new Inventory();
             playerDieStopWatch = new Stopwatch();
+            eArmor = null;
+            eWeapon = null;
         }
 
         public void GainExp(int _exp, ref string str)
@@ -157,7 +163,7 @@ namespace TeamRPG.Game.Character
             Status totalEquip = new Status(0, 0, 0, 0, 0, 0, 0, 0, 0);
             foreach (var equip in equipments)
             {
-                totalEquip.Add(equip);
+                totalEquip = totalEquip.Add(equip);
             }
             currentStatus = baseStatus.Add(totalEquip);
         }
@@ -293,7 +299,15 @@ namespace TeamRPG.Game.Character
 
         private void ItemBagUI()
         {
-
+            int y = 0;
+            foreach (var item in Inventory.ItemDictionary.ToList())
+            {
+                if (item.Value[0].Type == ItemType.Consumable)
+                {
+                    TextIOManager.GetInstance().OutputSmartText(item.Key, 11, y + 10);
+                    y++;
+                }
+            }
         }
         private void SelectSkillButton()
         {
@@ -342,11 +356,12 @@ namespace TeamRPG.Game.Character
                     case 1:
                         isDefens = true;
                         break;
+                    case 2:
+                        itemBoxUI.IsVisible = true;
+                        isItemBag = true;
+                        break;
                     case 3:
                         isSkill = true;
-                        break;
-                    case 4:
-                        isItemBag = true;
                         break;
                 }
                 selectNum = 0;

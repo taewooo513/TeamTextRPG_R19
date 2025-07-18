@@ -26,6 +26,7 @@ namespace TeamRPG.Game.Scene
         bool isReword = false;
         public void Init()
         {
+            UIManager.GetInstance().AddUIElement(PlayerManager.GetInstance().GetPlayer().itemBoxUI);
             isReword = false;
             enemySelect = 0;
             isReword = false;

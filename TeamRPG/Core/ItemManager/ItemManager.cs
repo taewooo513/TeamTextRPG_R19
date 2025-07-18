@@ -64,7 +64,6 @@ namespace TeamRPG.Core.ItemManager
             });
             AddItem(hurb);
 
-
             temp = StatusFactory.EmptyStatus;
             temp.HP = 30;
             var healingPotion = new Consumable("회복 포션", "HP 30 회복", temp, 50);
@@ -74,6 +73,24 @@ namespace TeamRPG.Core.ItemManager
             temp.MP = 20;
             var manaPotion = new Consumable("마나 포션", "MP 20 회복", temp, 50);
             AddItem(manaPotion);
+
+
+            temp = StatusFactory.EmptyStatus;
+            temp.HP = 30;
+            temp.MP = 30;
+            var essenceOfBalance = new Consumable("균형의 정수", "HP 30, MP 30 회복", temp, 200);
+            AddItem(essenceOfBalance);
+
+
+            temp = StatusFactory.EmptyStatus;
+            temp.MP = 80;
+            var breathOfSpirit = new Consumable("정령의 숨결", "MP 80 회복", temp, 200);
+            AddItem(breathOfSpirit);
+
+            temp = StatusFactory.EmptyStatus;
+            temp.HP = 80;
+            var soulOfStone = new Consumable("바위의 혼", "HP 80 회복", temp, 200);
+            AddItem(soulOfStone);
 
             // 무기
             temp = StatusFactory.EmptyStatus;
@@ -95,6 +112,48 @@ namespace TeamRPG.Core.ItemManager
             var talismanOfPower = new Weapon("마력의 탈리스만", "마법 공격력 +10, 내구도 무제한", temp, 250, DamageType.Magical, int.MaxValue);
             AddItem(talismanOfPower);
 
+            // -------------------------
+
+            temp = StatusFactory.EmptyStatus;
+            temp.MinAttack = 1;
+            temp.MaxAttack = 3;
+            var brokenDagger = new Weapon("부러진 단검", "공격력 +1~3, 내구도 10", temp, 50, DamageType.Physical, 10);
+            AddItem(brokenDagger);
+
+            temp = StatusFactory.EmptyStatus;
+            temp.MinAttack = 4;
+            temp.MaxAttack = 4;
+            var woodClub = new Weapon("나무 몽둥이", "공격력 +4, 내구도 10", temp, 100, DamageType.Physical, 10);
+            AddItem(woodClub);
+
+            temp = StatusFactory.EmptyStatus;
+            temp.MinAttack = 10;
+            temp.MaxAttack = 10;
+            var pureSilverSword = new Weapon("순은의 검", "공격력 +10, 내구도 무제한", temp, 500, DamageType.Physical, int.MaxValue);
+            AddItem(pureSilverSword);
+
+            temp = StatusFactory.EmptyStatus;
+            temp.MinAttack = 2;
+            temp.MaxAttack = 5;
+            temp.Agility = 5;
+            var fairyBow = new Weapon("요정의 활", "공격력 +2~5, 내구도 15", temp, 180, DamageType.Physical, 15);
+            AddItem(fairyBow);
+
+            temp = StatusFactory.EmptyStatus;
+            temp.MinAttack = 4;
+            temp.MaxAttack = 6;
+            var blacksmithHammer = new Weapon("대장장이의 망치", "공격력 +4~6, 내구도 20", temp, 160);
+            AddItem(blacksmithHammer);
+
+            temp = StatusFactory.EmptyStatus;
+            temp.MinAttack = 7;
+            temp.MaxAttack = 9;
+            var steelWarRabbit = new Weapon("강철 전투도끼", "공격력 +7~9, 내구도 20", temp, 250);
+            AddItem(steelWarRabbit);
+
+
+
+
             // 방어구
             temp = StatusFactory.EmptyStatus;
             temp.HP = 12;
@@ -111,6 +170,11 @@ namespace TeamRPG.Core.ItemManager
             temp.MP = 20;
             var talismanOfMana = new Armor("마나의 탈리스만", "최대 마나 +20, 내구도 무제한", temp, 250, int.MaxValue);
             AddItem(talismanOfMana);
+
+            temp = StatusFactory.EmptyStatus;
+            temp.HP = 20;
+            var rustyIronArmor = new Armor("녹슨 철갑옷", "HP +20, 10", temp, 200, 10);
+            AddItem(rustyIronArmor);
 
             // 방랑 상인
             // 소모품
@@ -176,8 +240,17 @@ namespace TeamRPG.Core.ItemManager
                 if (target == null) return;
                 // 매 행동시 마나 5 회복 기능 추가
             };
-
             AddItem(lunarDsut);
+
+            // ----------------------------------
+            temp = StatusFactory.EmptyStatus;
+            temp.MinAttack = 1;
+            temp.MaxAttack = 100;
+            temp.MP = 30;
+            var gamblerGreatsword = new Weapon("도박사의 대검", "공격력 +1~100 / 내구도 3", temp, 800, DamageType.Physical, 3);
+            AddItem(gamblerGreatsword);
+
+
 
             //500G
             //엘릭서(Elixir) - 전투당 1번 사망시 최대 생명력의 50%로 1회 부활(Resurrection)

@@ -54,7 +54,7 @@ namespace TeamRPG.Game.Scene
             int a = (int)(timerEnd.ElapsedMilliseconds / 100);
 
             TextIOManager.GetInstance().OutputSmartText("Team 19세넘었조", 1, 1);
-            TextIOManager.GetInstance().OutputSmartText("TeamLeader ms.Park", 1, 2);
+            TextIOManager.GetInstance().OutputSmartText("TeamLeader Mr.Park", 1, 2);
 
             switch (a)
             {

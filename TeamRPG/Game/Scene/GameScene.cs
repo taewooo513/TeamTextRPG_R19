@@ -143,5 +143,4 @@ namespace TeamRPG.Game.Scene
             }
         }
     }
-
 }

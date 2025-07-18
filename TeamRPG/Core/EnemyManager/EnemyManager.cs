@@ -32,7 +32,10 @@ namespace TeamRPG.Core.EnemyManager
             for (int i = 0; i < enemies.Count; i++)
             {
                 if (enemies[i].isDie == true)
+                {
+                    enemies[i].Release();
                     enemies.Remove(enemies[i]);
+                }
                 else
                     enemies[i].Update();
             }

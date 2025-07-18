@@ -36,19 +36,19 @@ namespace TeamRPG.Game.Scene
             SoundManager.GetInstance().PlaySound("Bossmain", .1f);
             PlayerManager.GetInstance().gameMsg = "???을 마주쳤습니다.";
             selectNum = 0;
-            //e1 = new Goblin(-30, 0, "A");
-            //EnemyManager.GetInstance().AddEnemy(e1, eEnemyNum.eGoblin);
-            // e = new Goblin(0, 4, "???");
-            // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eGoblin);
-            //e2 = new Goblin(30, 0, "C");
-            //EnemyManager.GetInstance().AddEnemy(e2, eEnemyNum.eGoblin);
-            // e = new Slime(UIManager.HalfWidth, 5, "Slime");
-            // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eSlime);
+           // e1 = new Goblin(-30, 0, "A");
+           // EnemyManager.GetInstance().AddEnemy(e1, eEnemyNum.eGoblin);
+           //  e = new Goblin(0, 4, "???");
+           //  EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eGoblin);
+           // e2 = new Goblin(30, 0, "C");
+           // EnemyManager.GetInstance().AddEnemy(e2, eEnemyNum.eGoblin);
+             //e = new Slime(UIManager.HalfWidth, 5, "Slime");
+             //EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eSlime);
 
 
-            //e = new Mimic(UIManager.HalfWidth, 5, "Mimic");
-            e = new Troll(-50, 0, "Troll");
-            EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eTroll);
+            //e = new Mimic(UIManager.HalfWidth, 5, "Mimic"); // 게임씬입니다
+           e = new Lich(UIManager.HalfWidth, 5, "Lich");
+           EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eLich);
         }
 
         public void Release()

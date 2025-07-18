@@ -10,6 +10,7 @@ using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
 using TeamRPG.Game.Object.Item;
+using TeamRPG.Game.Object.UI;
 
 namespace TeamRPG.Game.Character
 {
@@ -26,6 +27,7 @@ namespace TeamRPG.Game.Character
         public string name { get; private set; }
         public Trait trait;
         bool isDie = false;
+        Box itemBoxUI;
         public Race race { get; private set; }
         public int level { get; private set; } = 1;
 
@@ -46,6 +48,7 @@ namespace TeamRPG.Game.Character
         public Player(string _name, Race _race)
         {
             isItemBag = true;
+            itemBoxUI = new Box(3, 20, 10, 10);
             isDie = false;
             dieY = 0;
             timer = new Stopwatch();
@@ -66,7 +69,7 @@ namespace TeamRPG.Game.Character
                 str += "";
                 return;
             }
-            int lastLv = level; 
+            int lastLv = level;
             currentExp += _exp;
 
             while (currentExp >= expToNextLevel && level < ExpTable.maxLevel)
@@ -74,7 +77,7 @@ namespace TeamRPG.Game.Character
                 currentExp -= expToNextLevel;
                 LevelUp(ref str);
             }
-            if(lastLv != level)
+            if (lastLv != level)
             {
                 str += $"현재 레벨: {level}";
             }
@@ -102,8 +105,8 @@ namespace TeamRPG.Game.Character
         public void GetReword(int amount, int _exp)
         {
             AddGold(amount);
-            string str ="";
-            GainExp(_exp , ref str);
+            string str = "";
+            GainExp(_exp, ref str);
             PlayerManager.GetInstance().gameMsg = $"{amount}원, {_exp}exp를 획득하였다." + str;
         }
         public void AddGold(int amount)
@@ -287,6 +290,11 @@ namespace TeamRPG.Game.Character
                 }
             }
         }
+
+        private void ItemBagUI()
+        {
+
+        }
         private void SelectSkillButton()
         {
             if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && selectNum < 3)
@@ -372,6 +380,7 @@ namespace TeamRPG.Game.Character
                 {
                     Random rd = new Random();
                     int dmg = rd.Next(currentStatus.MinAttack, currentStatus.MaxAttack);
+                    bool isCri = rd.Next(0, 100) < currentStatus.Luck;
                     PlayerManager.GetInstance().gameMsg = "";
                     if (isCri == true)
                     {

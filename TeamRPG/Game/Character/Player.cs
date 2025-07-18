@@ -216,6 +216,19 @@ namespace TeamRPG.Game.Character
                     TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠊⠐⠀⠂⠀⡀⠂⠄⠂⠀⠀⠀⠀⠀⠉⠙⠷⣤⡀⣀⠀⠈⠻⣷⡡⢂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 2 + dieY);
                     TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢂⠈⠀⠀⠄⠂⣜⣩⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠑⢦⣉⠒⡀⠀⠁⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 1 + dieY);
                     break;
+                case Race.Dwarf:
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⢻⣝⣻⢾⣵⣻⣽⡿⡟⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    ⠀", 78, TextIOManager.GetInstance().winHeight - 11 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⢀⣾⡝⣯⢾⣽⣛⢮⣟⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    ⠀", 78, TextIOManager.GetInstance().winHeight - 10 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⢀⣼⢷⣻⣼⣻⢾⡹⣾⣽⣿⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠀", 78, TextIOManager.GetInstance().winHeight - 9 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⢀⣹⣿⣷⣾⣿⣷⣻⣽⣿⣿⣿⣾⣻⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠀", 78, TextIOManager.GetInstance().winHeight - 8 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠸⣿⣛⣳⢿⣿⣿⣿⣿⡿⠿⠉⠙⠻⠿⠿⣿⣷⣤⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  ⠀", 78, TextIOManager.GetInstance().winHeight - 7 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠛⢿⣿⣿⣷⣾⣽⣿⡆⠀⠀⠀⠀⠀⠀⠀⠉⠷⠿⣯⣷⢤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠀", 78, TextIOManager.GetInstance().winHeight - 6 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠛⠿⠿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⠿⣽⣲⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠀", 78, TextIOManager.GetInstance().winHeight - 5 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⠁⠌⡐⠠⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ⠀", 78, TextIOManager.GetInstance().winHeight - 4 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⠂⢀⠁⠂⠄⢱⣦⣄⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    ⠀", 78, TextIOManager.GetInstance().winHeight - 3 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⡐⣈⢶⠛⠀⠈⠈⢿⣿⣯⡇⠀⠄⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀    ⠀", 78, TextIOManager.GetInstance().winHeight - 2 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠤⢉⠒⠁⠁⠈⠀⠀⠀⠀⠀⠛⠛⠃⠜⠈⢀⠀⠂⠠⡀⠀⠀⠀⠀⠀⠀   ⠀", 78, TextIOManager.GetInstance().winHeight - 1 + dieY);
+                    break;
                 case Race.Human:
                     TextIOManager.GetInstance().OutputSmartText("⡤⠤⠠⠤⠠⢄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 70, TextIOManager.GetInstance().winHeight - 11 + dieY);
                     TextIOManager.GetInstance().OutputSmartText("⠈⠲⡕⣗⣷⢶⣄⡍⡒⠔⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 70, TextIOManager.GetInstance().winHeight - 10 + dieY);
@@ -371,7 +384,7 @@ namespace TeamRPG.Game.Character
                 else
                 {
                     Random rd = new Random();
-                    bool isCri = rd.Next(0,100) < currentStatus.Luck;
+                    bool isCri = rd.Next(0, 100) < currentStatus.Luck;
                     int dmg = rd.Next(currentStatus.MinAttack, currentStatus.MaxAttack);
                     PlayerManager.GetInstance().gameMsg = "";
                     if (isCri == true)

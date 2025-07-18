@@ -13,6 +13,7 @@ using TeamRPG.Game.Character;
 using TeamRPG.Core.ShopManager;
 using TeamRPG.Game.Object.Data;
 using Microsoft.VisualBasic.FileIO;
+using TeamRPG.Core.QuestManager;
 
 namespace TeamRPG.Game.Scene
 {
@@ -29,6 +30,8 @@ namespace TeamRPG.Game.Scene
     public class ShopScene : SceneClass
     {
         public ShopData ShopData { get; set; }
+
+        public List<QuestData> QuestDatas { get; set; } = new();
         private ShopMenuType ShopMenuType { get; set; } = ShopMenuType.Buy; // 현재 메뉴 타입
 
         public List<string> defaultItems = new()
@@ -42,15 +45,18 @@ namespace TeamRPG.Game.Scene
         private RawText merchantImageText;
         private RawText merchantCommentText;
 
-        private BoxMenu? actionBoxMenu; // 상점 액션 메뉴 (구매, 판매, 대화, 뒤로가기)
+        private BoxMenu? actionBoxMenu; // 상점 액션 메뉴 (구매, 판매, 대화, 퀘스트, 뒤로가기)
         private BoxMenu? itemBuyMenu; // 아이템 구매 메뉴
         private BoxMenu? itemSellMenu; // 아이템 판매 메뉴
+        private BoxMenu? questMenu; // 퀘스트 메뉴
+        private Menu? questAcceptMenu; // 퀘스트 수락 메뉴
         private BoxMenu? currentMenu = null; // 현재 활성화된 메뉴
 
         private MenuItem? buyGolTextSlot;
         private MenuItem? sellGoldTextSlot;
 
         private bool isFirstBuying = false; // 첫 구매 여부
+        private QuestData seeingQuest = null; // 현재 보고 있는 퀘스트
 
         public void Init()
         {
@@ -70,7 +76,8 @@ namespace TeamRPG.Game.Scene
 
         public void Render() { }
 
-        public void Release() {
+        public void Release()
+        {
             SoundManager.GetInstance().StopSound("ShopBGM");
             UIManager.GetInstance().ClearUI();
         }
@@ -84,18 +91,40 @@ namespace TeamRPG.Game.Scene
         void InputMenu()
         {
             var inputManager = KeyInputManager.GetInstance();
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.UpArrow))
+            if(questAcceptMenu.IsVisible)
             {
-                currentMenu.MoveUp();
+                if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.LeftArrow))
+                {
+                    questAcceptMenu.MoveUp();
+                }
+                else if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.RightArrow))
+                {
+                    questAcceptMenu.MoveDown();
+                }
+
+                if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
+                {
+                    questAcceptMenu.Select();
+                }
             }
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow))
+            else
             {
-                currentMenu.MoveDown();
+                if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.UpArrow))
+                {
+                    currentMenu.MoveUp();
+                }
+                else if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow))
+                {
+                    currentMenu.MoveDown();
+                }
+
+                if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
+                {
+                    currentMenu.Select();
+                }
             }
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
-            {
-                currentMenu.Select();
-            }
+
+
         }
 
         void InitCommonUI()
@@ -107,7 +136,8 @@ namespace TeamRPG.Game.Scene
             actionBoxMenu.AddItem("Buy", () => ChangeMenu(ShopMenuType.Buy));
             actionBoxMenu.AddItem("Sell", () => ChangeMenu(ShopMenuType.Sell));
             actionBoxMenu.AddItem("Talk", () => ChangeMenu(ShopMenuType.Talk));
-            actionBoxMenu.AddItem("Quest", () => ChangeMenu(ShopMenuType.Quest));
+            if (ShopData.MerchantName != "방랑상인") // 방랑상인은 퀘스트 없음
+                actionBoxMenu.AddItem("Quest", () => ChangeMenu(ShopMenuType.Quest));
             actionBoxMenu.AddItem("Back", OnShopBack);
 
             titleText = new Text($"{ShopData.ShopName}", Console.WindowWidth / 2, 1, ConsoleColor.Yellow, HorizontalAlign.Center);
@@ -117,11 +147,14 @@ namespace TeamRPG.Game.Scene
 
         void InitItemBoxMenu()
         {
-            int boxWidth = 88;
-            int boxHeight = 13;
+            int itemBoxWidth = 88;
+            int itemBoxHeight = 13;
+
+            int qeustBoxWidth = 20;
+            int qeustBoxHeight = 4;
 
             // itemBuyMenu 초기화
-            itemBuyMenu = new BoxMenu(10, UIManager.HalfHeight, boxWidth, boxHeight);
+            itemBuyMenu = new BoxMenu(10, UIManager.HalfHeight, itemBoxWidth, itemBoxHeight);
             itemBuyMenu.SetVisible(false);
 
             for (int i = 0; i < ShopData.ItemLength; i++)
@@ -134,13 +167,13 @@ namespace TeamRPG.Game.Scene
             itemBuyMenu.AddEmptyItem();
 
             // 방랑상인은 리롤없음
-            if(ShopData.MerchantName != "방랑상인")
+            if (ShopData.MerchantName != "방랑상인")
                 itemBuyMenu.AddItem($"돌리기 {ShopData.RerollCost} G", RerollItmes);
             itemBuyMenu.AddItem("돌아가기", BackMenu);
 
             // itemSellMenu 초기화
             if (player == null) return;
-            itemSellMenu = new BoxMenu(10, UIManager.HalfHeight, boxWidth, boxHeight);
+            itemSellMenu = new BoxMenu(10, UIManager.HalfHeight, itemBoxWidth, itemBoxHeight);
             itemSellMenu.SetVisible(false);
 
             for (int i = 0; i < ShopData.ItemLength; i++)
@@ -152,6 +185,28 @@ namespace TeamRPG.Game.Scene
             sellGoldTextSlot = itemSellMenu.AddTextItem($"보유 골드 : {player.Gold} G");
             itemSellMenu.AddEmptyItem();
             itemSellMenu.AddItem("돌아가기", BackMenu);
+
+            // 퀘스트 메뉴 초기화
+            questMenu = new BoxMenu(10, UIManager.HalfHeight, itemBoxWidth, itemBoxHeight);
+            questMenu.SetVisible(false);
+
+            QuestManager questManager = QuestManager.GetInstance();
+
+            for (int i = 0; i < questManager.Quests.Count; i++)
+            {
+                QuestData questData = questManager.Quests[i];
+                questMenu.AddItem("", () => { SelectQuest(questData); });
+            }
+
+            questMenu.AddEmptyItem();
+            questMenu.AddItem("돌아가기", BackMenu);
+
+            // 퀘스트 수락 메뉴 초기화
+            questAcceptMenu = new Menu(questMenu.X, Console.WindowHeight - 5, DirectionType.Horizontal);
+            questAcceptMenu.IsVisible = false;
+
+            questAcceptMenu.AddItem("수락", () => { AcceptQuest(seeingQuest); });
+            questAcceptMenu.AddItem("거절", () => { ChangeMenu(ShopMenuType.Quest); });
         }
 
         void BackMenu()
@@ -189,7 +244,7 @@ namespace TeamRPG.Game.Scene
         {
             var menuItemList = itemSellMenu.Items;
             var inventoryItemList = player.Inventory.ItemDictionary.Values.ToList();
-            
+
             for (int i = 0; i < ShopData.ItemLength; i++)
             {
                 if (i < player.Inventory.Count)
@@ -207,6 +262,28 @@ namespace TeamRPG.Game.Scene
                     menuItemList[i].OnSelect = null;
                     menuItemList[i].IsEnabled = false;
                 }
+            }
+        }
+
+        void UpdateQuestMenuSlots()
+        {
+            var menuItemList = questMenu.Items;
+            var questList = QuestManager.GetInstance().Quests;
+
+            for (int i = 0; i < menuItemList.Count; i++)
+            {
+                if (i < questList.Count)
+                {
+                    QuestData quest = questList[i];
+
+                    int index = i; // 클로저 안전하게
+                    string text = quest.IsCompleted ? $"{quest.QuestName} (완료)" : quest.QuestName;
+
+                    menuItemList[i].Text = text;
+                    menuItemList[i].OnSelect = () => { SelectQuest(quest); };
+                    menuItemList[i].IsEnabled = true;
+                }
+                else break;
             }
         }
 
@@ -255,7 +332,7 @@ namespace TeamRPG.Game.Scene
         {
             if (item == null) return 0;
             Equipment equipment = item as Equipment;
-            if(equipment != null)
+            if (equipment != null)
             {
 
                 float ratio = (float)equipment.CurrentDurability / equipment.MaxDurability;
@@ -277,7 +354,8 @@ namespace TeamRPG.Game.Scene
                 case ShopMenuType.Buy:
                     currentMenu = itemBuyMenu;
 
-                    if (ShopData.MerchantName == "방랑상인" && isFirstBuying){
+                    if (ShopData.MerchantName == "방랑상인" && isFirstBuying)
+                    {
                         comment = """
                         오늘 판매는 전부 마쳤습니다.
                         다음에 이용해주시죠.
@@ -293,15 +371,23 @@ namespace TeamRPG.Game.Scene
                     break;
 
                 case ShopMenuType.Sell:
-                    UpdateItemSellMenuSlots();
                     currentMenu = itemSellMenu;
                     comment = ShopData.SellComment;
+                    UpdateItemSellMenuSlots();
                     break;
 
                 case ShopMenuType.Talk:
                     currentMenu = actionBoxMenu;
                     comment = ShopData.GetRandomTalk();
                     break;
+
+                case ShopMenuType.Quest:
+                    currentMenu = questMenu;
+                    questAcceptMenu.IsVisible = false;
+                    seeingQuest = null;
+                    UpdateQuestMenuSlots();
+                    break;
+
                 case ShopMenuType.Lobby:
                 default:
                     currentMenu = actionBoxMenu;
@@ -310,10 +396,15 @@ namespace TeamRPG.Game.Scene
             }
 
             currentMenu.SetVisible(true);
-            UpdateComment(comment);
+
+            if (currentMenu != questMenu)
+            {
+                UpdateComment(comment);
+            }
         }
 
-        private void OnShopBack() {
+        private void OnShopBack()
+        {
             ShopMenuType = ShopMenuType.Lobby;
             SceneManager.GetInstance().ChangeScene("GameScene");
         }
@@ -335,7 +426,7 @@ namespace TeamRPG.Game.Scene
 
             player.Gold -= item.Gold;
 
-            if(player.Inventory == null)
+            if (player.Inventory == null)
             {
                 UpdateComment("인벤토리가 초기화되지 않았습니다.");
                 return;
@@ -379,6 +470,38 @@ namespace TeamRPG.Game.Scene
             UpdateItemSellMenuSlots();
             UpdateComment(ShopData.SellSuccessComment);
         }
-    }
 
+        public void SelectQuest(QuestData questData)
+        {
+            if (questData.IsCompleted)
+            {
+                questData.IsCompleted = false;
+                QuestManager.GetInstance().CurrentQuest = null;
+
+                questData.GetReward(out int gold, out int exp);
+                player.AddGold(gold);
+
+                UpdateQuestMenuSlots();
+                UpdateGoldText();
+                UpdateComment($"무사히 왔구나\n여기 보상을 줄게 [+{gold} G]");
+                return;
+            }
+
+            seeingQuest = questData;
+            questAcceptMenu.IsVisible = true;
+            UpdateComment(questData.Description);
+        }
+
+        public void AcceptQuest(QuestData questData)
+        {
+            if (questData == null) return;
+            if (questData.QuestEnemy == null)
+            {
+                UpdateComment("이 퀘스트는 못해");
+                return;
+            }
+
+            questData.AcceptQuest();
+        }
+    }
 }

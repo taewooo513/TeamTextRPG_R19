@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.EnemyManager;
+using TeamRPG.Core.QuestManager;
 using TeamRPG.Core.UtilManager;
 using static System.Formats.Asn1.AsnWriter;
 

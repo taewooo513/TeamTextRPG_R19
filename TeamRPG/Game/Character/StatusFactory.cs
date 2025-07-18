@@ -96,7 +96,7 @@ namespace TeamRPG.Game.Character
 
                 //마법생물
                 case eEnemyNum.eGolem:
-                    int golemhp = rd.Next(1, 50);
+                    int golemhp = rd.Next(35, 75);
                     return new Enemy.State(golemhp, "골렘", rd.Next(1, 30), 25, 25, 0, rd.Next(0, 50), golemhp);
 
                 case eEnemyNum.eMimic:

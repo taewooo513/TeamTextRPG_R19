@@ -42,11 +42,14 @@ namespace TeamRPG.Game.Scene
             // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eGoblin);
             //e2 = new Goblin(30, 0, "C");
             //EnemyManager.GetInstance().AddEnemy(e2, eEnemyNum.eGoblin);
-            // e = new Slime(UIManager.HalfWidth, 5, "Slime");
-            // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eSlime);
+            e = new Slime(UIManager.HalfWidth, 5, "Slime");
+            EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eSlime);
 
-            e = new Mimic(UIManager.HalfWidth, 5, "Mimic");
-            EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eMimic);
+            // e = new Mimic(UIManager.HalfWidth, 5, "Mimic");
+            // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eMimic);
+
+            // e = new Golem(UIManager.HalfWidth, 5, "Golem");
+            // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eGolem);
         }
 
         public void Release()
@@ -72,6 +75,18 @@ namespace TeamRPG.Game.Scene
                 }
             });
             TextIOManager.GetInstance().OutputSmartText(PlayerManager.GetInstance().gameMsg, 3, 1);
+        }
+
+        public void SetEnemy(Enemy _e)
+        {
+            e = _e;
+        }
+
+        public void SetEnemies(Enemy _e, Enemy _e1, Enemy _e2)
+        {
+            e = _e;
+            e1 = _e1;
+            e2 = _e2;
         }
 
         public void Update()

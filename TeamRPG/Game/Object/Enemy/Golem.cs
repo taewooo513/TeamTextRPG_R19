@@ -100,13 +100,13 @@ namespace TeamRPG.Game.Object.Enemy
         public Golem(int _x, int _y, string _num) // default는 중앙으로잡고 거기서 위치를잡게끔
         {
             gNum = _num;
-            name = "미믹" + gNum;
+            name = "골렘" + gNum;
             x = _x;
             y = _y;
         }
         public override void Init()
         {
-            nameText = new RawText("미믹" + gNum, x, y - 2, HorizontalAlign.Center);
+            nameText = new RawText("골렘" + gNum, x, y - 2, HorizontalAlign.Center);
             imageText = new RawText(normalImage, x, y, HorizontalAlign.Center);
 
             state.name = name;

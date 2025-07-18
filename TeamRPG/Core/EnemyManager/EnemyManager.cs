@@ -15,6 +15,7 @@ namespace TeamRPG.Core.EnemyManager
         eSkeleton,
         eZombie,
         eLich,
+        eLich2,
         eGoblin,
         eOgre,
         eTroll,
@@ -29,6 +30,12 @@ namespace TeamRPG.Core.EnemyManager
     public class EnemyManager : Singleton<EnemyManager>
     {
         List<Enemy> enemies;
+
+        public void Init()
+        {
+            enemies = new List<Enemy>();
+        }
+
         public EnemyManager()
         {
             enemies = new List<Enemy>();

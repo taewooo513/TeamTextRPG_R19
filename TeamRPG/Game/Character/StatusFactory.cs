@@ -31,20 +31,67 @@ namespace TeamRPG.Game.Character
             {
                 //case eEnemyNum.eWolf:
                 //    return new Enemy.State();
-                case eEnemyNum.eGoblin:
-                    int Goblinhp = rd.Next(15, 20);
-                    return new Enemy.State(Goblinhp, "고블린", rd.Next(5, 7), 0, 0, 50, 10, Goblinhp);
+
+                //환경 숲
+                case eEnemyNum.eWolf:
+                    int Wolfhp = rd.Next(32, 37);
+                    return new Enemy.State(Wolfhp, "울프", rd.Next(5, 11), 0, 0, 30, 25, Wolfhp);
 
                 case eEnemyNum.eWildBoar:
-                    int WildBoarhp = rd.Next(15, 20);
-                    return new Enemy.State(WildBoarhp, "고블린", rd.Next(5, 7), 0, 0, 50, 10, WildBoarhp);
+                    int WildBoarhp = rd.Next(38, 43);
+                    return new Enemy.State(WildBoarhp, "와일드보어", rd.Next(14, 19), 0, 0, 20, 30, WildBoarhp);
 
-                case eEnemyNum.eBoss:
-                    int Bosshp = rd.Next(150, 151);
-                    return new Enemy.State(Bosshp, "???", rd.Next(35, 45), 80, 80, 80, 100, Bosshp);
+                case eEnemyNum.eCentaur:
+                    int Centaurhp = rd.Next(110, 110);
+                    return new Enemy.State(Centaurhp, "켄타우로스", rd.Next(25, 39), 0, 0, 70, 55, Centaurhp);
 
+
+
+                //환경 묘지
+                case eEnemyNum.eSkeleton:  // 3마리씩 등장
+                    int Skeletonhp = rd.Next(15, 23);
+                    return new Enemy.State(Skeletonhp, "스켈레톤", rd.Next(5, 10), 0, 0, 0, 15, Skeletonhp);
+
+                case eEnemyNum.eZombie:
+                    int Zombiehp = rd.Next(50, 50);
+                    return new Enemy.State(Zombiehp, "좀비", rd.Next(14, 23), 0, 0, 0, 35, Zombiehp);
+
+                case eEnemyNum.eLich:    // 얘 부활하게 코드필요해용
+                    int Lichhp = rd.Next(45, 45);
+                    return new Enemy.State(Lichhp, "리치", rd.Next(5, 5), 0, 0, 10, 50, Lichhp);
+
+                case eEnemyNum.eLich2:    // 리치 2페이즈
+                    int Lich2hp = rd.Next(65, 65);
+                    return new Enemy.State(Lich2hp, "리치", rd.Next(5, 5), 0, 0, 100, 100, Lich2hp);
+
+
+
+                //환경 황야
+                case eEnemyNum.eGoblin:
+                    int Goblinhp = rd.Next(15, 23);
+                    return new Enemy.State(Goblinhp, "고블린", rd.Next(5, 10), 0, 0, 50, 10, Goblinhp);
+
+                case eEnemyNum.eOgre:
+                    int Ogrehp = rd.Next(45, 61);
+                    return new Enemy.State(Ogrehp, "오우거", rd.Next(18, 26), 0, 0, 30, 40, Ogrehp);
+
+                case eEnemyNum.eTroll:
+                    int Trollhp = rd.Next(150, 150); // 1턴당 체력 3 회복 기믹 넣어주세요 (트롤의 체력)
+                    return new Enemy.State(Trollhp, "트롤", rd.Next(1, 41), 0, 0, 0, 50, Trollhp);
+                //환경 마계
+                case eEnemyNum.eImp:
+                    int Imphp = rd.Next(20, 29);
+                    return new Enemy.State(Imphp, "임프", rd.Next(4, 13), 0, 0, 20, 18, Imphp);
+                case eEnemyNum.eSuccubus:
+                    int Succubushp = rd.Next(44, 51); // 패링 실패시 서큐버스 체력 회복 가능 한가요?
+                    return new Enemy.State(Succubushp, "서큐버스", rd.Next(18, 25), 0, 0, 50, 25, Succubushp);
+
+                case eEnemyNum.eArchdemon:
+                    int Archdemonhp = rd.Next(120, 120);
+                    return new Enemy.State(Archdemonhp, "데몬", rd.Next(28, 35), 0, 0, 50, 65, Archdemonhp);
+                //마법생물
                 case eEnemyNum.eGolem:
-                    int golemhp = rd.Next(1, 50);
+                    int golemhp = rd.Next(35, 75);
                     return new Enemy.State(golemhp, "골렘", rd.Next(1, 30), 25, 25, 0, rd.Next(0, 50), golemhp);
 
                 case eEnemyNum.eMimic:
@@ -54,6 +101,9 @@ namespace TeamRPG.Game.Character
                 case eEnemyNum.eSlime:
                     int slimehp = rd.Next(15, 25);
                     return new Enemy.State(slimehp, "슬라임", rd.Next(5, 20), 90, 0, 0, 25, slimehp);
+                case eEnemyNum.eBoss:
+                    int Bosshp = rd.Next(150, 151);
+                    return new Enemy.State(Bosshp, "???", rd.Next(35, 45), 80, 80, 80, 100, Bosshp);
 
                 default:
                     throw new System.ArgumentException("Unknown race");

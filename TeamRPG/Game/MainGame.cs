@@ -16,6 +16,7 @@ using static System.Net.Mime.MediaTypeNames;
 using TeamRPG.Core.ShopManager;
 using TeamRPG.Core.EncounterManager;
 using TeamRPG.Core.ImageManager;
+using TeamRPG.Core.QuestManager;
 
 namespace TeamRPG.Game
 {
@@ -81,7 +82,9 @@ namespace TeamRPG.Game
             SoundManager.GetInstance().PlaySound("Test", .1f);
             PlayerManager.GetInstance().Init("asd", (Race)1);
 
-            
+
+            EnemyManager.GetInstance().Init();
+            QuestManager.GetInstance().Init();
             ItemManager.GetInstance().Init();
             ShopManager.GetInstance().Init();
             ImageManager.GetInstance().Init();

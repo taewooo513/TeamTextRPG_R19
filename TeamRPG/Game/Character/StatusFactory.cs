@@ -32,12 +32,20 @@ namespace TeamRPG.Game.Character
                 //case eEnemyNum.eWolf:
                 //    return new Enemy.State();
                 case eEnemyNum.eGoblin:
-                    int h = rd.Next(15, 20);
-                    return new Enemy.State(h, "고블린", rd.Next(5, 7), 0, 0, 50, 10, h);
+                    int Goblinhp = rd.Next(15, 20);
+                    return new Enemy.State(Goblinhp, "고블린", rd.Next(5, 7), 0, 0, 50, 10, h);
+
+                case eEnemyNum.eWildBoar:
+                    int WildBoarhp = rd.Next(15, 20);
+                    return new Enemy.State(WildBoarhp, "고블린", rd.Next(5, 7), 0, 0, 50, 10, h);
+
+                case eEnemyNum.eSlime:
+                    int Slimehp = rd.Next(15, 20);
+                    return new Enemy.State(Slimehp, "고블린", rd.Next(5, 7), 0, 0, 50, 10, h);
 
                 case eEnemyNum.eBoss:
-                    int bosshp = rd.Next(150, 151);
-                    return new Enemy.State(bosshp, "???", rd.Next(35, 45), 80, 80, 80, 100, bosshp);
+                    int Bosshp = rd.Next(150, 151);
+                    return new Enemy.State(Bosshp, "???", rd.Next(35, 45), 80, 80, 80, 100, bosshp);
 
                 default:
                     throw new System.ArgumentException("Unknown race");

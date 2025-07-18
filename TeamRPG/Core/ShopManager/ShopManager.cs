@@ -122,7 +122,7 @@ namespace TeamRPG.Core.ShopManager
 
             var random = new Random();
             int index = random.Next(1, 101);
-            if (index <= 95) // 95% 확률로 기본 상점
+            if (index <= 5) // 95% 확률로 기본 상점
             {
                 return GetShop("상점");
             }

@@ -50,8 +50,11 @@ namespace TeamRPG.Game.Scene
         private MenuItem? buyGolTextSlot;
         private MenuItem? sellGoldTextSlot;
 
+        private bool isFirstBuying = false; // 첫 구매 여부
+
         public void Init()
         {
+            isFirstBuying = false;
             player = PlayerManager.GetInstance().GetPlayer();
             SoundManager.GetInstance().PlaySound("ShopBGM", .2f);
 
@@ -263,9 +266,21 @@ namespace TeamRPG.Game.Scene
             switch (menuType)
             {
                 case ShopMenuType.Buy:
-                    UpdateItemBuyMenuSlots();
                     currentMenu = itemBuyMenu;
-                    comment = ShopData.BuyComment;
+
+                    if (ShopData.MerchantName == "방랑상인" && isFirstBuying){
+                        comment = """
+                        오늘 판매는 전부 마쳤습니다.
+                        다음에 이용해주시죠.
+                        """;
+                    }
+                    else
+                    {
+                        comment = ShopData.BuyComment;
+                    }
+
+                    UpdateItemBuyMenuSlots();
+                    UpdateComment(comment);
                     break;
 
                 case ShopMenuType.Sell:
@@ -296,8 +311,12 @@ namespace TeamRPG.Game.Scene
 
         public void ShopBuy(Item item)
         {
-            string comment = player.Gold >= item.Gold? ShopData.BuySuccessComment : ShopData.BuyFailComment;
-            
+            if (item == null) return;
+            // 방랑상인은 첫 구매 이후 아이템 구매 불가
+            if (ShopData.MerchantName == "방랑상인" && isFirstBuying) return;
+
+            string comment = player.Gold >= item.Gold ? ShopData.BuySuccessComment : ShopData.BuyFailComment;
+
             if (item == null) return;
             if (player.Gold < item.Gold)
             {
@@ -313,10 +332,22 @@ namespace TeamRPG.Game.Scene
                 return;
             }
 
+            isFirstBuying = true;
             player.Inventory.AddItem(item);
             ShopData.RemoveItem(item);
 
             UpdateGoldText();
+
+            if (ShopData.MerchantName == "방랑상인")
+            {
+                ShopData.ClearItems();
+                comment = """
+                    구매 감사합니다.
+                    오늘 판매는 여기서 끝입니다.
+                    다음에 이용해주시죠.
+                    """;
+            }
+
             UpdateItemBuyMenuSlots();
             UpdateComment(comment);
         }

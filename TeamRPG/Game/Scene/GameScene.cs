@@ -33,7 +33,7 @@ namespace TeamRPG.Game.Scene
             selectNum = 0;
             //e1 = new Goblin(-30, 0, "A");
             //EnemyManager.GetInstance().AddEnemy(e1, eEnemyNum.eGoblin);
-            e = new Boss(0, 5, "??");
+            e = new Boss(0, 5, "???");
             EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eBoss);
             //e2 = new Goblin(30, 0, "C");
             //EnemyManager.GetInstance().AddEnemy(e2, eEnemyNum.eGoblin);
@@ -86,7 +86,6 @@ namespace TeamRPG.Game.Scene
                     PlayerManager.GetInstance().GetPlayer().timer.Stop();
                 }
             }
-            // e.InputKeyPad(); 뜨거운 코딩 레츠고
         }
     }
 

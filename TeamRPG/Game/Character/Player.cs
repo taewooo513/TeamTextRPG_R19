@@ -40,10 +40,12 @@ namespace TeamRPG.Game.Character
         public Inventory Inventory = new();
         Stopwatch playerDieStopWatch;
         int dieY = 0;
+        bool isItemBag = false;
         public int Gold { get; set; } = 1000;
         private int selectNum = 0;
         public Player(string _name, Race _race)
         {
+            isItemBag = true;
             isDie = false;
             dieY = 0;
             timer = new Stopwatch();
@@ -134,12 +136,6 @@ namespace TeamRPG.Game.Character
                 currentStatus.currentHp = baseStatus.HP; // 최대 HP를 초과하지 않도록 조정
             }
         }
-
-        public void AddItem()
-        {
-
-        }
-
 
         public void EquipItem(Status equip)
         {
@@ -256,7 +252,7 @@ namespace TeamRPG.Game.Character
         {
             PlayerImageRender();
 
-
+            ItemBagUI();
             if (EnemyManager.GetInstance().GetEnemyList().Count != 0)
             {
                 if (EnemyManager.GetInstance().GetEnemyList()[selectE].isExSkill == false)
@@ -331,6 +327,10 @@ namespace TeamRPG.Game.Character
                 }
             }
         }
+        private void ItemBagUI()
+        {
+
+        }
         private void SelectPlayButton()
         {
             if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && selectNum < 3)
@@ -353,6 +353,9 @@ namespace TeamRPG.Game.Character
                         break;
                     case 3:
                         isSkill = true;
+                        break;
+                    case 4:
+                        isItemBag = true;
                         break;
                 }
                 selectNum = 0;
@@ -393,7 +396,7 @@ namespace TeamRPG.Game.Character
                         PlayerManager.GetInstance().gameMsg = "크리티컬!! ";
                         dmg = (int)(dmg * 1.1f);
                     }
-                    EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(dmg);
+                    EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(dmg + 1000);
                     PlayerManager.GetInstance().gameMsg += $" {EnemyManager.GetInstance().GetEnemyList()[attackIndex].GetName()}에게 {dmg}의 데미지를 입혔습니다.";
 
                     selectNum = 0;
@@ -416,7 +419,7 @@ namespace TeamRPG.Game.Character
                         TextIOManager.GetInstance().OutputText4Byte("▶", 30, 20);
                         break;
                     case 1:
-                        //TextIOManager.GetInstance().OutputText4Byte("▶", 10, 22);
+                        TextIOManager.GetInstance().OutputText4Byte("▶", 10, 22);
                         break;
                     case 2:
                         TextIOManager.GetInstance().OutputText4Byte("▶", 8, 24);

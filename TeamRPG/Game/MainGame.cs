@@ -82,8 +82,6 @@ namespace TeamRPG.Game
             SoundManager.GetInstance().PlaySound("Test", .1f);
             PlayerManager.GetInstance().Init("asd", (Race)1);
 
-
-            EnemyManager.GetInstance().Init();
             QuestManager.GetInstance().Init();
             ItemManager.GetInstance().Init();
             ShopManager.GetInstance().Init();

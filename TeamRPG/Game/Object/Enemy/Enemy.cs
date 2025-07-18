@@ -191,7 +191,7 @@ namespace TeamRPG.Game.Object.Enemy
             {
                 Random _rd = new Random();
                 stopwatch.Start();
-                if (_rd.Next(0, 100) < PlayerManager.GetInstance().GetPlayer().currentStatus.Luck)
+                if (_rd.Next(0, 100) > PlayerManager.GetInstance().GetPlayer().currentStatus.Luck)
                 {
                     PlayerManager.GetInstance().gameMsg = $"{state.name}에게 {state.dmg}의 피해를 입었습니다.";
                     PlayerManager.GetInstance().GetPlayer().HitPlayer(state.dmg);

@@ -50,8 +50,8 @@ namespace TeamRPG.Game.Character
         private int selectNum = 0;
         public Player(string _name, Race _race)
         {
-            isItemBag = true;
-            itemBoxUI = new Box(8, 6, 10, 10);
+            isItemBag = false;
+            itemBoxUI = new Box(8, 6, 16, 10);
             itemBoxUI.IsVisible = false;
             isDie = false;
             dieY = 0;
@@ -180,7 +180,8 @@ namespace TeamRPG.Game.Character
         }
         public void Update()
         {
-            if (isDie == false)
+
+            if (isDie == false && isItemBag == false)
             {
                 if (isAttack == false && isSkill == false)
                     SelectPlayButton();
@@ -195,6 +196,11 @@ namespace TeamRPG.Game.Character
                     PlayerManager.GetInstance().gameMsg = "플레이어가 패배했다. 눈앞이 흐려진다.";
                 }
             }
+            else if (isItemBag == true)
+            {
+                ItemBagUpdate();
+            }
+
             if (playerDieStopWatch.ElapsedMilliseconds > 300)
             {
                 dieY += 1;
@@ -248,7 +254,10 @@ namespace TeamRPG.Game.Character
         {
             PlayerImageRender();
 
-            ItemBagUI();
+            if (isItemBag == true)
+            {
+                ItemBagUI();
+            }
             if (EnemyManager.GetInstance().GetEnemyList().Count != 0)
             {
                 if (EnemyManager.GetInstance().GetEnemyList()[selectE].isExSkill == false)
@@ -297,6 +306,62 @@ namespace TeamRPG.Game.Character
             }
         }
 
+        private void ItemBagUpdate()
+        {
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && selectNum < 3)
+            {
+                selectNum++;
+            }
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.UpArrow) && selectNum > 0)
+            {
+                selectNum--;
+            }
+            if(KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Escape))
+            {
+                selectNum = 2;
+                isItemBag = false;
+                itemBoxUI.IsVisible = false;
+            }
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
+            {
+
+                List<List<Item>> items = new List<List<Item>>();
+                var itemList = Inventory.ItemDictionary.ToList();
+                if (itemList.Count == 0)
+                {
+                    return;
+                }
+                itemList.ForEach(item =>
+                {
+                    items.Add(item.Value);
+                });
+                var selectedItem = items[selectNum][0];
+                switch (selectedItem.Type)
+                {
+                    case Object.Item.ItemType.Consumable:
+                        if (selectedItem.Name == "회복 포션")
+                        {
+                            Inventory.RemoveItem(selectedItem.Name, 1);
+                            baseStatus.currentHp += 30;
+                        }
+                        else if (selectedItem.Name == "마나 포션")
+                        {
+                            Inventory.RemoveItem(selectedItem.Name, 1);
+                            baseStatus.currentMp += 20;
+                        }
+                        else if (selectedItem.Name == "엘릭서")
+                        {
+                            Inventory.RemoveItem(selectedItem.Name, 1);
+                            baseStatus.currentHp += 30; // 나중에 부활
+                            baseStatus.currentMp += 10;
+                        }
+                        break;
+                }
+                selectNum = 2;
+                isItemBag = false;
+                itemBoxUI.IsVisible = false;
+            }
+        }
         private void ItemBagUI()
         {
             int y = 0;
@@ -304,10 +369,15 @@ namespace TeamRPG.Game.Character
             {
                 if (item.Value[0].Type == ItemType.Consumable)
                 {
-                    TextIOManager.GetInstance().OutputSmartText(item.Key, 11, y + 10);
+                    TextIOManager.GetInstance().OutputSmartText(item.Key + " x" + item.Value.Count, 11, y + 7);
+                    if (selectNum == y)
+                    {
+                        TextIOManager.GetInstance().OutputText4Byte("▶", 9, y + 7);
+                    }
                     y++;
                 }
             }
+
         }
         private void SelectSkillButton()
         {
@@ -397,7 +467,7 @@ namespace TeamRPG.Game.Character
                     int dmg = rd.Next(currentStatus.MinAttack, currentStatus.MaxAttack);
                     bool isCri = rd.Next(0, 100) < currentStatus.Luck;
                     PlayerManager.GetInstance().gameMsg = "";
-                    if (isCri == true)
+                    if (isCri == false)
                     {
                         PlayerManager.GetInstance().gameMsg = "크리티컬!! ";
                         dmg = (int)(dmg * 1.1f);
@@ -442,21 +512,22 @@ namespace TeamRPG.Game.Character
             TextIOManager.GetInstance().OutputSmartText(skills[1].name, 11, 22);
             TextIOManager.GetInstance().OutputSmartText(skills[2].name, 11, 24);
             TextIOManager.GetInstance().OutputSmartText("뒤로가기", 11, 27);
-            switch (selectNum)
-            {
-                case 0:
-                    TextIOManager.GetInstance().OutputText4Byte("▶", 8, 20);
-                    break;
-                case 1:
-                    TextIOManager.GetInstance().OutputText4Byte("▶", 8, 22);
-                    break;
-                case 2:
-                    TextIOManager.GetInstance().OutputText4Byte("▶", 8, 24);
-                    break;
-                case 3:
-                    TextIOManager.GetInstance().OutputText4Byte("▶", 8, 27);
-                    break;
-            }
+            if (isItemBag == false)
+                switch (selectNum)
+                {
+                    case 0:
+                        TextIOManager.GetInstance().OutputText4Byte("▶", 8, 20);
+                        break;
+                    case 1:
+                        TextIOManager.GetInstance().OutputText4Byte("▶", 8, 22);
+                        break;
+                    case 2:
+                        TextIOManager.GetInstance().OutputText4Byte("▶", 8, 24);
+                        break;
+                    case 3:
+                        TextIOManager.GetInstance().OutputText4Byte("▶", 8, 27);
+                        break;
+                }
         }
         private void PlaySelectUI()
         {
@@ -464,21 +535,22 @@ namespace TeamRPG.Game.Character
             TextIOManager.GetInstance().OutputSmartText("Defense", 13, 22);
             TextIOManager.GetInstance().OutputSmartText("Item", 11, 24);
             TextIOManager.GetInstance().OutputSmartText("Skill", 14, 26);
-            switch (selectNum)
-            {
-                case 0:
-                    TextIOManager.GetInstance().OutputText4Byte("▶", 12, 20);
-                    break;
-                case 1:
-                    TextIOManager.GetInstance().OutputText4Byte("▶", 10, 22);
-                    break;
-                case 2:
-                    TextIOManager.GetInstance().OutputText4Byte("▶", 8, 24);
-                    break;
-                case 3:
-                    TextIOManager.GetInstance().OutputText4Byte("▶", 11, 26);
-                    break;
-            }
+            if (isItemBag == false)
+                switch (selectNum)
+                {
+                    case 0:
+                        TextIOManager.GetInstance().OutputText4Byte("▶", 12, 20);
+                        break;
+                    case 1:
+                        TextIOManager.GetInstance().OutputText4Byte("▶", 10, 22);
+                        break;
+                    case 2:
+                        TextIOManager.GetInstance().OutputText4Byte("▶", 8, 24);
+                        break;
+                    case 3:
+                        TextIOManager.GetInstance().OutputText4Byte("▶", 11, 26);
+                        break;
+                }
         }
         private void HpBarRender()
         {

@@ -33,19 +33,15 @@ namespace TeamRPG.Game.Character
                 //    return new Enemy.State();
                 case eEnemyNum.eGoblin:
                     int Goblinhp = rd.Next(15, 20);
-                    return new Enemy.State(Goblinhp, "고블린", rd.Next(5, 7), 0, 0, 50, 10, h);
+                    return new Enemy.State(Goblinhp, "고블린", rd.Next(5, 7), 0, 0, 50, 10, Goblinhp);
 
                 case eEnemyNum.eWildBoar:
                     int WildBoarhp = rd.Next(15, 20);
-                    return new Enemy.State(WildBoarhp, "고블린", rd.Next(5, 7), 0, 0, 50, 10, h);
-
-                case eEnemyNum.eSlime:
-                    int Slimehp = rd.Next(15, 20);
-                    return new Enemy.State(Slimehp, "고블린", rd.Next(5, 7), 0, 0, 50, 10, h);
+                    return new Enemy.State(WildBoarhp, "고블린", rd.Next(5, 7), 0, 0, 50, 10, WildBoarhp);
 
                 case eEnemyNum.eBoss:
                     int Bosshp = rd.Next(150, 151);
-                    return new Enemy.State(Bosshp, "???", rd.Next(35, 45), 80, 80, 80, 100, bosshp);
+                    return new Enemy.State(Bosshp, "???", rd.Next(35, 45), 80, 80, 80, 100, Bosshp);
 
                 case eEnemyNum.eGolem:
                     int golemhp = rd.Next(1, 50);

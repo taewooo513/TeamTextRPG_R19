@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.EnemyManager;
+using TeamRPG.Core.QuestManager;
 using TeamRPG.Core.UtilManager;
 using static System.Formats.Asn1.AsnWriter;
 
@@ -56,7 +57,9 @@ namespace TeamRPG.Core.SceneManager
                     nowScene.Release();
                     Console.Clear();
                     UIManager.GetInstance().ClearUI();
-                    EnemyManager.EnemyManager.GetInstance().ClearEnemy();
+                    
+                    if(!QuestManager.QuestManager.GetInstance().IsQuestting)
+                        EnemyManager.EnemyManager.GetInstance().ClearEnemy();
                 }
                 nowScene = nextScene;
                 nextScene = null;

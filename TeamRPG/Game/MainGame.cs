@@ -87,7 +87,7 @@ namespace TeamRPG.Game
             ImageManager.GetInstance().Init();
 
             PlayerManager.GetInstance().Init("test", Race.Human);
-            SceneManager.GetInstance().ChangeScene("TitleScene");
+            SceneManager.GetInstance().ChangeScene("DiedScene");
             EncounterManager.GetInstance().Init();
 
         }

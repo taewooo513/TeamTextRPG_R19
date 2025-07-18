@@ -50,16 +50,16 @@ namespace TeamRPG.Game.Scene
             TextIOManager.GetInstance().OutputSmartText($"공격력 : {player.currentStatus.MinAttack} ~ {player.currentStatus.MaxAttack}", 3, 11);
             TextIOManager.GetInstance().OutputSmartText($"재빠름 : {player.currentStatus.Agility}", 3, 12);
             TextIOManager.GetInstance().OutputSmartText($"강인함 : {player.currentStatus.Tenacity}", 3, 13);
-            TextIOManager.GetInstance().OutputSmartText($"운 : {status.Luck}", 3, 14);
+            TextIOManager.GetInstance().OutputSmartText($"운 : {player.currentStatus.Luck}", 3, 14);
             TextIOManager.GetInstance().OutputSmartText($"소지금 {player.Gold}G", 3, 16);
             TextIOManager.GetInstance().OutputSmartText($"스트레스 수치 {player.currentStatus.stress}", 3, 20);
             TextIOManager.GetInstance().OutputSmartText($"다음 레벨까지 EXP {player.expToNextLevel}", 3, 22);
 
-            if (status.stress >= 50 && status.stress < 100)
+            if (player.currentStatus.stress >= 50 && status.stress < 100)
             {
                 TextIOManager.GetInstance().OutputSmartText("당신은 스트레스로 인한 피로감을 느끼고 있습니다.", 30, 29);
             }
-            else if (status.stress >= 100)
+            else if (player.currentStatus.stress >= 100)
             {
                 TextIOManager.GetInstance().OutputSmartText("당신은 극도의 스트레스로 인해 탈진되었습니다.", 30, 29);
             }

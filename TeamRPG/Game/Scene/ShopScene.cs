@@ -22,7 +22,7 @@ namespace TeamRPG.Game.Scene
         Buy, // 아이템 구매
         Sell, // 아이템 판매
         Talk, // 상인과 대화
-        Reroll, // 아이템 리롤
+        Quest, // 퀘스트
         Exit // 상점 나가기
     }
 
@@ -103,10 +103,11 @@ namespace TeamRPG.Game.Scene
             merchantImageText = new RawText(ShopData.MerchantImage, Console.WindowWidth / 2, 0, HorizontalAlign.Center);
             merchantCommentText = new RawText(ShopData.GetNameComment(ShopData.LobbyComment), Console.WindowWidth - 54, 4, HorizontalAlign.Left);
 
-            actionBoxMenu = new BoxMenu(20, Console.WindowHeight / 2, 14, 6);
+            actionBoxMenu = new BoxMenu(20, Console.WindowHeight / 2, 14, 7);
             actionBoxMenu.AddItem("Buy", () => ChangeMenu(ShopMenuType.Buy));
             actionBoxMenu.AddItem("Sell", () => ChangeMenu(ShopMenuType.Sell));
             actionBoxMenu.AddItem("Talk", () => ChangeMenu(ShopMenuType.Talk));
+            actionBoxMenu.AddItem("Quest", () => ChangeMenu(ShopMenuType.Quest));
             actionBoxMenu.AddItem("Back", OnShopBack);
 
             titleText = new Text($"{ShopData.ShopName}", Console.WindowWidth / 2, 1, ConsoleColor.Yellow, HorizontalAlign.Center);

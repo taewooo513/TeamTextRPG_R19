@@ -39,6 +39,18 @@ namespace TeamRPG.Game.Character
                     int bosshp = rd.Next(150, 151);
                     return new Enemy.State(bosshp, "???", rd.Next(35, 45), 80, 80, 80, 100, bosshp);
 
+                case eEnemyNum.eGolem:
+                    int golemhp = rd.Next(1, 50);
+                    return new Enemy.State(golemhp, "골렘", rd.Next(1, 30), 25, 25, 0, rd.Next(0, 50), golemhp);
+
+                case eEnemyNum.eMimic:
+                    int mimichp = 50;
+                    return new Enemy.State(mimichp, "미믹", 35, 20, 20, 0, 55, mimichp);
+
+                case eEnemyNum.eSlime:
+                    int slimehp = rd.Next(15, 25);
+                    return new Enemy.State(slimehp, "슬라임", rd.Next(5, 20), 90, 0, 0, 25, slimehp);
+
                 default:
                     throw new System.ArgumentException("Unknown race");
             }

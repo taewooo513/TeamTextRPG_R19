@@ -11,7 +11,10 @@ namespace TeamRPG.Core.EnemyManager
     {
         eWolf,
         eGoblin,
-        eBoss
+        eBoss,
+        eGolem,
+        eMimic,
+        eSlime
     }
     public class EnemyManager : Singleton<EnemyManager>
     {

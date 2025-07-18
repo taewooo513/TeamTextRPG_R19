@@ -38,10 +38,19 @@ namespace TeamRPG.Game.Scene
             selectNum = 0;
             //e1 = new Goblin(-30, 0, "A");
             //EnemyManager.GetInstance().AddEnemy(e1, eEnemyNum.eGoblin);
-            e = new Goblin(0, 5, "???");
-            EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eGoblin);
+
+            //e = new Goblin(0, 5, "???");
+            //EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eGoblin);
+
             //e2 = new Goblin(30, 0, "C");
             //EnemyManager.GetInstance().AddEnemy(e2, eEnemyNum.eGoblin);
+
+            
+            // e = new Slime(UIManager.HalfWidth, 5, "Slime");
+            // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eSlime);
+
+            e = new Mimic(UIManager.HalfWidth, 5, "Mimic");
+            EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eMimic);
         }
 
         public void Release()

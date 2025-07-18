@@ -78,13 +78,10 @@ namespace TeamRPG.Game.Character
                 case eEnemyNum.eTroll:
                     int Trollhp = rd.Next(150, 150); // 1턴당 체력 3 회복 기믹 넣어주세요 (트롤의 체력)
                     return new Enemy.State(Trollhp, "트롤", rd.Next(1, 41), 0, 0, 0, 50, Trollhp);
-
-
                 //환경 마계
                 case eEnemyNum.eImp:
                     int Imphp = rd.Next(20, 29);
                     return new Enemy.State(Imphp, "임프", rd.Next(4, 13), 0, 0, 20, 18, Imphp);
-
                 case eEnemyNum.eSuccubus:
                     int Succubushp = rd.Next(44, 51); // 패링 실패시 서큐버스 체력 회복 가능 한가요?
                     return new Enemy.State(Succubushp, "서큐버스", rd.Next(18, 25), 0, 0, 50, 25, Succubushp);
@@ -92,11 +89,9 @@ namespace TeamRPG.Game.Character
                 case eEnemyNum.eArchdemon:
                     int Archdemonhp = rd.Next(120, 120);
                     return new Enemy.State(Archdemonhp, "데몬", rd.Next(28, 35), 0, 0, 50, 65, Archdemonhp);
-
-
                 //마법생물
                 case eEnemyNum.eGolem:
-                    int golemhp = rd.Next(1, 50);
+                    int golemhp = rd.Next(35, 75);
                     return new Enemy.State(golemhp, "골렘", rd.Next(1, 30), 25, 25, 0, rd.Next(0, 50), golemhp);
 
                 case eEnemyNum.eMimic:
@@ -106,8 +101,6 @@ namespace TeamRPG.Game.Character
                 case eEnemyNum.eSlime:
                     int slimehp = rd.Next(15, 25);
                     return new Enemy.State(slimehp, "슬라임", rd.Next(5, 20), 90, 0, 0, 25, slimehp);
-
-                //보스
                 case eEnemyNum.eBoss:
                     int Bosshp = rd.Next(150, 151);
                     return new Enemy.State(Bosshp, "???", rd.Next(35, 45), 80, 80, 80, 100, Bosshp);

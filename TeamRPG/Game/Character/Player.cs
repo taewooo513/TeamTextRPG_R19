@@ -64,7 +64,7 @@ namespace TeamRPG.Game.Character
                 str += "";
                 return;
             }
-            int lastLv = level; 
+            int lastLv = level;
             currentExp += _exp;
 
             while (currentExp >= expToNextLevel && level < ExpTable.maxLevel)
@@ -72,7 +72,7 @@ namespace TeamRPG.Game.Character
                 currentExp -= expToNextLevel;
                 LevelUp(ref str);
             }
-            if(lastLv != level)
+            if (lastLv != level)
             {
                 str += $"현재 레벨: {level}";
             }
@@ -100,8 +100,8 @@ namespace TeamRPG.Game.Character
         public void GetReword(int amount, int _exp)
         {
             AddGold(amount);
-            string str ="";
-            GainExp(_exp , ref str);
+            string str = "";
+            GainExp(_exp, ref str);
             PlayerManager.GetInstance().gameMsg = $"{amount}원, {_exp}exp를 획득하였다." + str;
         }
         public void AddGold(int amount)
@@ -216,6 +216,19 @@ namespace TeamRPG.Game.Character
                     TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⡌⠠⢁⠂⠀⠀⠀⠀⠂⠀⠉⠻⠶⣤⡀⠀⠀⠀⠀⠀⣀⠄⣰⢢⠐⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 3 + dieY);
                     TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠊⠐⠀⠂⠀⡀⠂⠄⠂⠀⠀⠀⠀⠀⠉⠙⠷⣤⡀⣀⠀⠈⠻⣷⡡⢂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 2 + dieY);
                     TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢂⠈⠀⠀⠄⠂⣜⣩⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠑⢦⣉⠒⡀⠀⠁⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 1 + dieY);
+                    break;
+                case Race.Dwarf:
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⢻⣝⣻⢾⣵⣻⣽⡿⡟⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    ⠀", 78, TextIOManager.GetInstance().winHeight - 11 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⢀⣾⡝⣯⢾⣽⣛⢮⣟⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    ⠀", 78, TextIOManager.GetInstance().winHeight - 10 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⢀⣼⢷⣻⣼⣻⢾⡹⣾⣽⣿⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠀", 78, TextIOManager.GetInstance().winHeight - 9 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⢀⣹⣿⣷⣾⣿⣷⣻⣽⣿⣿⣿⣾⣻⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠀", 78, TextIOManager.GetInstance().winHeight - 8 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠸⣿⣛⣳⢿⣿⣿⣿⣿⡿⠿⠉⠙⠻⠿⠿⣿⣷⣤⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  ⠀", 78, TextIOManager.GetInstance().winHeight - 7 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠛⢿⣿⣿⣷⣾⣽⣿⡆⠀⠀⠀⠀⠀⠀⠀⠉⠷⠿⣯⣷⢤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠀", 78, TextIOManager.GetInstance().winHeight - 6 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠛⠿⠿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⠿⣽⣲⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠀", 78, TextIOManager.GetInstance().winHeight - 5 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⠁⠌⡐⠠⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ⠀", 78, TextIOManager.GetInstance().winHeight - 4 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⠂⢀⠁⠂⠄⢱⣦⣄⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    ⠀", 78, TextIOManager.GetInstance().winHeight - 3 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⡐⣈⢶⠛⠀⠈⠈⢿⣿⣯⡇⠀⠄⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀    ⠀", 78, TextIOManager.GetInstance().winHeight - 2 + dieY);
+                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠤⢉⠒⠁⠁⠈⠀⠀⠀⠀⠀⠛⠛⠃⠜⠈⢀⠀⠂⠠⡀⠀⠀⠀⠀⠀⠀   ⠀", 78, TextIOManager.GetInstance().winHeight - 1 + dieY);
                     break;
                 case Race.Human:
                     TextIOManager.GetInstance().OutputSmartText("⡤⠤⠠⠤⠠⢄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 70, TextIOManager.GetInstance().winHeight - 11 + dieY);
@@ -372,9 +385,17 @@ namespace TeamRPG.Game.Character
                 else
                 {
                     Random rd = new Random();
+                    bool isCri = rd.Next(0, 100) < currentStatus.Luck;
                     int dmg = rd.Next(currentStatus.MinAttack, currentStatus.MaxAttack);
-                    EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(dmg + 100);
-                    PlayerManager.GetInstance().gameMsg = $" {EnemyManager.GetInstance().GetEnemyList()[attackIndex].GetName()}에게 {dmg}의 데미지를 입혔습니다.";
+                    PlayerManager.GetInstance().gameMsg = "";
+                    if (isCri == true)
+                    {
+                        PlayerManager.GetInstance().gameMsg = "크리티컬!! ";
+                        dmg = (int)(dmg * 1.1f);
+                    }
+                    EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(dmg);
+                    PlayerManager.GetInstance().gameMsg += $" {EnemyManager.GetInstance().GetEnemyList()[attackIndex].GetName()}에게 {dmg}의 데미지를 입혔습니다.";
+
                     selectNum = 0;
                 }
                 timer.Start();
@@ -531,7 +552,7 @@ namespace TeamRPG.Game.Character
             TextIOManager.GetInstance().OutputText("│", 4 + currentStatus.MP / 10 * 2 + 2, 37);
         }
 
-        public void RandomTrait()
+        public Trait RandomTrait()
         {
             List<Trait> allTraits = new List<Trait>();
             allTraits.AddRange(TraitDatabase.commonTraits);
@@ -541,6 +562,7 @@ namespace TeamRPG.Game.Character
             this.trait = allTraits[rand.Next(allTraits.Count)];
 
             this.trait.ApplyEffect(this);
+            return this.trait;
         }
     }
 }

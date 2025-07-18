@@ -30,6 +30,12 @@ namespace TeamRPG.Core.EnemyManager
     public class EnemyManager : Singleton<EnemyManager>
     {
         List<Enemy> enemies;
+
+        public void Init()
+        {
+            enemies = new List<Enemy>();
+        }
+
         public EnemyManager()
         {
             enemies = new List<Enemy>();

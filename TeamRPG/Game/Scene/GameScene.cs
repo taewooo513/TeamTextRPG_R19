@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.EnemyManager;
+using TeamRPG.Core.QuestManager;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
@@ -42,8 +43,8 @@ namespace TeamRPG.Game.Scene
             // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eGoblin);
             //e2 = new Goblin(30, 0, "C");
             //EnemyManager.GetInstance().AddEnemy(e2, eEnemyNum.eGoblin);
-            e = new Slime(UIManager.HalfWidth, 5, "Slime");
-            EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eSlime);
+            // e = new Slime(UIManager.HalfWidth, 5, "Slime");
+            // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eSlime);
 
             // e = new Mimic(UIManager.HalfWidth, 5, "Mimic");
             // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eMimic);
@@ -136,7 +137,13 @@ namespace TeamRPG.Game.Scene
                 }
                 else if (timer.ElapsedMilliseconds > 3000)
                 {
-                    SceneManager.GetInstance().ChangeScene(PlayerManager.GetInstance().environment);
+                    if (QuestManager.GetInstance().IsQuestting)
+                    {
+                        QuestManager.GetInstance().CurrentQuest.IsCompleted = true;
+                        SceneManager.GetInstance().ChangeScene("ShopScene");
+                    }
+                    else
+                        SceneManager.GetInstance().ChangeScene(PlayerManager.GetInstance().environment);
                 }
             }
         }

@@ -91,7 +91,7 @@ namespace TeamRPG.Game.Scene
                 item.IsEnabled = encounterSelection.HasRequiredItems;
             }
 
-            resultMenu = new Menu(60, Console.WindowHeight - 3, DirectionType.Horizontal);
+            resultMenu = new Menu(UIManager.HalfWidth, Console.WindowHeight - 3, DirectionType.Horizontal);
             resultMenu.HorizontalAlign = HorizontalAlign.Center;
             resultMenu.AddItem("", () => { });
 

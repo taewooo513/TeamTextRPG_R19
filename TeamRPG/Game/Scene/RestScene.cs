@@ -14,7 +14,7 @@ namespace TeamRPG.Game.Scene
     using Scene = Core.SceneManager.Scene;
     public class RestScene : Scene
     {
-        public string NextSceneName { get; set; } = "CemeteryScene"; // 다음 씬 이름
+        public string NextSceneName { get; set; } = "GameScene"; // 다음 씬 이름
 
         private int restHpAmount = 20; // 회복량
         private int restMpAmount = 10; // 마나 회복량

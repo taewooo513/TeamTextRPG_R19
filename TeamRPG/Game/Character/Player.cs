@@ -90,9 +90,9 @@ namespace TeamRPG.Game.Character
             level++;
             str += $" 레벨업 ";
 
-            currentStatus.HP += 5;
-            currentStatus.MinAttack += 2;
-            currentStatus.MaxAttack += 2;
+            baseStatus.HP += 5;
+            baseStatus.MinAttack += 2;
+            baseStatus.MaxAttack += 2;
 
             RecalculateCurrentStatus();
         }

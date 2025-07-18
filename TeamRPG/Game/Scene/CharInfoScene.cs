@@ -45,8 +45,8 @@ namespace TeamRPG.Game.Scene
         {
             TextIOManager.GetInstance().OutputSmartText($"이름 : {player.name}({player.race})", 3, 6);
             TextIOManager.GetInstance().OutputSmartText($"레벨 : {player.level}", 3, 8);
-            TextIOManager.GetInstance().OutputSmartText($"체력 : {player.currentStatus.HP} / {player.baseStatus.HP}", 3, 9);
-            TextIOManager.GetInstance().OutputSmartText($"마나 : {player.currentStatus.currentMp} / {player.baseStatus.MP}", 3, 10);
+            TextIOManager.GetInstance().OutputSmartText($"체력 : {player.baseStatus.currentHp} / {player.baseStatus.HP}", 3, 9);
+            TextIOManager.GetInstance().OutputSmartText($"마나 : {player.baseStatus.currentMp} / {player.baseStatus.MP}", 3, 10);
             TextIOManager.GetInstance().OutputSmartText($"공격력 : {player.currentStatus.MinAttack} ~ {player.currentStatus.MaxAttack}", 3, 11);
             TextIOManager.GetInstance().OutputSmartText($"재빠름 : {player.currentStatus.Agility}", 3, 12);
             TextIOManager.GetInstance().OutputSmartText($"강인함 : {player.currentStatus.Tenacity}", 3, 13);

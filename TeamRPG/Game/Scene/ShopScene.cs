@@ -22,7 +22,7 @@ namespace TeamRPG.Game.Scene
         Buy, // 아이템 구매
         Sell, // 아이템 판매
         Talk, // 상인과 대화
-        Reroll, // 아이템 리롤
+        Quest, // 퀘스트
         Exit // 상점 나가기
     }
 
@@ -50,8 +50,11 @@ namespace TeamRPG.Game.Scene
         private MenuItem? buyGolTextSlot;
         private MenuItem? sellGoldTextSlot;
 
+        private bool isFirstBuying = false; // 첫 구매 여부
+
         public void Init()
         {
+            isFirstBuying = false;
             player = PlayerManager.GetInstance().GetPlayer();
             SoundManager.GetInstance().PlaySound("ShopBGM", .2f);
 
@@ -100,10 +103,11 @@ namespace TeamRPG.Game.Scene
             merchantImageText = new RawText(ShopData.MerchantImage, Console.WindowWidth / 2, 0, HorizontalAlign.Center);
             merchantCommentText = new RawText(ShopData.GetNameComment(ShopData.LobbyComment), Console.WindowWidth - 54, 4, HorizontalAlign.Left);
 
-            actionBoxMenu = new BoxMenu(20, Console.WindowHeight / 2, 14, 6);
+            actionBoxMenu = new BoxMenu(20, Console.WindowHeight / 2, 14, 7);
             actionBoxMenu.AddItem("Buy", () => ChangeMenu(ShopMenuType.Buy));
             actionBoxMenu.AddItem("Sell", () => ChangeMenu(ShopMenuType.Sell));
             actionBoxMenu.AddItem("Talk", () => ChangeMenu(ShopMenuType.Talk));
+            actionBoxMenu.AddItem("Quest", () => ChangeMenu(ShopMenuType.Quest));
             actionBoxMenu.AddItem("Back", OnShopBack);
 
             titleText = new Text($"{ShopData.ShopName}", Console.WindowWidth / 2, 1, ConsoleColor.Yellow, HorizontalAlign.Center);
@@ -250,7 +254,15 @@ namespace TeamRPG.Game.Scene
         int GetItemSellGold(Item item)
         {
             if (item == null) return 0;
-            return (int)(item.Gold * 0.8f);
+            Equipment equipment = item as Equipment;
+            if(equipment != null)
+            {
+
+                float ratio = (float)equipment.CurrentDurability / equipment.MaxDurability;
+                return (int)(item.Gold * 0.6f * ratio);
+            }
+
+            return (int)(item.Gold * 0.6f);
         }
 
 
@@ -263,9 +275,21 @@ namespace TeamRPG.Game.Scene
             switch (menuType)
             {
                 case ShopMenuType.Buy:
-                    UpdateItemBuyMenuSlots();
                     currentMenu = itemBuyMenu;
-                    comment = ShopData.BuyComment;
+
+                    if (ShopData.MerchantName == "방랑상인" && isFirstBuying){
+                        comment = """
+                        오늘 판매는 전부 마쳤습니다.
+                        다음에 이용해주시죠.
+                        """;
+                    }
+                    else
+                    {
+                        comment = ShopData.BuyComment;
+                    }
+
+                    UpdateItemBuyMenuSlots();
+                    UpdateComment(comment);
                     break;
 
                 case ShopMenuType.Sell:
@@ -296,8 +320,12 @@ namespace TeamRPG.Game.Scene
 
         public void ShopBuy(Item item)
         {
-            string comment = player.Gold >= item.Gold? ShopData.BuySuccessComment : ShopData.BuyFailComment;
-            
+            if (item == null) return;
+            // 방랑상인은 첫 구매 이후 아이템 구매 불가
+            if (ShopData.MerchantName == "방랑상인" && isFirstBuying) return;
+
+            string comment = player.Gold >= item.Gold ? ShopData.BuySuccessComment : ShopData.BuyFailComment;
+
             if (item == null) return;
             if (player.Gold < item.Gold)
             {
@@ -313,10 +341,22 @@ namespace TeamRPG.Game.Scene
                 return;
             }
 
+            isFirstBuying = true;
             player.Inventory.AddItem(item);
             ShopData.RemoveItem(item);
 
             UpdateGoldText();
+
+            if (ShopData.MerchantName == "방랑상인")
+            {
+                ShopData.ClearItems();
+                comment = """
+                    구매 감사합니다.
+                    오늘 판매는 여기서 끝입니다.
+                    다음에 이용해주시죠.
+                    """;
+            }
+
             UpdateItemBuyMenuSlots();
             UpdateComment(comment);
         }

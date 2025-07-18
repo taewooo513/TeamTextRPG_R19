@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
+using TeamRPG.Game.Character;
 
 namespace TeamRPG.Game.Scene
 {
@@ -14,8 +15,11 @@ namespace TeamRPG.Game.Scene
     {
         public int selectNum = 0;
         protected Stopwatch stopwatch;
+        Trait trait;
         public virtual void Init()
         {
+            trait = PlayerManager.GetInstance().GetPlayer().RandomTrait();
+
             selectNum = 0;
         }
 
@@ -57,18 +61,23 @@ namespace TeamRPG.Game.Scene
                 }
             }
         }
+        protected virtual void DrawText()
+        {
 
+        }
         protected void GetSpecificityEvent()
         {
             if (stopwatch.ElapsedMilliseconds < 8000)
             {
                 DrawMap();
+                DrawText();
             }
             else if (stopwatch.ElapsedMilliseconds < 14000)
             {
                 DrawSpecificity();
+                TextIOManager.GetInstance().OutputSmartText($"당신의 특성은 ' {trait.name} ' 입니다.", 48, 36);
             }
-            else if(stopwatch.ElapsedMilliseconds<14500)
+            else if (stopwatch.ElapsedMilliseconds < 14500)
             {
                 SceneManager.GetInstance().ChangeScene("GameScene");
             }
@@ -110,6 +119,8 @@ namespace TeamRPG.Game.Scene
             TextIOManager.GetInstance().OutputText("⣾⣻⣟⣿⣽⣿⣟⣿⡿⣿⣟⣯⣿⣟⣯⣿⣟⣯⣿⣯⣷⣿⣿⣯⣿⣾⣿⣿⣿⣻⣽⣾⣿⣿⣿⣻⣽⣿⣻⣿⣽⣾⣿⢿⡿⣟⣿⣽⢷⣿⣟⣯⣿", 48, 32);
             TextIOManager.GetInstance().OutputText("⣾⣟⣿⣻⣽⣾⣿⣽⣿⣟⣿⡿⣟⣿⣿⢿⣿⢿⣻⣽⣿⣻⣾⣿⣟⣿⣿⣽⣾⣿⣿⣿⡿⣷⣿⢿⣟⣯⣿⣿⣻⣯⣿⣟⣿⣟⣿⡾⣿⣷⡿⣿⣽", 48, 33);
             TextIOManager.GetInstance().OutputText("⣽⣯⣿⢿⡿⣟⣯⣿⣾⣿⡿⣿⣿⢿⣻⣿⣿⣿⣿⣿⣟⣿⣿⣷⣿⣿⣾⣿⣻⣽⣿⣾⣿⣿⡿⣿⡿⣿⣻⣽⣿⣯⣷⣿⣯⣿⣟⣿⣿⣷⣿⣿⣿", 48, 34);
+
+
         }
 
         public virtual void Update()

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
+using TeamRPG.Game.Object.UI;
 
 namespace TeamRPG.Game.Scene
 {
@@ -15,16 +16,24 @@ namespace TeamRPG.Game.Scene
     {
         Stopwatch nextSceneStopWatch;
         String name = "";
+        Status[] statuses;
         int selectChar;
         bool isSelectRace = false;
         bool isSelectName = false;
         bool isSelectNameComplete = false;
         int widthL = 0;
+        Box boxUI;
         public void Init()
         {
+            statuses = new Status[3];
+            statuses[0] = StatusFactory.GetStatusByRace(Race.Human);
+            statuses[1] = StatusFactory.GetStatusByRace(Race.Dwarf);
+            statuses[2] = StatusFactory.GetStatusByRace(Race.HalfElf);
             selectChar = 0;
             isSelectName = false;
             isSelectRace = false;
+            boxUI = new Box(1,4,19,10);
+            UIManager.GetInstance().AddUIElement(boxUI);
             name = "";
             widthL = 30;
             nextSceneStopWatch = new Stopwatch();
@@ -33,25 +42,38 @@ namespace TeamRPG.Game.Scene
 
         public void Release()
         {
+            UIManager.GetInstance().ClearUI();
             nextSceneStopWatch.Stop();
         }
 
         public void Render()
         {
+            switch (selectChar)
+            {
+                case 0:
+                    TextIOManager.GetInstance().OutputText4Byte("인간", 3, 5);
+                    break;
+                case 1:
+                    TextIOManager.GetInstance().OutputText4Byte("드워프", 3, 5);
+                    break;
+                case 2:
+                    TextIOManager.GetInstance().OutputText4Byte("하프엘프", 3, 5);
+                    break;
+            }
 
-            TextIOManager.GetInstance().OutputText4Byte("인간", 3, 5);
-            TextIOManager.GetInstance().OutputText4Byte("생명력", 3, 7);
-            TextIOManager.GetInstance().OutputText4Byte("마나", 3, 8);
-            TextIOManager.GetInstance().OutputText4Byte("공격력", 3, 9);
-            TextIOManager.GetInstance().OutputText4Byte("재빠름", 3, 10);
-            TextIOManager.GetInstance().OutputText4Byte("강인함", 3, 11);
-            TextIOManager.GetInstance().OutputText4Byte("행운", 3, 12);
+
+            TextIOManager.GetInstance().OutputSmartText($"생명력: {statuses[selectChar].HP}", 3, 7);
+            TextIOManager.GetInstance().OutputSmartText($"마나: {statuses[selectChar].MP}", 3, 8);
+            TextIOManager.GetInstance().OutputSmartText($"공격력: {statuses[selectChar].MinAttack} - {statuses[selectChar].MaxAttack}", 3, 9);
+            TextIOManager.GetInstance().OutputSmartText($"재빠름: {statuses[selectChar].Tenacity}", 3, 10);
+            TextIOManager.GetInstance().OutputSmartText($"강인함: {statuses[selectChar].Agility}", 3, 11);
+            TextIOManager.GetInstance().OutputSmartText($"행운: {statuses[selectChar].Luck}", 3, 12);
 
 
 
-            TextIOManager.GetInstance().OutputText("인간", 17 + widthL, 29);
-            TextIOManager.GetInstance().OutputText("드워프", 43 + widthL, 29);
-            TextIOManager.GetInstance().OutputText("하프엘프", 68 + widthL, 29);
+            TextIOManager.GetInstance().OutputSmartText("인간", 17 + widthL, 29);
+            TextIOManager.GetInstance().OutputSmartText("드워프", 43 + widthL, 29);
+            TextIOManager.GetInstance().OutputSmartText("하프엘프", 68 + widthL, 29);
 
             switch (selectChar)
             {

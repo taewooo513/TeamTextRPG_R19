@@ -66,7 +66,7 @@ namespace TeamRPG.Game.Character
                 str += "";
                 return;
             }
-            int lastLv = level;
+            int lastLv = level; 
             currentExp += _exp;
 
             while (currentExp >= expToNextLevel && level < ExpTable.maxLevel)
@@ -74,7 +74,7 @@ namespace TeamRPG.Game.Character
                 currentExp -= expToNextLevel;
                 LevelUp(ref str);
             }
-            if (lastLv != level)
+            if(lastLv != level)
             {
                 str += $"현재 레벨: {level}";
             }
@@ -102,8 +102,8 @@ namespace TeamRPG.Game.Character
         public void GetReword(int amount, int _exp)
         {
             AddGold(amount);
-            string str = "";
-            GainExp(_exp, ref str);
+            string str ="";
+            GainExp(_exp , ref str);
             PlayerManager.GetInstance().gameMsg = $"{amount}원, {_exp}exp를 획득하였다." + str;
         }
         public void AddGold(int amount)
@@ -213,19 +213,6 @@ namespace TeamRPG.Game.Character
                     TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠊⠐⠀⠂⠀⡀⠂⠄⠂⠀⠀⠀⠀⠀⠉⠙⠷⣤⡀⣀⠀⠈⠻⣷⡡⢂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 2 + dieY);
                     TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢂⠈⠀⠀⠄⠂⣜⣩⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠑⢦⣉⠒⡀⠀⠁⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 78, TextIOManager.GetInstance().winHeight - 1 + dieY);
                     break;
-                case Race.Dwarf:
-                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⢻⣝⣻⢾⣵⣻⣽⡿⡟⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    ⠀", 78, TextIOManager.GetInstance().winHeight - 11 + dieY);
-                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⢀⣾⡝⣯⢾⣽⣛⢮⣟⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    ⠀", 78, TextIOManager.GetInstance().winHeight - 10 + dieY);
-                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⢀⣼⢷⣻⣼⣻⢾⡹⣾⣽⣿⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠀", 78, TextIOManager.GetInstance().winHeight - 9 + dieY);
-                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⢀⣹⣿⣷⣾⣿⣷⣻⣽⣿⣿⣿⣾⣻⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠀", 78, TextIOManager.GetInstance().winHeight - 8 + dieY);
-                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠸⣿⣛⣳⢿⣿⣿⣿⣿⡿⠿⠉⠙⠻⠿⠿⣿⣷⣤⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  ⠀", 78, TextIOManager.GetInstance().winHeight - 7 + dieY);
-                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠛⢿⣿⣿⣷⣾⣽⣿⡆⠀⠀⠀⠀⠀⠀⠀⠉⠷⠿⣯⣷⢤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠀", 78, TextIOManager.GetInstance().winHeight - 6 + dieY);
-                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠛⠿⠿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⠿⣽⣲⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠀", 78, TextIOManager.GetInstance().winHeight - 5 + dieY);
-                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⠁⠌⡐⠠⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ⠀", 78, TextIOManager.GetInstance().winHeight - 4 + dieY);
-                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⠂⢀⠁⠂⠄⢱⣦⣄⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    ⠀", 78, TextIOManager.GetInstance().winHeight - 3 + dieY);
-                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⡐⣈⢶⠛⠀⠈⠈⢿⣿⣯⡇⠀⠄⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀    ⠀", 78, TextIOManager.GetInstance().winHeight - 2 + dieY);
-                    TextIOManager.GetInstance().OutputSmartText("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠤⢉⠒⠁⠁⠈⠀⠀⠀⠀⠀⠛⠛⠃⠜⠈⢀⠀⠂⠠⡀⠀⠀⠀⠀⠀⠀   ⠀", 78, TextIOManager.GetInstance().winHeight - 1 + dieY);
-                    break;
                 case Race.Human:
                     TextIOManager.GetInstance().OutputSmartText("⡤⠤⠠⠤⠠⢄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 70, TextIOManager.GetInstance().winHeight - 11 + dieY);
                     TextIOManager.GetInstance().OutputSmartText("⠈⠲⡕⣗⣷⢶⣄⡍⡒⠔⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀", 70, TextIOManager.GetInstance().winHeight - 10 + dieY);
@@ -327,10 +314,6 @@ namespace TeamRPG.Game.Character
                 }
             }
         }
-        private void ItemBagUI()
-        {
-
-        }
         private void SelectPlayButton()
         {
             if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && selectNum < 3)
@@ -388,7 +371,6 @@ namespace TeamRPG.Game.Character
                 else
                 {
                     Random rd = new Random();
-                    bool isCri = rd.Next(0, 100) < currentStatus.Luck;
                     int dmg = rd.Next(currentStatus.MinAttack, currentStatus.MaxAttack);
                     PlayerManager.GetInstance().gameMsg = "";
                     if (isCri == true)

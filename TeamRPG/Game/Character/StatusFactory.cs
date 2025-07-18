@@ -103,7 +103,12 @@ namespace TeamRPG.Game.Character
                     return new Enemy.State(slimehp, "슬라임", rd.Next(5, 20), 90, 0, 0, 25, slimehp);
                 case eEnemyNum.eBoss:
                     int Bosshp = rd.Next(150, 151);
-                    return new Enemy.State(Bosshp, "???", rd.Next(35, 45), 80, 80, 80, 100, Bosshp);
+                    return new Enemy.State(Bosshp, "???", rd.Next(35, 45), 0, 0, 80, 100, Bosshp);
+
+                //랜덤인카운터
+                case eEnemyNum.eBandit:
+                    int Bandithp = rd.Next(40, 60);
+                    return new Enemy.State(Bandithp, "산적", rd.Next(28, 39), 0, 0, 70, 45, Bandithp);
 
                 default:
                     throw new System.ArgumentException("Unknown race");

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
+using TeamRPG.Game.Object;
 
 namespace TeamRPG.Game.Scene
 {
@@ -17,6 +18,7 @@ namespace TeamRPG.Game.Scene
         int menuState;
         bool isSelect = false;
         int skillSelectIndex = 0;
+        int inventorySelectIndex = 0;
         bool showingSkillDetail = false;
         bool showingTraitDetail = false;
         List<Skill> skills;
@@ -95,6 +97,10 @@ namespace TeamRPG.Game.Scene
                         break;
                     case 2:
                         TextIOManager.GetInstance().OutputText(">", 3, 33);
+                        if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
+                        {
+                            menuState = 3;
+                        }
                         break;
                     case 3:
                         if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
@@ -140,7 +146,43 @@ namespace TeamRPG.Game.Scene
             {
                 TextIOManager.GetInstance().OutputSmartText($"{player.trait.name} : {player.trait.description}", 39, 31);
             }
+            else if (menuState == 3)
+            {
+                int cursorX = 34;
+                int cursorY = 31;
+                var inventory = player.Inventory;
 
+                TextIOManager.GetInstance().OutputSmartText("[ 인벤토리 ]", cursorX, cursorY++);
+
+                var itemList = inventory.ItemDictionary.ToList(); // 키-값 쌍을 리스트로 변환
+
+                if (itemList.Count == 0)
+                {
+                    TextIOManager.GetInstance().OutputSmartText("소지한 아이템이 없습니다.", cursorX, cursorY++);
+                }
+                else
+                {
+                    for (int i = 0; i < itemList.Count; i++)
+                    {
+                        var itemGroup = itemList[i];
+                        string itemName = itemGroup.Key;
+                        int itemCount = itemGroup.Value.Count;
+
+                        if (i == inventorySelectIndex)
+                        {
+                            TextIOManager.GetInstance().OutputText(">", cursorX - 2, cursorY);
+                        }
+
+                        TextIOManager.GetInstance().OutputSmartText($"{itemName} x{itemCount}", cursorX, cursorY++);
+                    }
+
+                    // 선택된 아이템 효과 출력
+                    var selectedItem = itemList[inventorySelectIndex].Value.First();
+                    TextIOManager.GetInstance().OutputSmartText($"[{selectedItem.Name}] {selectedItem.Description}", cursorX, cursorY++);
+                }
+
+                TextIOManager.GetInstance().OutputSmartText("ESC를 눌러 돌아가기", cursorX, cursorY + 1);
+            }
 
 
 
@@ -258,6 +300,62 @@ namespace TeamRPG.Game.Scene
             else if (menuState == 2)
             {
                 if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Escape))
+                {
+                    menuState = 0;
+                    showingTraitDetail = false;
+                }
+            }
+            else if (menuState == 3)
+            {
+                var inventory = player.Inventory;
+                int itemCount = inventory.ItemDictionary.Count;
+
+                if (itemCount > 0)
+                {
+                    if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.UpArrow))
+                    {
+                        inventorySelectIndex--;
+                        if (inventorySelectIndex < 0) inventorySelectIndex = 0;
+                    }
+
+                    if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow))
+                    {
+                        inventorySelectIndex++;
+                        if (inventorySelectIndex >= itemCount) inventorySelectIndex = itemCount - 1;
+                    }
+                }
+
+                if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
+                {
+                    var itemList = inventory.ItemDictionary.ToList();
+                    if (itemList.Count == 0)
+                    {
+                        return;
+                    }
+
+                    var selectedItem = itemList[inventorySelectIndex].Value.First();
+
+                    switch (selectedItem.Type)
+                    { 
+                        case Object.Item.ItemType.Consumable:
+                            
+                            break;
+
+                        case Object.Item.ItemType.Weapon:
+
+                            break;
+
+                        case Object.Item.ItemType.Armor:
+
+
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+
+                    if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Escape))
                 {
                     menuState = 0;
                     showingTraitDetail = false;

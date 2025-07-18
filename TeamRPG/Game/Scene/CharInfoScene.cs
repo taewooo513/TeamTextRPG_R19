@@ -344,12 +344,30 @@ namespace TeamRPG.Game.Scene
                             if (selectedItem.Name == "회복 포션")
                             {
                                 inventory.RemoveItem(selectedItem.Name, 1);
-                                player.baseStatus.currentHp += 30;
+                                if (player.baseStatus.currentHp + 30 >= player.baseStatus.HP)
+                                {
+                                    int heal = player.baseStatus.HP - player.baseStatus.currentHp;
+                                    player.baseStatus.currentHp += heal;
+                                }
+                                else 
+                                {
+                                    player.baseStatus.currentHp += 30;
+                                }
+                                    
                             }
                             else if (selectedItem.Name == "마나 포션")
                             {
                                 inventory.RemoveItem(selectedItem.Name, 1);
-                                player.baseStatus.currentMp += 20;
+                                if (player.baseStatus.currentMp + 20 >= player.baseStatus.MP)
+                                {
+                                    int heal = player.baseStatus.MP - player.baseStatus.currentMp;
+                                    player.baseStatus.currentMp += heal;
+                                }
+                                else
+                                {
+                                    player.baseStatus.currentMp += 20;
+                                }
+                                
                             }
                             else if (selectedItem.Name == "엘릭서")
                             {

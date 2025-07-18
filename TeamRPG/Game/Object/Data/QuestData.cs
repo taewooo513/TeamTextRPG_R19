@@ -58,6 +58,8 @@ namespace TeamRPG.Game.Object.Data
             if (QuestEnemy == null) return;
 
             QuestEnemy.isDie = false;
+            QuestEnemy.isExSkill = false;
+            QuestEnemy.isTurn = false;
             (Enemy, eEnemyNum) enemy = (QuestEnemy, eEnemyNum);
 
             EnemyManager.GetInstance().ClearInitialEnemies();

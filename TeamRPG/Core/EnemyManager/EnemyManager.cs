@@ -15,6 +15,7 @@ namespace TeamRPG.Core.EnemyManager
         eSkeleton,
         eZombie,
         eLich,
+        eLich2,
         eGoblin,
         eOgre,
         eTroll,

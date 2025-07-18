@@ -130,7 +130,17 @@ namespace TeamRPG.Game.Object.UI
             else if (DirectionType == DirectionType.Horizontal)
             {
                 int _x = 0;
+                int baseX = X;
                 int baseY = Y;
+                int totalWidth = 0;
+                foreach (var item in items)
+                {
+                    if (!item.IsEnabled) continue;
+                        totalWidth += textIO.OutputSmartTextLength(item.Text) + 3;
+                }
+                if(totalWidth > 0)
+                    totalWidth -= 3;
+
 
                 switch (VerticalAlign)
                 {

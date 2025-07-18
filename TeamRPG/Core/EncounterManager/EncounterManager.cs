@@ -8,9 +8,13 @@ using TeamRPG.Game.Character;
 using TeamRPG.Game.Object.Data;
 using TeamRPG.Game.Object.Item;
 using TeamRPG.Game.Object.UI;
+using TeamRPG.Game.Object.Enemy;
+using TeamRPG.Core.UtilManager;
+using TeamRPG.Core.EnemyManager;
 
 namespace TeamRPG.Core.EncounterManager
 {
+    using EnemyManager = EnemyManager.EnemyManager;
     using SceneManager = SceneManager.SceneManager;
     using ItemManager = ItemManager.ItemManager;
 
@@ -62,6 +66,16 @@ namespace TeamRPG.Core.EncounterManager
             mitigatedResult.MenuText = "공격한다";
             mitigatedResult.ImageName = "폐가"; // 완화 이미지 경로 또는 데이터
             mitigatedResult.NextSceneName = "GameScene";
+            mitigatedResult.OnEnter = () =>
+            {
+                Enemy enemy1 = new Goblin(-35, 5, "1");
+                Enemy enemy2 = new Goblin(0, 5, "2");
+                Enemy enemy3 = new Goblin(35, 5, "3");
+
+                EnemyManager.GetInstance().AddInitialEnemy(enemy1, eEnemyNum.eGoblin); // 초기 적 추가
+                EnemyManager.GetInstance().AddInitialEnemy(enemy2, eEnemyNum.eGoblin); // 초기 적 추가
+                EnemyManager.GetInstance().AddInitialEnemy(enemy3, eEnemyNum.eGoblin); // 초기 적 추가
+            };
 
             badResult = new EncounterResult();
             badResult.Description = """
@@ -71,6 +85,18 @@ namespace TeamRPG.Core.EncounterManager
             badResult.MenuText = "전투진입";
             badResult.ImageName = "폐가"; // 실패 이미지 경로 또는 데이터
             badResult.NextSceneName = "GameScene";
+            badResult.OnEnter = () =>
+            {
+                Enemy enemy1 = new Goblin(-35, 5, "1");
+                Enemy enemy2 = new Goblin(0, 5, "2");
+                Enemy enemy3 = new Goblin(35, 5, "3");
+
+                EnemyManager.GetInstance().AddInitialEnemy(enemy1, eEnemyNum.eGoblin); // 초기 적 추가
+                EnemyManager.GetInstance().AddInitialEnemy(enemy2, eEnemyNum.eGoblin); // 초기 적 추가
+                EnemyManager.GetInstance().AddInitialEnemy(enemy3, eEnemyNum.eGoblin); // 초기 적 추가
+            };
+
+
 
             selection.GoodReulst = goodResult;
             selection.MitigatedResult = mitigatedResult;
@@ -186,6 +212,12 @@ namespace TeamRPG.Core.EncounterManager
             badResult.Description = "남자가 당신에게 덤벼든다.";
             badResult.Comment = "주기 싫다면 직접 빼앗아주마";
             badResult.ImageName = "약초 스승"; // 실패 이미지 경로 또는 데이터
+            badResult.NextSceneName = "GameScene"; // 전투 장면으로 이동
+            badResult.OnEnter = () =>
+            {
+                Enemy enemy = new Bandit(UIManager.HalfWidth, 5, "1");
+                EnemyManager.GetInstance().AddInitialEnemy(enemy, eEnemyNum.eBandit); // 초기 적 추가
+            };
 
             selection.GoodReulst = goodResult;
             selection.MitigatedResult = mitigatedResult;
@@ -243,6 +275,11 @@ namespace TeamRPG.Core.EncounterManager
             badResult.Description = "남자는 산적이였다. 남자가 덤벼들어온다."; // 실패 결과 설명 함수
             badResult.ImageName = "수상한 남자"; // 실패 이미지 경로 또는 데이터
             badResult.NextSceneName = "GameScene";
+            badResult.OnEnter = () =>
+            {
+                Enemy enemy = new Bandit(UIManager.HalfWidth, 5, "1");
+                EnemyManager.GetInstance().AddInitialEnemy(enemy, eEnemyNum.eBandit); // 초기 적 추가
+            };
 
             selection.GoodReulst = goodResult; // 선택지에 성공 결과 설정
             selection.MitigatedResult = mitigatedResult; // 선택지에 완화 결과 설정
@@ -583,6 +620,11 @@ namespace TeamRPG.Core.EncounterManager
             badResult.MenuText = "전투 준비";
             badResult.ImageName = "우물";
             badResult.NextSceneName = "GameScene"; // 전투 장면으로 이동
+            badResult.OnEnter = () =>
+            {
+                Enemy enemy = new Bandit(UIManager.HalfWidth, 5, "1");
+                EnemyManager.GetInstance().AddInitialEnemy(enemy, eEnemyNum.eBandit); // 초기 적 추가
+            };
 
 
             selection.GoodReulst = goodResult;

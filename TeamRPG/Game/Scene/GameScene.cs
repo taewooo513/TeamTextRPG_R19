@@ -90,7 +90,7 @@ namespace TeamRPG.Game.Scene
             var initialEnemies = EnemyManager.GetInstance().GetInitialEnemies();
 
             for(int i = 0; i < initialEnemies.Count; i++)
-                EnemyManager.GetInstance().AddEnemy(initialEnemies[0].Item1, initialEnemies[0].Item2);
+                EnemyManager.GetInstance().AddEnemy(initialEnemies[i].Item1, initialEnemies[i].Item2);
         }
 
         public void Update()
@@ -147,5 +147,4 @@ namespace TeamRPG.Game.Scene
             }
         }
     }
-
 }

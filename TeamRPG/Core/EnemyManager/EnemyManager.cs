@@ -49,6 +49,21 @@ namespace TeamRPG.Core.EnemyManager
                 initialEnemies.Add(enemy);
         }
 
+
+        public void AddInitialEnemy(Enemy enemy, eEnemyNum eEnemyNum)
+        {
+            (Enemy, eEnemyNum) _enemy = new(enemy, eEnemyNum);
+
+            if (initialEnemies == null)
+                initialEnemies = new();
+
+            if (initialEnemies.Count > 3) return;
+
+            if (!initialEnemies.Contains(_enemy))
+                initialEnemies.Add(_enemy);
+        }
+
+
         public void RemoveInitialEnemy((Enemy, eEnemyNum) enemy)
         {
             if (initialEnemies == null)

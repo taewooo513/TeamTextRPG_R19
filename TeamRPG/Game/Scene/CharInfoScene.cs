@@ -35,7 +35,7 @@ namespace TeamRPG.Game.Scene
             status = StatusFactory.GetStatusByRace(player.race);
             isSelect = false;
             skills = StatusFactory.GetSkillsByRace(player.race);
-            player.RandomTrait();
+            //player.RandomTrait();
 
         }
 
@@ -152,7 +152,7 @@ namespace TeamRPG.Game.Scene
                 int cursorX = 34;
                 int cursorY = 31;
                 var inventory = player.Inventory;
-
+                TextIOManager.GetInstance().OutputSmartText("체력과 마나가 최대치일시 소모품 사용은 안됩니다.", 30, 30);
                 TextIOManager.GetInstance().OutputSmartText("[ 인벤토리 ]", cursorX, cursorY++);
 
                 var itemList = inventory.ItemDictionary.ToList(); // 키-값 쌍을 리스트로 변환
@@ -343,37 +343,114 @@ namespace TeamRPG.Game.Scene
                         case Object.Item.ItemType.Consumable:
                             if (selectedItem.Name == "회복 포션")
                             {
-                                inventory.RemoveItem(selectedItem.Name, 1);
-                                if (player.baseStatus.currentHp + 30 >= player.baseStatus.HP)
+                                
+                                if (player.baseStatus.currentHp == player.baseStatus.HP)
                                 {
+                                    TextIOManager.GetInstance().OutputSmartText("현재 체력이 최대치 입니다.", 30, 30);
+                                }
+                                else if (player.baseStatus.currentHp + 30 >= player.baseStatus.HP)
+                                {
+                                    inventory.RemoveItem(selectedItem.Name, 1);
                                     int heal = player.baseStatus.HP - player.baseStatus.currentHp;
                                     player.baseStatus.currentHp += heal;
                                 }
-                                else 
+                                else if (player.baseStatus.currentHp + 30 <= player.baseStatus.HP)
                                 {
+                                    inventory.RemoveItem(selectedItem.Name, 1);
                                     player.baseStatus.currentHp += 30;
                                 }
+                                
                                     
                             }
                             else if (selectedItem.Name == "마나 포션")
                             {
-                                inventory.RemoveItem(selectedItem.Name, 1);
-                                if (player.baseStatus.currentMp + 20 >= player.baseStatus.MP)
+                                if (player.baseStatus.currentMp == player.baseStatus.MP)
                                 {
+                                    TextIOManager.GetInstance().OutputSmartText("현재 마나가 최대치 입니다.", 30, 30);
+                                }
+                                else if (player.baseStatus.currentMp + 20 >= player.baseStatus.MP)
+                                {
+                                    inventory.RemoveItem(selectedItem.Name, 1);
                                     int heal = player.baseStatus.MP - player.baseStatus.currentMp;
                                     player.baseStatus.currentMp += heal;
                                 }
-                                else
+                                else if (player.baseStatus.currentMp + 20 <= player.baseStatus.HP)
                                 {
+                                    inventory.RemoveItem(selectedItem.Name, 1);
                                     player.baseStatus.currentMp += 20;
                                 }
                                 
+
                             }
-                            else if (selectedItem.Name == "엘릭서")
+                            else if (selectedItem.Name == "균형의 정수")
                             {
                                 inventory.RemoveItem(selectedItem.Name, 1);
-                                player.baseStatus.currentHp += 30; // 나중에 부활
-                                player.baseStatus.currentMp += 10;
+
+                                int mpHealAmount = 30;
+
+                                if (player.baseStatus.currentMp == player.baseStatus.MP && player.baseStatus.currentHp == player.baseStatus.HP)
+                                {
+                                    TextIOManager.GetInstance().OutputSmartText("현재 체력과 마나가 최대치 입니다.", 30, 30);
+                                }
+
+                                if (player.baseStatus.currentMp + mpHealAmount > player.baseStatus.MP)
+                                {
+                                    mpHealAmount = player.baseStatus.MP - player.baseStatus.currentMp;
+                                }
+                                player.baseStatus.currentMp += mpHealAmount;
+
+                                int hpHealAmount = 30;
+
+                                if (player.baseStatus.currentHp + hpHealAmount > player.baseStatus.HP)
+                                {
+                                    hpHealAmount = player.baseStatus.HP - player.baseStatus.currentHp;
+                                }
+                                player.baseStatus.currentHp += hpHealAmount;
+
+                                
+
+                            }
+                            else if (selectedItem.Name == "정령의 숨결")
+                            {
+                                
+                                if (player.baseStatus.currentMp == player.baseStatus.MP)
+                                {
+                                    TextIOManager.GetInstance().OutputSmartText("현재 마나가 최대치 입니다.", 30, 30);
+                                }
+                                else if (player.baseStatus.currentMp + 80 >= player.baseStatus.MP)
+                                {
+                                    inventory.RemoveItem(selectedItem.Name, 1);
+                                    int heal = player.baseStatus.MP - player.baseStatus.currentMp;
+                                    player.baseStatus.currentMp += heal;
+                                }
+                                else if (player.baseStatus.currentMp + 80 <= player.baseStatus.HP)
+                                {
+                                    inventory.RemoveItem(selectedItem.Name, 1);
+                                    player.baseStatus.currentMp += 80;
+                                }
+                                
+
+                            }
+                            else if (selectedItem.Name == "바위의 혼")
+                            {
+                                
+                                if (player.baseStatus.currentHp == player.baseStatus.HP)
+                                {
+                                    TextIOManager.GetInstance().OutputSmartText("현재 체력이 최대치 입니다.", 30, 30);
+                                }
+                                else if (player.baseStatus.currentHp + 80 >= player.baseStatus.HP)
+                                {
+                                    inventory.RemoveItem(selectedItem.Name, 1);
+                                    int heal = player.baseStatus.HP - player.baseStatus.currentHp;
+                                    player.baseStatus.currentHp += heal;
+                                }
+                                else if (player.baseStatus.currentHp + 80 <= player.baseStatus.HP)
+                                {
+                                    inventory.RemoveItem(selectedItem.Name, 1);
+                                    player.baseStatus.currentHp += 80;
+                                }
+                                
+
                             }
                             break;
 
@@ -381,7 +458,7 @@ namespace TeamRPG.Game.Scene
                             var tem = ItemManager.GetInstance().GetItem(itemList[inventorySelectIndex].Key);
                             if (object.ReferenceEquals(tem, player.eWeapon))
                             {
-                                player.eArmor = null;
+                                player.eWeapon = null;
                                 player.UnequipItem(tem.Status);
                             }
                             else

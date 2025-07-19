@@ -42,7 +42,7 @@ namespace TeamRPG.Game.Scene
 
         public void Render()
         {
-
+            UpdateUI();
         }
 
         void InputMenu()
@@ -62,18 +62,18 @@ namespace TeamRPG.Game.Scene
 
         void InitEncounterData()
         {
-            //currentEncounterData = EncounterManager.GetInstance().GetRandomEncounterData();
-            currentEncounterData = EncounterManager.GetInstance().GetEncounterData("상자");
+            currentEncounterData = EncounterManager.GetInstance().GetRandomEncounterData();
+            //currentEncounterData = EncounterManager.GetInstance().GetEncounterData("상자");
         }
 
         void InitUI()
         {
             string image = currentEncounterData.Image != string.Empty ? currentEncounterData.Image : "";
 
-            encounterImage = new RawText(image, UIManager.HalfWidth, UIManager.HalfHeight, HorizontalAlign.Center, VerticalAlign.Middle);
-            description = new RawText(currentEncounterData.Description, UIManager.HalfWidth, Console.WindowHeight - 5, HorizontalAlign.Center, VerticalAlign.Top);
+            encounterImage = new RawText(image, UIManager.HalfWidth, Console.WindowHeight - 1, HorizontalAlign.Center, VerticalAlign.Middle);
+            description = new RawText(currentEncounterData.Description, UIManager.HalfWidth, Console.WindowHeight - 8, HorizontalAlign.Center, VerticalAlign.Top);
             comment = new RawText(currentEncounterData.Comment, 30, UIManager.HalfHeight - 5, HorizontalAlign.Center, VerticalAlign.Top);
-            selectionMenu = new Menu(UIManager.HalfWidth, Console.WindowHeight - 3, DirectionType.Horizontal);
+            selectionMenu = new Menu(UIManager.HalfWidth, Console.WindowHeight - 10, DirectionType.Horizontal);
             // selectionMenu.HorizontalAlign = HorizontalAlign.Center;
 
             for (int i = 0; i < currentEncounterData.Selections.Count; i++)
@@ -91,7 +91,7 @@ namespace TeamRPG.Game.Scene
                 item.IsEnabled = encounterSelection.HasRequiredItems;
             }
 
-            resultMenu = new Menu(UIManager.HalfWidth, Console.WindowHeight - 3, DirectionType.Horizontal);
+            resultMenu = new Menu(UIManager.HalfWidth, Console.WindowHeight - 10, DirectionType.Horizontal);
             // resultMenu.HorizontalAlign = HorizontalAlign.Center;
             resultMenu.AddItem("", () => { });
 
@@ -114,6 +114,8 @@ namespace TeamRPG.Game.Scene
             resultMenu.X = 60;
             resultMenu.Y = Console.WindowHeight - 1;
         }
+
+        
 
         public void OnSelectMenu(Player player, EncounterSelection selection)
         {

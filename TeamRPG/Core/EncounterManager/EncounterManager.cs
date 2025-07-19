@@ -663,7 +663,7 @@ namespace TeamRPG.Core.EncounterManager
 
                 if (rand == 0)
                 {
-                    int gold = random.Next(1, 201); // 50에서 200 사이의 랜덤 금액
+                    int gold = random.Next(1, 401); // 1에서 400 사이의 랜덤 금액
                     player.AddGold(gold);
                     GetEncounterData("상자").Selections[0].GoodReulst.Description = $"상자에서 돈을 흭득했다 [Gold +{gold}]";
                 }

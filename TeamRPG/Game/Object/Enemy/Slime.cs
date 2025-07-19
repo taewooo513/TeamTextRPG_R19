@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Object.UI;
 
@@ -74,7 +69,7 @@ namespace TeamRPG.Game.Object.Enemy
         public override void Init()
         {
             nameText = new RawText("슬라임" + gNum, x, y - 2, HorizontalAlign.Center);
-            imageText = new RawText(normalImage, x-15, y, HorizontalAlign.Center);
+            imageText = new RawText(normalImage, x, y, HorizontalAlign.Center);
 
             state.name = name;
         }

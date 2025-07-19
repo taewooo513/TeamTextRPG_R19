@@ -127,7 +127,6 @@ namespace TeamRPG.Core.EnemyManager
             if (environmentEnemyDictionary.TryGetValue(eEnvironmentType.eNone, out var noneEnemies))
                 allMonsters.RemoveAll(e => noneEnemies.Contains(e));
 
-            // 티어 필터링
             allMonsters = allMonsters
                 .Where(e => enemyTierDictionary.ContainsKey(e) && allowedTiers.Contains(enemyTierDictionary[e]))
                 .ToList();
@@ -240,6 +239,13 @@ namespace TeamRPG.Core.EnemyManager
             
             */
             CycleCount++;
+
+            // 8회차는 보스 인트로 씬으로 전환
+            if (CycleCount == 8)
+            {
+                SceneManager.SceneManager.GetInstance().ChangeScene("BossIntroScene");
+                return;
+            }
 
             List<eEnemyTier> tierList = new();
 

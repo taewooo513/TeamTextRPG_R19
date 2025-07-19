@@ -36,6 +36,8 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("EncounterScene", new EncounterScene());
             SceneManager.GetInstance().AddScene("BossEnemyScene", new BossEnemyScene());
             SceneManager.GetInstance().AddScene("DiedScene", new DiedScene());
+            SceneManager.GetInstance().AddScene("BossIntroScene", new BossIntroScene());
+            
 
             SceneManager.GetInstance().AddScene("WildernessScene", new WildernessScene());
             SceneManager.GetInstance().AddScene("WildernessStartScene", new WildernessStartScene());

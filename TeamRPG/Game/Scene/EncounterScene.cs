@@ -62,8 +62,8 @@ namespace TeamRPG.Game.Scene
 
         void InitEncounterData()
         {
-            currentEncounterData = EncounterManager.GetInstance().GetRandomEncounterData();
-            // currentEncounterData = EncounterManager.GetInstance().GetEncounterData("우물");
+            //currentEncounterData = EncounterManager.GetInstance().GetRandomEncounterData();
+            currentEncounterData = EncounterManager.GetInstance().GetEncounterData("상자");
         }
 
         void InitUI()
@@ -126,7 +126,7 @@ namespace TeamRPG.Game.Scene
 
             resultMenu.GetItem(0).OnSelect = () =>
             {
-                selection.Result.OnExit?.Invoke(player);
+                selection.Result.OnExit?.Invoke();
                 resultMenu.GetItem(0).Text = selection.Result.MenuText;
                 comment.SetText(selection.Result.Comment);
                 description.SetText(selection.Result.Description); 

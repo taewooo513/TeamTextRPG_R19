@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.AnimationManager;
 using TeamRPG.Core.UtilManager;
-using TeamRPG.Game.Character;
 
 namespace TeamRPG.Game.Scene.Specificity
 {
@@ -90,8 +89,6 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Init()
         {
             base.Init();
-            trait = PlayerManager.GetInstance().GetPlayer().RandomTrait();
-
             stopwatch = new Stopwatch();
             stopwatch.Start();
         }
@@ -106,10 +103,11 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Render()
         {
             base.GetSpecificityEvent();
+            DrawText();
         }
         protected override void DrawText()
         {
-            TextIOManager.GetInstance().OutputSmartText("당신은 으스스한 기운이 감도는 묘지에서 여정을 시작했다.", 48, 36);
+            TextIOManager.GetInstance().OutputSmartText("당신은 스산한 기운이 감도는 묘지에서 여정을 시작했다.", 48, 36);
         }
     }
 }

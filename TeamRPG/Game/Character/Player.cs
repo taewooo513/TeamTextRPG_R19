@@ -166,7 +166,7 @@ namespace TeamRPG.Game.Character
             RecalculateCurrentStatus();
         }
 
-        private void RecalculateCurrentStatus()
+        public void RecalculateCurrentStatus()
         {
             Status totalEquip = new Status(0, 0, 0, 0, 0, 0, 0, 0, 0);
             foreach (var equip in equipments)
@@ -516,6 +516,19 @@ namespace TeamRPG.Game.Character
                         EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(100000);
                     }
                     PlayerManager.GetInstance().gameMsg += $" {EnemyManager.GetInstance().GetEnemyList()[attackIndex].GetName()}에게 {dmg}의 데미지를 입혔습니다.";
+
+                    var weapon = this.eWeapon;
+                    if (weapon != null && !weapon.IsBroken)
+                    {
+                        //weapon.ReduceDurability(1);
+                        weapon.Use(this);
+                        PlayerManager.GetInstance().gameMsg += $" \n{weapon.Name}의 내구도가 1 감소하였습니다.";
+                        // 옵션: 내구도 0이 되면 메시지 출력
+                        if (weapon.IsBroken)
+                        {
+                            PlayerManager.GetInstance().gameMsg += $" \n{weapon.Name}의 내구도가 모두 소모되어 사용할 수 없습니다!";
+                        }
+                    }
 
                     selectNum = 0;
                 }

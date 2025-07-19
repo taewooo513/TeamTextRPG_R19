@@ -163,7 +163,6 @@ namespace TeamRPG.Game.Scene
                     }
                     else
                     {
-                        PlayerManager.GetInstance().Stage++;
                         SceneManager.GetInstance().ChangeScene(PlayerManager.GetInstance().environment);
                     }
                 }

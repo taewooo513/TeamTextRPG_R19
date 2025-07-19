@@ -141,7 +141,30 @@ namespace TeamRPG.Game.Scene
                 {
                     timer.Restart();
                     isReword = true;
-                    PlayerManager.GetInstance().GetPlayer().GetReword(100000, 100);
+                    switch (PlayerManager.GetInstance().Stage)
+                    {
+                        case 0:
+                            PlayerManager.GetInstance().GetPlayer().GetReword(100000, 100);
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 5:
+                            break;
+                        case 6:
+                            break;
+                        case 7:
+                            break;
+                        case 8:
+                            break;
+                    }
+
+
                 }
                 else if (timer.ElapsedMilliseconds > 3000)
                 {

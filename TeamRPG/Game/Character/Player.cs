@@ -27,6 +27,7 @@ namespace TeamRPG.Game.Character
         public Stopwatch timer;
         public int selectE = 0;
         private bool isDefens = false;
+        public bool isCheat = false;
         public string name { get; private set; }
         public Trait trait;
         bool isDie = false;
@@ -134,7 +135,14 @@ namespace TeamRPG.Game.Character
 
         public void HitPlayer(int _dmg)
         {
-            currentStatus.currentHp -= _dmg;
+            if (isCheat == true)
+            {
+
+            }
+            else
+            {
+                currentStatus.currentHp -= _dmg;
+            }
         }
 
         public void HealPlayer(int amount)
@@ -308,7 +316,7 @@ namespace TeamRPG.Game.Character
 
         private void ItemBagUpdate()
         {
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && selectNum < 3)
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && selectNum < 2)
             {
                 selectNum++;
             }
@@ -316,7 +324,7 @@ namespace TeamRPG.Game.Character
             {
                 selectNum--;
             }
-            if(KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Escape))
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Escape))
             {
                 selectNum = 2;
                 isItemBag = false;
@@ -362,7 +370,7 @@ namespace TeamRPG.Game.Character
                         }
                         break;
                 }
-                selectNum = 2;
+                selectNum = 1;
                 isItemBag = false;
                 itemBoxUI.IsVisible = false;
             }
@@ -429,13 +437,10 @@ namespace TeamRPG.Game.Character
                         isAttack = true;
                         break;
                     case 1:
-                        isDefens = true;
-                        break;
-                    case 2:
                         itemBoxUI.IsVisible = true;
                         isItemBag = true;
                         break;
-                    case 3:
+                    case 2:
                         isSkill = true;
                         break;
                 }
@@ -477,7 +482,14 @@ namespace TeamRPG.Game.Character
                         PlayerManager.GetInstance().gameMsg = "크리티컬!! ";
                         dmg = (int)(dmg * 1.1f);
                     }
-                    EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(dmg + 1000);
+                    if (isCheat == false)
+                    {
+                        EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(dmg);
+                    }
+                    else
+                    {
+                        EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(100000);
+                    }
                     PlayerManager.GetInstance().gameMsg += $" {EnemyManager.GetInstance().GetEnemyList()[attackIndex].GetName()}에게 {dmg}의 데미지를 입혔습니다.";
 
                     selectNum = 0;
@@ -537,9 +549,8 @@ namespace TeamRPG.Game.Character
         private void PlaySelectUI()
         {
             TextIOManager.GetInstance().OutputSmartText("Attack", 15, 20);
-            TextIOManager.GetInstance().OutputSmartText("Defense", 13, 22);
-            TextIOManager.GetInstance().OutputSmartText("Item", 11, 24);
-            TextIOManager.GetInstance().OutputSmartText("Skill", 14, 26);
+            TextIOManager.GetInstance().OutputSmartText("Item", 13, 22);
+            TextIOManager.GetInstance().OutputSmartText("Skill", 11, 24);
             if (isItemBag == false)
                 switch (selectNum)
                 {
@@ -551,9 +562,6 @@ namespace TeamRPG.Game.Character
                         break;
                     case 2:
                         TextIOManager.GetInstance().OutputText4Byte("▶", 8, 24);
-                        break;
-                    case 3:
-                        TextIOManager.GetInstance().OutputText4Byte("▶", 11, 26);
                         break;
                 }
         }

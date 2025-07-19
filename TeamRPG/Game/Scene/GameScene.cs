@@ -56,8 +56,8 @@ namespace TeamRPG.Game.Scene
             InitEnemies();
 
             //e = new Mimic(UIManager.HalfWidth, 5, "Mimic");
-            e = new Troll(-50, 0, "Troll");
-            EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eTroll);
+            // e = new Troll(-50, 0, "Troll");
+            // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eTroll);
         }
 
         public void Release()
@@ -87,10 +87,19 @@ namespace TeamRPG.Game.Scene
 
         public void InitEnemies()
         {
-            var initialEnemies = EnemyManager.GetInstance().GetInitialEnemies();
+            EnemyManager enemyManager = EnemyManager.GetInstance();
+
+            // 현재 생성할 적이 없다면 현재 지역의 적을 랜덤으로 생성
+            if (enemyManager.GetInitialEnemies().Count == 0)
+                enemyManager.InitInitialEnemy(enemyManager.CurrentEnvironmentType());
+
+            // initialEnemies들 생성
+            var initialEnemies = enemyManager.GetInitialEnemies();
 
             for(int i = 0; i < initialEnemies.Count; i++)
-                EnemyManager.GetInstance().AddEnemy(initialEnemies[i].Item1, initialEnemies[i].Item2);
+                enemyManager.AddEnemy(initialEnemies[i].Item1, initialEnemies[i].Item2);
+
+            enemyManager.ClearInitialEnemies();
         }
 
         public void Update()

@@ -15,8 +15,6 @@ using TeamRPG.Core.EnemyManager;
 namespace TeamRPG.Core.EncounterManager
 {
     using EnemyManager = EnemyManager.EnemyManager;
-    using SceneManager = SceneManager.SceneManager;
-    using ItemManager = ItemManager.ItemManager;
 
     public class EncounterManager : Singleton<EncounterManager>
     {
@@ -204,7 +202,7 @@ namespace TeamRPG.Core.EncounterManager
 
             mitigatedResult = new();
             mitigatedResult.MenuText = "돌아간다";
-            mitigatedResult.Description = "약초를 주지 않는다면 검술을 전수해주지 않겠다.";
+            mitigatedResult.Description = "아쉽군.";
             mitigatedResult.ImageName = "약초 스승"; // 완화 이미지 경로 또는 데이터
 
             badResult = new();

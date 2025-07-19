@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamRPG.Core.ItemManager;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
@@ -268,15 +269,15 @@ namespace TeamRPG.Game.Scene
 
         public void Update()
         {
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.UpArrow) && select > 0)
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.UpArrow) && select > 0 && menuState == 0)
             {
                 select--;
             }
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && select < 3)
+            else if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && select < 3 && menuState == 0)
             {
                 select++;
             }
-            else if (menuState == 1)
+            if (menuState == 1)
             {
                 int maxIndex = skills.Count - 1;
 
@@ -319,7 +320,7 @@ namespace TeamRPG.Game.Scene
                             inventorySelectIndex = itemCount - 1; // 맨 위에서 위로 누르면 맨 마지막으로
                     }
 
-                    if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow))
+                    if (KeyInputManager.GetInstance().KeyDown() == ConsoleKey.DownArrow)
                     {
                         inventorySelectIndex++;
                         if (inventorySelectIndex >= itemCount)
@@ -338,26 +339,86 @@ namespace TeamRPG.Game.Scene
                     var selectedItem = itemList[inventorySelectIndex].Value.First();
 
                     switch (selectedItem.Type)
-                    { 
+                    {
                         case Object.Item.ItemType.Consumable:
-                            
+                            if (selectedItem.Name == "회복 포션")
+                            {
+                                inventory.RemoveItem(selectedItem.Name, 1);
+                                if (player.baseStatus.currentHp + 30 >= player.baseStatus.HP)
+                                {
+                                    int heal = player.baseStatus.HP - player.baseStatus.currentHp;
+                                    player.baseStatus.currentHp += heal;
+                                }
+                                else 
+                                {
+                                    player.baseStatus.currentHp += 30;
+                                }
+                                    
+                            }
+                            else if (selectedItem.Name == "마나 포션")
+                            {
+                                inventory.RemoveItem(selectedItem.Name, 1);
+                                if (player.baseStatus.currentMp + 20 >= player.baseStatus.MP)
+                                {
+                                    int heal = player.baseStatus.MP - player.baseStatus.currentMp;
+                                    player.baseStatus.currentMp += heal;
+                                }
+                                else
+                                {
+                                    player.baseStatus.currentMp += 20;
+                                }
+                                
+                            }
+                            else if (selectedItem.Name == "엘릭서")
+                            {
+                                inventory.RemoveItem(selectedItem.Name, 1);
+                                player.baseStatus.currentHp += 30; // 나중에 부활
+                                player.baseStatus.currentMp += 10;
+                            }
                             break;
 
                         case Object.Item.ItemType.Weapon:
+                            var tem = ItemManager.GetInstance().GetItem(itemList[inventorySelectIndex].Key);
+                            if (object.ReferenceEquals(tem, player.eWeapon))
+                            {
+                                player.eArmor = null;
+                                player.UnequipItem(tem.Status);
+                            }
+                            else
+                            {
+                                if (player.eWeapon != null)
+                                {
+                                    player.equipments.Remove(player.eWeapon.Status);
+                                }
 
+
+                                player.eWeapon = (Object.Item.Weapon)tem;
+                                player.EquipItem(tem.Status);
+                            }
                             break;
-
                         case Object.Item.ItemType.Armor:
-
-
+                            var tem2 = ItemManager.GetInstance().GetItem(itemList[inventorySelectIndex].Key);
+                            if (object.ReferenceEquals(tem2, player.eArmor))
+                            {
+                                player.eArmor = null;
+                                player.UnequipItem(tem2.Status);
+                            }
+                            else
+                            {
+                                if (player.eArmor != null)
+                                {
+                                    player.equipments.Remove(player.eArmor.Status);
+                                }
+                                player.eArmor = (Object.Item.Armor)tem2;
+                                player.EquipItem(tem2.Status);
+                            }
                             break;
-
                         default:
                             break;
                     }
                 }
 
-                    if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Escape))
+                if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Escape))
                 {
                     menuState = 0;
                     showingTraitDetail = false;

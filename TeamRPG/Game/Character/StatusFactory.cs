@@ -102,8 +102,8 @@ namespace TeamRPG.Game.Character
                     int slimehp = rd.Next(15, 25);
                     return new Enemy.State(slimehp, "슬라임", rd.Next(5, 20), 90, 0, 0, 25, slimehp);
                 case eEnemyNum.eBoss:
-                    int Bosshp = rd.Next(150, 151);
-                    return new Enemy.State(Bosshp, "???", rd.Next(35, 45), 0, 0, 80, 100, Bosshp);
+                    int Bosshp = rd.Next(350, 350);
+                    return new Enemy.State(Bosshp, "???", rd.Next(35, 55), 0, 0, 80, 100, Bosshp);
 
                 //랜덤인카운터
                 case eEnemyNum.eBandit:

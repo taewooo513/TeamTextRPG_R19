@@ -47,12 +47,16 @@ namespace TeamRPG.Game.Scene
 
         public void Release()
         {
+            Console.ForegroundColor = ConsoleColor.White;
+
         }
 
         public void Render()
         {
-            int a = (int)(timerEnd.ElapsedMilliseconds / 100);
+            Random r = new Random();
 
+            int a = (int)(timerEnd.ElapsedMilliseconds / 100);
+            Console.ForegroundColor = (ConsoleColor)r.Next(0, 15);
             TextIOManager.GetInstance().OutputSmartText("Team 19세넘었조", 1, 1);
             TextIOManager.GetInstance().OutputSmartText("TeamLeader Mr.Park", 1, 2);
 

@@ -66,24 +66,24 @@ namespace TeamRPG.Game.Scene
         {
             SoundManager.GetInstance().PlaySound("BossmainTheme", 1f);
             BossText = new RawText(Boss, UIManager.HalfWidth, 2, HorizontalAlign.Center);
-            
+
         }
 
         public void Release() // 씬전환할때 삭제 되야하는것
-            {
-                UIManager.GetInstance().ClearUI();
-                SoundManager.GetInstance().StopSound("BossmainTheme");
-            }
+        {
+            UIManager.GetInstance().ClearUI();
+            SoundManager.GetInstance().StopSound("BossmainTheme");
+        }
 
         public void Update() // 업데이트 연산 ex키입력받는등
-            {
+        {
 
-            }
+        }
         public void Render() // 여기서 텍스트만
-            {
-            }
+        {
+        }
 
-        
+
 
     }
 }

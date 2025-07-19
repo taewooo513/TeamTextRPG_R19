@@ -64,6 +64,8 @@ namespace TeamRPG.Core.EnemyManager
     public class EnemyManager : Singleton<EnemyManager>
     {
         public static int CycleCount = 0;
+        public static eEnemyTier NowMonsterTier; // 현재 몬스터 티어
+
         List<(Enemy, eEnemyNum)> initialEnemies = new(); // GameScene이 시작되면 생성할 적들
         List<Enemy> enemies;
 
@@ -238,22 +240,20 @@ namespace TeamRPG.Core.EnemyManager
             */
             CycleCount++;
 
-            List<eEnemyTier> tierList = new()
+            List<eEnemyTier> tierList = new();
+
+            if (CycleCount <= 1)
             {
-                eEnemyTier.Elite,  // 정예 몬스터
-            };
-
-            if (CycleCount <= 3)
-                tierList.Add(eEnemyTier.Normal); // 초기 3회차는 일반 몬스터만
+                tierList = new List<eEnemyTier> { eEnemyTier.Normal }; // 1회차는 일반 몬스터만
+            }
+            else if (CycleCount == 2)
+            {
+                tierList = new List<eEnemyTier> { eEnemyTier.Normal, eEnemyTier.Elite }; // 2회차는 일반 + 정예 몬스터
+            }
             else
-                tierList.Add(eEnemyTier.Boss); // 4~5회차는 일반 + 정예 몬스터
-
-            var pickedEnemy = GetRegionWeightedEnemy(
-            eEnvironmentType.eForest,
-            new List<eEnemyTier> { eEnemyTier.Normal, eEnemyTier.Elite }, // 원하는 티어만
-                regionRate: 70 // 지역 우선 확률
-            );
-
+            {
+                tierList = new List<eEnemyTier> { eEnemyTier.Elite, eEnemyTier.Boss }; // 4회차부터는 일반 + 정예 + 보스 몬스터
+            }
 
             eEnemyNum enemyNum = GetRegionWeightedEnemy(environmentType, tierList);
             Enemy? enemy = EnemyFactory.CreateEnemy(enemyNum);
@@ -263,6 +263,8 @@ namespace TeamRPG.Core.EnemyManager
                 enemyNum = GetRegionWeightedEnemy(environmentType, tierList);
                 enemy = EnemyFactory.CreateEnemy(enemyNum);
             }
+
+            NowMonsterTier = enemyTierDictionary[enemyNum]; // 현재 몬스터 티어 설정
 
             AddInitialEnemy(enemy, enemyNum);
         }

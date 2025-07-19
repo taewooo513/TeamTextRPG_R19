@@ -390,8 +390,6 @@ namespace TeamRPG.Game.Scene
                                 {
                                     player.equipments.Remove(player.eWeapon.Status);
                                 }
-
-
                                 player.eWeapon = (Object.Item.Weapon)tem;
                                 player.EquipItem(tem.Status);
                             }

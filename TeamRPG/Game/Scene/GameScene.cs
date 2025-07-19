@@ -53,7 +53,7 @@ namespace TeamRPG.Game.Scene
 
             // e = new Golem(UIManager.HalfWidth, 5, "Golem");
             // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eGolem);
-            //InitEnemies();
+            InitEnemies();
 
             //e = new Mimic(UIManager.HalfWidth, 5, "Mimic");
             // e = new Lich(60, 0, "Troll");

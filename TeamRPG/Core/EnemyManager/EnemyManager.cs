@@ -60,7 +60,6 @@ namespace TeamRPG.Core.EnemyManager
         Boss
     }
 
-
     public class EnemyManager : Singleton<EnemyManager>
     {
         public static int CycleCount = 0;

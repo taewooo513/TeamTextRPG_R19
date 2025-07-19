@@ -89,6 +89,20 @@ namespace TeamRPG.Game.Object.Enemy
                 else
                 {
                     InputKeyPad();
+                    int timeOut = 0;
+                    if (PlayerManager.GetInstance().GetPlayer().currentStatus.Agility > state.dex)
+                    {
+                        timeOut = 2500;
+                    }
+                    else if (PlayerManager.GetInstance().GetPlayer().currentStatus.Agility == state.dex)
+                    {
+                        timeOut = 2000;
+                    }
+                    else if (PlayerManager.GetInstance().GetPlayer().currentStatus.Agility < state.dex)
+                    {
+                        timeOut = 1500;
+                    }
+
                     if (parryStopwatch.ElapsedMilliseconds > 2000)
                     {
                         ExSkill();

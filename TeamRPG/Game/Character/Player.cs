@@ -350,23 +350,22 @@ namespace TeamRPG.Game.Character
                         if (selectedItem.Name == "회복 포션")
                         {
                             Inventory.RemoveItem(selectedItem.Name, 1);
-                            baseStatus.currentHp += 30;
+                           currentStatus.currentHp += 30;
                             PlayerManager.GetInstance().gameMsg = "회복 포션을 사용하여 체력을 30회복하였습니다.";
                         }
                         else if (selectedItem.Name == "마나 포션")
                         {
                             Inventory.RemoveItem(selectedItem.Name, 1);
-                            baseStatus.currentMp += 20;
+                            currentStatus.currentMp += 20;
                             PlayerManager.GetInstance().gameMsg = "마나 포션을 사용하여 마나를 20회복하였습니다.";
 
                         }
                         else if (selectedItem.Name == "엘릭서")
                         {
                             Inventory.RemoveItem(selectedItem.Name, 1);
-                            baseStatus.currentHp += 30; // 나중에 부활
-                            baseStatus.currentMp += 10;
+                            currentStatus.currentHp += 30; // 나중에 부활
+                            currentStatus.currentMp += 10;
                             PlayerManager.GetInstance().gameMsg = "엘릭서를 사용하였습니다.";
-
                         }
                         break;
                 }
@@ -468,7 +467,23 @@ namespace TeamRPG.Game.Character
                     Random rd = new Random();
                     EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(skills[selectNum].power);
                     baseStatus.currentMp -= skills[selectNum].mpCost;
-                    PlayerManager.GetInstance().gameMsg = $" !!! {skills[selectNum].name} !!! {EnemyManager.GetInstance().GetEnemyList()[attackIndex].GetName()}에게 {skills[selectNum].power}의 데미지를 입혔습니다.";
+                    if (baseStatus.currentMp < 0)
+                    {
+                        baseStatus.currentMp = 0;
+                    }
+                    if (skills[selectNum].power == 0)
+                    {
+                        baseStatus.currentHp += skills[selectNum].heal;
+                        if (baseStatus.HP > currentStatus.currentHp)
+                        {
+                            currentStatus.currentHp = baseStatus.HP;
+                        }
+                        PlayerManager.GetInstance().gameMsg = $" !!! {skills[selectNum].name} !!! 체력을 {skills[selectNum].heal}회복하였습니다.";
+                    }
+                    else
+                    {
+                        PlayerManager.GetInstance().gameMsg = $" !!! {skills[selectNum].name} !!! {EnemyManager.GetInstance().GetEnemyList()[attackIndex].GetName()}에게 {skills[selectNum].power}의 데미지를 입혔습니다.";
+                    }
                     selectNum = 0;
                 }
                 else

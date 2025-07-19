@@ -36,7 +36,7 @@ namespace TeamRPG.Game.Scene
             isEnd = false;
             PlayerManager.GetInstance().GetPlayer().PlayerTurnSetting();
             SoundManager.GetInstance().PlaySound("Bossmain", .1f);
-            PlayerManager.GetInstance().gameMsg = "???을 마주쳤습니다.";
+            PlayerManager.GetInstance().gameMsg = "적을 마주쳤습니다."; // 개같이부활
             selectNum = 0;
             //e1 = new Goblin(-30, 0, "A");
             //EnemyManager.GetInstance().AddEnemy(e1, eEnemyNum.eGoblin);
@@ -56,8 +56,8 @@ namespace TeamRPG.Game.Scene
             InitEnemies();
 
             //e = new Mimic(UIManager.HalfWidth, 5, "Mimic");
-            // e = new Troll(-50, 0, "Troll");
-            // EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eTroll);
+            // e = new Lich(60, 0, "Troll");
+            //EnemyManager.GetInstance().AddEnemy(e, eEnemyNum.eTroll);
         }
 
         public void Release()

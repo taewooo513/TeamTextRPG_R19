@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.UtilManager;
+using TeamRPG.Game.Character;
 
 namespace TeamRPG.Game.Scene.Specificity
 {
@@ -77,6 +78,8 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Init()
         {
             base.Init();
+            trait = PlayerManager.GetInstance().GetPlayer().RandomTrait();
+
             stopwatch = new Stopwatch();
             stopwatch.Start();
         }

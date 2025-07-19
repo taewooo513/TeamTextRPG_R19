@@ -22,7 +22,7 @@ namespace TeamRPG.Core.EnemyManager
                 eEnemyNum.eWildBoar => new WildBoar(x, y, "Wild Boar"),
                 eEnemyNum.eCentaur => new Centaur(x, y, "Centaur"),
                 eEnemyNum.eBandit => new Bandit(x, y, "Bandit"),
-                eEnemyNum.eGoblin => new Goblin(x, y, "Goblin"),
+                eEnemyNum.eGoblin => new Goblin(x - 80, y, "Goblin"),
                 eEnemyNum.eOgre => new Ogre(x, y, "Ogre"),
                 eEnemyNum.eTroll => new Troll(x, y, "Troll"),
                 eEnemyNum.eSkeleton => new Skeleton(x, y, "Skeleton"),
@@ -35,7 +35,7 @@ namespace TeamRPG.Core.EnemyManager
                 eEnemyNum.eSlime => new Slime(x, y, "Slime"),
                 eEnemyNum.eGolem => new Golem(x, y, "Golem"),
                 eEnemyNum.eMimic => new Mimic(x, y, "Mimic"),
-                _ => throw new ArgumentException("Invalid enemy type")
+                _ => new Slime(x, y, "Slime")
             };
 
             return enemy;

@@ -49,9 +49,8 @@ namespace TeamRPG.Core.EncounterManager
                         """;
             goodResult.MenuText = "돌아간다";
             goodResult.ImageName = "폐가"; // 성공 이미지 경로 또는 데이터
-            goodResult.OnEnter = () =>
+            goodResult.OnEnter = (player) =>
             {
-                Player player = PlayerManager.GetInstance().GetPlayer(); // 플레이어 인스턴스 가져오기
                 player.Inventory.AddItem("회복 포션", 1);
                 player.Inventory.AddItem("향긋한 약초", 1);
             };
@@ -64,7 +63,7 @@ namespace TeamRPG.Core.EncounterManager
             mitigatedResult.MenuText = "공격한다";
             mitigatedResult.ImageName = "폐가"; // 완화 이미지 경로 또는 데이터
             mitigatedResult.NextSceneName = "GameScene";
-            mitigatedResult.OnEnter = () =>
+            mitigatedResult.OnEnter = (player) =>
             {
                 Enemy enemy1 = new Goblin(-35, 5, "1");
                 Enemy enemy2 = new Goblin(0, 5, "2");
@@ -83,7 +82,7 @@ namespace TeamRPG.Core.EncounterManager
             badResult.MenuText = "전투진입";
             badResult.ImageName = "폐가"; // 실패 이미지 경로 또는 데이터
             badResult.NextSceneName = "GameScene";
-            badResult.OnEnter = () =>
+            badResult.OnEnter = (player) =>
             {
                 Enemy enemy1 = new Goblin(-35, 5, "1");
                 Enemy enemy2 = new Goblin(0, 5, "2");
@@ -153,9 +152,8 @@ namespace TeamRPG.Core.EncounterManager
             goodResult.Comment = "내 모든 것을 전수해주마";
             goodResult.MenuText = "돌아간다";
             goodResult.ImageName = "약초 스승"; // 성공 이미지 경로 또는 데이터
-            goodResult.OnEnter = () =>
+            goodResult.OnEnter = (player) =>
             {
-                Player player = PlayerManager.GetInstance().GetPlayer(); // 플레이어 인스턴스 가져오기
                 player.PlusAttack(8);
                 player.Inventory.RemoveItem("향긋한 약초");
             };
@@ -165,9 +163,8 @@ namespace TeamRPG.Core.EncounterManager
             mitigatedResult.Comment = "좋아 약속대로 검술을 전수해주지";
             mitigatedResult.MenuText = "돌아간다";
             mitigatedResult.ImageName = "약초 스승"; // 완화 이미지 경로 또는 데이터
-            mitigatedResult.OnEnter = () =>
+            mitigatedResult.OnEnter = (player) =>
             {
-                Player player = PlayerManager.GetInstance().GetPlayer(); // 플레이어 인스턴스 가져오기
                 player.PlusAttack(5);
                 player.Inventory.RemoveItem("향긋한 약초");
             };
@@ -177,9 +174,8 @@ namespace TeamRPG.Core.EncounterManager
             badResult.Comment = "기초만 알려주지";
             badResult.MenuText = "돌아간다";
             badResult.ImageName = "약초 스승"; // 실패 이미지 경로 또는 데이터
-            badResult.OnEnter = () =>
+            badResult.OnEnter = (player) =>
             {
-                Player player = PlayerManager.GetInstance().GetPlayer(); // 플레이어 인스턴스 가져오기
                 player.PlusAttack(1);
                 player.Inventory.RemoveItem("향긋한 약초");
             };
@@ -211,7 +207,7 @@ namespace TeamRPG.Core.EncounterManager
             badResult.Comment = "주기 싫다면 직접 빼앗아주마";
             badResult.ImageName = "약초 스승"; // 실패 이미지 경로 또는 데이터
             badResult.NextSceneName = "GameScene"; // 전투 장면으로 이동
-            badResult.OnEnter = () =>
+            badResult.OnEnter = (player) =>
             {
                 Enemy enemy = new Bandit(UIManager.HalfWidth, 5, "1");
                 EnemyManager.GetInstance().AddInitialEnemy(enemy, eEnemyNum.eBandit); // 초기 적 추가
@@ -249,9 +245,8 @@ namespace TeamRPG.Core.EncounterManager
             goodResult.Comment = "고맙군, 이거라도 받아가게"; // 성공 결과 코멘트
             goodResult.Description = "수상한 남자가 약초를 3개 건넸다. [약초 +3]"; // 성공 결과 설명
             goodResult.ImageName = "수상한 남자"; // 성공 이미지 경로 또는 데이터
-            goodResult.OnEnter = () =>
+            goodResult.OnEnter = (player) =>
             {
-                Player player = PlayerManager.GetInstance().GetPlayer(); // 플레이어 인스턴스 가져오기
                 player.Inventory.AddItem("향긋한 약초", 3); // 플레이어에게 약초 3개 추가
             };
 
@@ -273,7 +268,7 @@ namespace TeamRPG.Core.EncounterManager
             badResult.Description = "남자는 산적이였다. 남자가 덤벼들어온다."; // 실패 결과 설명 함수
             badResult.ImageName = "수상한 남자"; // 실패 이미지 경로 또는 데이터
             badResult.NextSceneName = "GameScene";
-            badResult.OnEnter = () =>
+            badResult.OnEnter = (player) =>
             {
                 Enemy enemy = new Bandit(UIManager.HalfWidth, 5, "1");
                 EnemyManager.GetInstance().AddInitialEnemy(enemy, eEnemyNum.eBandit); // 초기 적 추가
@@ -336,9 +331,8 @@ namespace TeamRPG.Core.EncounterManager
             goodResult.Description = "맛있다. 독은 없는 것 같다. [생명력 +10]";
             goodResult.MenuText = "다음 지역으로";
             goodResult.ImageName = "버섯";
-            goodResult.OnEnter = () =>
+            goodResult.OnEnter = (player) =>
             {
-                Player player = PlayerManager.GetInstance().GetPlayer();
                 player.HealPlayer(10);
             };
 
@@ -348,9 +342,8 @@ namespace TeamRPG.Core.EncounterManager
             mitigatedResult.MenuText = "다음 지역으로";
             mitigatedResult.ImageName = "버섯";
 
-            mitigatedResult.OnEnter = () =>
+            mitigatedResult.OnEnter = (player) =>
             {
-                Player player = PlayerManager.GetInstance().GetPlayer();
                 if (player.currentStatus.currentHp - 15 <= 0)
                     GetEncounterData("버섯").Selections[0].MitigatedResult.Description = "곧 죽을 것 같다. [생명력 -15]";
                 else
@@ -365,9 +358,8 @@ namespace TeamRPG.Core.EncounterManager
             badResult.MenuText = "다음 지역으로";
             badResult.ImageName = "버섯";
 
-            badResult.OnEnter = () =>
+            badResult.OnEnter = (player) =>
             {
-                Player player = PlayerManager.GetInstance().GetPlayer();
                 Random random = new Random();
                 int debuffType = random.Next(0, 3); // 0: 중독, 1: 마비, 2: 출혈
                 string debuffText = "";
@@ -452,10 +444,8 @@ namespace TeamRPG.Core.EncounterManager
             goodResult.Description = "내 몸에서 마나가 느껴진다 [마법 공격력 +5]";
             goodResult.MenuText = "다음 지역으로";
             goodResult.ImageName = "마법사";
-            goodResult.OnEnter = () =>
+            goodResult.OnEnter = (player) =>
             {
-                Player player = PlayerManager.GetInstance().GetPlayer();
-
                 Random random = new Random();
                 int rand = random.Next(0, 3);
 
@@ -489,9 +479,8 @@ namespace TeamRPG.Core.EncounterManager
             badResult.Description = "괜히 도와준 것 같다... [생명력 -10]";
             badResult.MenuText = "다음 지역으로";
             badResult.ImageName = "버섯";
-            badResult.OnEnter = () =>
+            badResult.OnEnter = (player) =>
             {
-                Player player = PlayerManager.GetInstance().GetPlayer();
                 if (player.currentStatus.currentHp - 10 <= 0)
                     GetEncounterData("마법사").Selections[0].BadResult.Description = "몸이 불타오른다. [생명력 -10]";
                 else
@@ -556,11 +545,8 @@ namespace TeamRPG.Core.EncounterManager
                 """;
             goodResult.Description = "남성이 보상을 줬다";
             goodResult.MenuText = "다음 지역으로";
-            goodResult.ImageName = "우물";
-            goodResult.OnEnter = () =>
+            goodResult.OnEnter = (player) =>
             {
-                Player player = PlayerManager.GetInstance().GetPlayer();
-
                 Random random = new Random();
                 int rand = random.Next(0, 3);
 
@@ -586,12 +572,9 @@ namespace TeamRPG.Core.EncounterManager
             mitigatedResult.Comment = "고맙네, 이건 내 작은 성의일세";
             mitigatedResult.Description = "그 자는 당신에게 작은 선물을 준다";
             mitigatedResult.MenuText = "다음 지역으로";
-            mitigatedResult.ImageName = "우물";
 
-            goodResult.OnEnter = () =>
+            goodResult.OnEnter = (player) =>
             {
-                Player player = PlayerManager.GetInstance().GetPlayer();
-
                 Random random = new Random();
                 int rand = random.Next(0, 3);
 
@@ -614,11 +597,10 @@ namespace TeamRPG.Core.EncounterManager
 
             // 실패
             badResult = new();
-            badResult.Description = "사람은 아닌 것 같다.";
+            badResult.Description = "사람은 아닌 것 같다";
             badResult.MenuText = "전투 준비";
-            badResult.ImageName = "우물";
             badResult.NextSceneName = "GameScene"; // 전투 장면으로 이동
-            badResult.OnEnter = () =>
+            badResult.OnEnter = (player) =>
             {
                 Enemy enemy = new Bandit(UIManager.HalfWidth, 5, "1");
                 EnemyManager.GetInstance().AddInitialEnemy(enemy, eEnemyNum.eBandit); // 초기 적 추가
@@ -637,21 +619,105 @@ namespace TeamRPG.Core.EncounterManager
             goodResult = new();
             goodResult.Description = "그럴 시간은 없다.";
             goodResult.MenuText = "다음 지역으로";
-            goodResult.ImageName = "우물";
 
             mitigatedResult = new();
             mitigatedResult.Description = "함부로 도와줄 수는 없다.";
             mitigatedResult.MenuText = "다음 지역으로";
-            mitigatedResult.ImageName = "우물";
 
             badResult = new();
             badResult.Description = "지금은 여유가 없다.";
             badResult.MenuText = "다음 지역으로";
-            badResult.ImageName = "우물";
 
             selection.GoodReulst = goodResult;
             selection.MitigatedResult = mitigatedResult;
             selection.BadResult = badResult;
+            encounter.Selections.Add(selection);
+
+            // 추가
+            encounters.Add(encounter.Name, encounter);
+
+            // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+            // 상자
+            encounter = new EncounterData();
+            encounter.Selections = new List<EncounterSelection>();
+            encounter.Name = "상자";
+            encounter.Comment = """
+                상자가 있다.
+                열어볼까?
+                """;
+            encounter.ImageName = "상자";
+
+            // 선택지 1: 연다
+            selection = new();
+            selection.MenuText = "연다";
+
+            // 성공
+            goodResult = new();
+            goodResult.Description = "상자 안에 무언가가 있었다";
+            goodResult.MenuText = "다음 지역으로";
+            goodResult.OnEnter = (player) =>
+            {
+                Random random = new Random();
+                int rand = random.Next(0, 2);
+
+                if (rand == 0)
+                {
+                    int gold = random.Next(1, 401); // 1에서 400 사이의 랜덤 금액
+                    player.AddGold(gold);
+                    GetEncounterData("상자").Selections[0].GoodReulst.Description = $"상자에서 돈을 흭득했다 [Gold +{gold}]";
+                }
+                else if (rand == 1)
+                {
+                    int itemNum = random.Next(1, 4); // 1에서 3 사이의 랜덤 아이템 개수
+                    int itemId = random.Next(1, 6); // 1에서 3 사이의 랜덤 아이템 종류
+                    string itemName = itemId switch
+                    {
+                        1 => "회복 포션",
+                        2 => "마나 포션",
+                        3 => "강철검",
+                        4 => "수습생의 지팡이",
+                        5 => "라운드 실드",
+                        _ => "부러진 단검" // 기본값
+                    };
+
+                    player.Inventory.AddItem("회복 포션", itemNum);
+                    GetEncounterData("상자").Selections[0].GoodReulst.Description = "상자에서 아이템을 흭득했다 [회복 포션 +2]";
+                }
+            };
+
+            // 완화
+            mitigatedResult = new();
+            mitigatedResult.Description = "상자는 비어있다";
+            mitigatedResult.MenuText = "다음 지역으로";
+
+            // 실패
+            badResult = new();
+            badResult.Description = "상자가 입을 벌린다";
+            badResult.MenuText = "전투 준비";
+            badResult.NextSceneName = "GameScene"; // 전투 장면으로 이동
+            badResult.OnEnter = (player) =>
+            {
+                Enemy enemy = new Mimic(UIManager.HalfWidth, 5, "1");
+                EnemyManager.GetInstance().AddInitialEnemy(enemy, eEnemyNum.eMimic); // 초기 적 추가
+            };
+
+            selection.GoodReulst = goodResult;
+            selection.MitigatedResult = mitigatedResult;
+            selection.BadResult = badResult;
+            encounter.Selections.Add(selection);
+
+            // 선택지 2: 무시한다
+            selection = new();
+            selection.MenuText = "무시한다";
+
+            goodResult = new();
+            goodResult.Description = "위험을 감수할 필요는 없다";
+            goodResult.MenuText = "다음 지역으로";
+
+            selection.GoodReulst = goodResult;
+            selection.MitigatedResult = goodResult;
+            selection.BadResult = goodResult;
             encounter.Selections.Add(selection);
 
             // 추가

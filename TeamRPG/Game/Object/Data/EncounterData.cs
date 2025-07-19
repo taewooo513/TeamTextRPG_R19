@@ -38,7 +38,7 @@ namespace TeamRPG.Game.Object.Data
     {
         public EncounterResult()
         {
-            OnExit = (player => LoadScene(player));
+            OnExit = LoadScene;
         }
 
         public string MenuText { get; set; } // 결과 메뉴 텍스트
@@ -60,10 +60,10 @@ namespace TeamRPG.Game.Object.Data
 
         public string ImageName { get; set; }
 
-        public Action OnEnter { get; set; } = () => { }; // 결과 초기화 액션
-        public Action<Player> OnExit { get; set; } // 결과 액션
+        public Action<Player> OnEnter { get; set; } = (player) => { }; // 결과 초기화 액션
+        public Action OnExit { get; set; } // 결과 액션
 
-        public void LoadScene(Player player)
+        public void LoadScene()
         {
             SceneManager.GetInstance().ChangeScene(NextSceneName);
         }
@@ -149,7 +149,7 @@ namespace TeamRPG.Game.Object.Data
                     isMitigated = TryMitigatedTrap(player.currentStatus.Tenacity);
             }
 
-            Result?.OnEnter?.Invoke();
+            Result?.OnEnter?.Invoke(player);
         }
 
         bool TryAvoidTrap(int luck)

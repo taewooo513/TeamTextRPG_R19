@@ -90,23 +90,16 @@ namespace TeamRPG.Game.Scene
             EnemyManager enemyManager = EnemyManager.GetInstance();
 
             // 현재 생성할 적이 없다면 현재 지역의 적을 랜덤으로 생성
-            if (PlayerManager.GetInstance().Stage == 8)
-            {
-                enemyManager.AddEnemy(new Boss(0, 0, ""), eEnemyNum.eBoss);
-            }
-            else
-            {
-                if (enemyManager.GetInitialEnemies().Count == 0)
-                    enemyManager.InitInitialEnemy(enemyManager.CurrentEnvironmentType());
+            if (enemyManager.GetInitialEnemies().Count == 0)
+                enemyManager.InitInitialEnemy(enemyManager.CurrentEnvironmentType());
 
-                // initialEnemies들 생성
-                var initialEnemies = enemyManager.GetInitialEnemies();
+            // initialEnemies들 생성
+            var initialEnemies = enemyManager.GetInitialEnemies();
 
-                for (int i = 0; i < initialEnemies.Count; i++)
-                    enemyManager.AddEnemy(initialEnemies[i].Item1, initialEnemies[i].Item2);
+            for(int i = 0; i < initialEnemies.Count; i++)
+                enemyManager.AddEnemy(initialEnemies[i].Item1, initialEnemies[i].Item2);
 
-                enemyManager.ClearInitialEnemies();
-            }
+            enemyManager.ClearInitialEnemies();
         }
 
         public void Update()
@@ -118,6 +111,7 @@ namespace TeamRPG.Game.Scene
             }
             if (isStartGame == true && isEnd == false)
             {
+
                 if (PlayerManager.GetInstance().GetPlayer().isPlayerTurn == true)
                 {
                     PlayerManager.GetInstance().GetPlayer().Update();
@@ -180,10 +174,7 @@ namespace TeamRPG.Game.Scene
                         SceneManager.GetInstance().ChangeScene("ShopScene");
                     }
                     else
-                    {
-                        PlayerManager.GetInstance().Stage++;
                         SceneManager.GetInstance().ChangeScene(PlayerManager.GetInstance().environment);
-                    }
                 }
             }
         }

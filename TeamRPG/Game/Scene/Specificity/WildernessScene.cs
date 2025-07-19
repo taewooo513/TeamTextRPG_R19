@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.UtilManager;
+using TeamRPG.Game.Character;
 
 namespace TeamRPG.Game.Scene.Specificity
 {
@@ -74,6 +75,7 @@ namespace TeamRPG.Game.Scene.Specificity
         {
             base.Init();
             stopwatch = new Stopwatch();
+            trait = PlayerManager.GetInstance().GetPlayer().RandomTrait();
             stopwatch.Start();
         }
         public override void Update()
@@ -90,7 +92,7 @@ namespace TeamRPG.Game.Scene.Specificity
         }
         protected override void DrawText()
         {
-            TextIOManager.GetInstance().OutputSmartText("당신은 스산한 기운이 감도는 황야에서 여정을 시작했다.", 48, 36);
+            TextIOManager.GetInstance().OutputSmartText("당신은 아무것도 없는 드넓은 황야에서 여정을 시작했다.", 48, 36);
         }
     }
 }

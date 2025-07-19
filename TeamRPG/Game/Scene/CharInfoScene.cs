@@ -169,6 +169,12 @@ namespace TeamRPG.Game.Scene
                         string itemName = itemGroup.Key;
                         int itemCount = itemGroup.Value.Count;
 
+                        var itemObject = ItemManager.GetInstance().GetItem(itemName);
+                        if (object.ReferenceEquals(itemObject, player.eWeapon) || object.ReferenceEquals(itemObject, player.eArmor))
+                        {
+                            itemName += " (E)";
+                        }
+
                         if (i == inventorySelectIndex)
                         {
                             TextIOManager.GetInstance().OutputText(">", cursorX - 2, cursorY);

@@ -343,17 +343,22 @@ namespace TeamRPG.Game.Character
                         {
                             Inventory.RemoveItem(selectedItem.Name, 1);
                             baseStatus.currentHp += 30;
+                            PlayerManager.GetInstance().gameMsg = "회복 포션을 사용하였습니다.";
                         }
                         else if (selectedItem.Name == "마나 포션")
                         {
                             Inventory.RemoveItem(selectedItem.Name, 1);
                             baseStatus.currentMp += 20;
+                            PlayerManager.GetInstance().gameMsg = "마나 포션을 사용하였습니다.";
+
                         }
                         else if (selectedItem.Name == "엘릭서")
                         {
                             Inventory.RemoveItem(selectedItem.Name, 1);
                             baseStatus.currentHp += 30; // 나중에 부활
                             baseStatus.currentMp += 10;
+                            PlayerManager.GetInstance().gameMsg = "엘릭서를 사용하였습니다.";
+
                         }
                         break;
                 }

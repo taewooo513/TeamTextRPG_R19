@@ -99,7 +99,7 @@ namespace TeamRPG.Game.Object.Enemy
         public override void Init()
         {
             nameText = new RawText("산적" + gNum, x, y - 2, HorizontalAlign.Center);
-            imageText = new RawText(normalImage, x - 20, y, HorizontalAlign.Center);
+            imageText = new RawText(normalImage, x - 15, y, HorizontalAlign.Center);
 
             state.name = name;
         }

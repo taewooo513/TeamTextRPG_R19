@@ -83,7 +83,7 @@ namespace TeamRPG.Game.Object.Enemy
         public override void Init()
         {
             nameText = new RawText("아크데몬" + gNum, x, y - 2, HorizontalAlign.Center);
-            imageText = new RawText(normalImage, x, y, HorizontalAlign.Center);
+            imageText = new RawText(normalImage, x-10, y, HorizontalAlign.Center);
 
             state.name = name;
         }

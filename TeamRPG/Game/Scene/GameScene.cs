@@ -141,6 +141,7 @@ namespace TeamRPG.Game.Scene
                 {
                     timer.Restart();
                     isReword = true;
+                    /*
                     switch (PlayerManager.GetInstance().Stage)
                     {
                         case 0:
@@ -163,6 +164,7 @@ namespace TeamRPG.Game.Scene
                         case 8:
                             break;
                     }
+                    */
 
 
                 }

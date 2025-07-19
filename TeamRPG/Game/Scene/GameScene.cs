@@ -118,7 +118,6 @@ namespace TeamRPG.Game.Scene
             }
             if (isStartGame == true && isEnd == false)
             {
-
                 if (PlayerManager.GetInstance().GetPlayer().isPlayerTurn == true)
                 {
                     PlayerManager.GetInstance().GetPlayer().Update();

@@ -41,7 +41,7 @@ namespace TeamRPG.Core.EnemyManager
         eBoss,
 
         // 인카운터
-        eSwordsman
+        // eSwordsman
     }
 
     public enum eEnvironmentType
@@ -72,6 +72,46 @@ namespace TeamRPG.Core.EnemyManager
             enemies = new List<Enemy>();
         }
 
+        public eEnemyNum GetRegionWeightedEnemy(eEnvironmentType envType, int regionRate = 80)
+        {
+            Random random = new();
+            int roll = random.Next(0, 100); // 0~99
+
+            // 특정 확률로 지역 몬스터를 선택할지 결정
+            bool useRegion = roll < regionRate;
+
+            // 전체 몬스터 리스트
+            List<eEnemyNum> allMonsters = Enum.GetValues<eEnemyNum>().ToList();
+
+            // 지역 몬스터만 뽑을지 전체에서 뽑을지 결정
+            List<eEnemyNum> candidateList;
+
+            // 지역 몬스터만 선택
+            if (useRegion && environmentEnemyDictionary.ContainsKey(envType))
+            {
+                candidateList = environmentEnemyDictionary[envType].Select(e => e).ToList();
+            }
+            // 전체 몬스터에서 지역 제외하고
+            else
+            {
+                var region = environmentEnemyDictionary.ContainsKey(envType)
+                    ? environmentEnemyDictionary[envType].Select(e => e).ToHashSet()
+                    : new();
+
+                candidateList = allMonsters.Where(e => !region.Contains(e)).ToList();
+            }
+
+            // 실패하면 슬라임 소환
+            if (candidateList.Count == 0)
+                return eEnemyNum.eSlime;
+
+            // 선택된 것들중에서 랜덤으로 진행
+            int randIndex = random.Next(candidateList.Count);
+            return candidateList[randIndex];
+        }
+
+
+
         public eEnvironmentType CurrentEnvironmentType()
         {
             eEnvironmentType environmentType = PlayerManager.GetInstance().environment switch
@@ -90,6 +130,7 @@ namespace TeamRPG.Core.EnemyManager
         {
             if (!environmentEnemyDictionary.ContainsKey(environmentType)) return;
 
+            /*
             // 환경 몬스터 추가
             List<eEnemyNum> enemyList = environmentEnemyDictionary[environmentType];
 
@@ -98,7 +139,6 @@ namespace TeamRPG.Core.EnemyManager
                 enemyList.AddRange(environmentEnemyDictionary[eEnvironmentType.eNone]);
 
             if (enemyList.Count == 0) return;
-
             // 랜덤으로 환경에 맞는 몬스터 선택
             Random random = new Random();
             int randomIndex = random.Next(enemyList.Count);
@@ -107,6 +147,11 @@ namespace TeamRPG.Core.EnemyManager
             // 생성할 몬스터 초기화
             Enemy enemy = EnemyFactory.CreateEnemy(randomEnemyNum);
             AddInitialEnemy(enemy, randomEnemyNum);
+            
+            */
+            eEnemyNum enemyNum = GetRegionWeightedEnemy(environmentType, 70);
+            Enemy enemy = EnemyFactory.CreateEnemy(enemyNum);
+            AddInitialEnemy(enemy, enemyNum);
         }
 
         public void AddInitialEnemy((Enemy, eEnemyNum) enemy)

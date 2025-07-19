@@ -54,7 +54,7 @@ namespace TeamRPG.Core.EnemyManager
     {
         List<(Enemy, eEnemyNum)> initialEnemies = new(); // GameScene이 시작되면 생성할 적들
         List<Enemy> enemies;
-          
+
         Dictionary<eEnvironmentType, List<eEnemyNum>> environmentEnemyDictionary = new()
         {
             { eEnvironmentType.eWilderness, new List<eEnemyNum> { eEnemyNum.eGoblin, eEnemyNum.eOgre, eEnemyNum.eTroll } },

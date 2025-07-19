@@ -19,7 +19,6 @@ namespace TeamRPG.Game.Scene
         public virtual void Init()
         {
             trait = PlayerManager.GetInstance().GetPlayer().RandomTrait();
-
             selectNum = 0;
         }
 

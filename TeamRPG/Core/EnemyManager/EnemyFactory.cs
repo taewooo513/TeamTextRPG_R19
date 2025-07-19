@@ -35,7 +35,7 @@ namespace TeamRPG.Core.EnemyManager
                 eEnemyNum.eSlime => new Slime(x, y, "Slime"),
                 eEnemyNum.eGolem => new Golem(x, y, "Golem"),
                 eEnemyNum.eMimic => new Mimic(x, y, "Mimic"),
-                _ => new Slime(x, y, "Slime")
+                _ => new Troll(x, y, "Troll")
             };
 
             return enemy;

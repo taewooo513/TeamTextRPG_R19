@@ -96,7 +96,7 @@ namespace TeamRPG.Game.Scene
             // initialEnemies들 생성
             var initialEnemies = enemyManager.GetInitialEnemies();
 
-            for(int i = 0; i < initialEnemies.Count; i++)
+            for (int i = 0; i < initialEnemies.Count; i++)
                 enemyManager.AddEnemy(initialEnemies[i].Item1, initialEnemies[i].Item2);
 
             enemyManager.ClearInitialEnemies();
@@ -141,30 +141,18 @@ namespace TeamRPG.Game.Scene
                 {
                     timer.Restart();
                     isReword = true;
-                    switch (PlayerManager.GetInstance().Stage)
+                    switch (EnemyManager.NowMonsterTier)
                     {
-                        case 0:
-                            PlayerManager.GetInstance().GetPlayer().GetReword(100000, 100);
+                        case eEnemyTier.Normal:
+                            PlayerManager.GetInstance().GetPlayer().GetReword(56, 18);
                             break;
-                        case 1:
+                        case eEnemyTier.Elite:
+                            PlayerManager.GetInstance().GetPlayer().GetReword(84, 32);
                             break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
-                        case 4:
-                            break;
-                        case 5:
-                            break;
-                        case 6:
-                            break;
-                        case 7:
-                            break;
-                        case 8:
+                        case eEnemyTier.Boss:
+                            PlayerManager.GetInstance().GetPlayer().GetReword(140, 40);
                             break;
                     }
-
-
                 }
                 else if (timer.ElapsedMilliseconds > 3000)
                 {
@@ -174,7 +162,10 @@ namespace TeamRPG.Game.Scene
                         SceneManager.GetInstance().ChangeScene("ShopScene");
                     }
                     else
+                    {
+                        PlayerManager.GetInstance().Stage++;
                         SceneManager.GetInstance().ChangeScene(PlayerManager.GetInstance().environment);
+                    }
                 }
             }
         }

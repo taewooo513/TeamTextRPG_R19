@@ -15,10 +15,9 @@ namespace TeamRPG.Game.Scene
     {
         public int selectNum = 0;
         protected Stopwatch stopwatch;
-        Trait trait;
+        protected Trait trait;
         public virtual void Init()
         {
-            trait = PlayerManager.GetInstance().GetPlayer().RandomTrait();
             selectNum = 0;
         }
 

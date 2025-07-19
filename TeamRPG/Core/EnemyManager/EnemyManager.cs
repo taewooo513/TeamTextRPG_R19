@@ -53,8 +53,17 @@ namespace TeamRPG.Core.EnemyManager
         eNone
     }
 
+    public enum eEnemyTier
+    {
+        Normal,
+        Elite,
+        Boss
+    }
+
+
     public class EnemyManager : Singleton<EnemyManager>
     {
+        public static int CycleCount = 0;
         List<(Enemy, eEnemyNum)> initialEnemies = new(); // GameScene이 시작되면 생성할 적들
         List<Enemy> enemies;
 
@@ -62,15 +71,91 @@ namespace TeamRPG.Core.EnemyManager
         {
             { eEnvironmentType.eWilderness, new List<eEnemyNum> { eEnemyNum.eGoblin, eEnemyNum.eOgre, eEnemyNum.eTroll } },
             { eEnvironmentType.eDevildom, new List<eEnemyNum> { eEnemyNum.eImp, eEnemyNum.eSuccubus, eEnemyNum.eArchdemon } },
-            { eEnvironmentType.eForest, new List<eEnemyNum> { eEnemyNum.eWolf, eEnemyNum.eWildBoar, eEnemyNum.eCentaur, eEnemyNum.eBandit } },
+            { eEnvironmentType.eForest, new List<eEnemyNum> { eEnemyNum.eWolf, eEnemyNum.eWildBoar, eEnemyNum.eCentaur } },
             { eEnvironmentType.eCemetery, new List<eEnemyNum> { eEnemyNum.eSkeleton, eEnemyNum.eZombie, eEnemyNum.eLich, eEnemyNum.eLich2 } },
-            { eEnvironmentType.eNone, new List<eEnemyNum>() { eEnemyNum.eSlime, eEnemyNum.eGolem, eEnemyNum.eMimic } }
+            { eEnvironmentType.eNone, new List<eEnemyNum>() { eEnemyNum.eSlime, eEnemyNum.eGolem, eEnemyNum.eMimic, eEnemyNum.eBandit } }
         };
 
-        public EnemyManager()
+        Dictionary<eEnemyNum, eEnemyTier> enemyTierDictionary = new()
         {
-            enemies = new List<Enemy>();
+            // 일반 몬스터
+            { eEnemyNum.eWolf, eEnemyTier.Normal },
+            { eEnemyNum.eGoblin, eEnemyTier.Normal },
+            { eEnemyNum.eSkeleton, eEnemyTier.Normal },
+            { eEnemyNum.eImp, eEnemyTier.Normal },
+
+            { eEnemyNum.eSlime, eEnemyTier.Normal },
+            { eEnemyNum.eBandit, eEnemyTier.Normal },
+
+            // 정예 몬스터
+            { eEnemyNum.eWildBoar, eEnemyTier.Elite },
+
+            { eEnemyNum.eOgre, eEnemyTier.Elite },
+
+            { eEnemyNum.eZombie, eEnemyTier.Elite },
+
+            { eEnemyNum.eSuccubus, eEnemyTier.Elite },
+            { eEnemyNum.eGolem, eEnemyTier.Elite },
+            { eEnemyNum.eMimic, eEnemyTier.Elite },
+
+            // 보스
+            { eEnemyNum.eBoss, eEnemyTier.Boss },
+
+            { eEnemyNum.eCentaur, eEnemyTier.Boss },
+
+            { eEnemyNum.eTroll, eEnemyTier.Boss },
+
+            { eEnemyNum.eLich, eEnemyTier.Boss },
+            { eEnemyNum.eLich2, eEnemyTier.Boss },
+
+            { eEnemyNum.eArchdemon, eEnemyTier.Boss },
+
+        };
+
+        public eEnemyNum GetRegionWeightedEnemy(eEnvironmentType envType, List<eEnemyTier> allowedTiers, int regionRate = 70)
+        {
+            Random random = new();
+            int roll = random.Next(0, 100); // 0~99
+
+            // 전체 몬스터 리스트
+            List<eEnemyNum> allMonsters = Enum.GetValues<eEnemyNum>().ToList();
+
+            // eNone 지역 몬스터 제거
+            if (environmentEnemyDictionary.TryGetValue(eEnvironmentType.eNone, out var noneEnemies))
+                allMonsters.RemoveAll(e => noneEnemies.Contains(e));
+
+            // 티어 필터링
+            allMonsters = allMonsters
+                .Where(e => enemyTierDictionary.ContainsKey(e) && allowedTiers.Contains(enemyTierDictionary[e]))
+                .ToList();
+
+            bool useRegion = roll < regionRate;
+            List<eEnemyNum> candidateList;
+
+            if (useRegion && environmentEnemyDictionary.TryGetValue(envType, out var regionEnemies))
+            {
+                candidateList = regionEnemies
+                    .Where(e => allMonsters.Contains(e)) // eNone 및 티어 필터된 몬스터 중 해당 지역 몬스터만
+                    .ToList();
+            }
+            else
+            {
+                var regionSet = environmentEnemyDictionary.ContainsKey(envType)
+                    ? environmentEnemyDictionary[envType].ToHashSet()
+                    : new HashSet<eEnemyNum>();
+
+                candidateList = allMonsters
+                    .Where(e => !regionSet.Contains(e))
+                    .ToList();
+            }
+
+            if (candidateList.Count == 0)
+                return allMonsters[random.Next(allMonsters.Count)];
+
+            return candidateList[random.Next(candidateList.Count)];
         }
+
+        /*
         public eEnemyNum GetRegionWeightedEnemy(eEnvironmentType envType, int regionRate = 80)
         {
             Random random = new();
@@ -112,6 +197,7 @@ namespace TeamRPG.Core.EnemyManager
 
             return candidateList[random.Next(candidateList.Count)];
         }
+        */
 
         public eEnvironmentType CurrentEnvironmentType()
         {
@@ -150,12 +236,31 @@ namespace TeamRPG.Core.EnemyManager
             AddInitialEnemy(enemy, randomEnemyNum);
             
             */
-            eEnemyNum enemyNum = GetRegionWeightedEnemy(environmentType, 70);
+            CycleCount++;
+
+            List<eEnemyTier> tierList = new()
+            {
+                eEnemyTier.Elite,  // 정예 몬스터
+            };
+
+            if (CycleCount <= 3)
+                tierList.Add(eEnemyTier.Normal); // 초기 3회차는 일반 몬스터만
+            else
+                tierList.Add(eEnemyTier.Boss); // 4~5회차는 일반 + 정예 몬스터
+
+            var pickedEnemy = GetRegionWeightedEnemy(
+            eEnvironmentType.eForest,
+            new List<eEnemyTier> { eEnemyTier.Normal, eEnemyTier.Elite }, // 원하는 티어만
+                regionRate: 70 // 지역 우선 확률
+            );
+
+
+            eEnemyNum enemyNum = GetRegionWeightedEnemy(environmentType, tierList);
             Enemy? enemy = EnemyFactory.CreateEnemy(enemyNum);
 
             while(enemy == null)
             {
-                enemyNum = GetRegionWeightedEnemy(environmentType, 70);
+                enemyNum = GetRegionWeightedEnemy(environmentType, tierList);
                 enemy = EnemyFactory.CreateEnemy(enemyNum);
             }
 
@@ -224,6 +329,9 @@ namespace TeamRPG.Core.EnemyManager
 
         public void Update()
         {
+            if (enemies == null)
+                enemies = new();
+
             for (int i = 0; i < enemies.Count; i++)
             {
                 if (enemies[i].isDie == true)

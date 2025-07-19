@@ -10,15 +10,13 @@ namespace TeamRPG.Core.EnemyManager
 {
     public static class EnemyFactory
     {
-        public static Enemy? CreateEnemy(eEnemyNum eEnemyNum)
+        public static Enemy CreateEnemy(eEnemyNum eEnemyNum)
         {
             int x = UIManager.HalfWidth;
             int y = 5;
 
-            Enemy? enemy = null;
-
             // 스위치 표현식
-            enemy = eEnemyNum switch
+            Enemy enemy = eEnemyNum switch
             {
                 eEnemyNum.eWolf => new Wolf(x, y, "Wolf"),
                 eEnemyNum.eWildBoar => new WildBoar(x, y, "Wild Boar"),
@@ -30,14 +28,14 @@ namespace TeamRPG.Core.EnemyManager
                 eEnemyNum.eSkeleton => new Skeleton(x, y, "Skeleton"),
                 eEnemyNum.eZombie => new Zombie(x, y, "Zombie"),
                 eEnemyNum.eLich => new Lich(x, y, "Lich"),
-                eEnemyNum.eLich2 => new Lich(x, y, "Lich"),
+                eEnemyNum.eLich2 => new Lich(x, y, "Lich2"),
                 eEnemyNum.eImp => new Imp(x, y, "Imp"),
                 eEnemyNum.eSuccubus => new Succubus(x, y, "Succubus"),
                 eEnemyNum.eArchdemon => new Archdemon(x, y, "Archdemon"),
                 eEnemyNum.eSlime => new Slime(x, y, "Slime"),
                 eEnemyNum.eGolem => new Golem(x, y, "Golem"),
                 eEnemyNum.eMimic => new Mimic(x, y, "Mimic"),
-                _ => null
+                _ => new Slime(x, y, "Slime")
             };
 
             return enemy;

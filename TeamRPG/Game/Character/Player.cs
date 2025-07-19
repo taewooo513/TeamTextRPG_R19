@@ -316,7 +316,18 @@ namespace TeamRPG.Game.Character
 
         private void ItemBagUpdate()
         {
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && selectNum < 2)
+            List<List<Item>> items = new List<List<Item>>();
+            var itemList = Inventory.ItemDictionary.ToList();
+            List<List<Item>> conitems = new List<List<Item>>(); // 소비템만 따로때서 새로운리스트로 괴장히 비효율적으로보이긴하는데 쩔수
+            items.ForEach(tem =>
+            {
+                if (tem[0].Type == ItemType.Consumable)
+                {
+                    items.Add(tem);
+                }
+            });
+
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && selectNum < items.Count)
             {
                 selectNum++;
             }
@@ -333,8 +344,7 @@ namespace TeamRPG.Game.Character
             if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
             {
 
-                List<List<Item>> items = new List<List<Item>>();
-                var itemList = Inventory.ItemDictionary.ToList();
+
                 if (itemList.Count == 0)
                 {
                     return;
@@ -350,7 +360,7 @@ namespace TeamRPG.Game.Character
                         if (selectedItem.Name == "회복 포션")
                         {
                             Inventory.RemoveItem(selectedItem.Name, 1);
-                           currentStatus.currentHp += 30;
+                            currentStatus.currentHp += 30;
                             PlayerManager.GetInstance().gameMsg = "회복 포션을 사용하여 체력을 30회복하였습니다.";
                         }
                         else if (selectedItem.Name == "마나 포션")

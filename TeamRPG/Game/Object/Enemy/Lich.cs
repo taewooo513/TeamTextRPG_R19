@@ -157,6 +157,7 @@ namespace TeamRPG.Game.Object.Enemy
                 state = StatusFactory.GetStatusByEnemy(Core.EnemyManager.eEnemyNum.eLich2);
                 isOnce = true;
                 isDie = false;
+                PlayerManager.GetInstance().gameMsg = "리치가 부활하였습니다.";
             }
         }
         protected override void DrawImage()

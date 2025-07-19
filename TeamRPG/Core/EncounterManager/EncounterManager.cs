@@ -209,8 +209,8 @@ namespace TeamRPG.Core.EncounterManager
             badResult.NextSceneName = "GameScene"; // 전투 장면으로 이동
             badResult.OnEnter = (player) =>
             {
-                Enemy enemy = new Bandit(UIManager.HalfWidth, 5, "1");
-                EnemyManager.GetInstance().AddInitialEnemy(enemy, eEnemyNum.eBandit); // 초기 적 추가
+                Enemy enemy = new Swordsman(UIManager.HalfWidth, 5, "1");
+                EnemyManager.GetInstance().AddInitialEnemy(enemy, eEnemyNum.eSwordsman); // 초기 적 추가
             };
 
             selection.GoodReulst = goodResult;
@@ -602,8 +602,8 @@ namespace TeamRPG.Core.EncounterManager
             badResult.NextSceneName = "GameScene"; // 전투 장면으로 이동
             badResult.OnEnter = (player) =>
             {
-                Enemy enemy = new Bandit(UIManager.HalfWidth, 5, "1");
-                EnemyManager.GetInstance().AddInitialEnemy(enemy, eEnemyNum.eBandit); // 초기 적 추가
+                Enemy enemy = new Ghost(UIManager.HalfWidth, 5, "1");
+                EnemyManager.GetInstance().AddInitialEnemy(enemy, eEnemyNum.eGhost); // 초기 적 추가
             };
 
 

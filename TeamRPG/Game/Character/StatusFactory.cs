@@ -109,6 +109,12 @@ namespace TeamRPG.Game.Character
                 case eEnemyNum.eBandit:
                     int Bandithp = rd.Next(40, 60);
                     return new Enemy.State(Bandithp, "산적", rd.Next(28, 39), 0, 0, 70, 45, Bandithp);
+                case eEnemyNum.eSwordsman:
+                    int Swordsmanhp = rd.Next(50, 70);
+                    return new Enemy.State(Swordsmanhp, "검사", rd.Next(20, 30), 0, 10, 60, 50, Swordsmanhp);
+                case eEnemyNum.eGhost:
+                    int Ghosthp = rd.Next(30, 30);
+                    return new Enemy.State(Ghosthp, "유령", rd.Next(10, 15), 0, 40, 20, 30, Ghosthp);
 
                 default:
                     throw new System.ArgumentException("Unknown race");

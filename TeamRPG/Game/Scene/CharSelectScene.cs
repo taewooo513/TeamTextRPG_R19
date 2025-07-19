@@ -158,7 +158,7 @@ namespace TeamRPG.Game.Scene
 
             if (nextSceneStopWatch.ElapsedMilliseconds > 2000)
             {
-                Random rd = new Random(2);
+                Random rd = new Random();
                 PlayerManager.GetInstance().environment = "";
                 switch (rd.Next(0, 4))
                 {

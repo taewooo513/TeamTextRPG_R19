@@ -71,46 +71,47 @@ namespace TeamRPG.Core.EnemyManager
         {
             enemies = new List<Enemy>();
         }
-
         public eEnemyNum GetRegionWeightedEnemy(eEnvironmentType envType, int regionRate = 80)
         {
             Random random = new();
             int roll = random.Next(0, 100); // 0~99
 
-            // 특정 확률로 지역 몬스터를 선택할지 결정
-            bool useRegion = roll < regionRate;
-
             // 전체 몬스터 리스트
             List<eEnemyNum> allMonsters = Enum.GetValues<eEnemyNum>().ToList();
 
-            // 지역 몬스터만 뽑을지 전체에서 뽑을지 결정
+            // 특정 지역 몬스터 제거 (예: eNone 지역 몬스터 제거)
+            if (environmentEnemyDictionary.ContainsKey(eEnvironmentType.eNone))
+            {
+                var excluded = environmentEnemyDictionary[eEnvironmentType.eNone];
+                allMonsters.RemoveAll(e => excluded.Contains(e));
+            }
+
+            // 일반적인 지역 가중치 처리
+            bool useRegion = roll < regionRate;
+
             List<eEnemyNum> candidateList;
 
-            // 지역 몬스터만 선택
             if (useRegion && environmentEnemyDictionary.ContainsKey(envType))
             {
-                candidateList = environmentEnemyDictionary[envType].Select(e => e).ToList();
+                candidateList = environmentEnemyDictionary[envType].ToList();
             }
-            // 전체 몬스터에서 지역 제외하고
             else
             {
+                // 해당 지역 몬스터를 제외한 전체 리스트
                 var region = environmentEnemyDictionary.ContainsKey(envType)
-                    ? environmentEnemyDictionary[envType].Select(e => e).ToHashSet()
+                    ? environmentEnemyDictionary[envType].ToHashSet()
                     : new();
 
-                candidateList = allMonsters.Where(e => !region.Contains(e)).ToList();
+                candidateList = allMonsters
+                    .Where(e => !region.Contains(e))
+                    .ToList();
             }
 
-            // 실패하면 슬라임 소환
             if (candidateList.Count == 0)
-                return eEnemyNum.eSlime;
+                return allMonsters[random.Next(allMonsters.Count)];
 
-            // 선택된 것들중에서 랜덤으로 진행
-            int randIndex = random.Next(candidateList.Count);
-            return candidateList[randIndex];
+            return candidateList[random.Next(candidateList.Count)];
         }
-
-
 
         public eEnvironmentType CurrentEnvironmentType()
         {
@@ -150,7 +151,14 @@ namespace TeamRPG.Core.EnemyManager
             
             */
             eEnemyNum enemyNum = GetRegionWeightedEnemy(environmentType, 70);
-            Enemy enemy = EnemyFactory.CreateEnemy(enemyNum);
+            Enemy? enemy = EnemyFactory.CreateEnemy(enemyNum);
+
+            while(enemy == null)
+            {
+                enemyNum = GetRegionWeightedEnemy(environmentType, 70);
+                enemy = EnemyFactory.CreateEnemy(enemyNum);
+            }
+
             AddInitialEnemy(enemy, enemyNum);
         }
 

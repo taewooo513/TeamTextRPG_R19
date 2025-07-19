@@ -36,12 +36,14 @@ namespace TeamRPG.Core.EnemyManager
         eSlime,
         eGolem,
         eMimic,
+        eGhost,
+        eSwordsman,
 
         // 보스
         eBoss,
 
         // 인카운터
-        // eSwordsman
+        // 
     }
 
     public enum eEnvironmentType

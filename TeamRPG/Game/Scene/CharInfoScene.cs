@@ -183,9 +183,11 @@ namespace TeamRPG.Game.Scene
                         TextIOManager.GetInstance().OutputSmartText($"{itemName} x{itemCount}", cursorX, cursorY++);
                     }
 
-                    // 선택된 아이템 효과 출력
-                    var selectedItem = itemList[inventorySelectIndex].Value.First();
-                    TextIOManager.GetInstance().OutputSmartText($"[{selectedItem.Name}] {selectedItem.Description}", cursorX, cursorY++);
+                    if (inventorySelectIndex >= 0 && inventorySelectIndex < itemList.Count)
+                    {
+                        var selectedItem = itemList[inventorySelectIndex].Value.First();
+                        TextIOManager.GetInstance().OutputSmartText($"[{selectedItem.Name}] {selectedItem.Description}", cursorX, cursorY++);
+                    }
                 }
 
                 TextIOManager.GetInstance().OutputSmartText("ESC를 눌러 돌아가기", cursorX, cursorY + 1);

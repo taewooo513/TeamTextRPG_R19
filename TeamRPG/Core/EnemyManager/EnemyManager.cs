@@ -77,7 +77,7 @@ namespace TeamRPG.Core.EnemyManager
             { eEnvironmentType.eDevildom, new List<eEnemyNum> { eEnemyNum.eImp, eEnemyNum.eSuccubus, eEnemyNum.eArchdemon } },
             { eEnvironmentType.eForest, new List<eEnemyNum> { eEnemyNum.eWolf, eEnemyNum.eWildBoar, eEnemyNum.eCentaur } },
             { eEnvironmentType.eCemetery, new List<eEnemyNum> { eEnemyNum.eSkeleton, eEnemyNum.eZombie, eEnemyNum.eLich, eEnemyNum.eLich2 } },
-            { eEnvironmentType.eNone, new List<eEnemyNum>() { eEnemyNum.eSlime, eEnemyNum.eGolem, eEnemyNum.eMimic, eEnemyNum.eBandit } }
+            { eEnvironmentType.eNone, new List<eEnemyNum>() { eEnemyNum.eSlime, eEnemyNum.eGolem, eEnemyNum.eMimic, eEnemyNum.eBandit, eEnemyNum.eSwordsman, eEnemyNum.eGhost } }
         };
 
         Dictionary<eEnemyNum, eEnemyTier> enemyTierDictionary = new()
@@ -281,9 +281,9 @@ namespace TeamRPG.Core.EnemyManager
             }
             else if(enemyNum == eEnemyNum.eSkeleton)
             {
-                Enemy enemy1 = new Skeleton(UIManager.HalfWidth -35, 5, "1");
-                Enemy enemy2 = new Skeleton(UIManager.HalfWidth, 5, "2");
-                Enemy enemy3 = new Skeleton(UIManager.HalfWidth + 35, 5, "3");
+                Enemy enemy1 = new Skeleton(40, 5, "1");
+                Enemy enemy2 = new Skeleton(75, 5, "2");
+                Enemy enemy3 = new Skeleton(110, 5, "3");
 
                 AddInitialEnemy(enemy1, eEnemyNum.eSkeleton); // 초기 적 추가
                 AddInitialEnemy(enemy2, eEnemyNum.eSkeleton); // 초기 적 추가

@@ -150,15 +150,15 @@ namespace TeamRPG.Game.Object.Enemy
         public virtual void EnemyUIBar(int y)
         {
             TextIOManager.GetInstance().OutputText4Byte(state.name, 132, 7 + y);
-
-            for (int i = 1; i <= 7; i++)
+            int temp = (int)Math.Ceiling((double)(state.hp / 15f));
+            for (int i = 1; i <= temp; i++)
             {
-                int val = state.hp / 7 * i;
+                int val = 15 * i;
                 if (val <= state.currentHp)
                 {
                     TextIOManager.GetInstance().OutputText4Byte("■", 130 + 2 * i, 8 + y);
                 }
-                else if (state.currentHp % 7 != 0)
+                else 
                 {
                     TextIOManager.GetInstance().OutputText4Byte("□", 130 + 2 * i, 8 + y);
                     break;

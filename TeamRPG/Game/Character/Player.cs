@@ -617,7 +617,7 @@ namespace TeamRPG.Game.Character
                     }
                     else
                     {
-                        EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(100000);
+                        EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(100);
                     }
                     PlayerManager.GetInstance().gameMsg += $" {EnemyManager.GetInstance().GetEnemyList()[attackIndex].GetName()}에게 {dmg}의 데미지를 입혔습니다.";
 

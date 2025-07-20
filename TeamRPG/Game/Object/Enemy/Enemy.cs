@@ -40,7 +40,7 @@ namespace TeamRPG.Game.Object.Enemy
         protected bool isParreyFail = false; // 패링 스펠링몰라요
         protected Stopwatch stopwatch;
         protected Stopwatch parryStopwatch;
-
+        protected bool isSkip = false;
         public bool isTurn = false;
         protected Queue<ConsoleKey> keyPad;
         public bool isDie = false;
@@ -56,6 +56,7 @@ namespace TeamRPG.Game.Object.Enemy
         }
         public void SettingStatus(eEnemyNum num)
         {
+
             parryStopwatch = new Stopwatch();
             state = StatusFactory.GetStatusByEnemy(num);
             stopwatch = new Stopwatch();
@@ -192,28 +193,37 @@ namespace TeamRPG.Game.Object.Enemy
         {
             stopwatch.Reset();
             parryStopwatch.Reset();
-            isExSkill = false;
-            Random rd = new Random();
-            isTurn = true;
-            if (rd.Next(0, 2) < 1)
+            if (isSkip == false)
             {
-                PlayerManager.GetInstance().gameMsg = $"{state.name}의 특수공격!! 패링하세요.";
-                SettingExSkill();
-                parryStopwatch.Start();
-            }
-            else
-            {
-                Random _rd = new Random();
-                stopwatch.Start();
-                if (_rd.Next(0, 100) > PlayerManager.GetInstance().GetPlayer().currentStatus.Luck)
+                isExSkill = false;
+                Random rd = new Random();
+                isTurn = true;
+                if (rd.Next(0, 2) < 1)
                 {
-                    PlayerManager.GetInstance().gameMsg = $"{state.name}에게 {state.dmg}의 피해를 입었습니다.";
-                    PlayerManager.GetInstance().GetPlayer().HitPlayer(state.dmg);
+                    PlayerManager.GetInstance().gameMsg = $"{state.name}의 특수공격!! 패링하세요.";
+                    SettingExSkill();
+                    parryStopwatch.Start();
                 }
                 else
                 {
-                    PlayerManager.GetInstance().gameMsg = $"{state.name}의 공격을 피했습니다.";
+                    Random _rd = new Random();
+                    stopwatch.Start();
+                    if (_rd.Next(0, 100) > PlayerManager.GetInstance().GetPlayer().currentStatus.Luck)
+                    {
+                        PlayerManager.GetInstance().gameMsg = $"{state.name}에게 {state.dmg}의 피해를 입었습니다.";
+                        PlayerManager.GetInstance().GetPlayer().HitPlayer(state.dmg);
+                    }
+                    else
+                    {
+                        PlayerManager.GetInstance().gameMsg = $"{state.name}의 공격을 피했습니다.";
+                    }
                 }
+
+            }
+            else
+            {
+                isSkip = false;
+                stopwatch.Start();
             }
         }
         protected virtual void SettingExSkill()
@@ -261,7 +271,6 @@ namespace TeamRPG.Game.Object.Enemy
                         parryStopwatch.Stop();
                         stopwatch.Start();
                         isExSkill = false;
-
                     }
                     if (keyPad.Count == 0 && isParreyFail == false)
                     {

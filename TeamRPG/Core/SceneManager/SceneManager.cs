@@ -17,6 +17,14 @@ namespace TeamRPG.Core.SceneManager
         Scene nextScene;
         Dictionary<String, Scene> d_Scenes;
 
+        public Scene NowScene
+        {
+            get
+            {
+                return nowScene;
+            }
+        }
+
         public void Init()
         {
             d_Scenes = new Dictionary<string, Scene>();

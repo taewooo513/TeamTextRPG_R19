@@ -164,21 +164,23 @@ namespace TeamRPG.Game
 
 
                 case ConsoleKey.U:
+                    if (SceneManager.GetInstance().NowScene is CharSelectScene) break;
                     SceneManager.GetInstance().ChangeScene("ForestScene");
                     break;
 
-
                 case ConsoleKey.I:
+                    if (SceneManager.GetInstance().NowScene is CharSelectScene) break;
                     SceneManager.GetInstance().ChangeScene("WildernessScene");
                     break;
 
-
                 case ConsoleKey.O:
+                    if (SceneManager.GetInstance().NowScene is CharSelectScene) break;
                     SceneManager.GetInstance().ChangeScene("DevildomScene");
                     break;
 
 
                 case ConsoleKey.P:
+                    if (SceneManager.GetInstance().NowScene is CharSelectScene) break;
                     SceneManager.GetInstance().ChangeScene("CemeteryScene");
                     break;
             }

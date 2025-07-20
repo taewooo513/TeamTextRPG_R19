@@ -123,6 +123,26 @@ namespace TeamRPG.Game
                 case ConsoleKey.F8:
                     EnemyManager.GetInstance().CycleCount++;
                     break;
+
+
+                case ConsoleKey.U:
+                    SceneManager.GetInstance().ChangeScene("ForestScene");
+                    break;
+
+
+                case ConsoleKey.I:
+                    SceneManager.GetInstance().ChangeScene("WildernessScene");
+                    break;
+
+
+                case ConsoleKey.O:
+                    SceneManager.GetInstance().ChangeScene("DevildomScene");
+                    break;
+
+
+                case ConsoleKey.P:
+                    SceneManager.GetInstance().ChangeScene("CemeteryScene");
+                    break;
             }
             SceneManager.GetInstance().Update();
             TimerManager.GetInstance().Update();

@@ -29,43 +29,28 @@ namespace TeamRPG.Game.Character
             Random rd = new Random();
             switch (enemyNum)
             {
-                //case eEnemyNum.eWolf:
-                //    return new Enemy.State();
-
-                //환경 숲
                 case eEnemyNum.eWolf:
                     int Wolfhp = rd.Next(32, 37);
                     return new Enemy.State(Wolfhp, "울프", rd.Next(5, 11), 0, 0, 30, 25, Wolfhp);
-
                 case eEnemyNum.eWildBoar:
                     int WildBoarhp = rd.Next(38, 43);
                     return new Enemy.State(WildBoarhp, "와일드보어", rd.Next(14, 19), 0, 0, 20, 30, WildBoarhp);
-
                 case eEnemyNum.eCentaur:
                     int Centaurhp = rd.Next(110, 110);
                     return new Enemy.State(Centaurhp, "켄타우로스", rd.Next(25, 39), 0, 0, 70, 55, Centaurhp);
-
-
-
                 //환경 묘지
                 case eEnemyNum.eSkeleton:  // 3마리씩 등장
                     int Skeletonhp = rd.Next(15, 23);
                     return new Enemy.State(Skeletonhp, "스켈레톤", rd.Next(5, 10), 0, 0, 0, 15, Skeletonhp);
-
                 case eEnemyNum.eZombie:
                     int Zombiehp = rd.Next(50, 50);
                     return new Enemy.State(Zombiehp, "좀비", rd.Next(14, 23), 0, 0, 0, 35, Zombiehp);
-
                 case eEnemyNum.eLich:    // 얘 부활하게 코드필요해용
                     int Lichhp = rd.Next(45, 45);
                     return new Enemy.State(Lichhp, "리치", rd.Next(5, 5), 0, 0, 10, 50, Lichhp);
-
                 case eEnemyNum.eLich2:    // 리치 2페이즈
                     int Lich2hp = rd.Next(65, 65);
                     return new Enemy.State(Lich2hp, "리치", rd.Next(5, 5), 0, 0, 100, 100, Lich2hp);
-
-
-
                 //환경 황야
                 case eEnemyNum.eGoblin:
                     int Goblinhp = rd.Next(15, 23);

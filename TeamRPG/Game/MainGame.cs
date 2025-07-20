@@ -37,7 +37,8 @@ namespace TeamRPG.Game
             SceneManager.GetInstance().AddScene("BossEnemyScene", new BossEnemyScene());
             SceneManager.GetInstance().AddScene("DiedScene", new DiedScene());
             SceneManager.GetInstance().AddScene("BossIntroScene", new BossIntroScene());
-            
+            SceneManager.GetInstance().AddScene("EnddingScene", new EnddingScene());
+
 
             SceneManager.GetInstance().AddScene("WildernessScene", new WildernessScene());
             SceneManager.GetInstance().AddScene("WildernessStartScene", new WildernessStartScene());
@@ -70,6 +71,38 @@ namespace TeamRPG.Game
             SoundManager.GetInstance().AddSound("Tier1NomalBattleBGM", "../../../../Sounds/battle/bgm//Tier1NomalBattleBGM.mp3", true, true);
             SoundManager.GetInstance().AddSound("염예찬 튜터님의 가소롭군!", "../../../../Sounds/battle/염예찬 튜터님의 가소롭군!.mp3", false, false);
 
+
+            //Arrskill
+            SoundManager.GetInstance().AddSound("rain", "../../../../Sounds/battle/Arrow-skill/애로우레인.mp3", false, false);
+            SoundManager.GetInstance().AddSound("wind", "../../../../Sounds/battle/Arrow-skill/윈드스톰.mp3", false, false);
+            SoundManager.GetInstance().AddSound("heal", "../../../../Sounds/battle/Arrow-skill/힐링.mp3", false, false);
+
+            //Swd Skill
+            SoundManager.GetInstance().AddSound("attack", "../../../../Sounds/battle/Sword-skill/레이징어택.mp3", false, false);
+            SoundManager.GetInstance().AddSound("blow", "../../../../Sounds/battle/Sword-skill/배쉬블로우.mp3", false, false);
+            SoundManager.GetInstance().AddSound("strike", "../../../../Sounds/battle/Sword-skill/파워스트라이크.mp3", false, false);
+
+            //Hammer-skill
+            SoundManager.GetInstance().AddSound("발구르기", "../../../../Sounds/battle/Hammer-skill/발구르기.mp3", false, false);
+            SoundManager.GetInstance().AddSound("지진", "../../../../Sounds/battle/Hammer-skill/지진.mp3", false, false);
+            SoundManager.GetInstance().AddSound("화산강림", "../../../../Sounds/battle/Hammer-skill/화신강림.mp3", false, false);
+
+
+            //Normal
+            SoundManager.GetInstance().AddSound("ArrowNormal", "../../../../Sounds/battle/normal/Arrow.mp3", false, false);
+            SoundManager.GetInstance().AddSound("ArrowNormal2", "../../../../Sounds/battle/normal/Arrow2.mp3", false, false);
+            SoundManager.GetInstance().AddSound("ArrowNormalCritical", "../../../../Sounds/battle/Critical/ArrowCritical.mp3", false, false);
+
+            SoundManager.GetInstance().AddSound("HammerNorma", "../../../../Sounds/battle/normal/Hammer.mp3", false, false);
+            SoundManager.GetInstance().AddSound("HammerNorma2", "../../../../Sounds/battle/normal/Hammer2.mp3", false, false);
+            SoundManager.GetInstance().AddSound("HammerNormaCritical", "../../../../Sounds/battle/Critical/HammerCritical.mp3", false, false);
+
+            SoundManager.GetInstance().AddSound("SwordNorma", "../../../../Sounds/battle/normal/Sword.mp3", false, false);
+            SoundManager.GetInstance().AddSound("SwordNorma2", "../../../../Sounds/battle/normal/Sword2.mp3", false, false);
+            SoundManager.GetInstance().AddSound("SwordNormaCritical", "../../../../Sounds/battle/Critical/SwordCritical.mp3", false, false);
+
+
+
             // bgm
             SoundManager.GetInstance().AddSound("FireplaceSound", "../../../../Sounds/Bgm/FireplaceSound.mp3", true, true);
 
@@ -78,10 +111,15 @@ namespace TeamRPG.Game
 
 
             // empty
+            SoundManager.GetInstance().AddSound("Forest", "../../../../Sounds/Bgm/Forest.mp3", true, true);
+            SoundManager.GetInstance().AddSound("tomb", "../../../../Sounds/Bgm/tomb.mp3", true, true);
+            SoundManager.GetInstance().AddSound("Wild", "../../../../Sounds/Bgm/Wild.mp3", true, true);
             SoundManager.GetInstance().AddSound("DevildomBGM", "../../../../Sounds/DevildomBGM.mp3", true, true);
 
 
-            SoundManager.GetInstance().PlaySound("Test", .1f);
+            // Parry
+            SoundManager.GetInstance().AddSound("Parry", "../../../../Sounds/battle/Parry.mp3", false, false);
+
             PlayerManager.GetInstance().Init("asd", (Race)1);
 
             QuestManager.GetInstance().Init();

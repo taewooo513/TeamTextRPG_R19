@@ -167,6 +167,10 @@ namespace TeamRPG.Game.Scene
                         EncounterManager.GetInstance().IsEncountering = false;
                         SceneManager.GetInstance().ChangeScene("GameScene");
                     }
+                    else if(PlayerManager.GetInstance().isBoss == true)
+                    {
+                        SceneManager.GetInstance().ChangeScene("EnddingScene");
+                    }
                     else
                     {
                         EnemyManager.GetInstance().CycleCount++;

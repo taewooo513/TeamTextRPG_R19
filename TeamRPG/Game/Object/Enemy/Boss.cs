@@ -94,6 +94,7 @@ namespace TeamRPG.Game.Object.Enemy
             name = " ??? " + gNum;
             x = _x;
             y = _y;
+            PlayerManager.GetInstance().isBoss = true;
         }
 
         //fireText = new RawText(fireImage, UIManager.HalfWidth, 2, HorizontalAlign.Center);

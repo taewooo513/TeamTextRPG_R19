@@ -42,7 +42,7 @@ namespace TeamRPG.Game.Scene
                     isEndStart = true;
                     stopwatch.Restart();
                 }
-                else if (isEndStart == true && stopwatch.ElapsedMilliseconds > 30)
+                else if (isEndStart == true && stopwatch.ElapsedMilliseconds > 300)
                 {
                     stopwatch.Restart();
                     y--;

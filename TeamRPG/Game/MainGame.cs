@@ -116,9 +116,9 @@ namespace TeamRPG.Game
             SoundManager.GetInstance().AddSound("Wild", "../../../../Sounds/Bgm/Wild.mp3", true, true);
             SoundManager.GetInstance().AddSound("DevildomBGM", "../../../../Sounds/DevildomBGM.mp3", true, true);
 
-            
+
             // Parry
-            SoundManager.GetInstance().AddSound("Parry", "../../../../Sounds/battle/Parry.mp3", true, true);
+            SoundManager.GetInstance().AddSound("Parry", "../../../../Sounds/battle/Parry.mp3", false, false);
 
             PlayerManager.GetInstance().Init("asd", (Race)1);
 

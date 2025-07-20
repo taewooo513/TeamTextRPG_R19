@@ -25,6 +25,7 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Release()
         {
             base.Release();
+            SoundManager.GetInstance().StopSound("Forest");
         }
         protected override void DrawMap()
         {

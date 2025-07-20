@@ -30,6 +30,7 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Release()
         {
             base.Release();
+            SoundManager.GetInstance().StopSound("wild");
         }
         protected override void DrawMap()
         {

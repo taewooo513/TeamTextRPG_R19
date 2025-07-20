@@ -43,6 +43,7 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Release()
         {
             base.Release();
+            SoundManager.GetInstance().StopSound("tomb");
         }
         protected override void DrawMap()
         {

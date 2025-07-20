@@ -16,6 +16,7 @@ namespace TeamRPG.Game.Character
         public String environment = "";
         public String gameMsg = "";
         Player player;
+        public bool isBoss = false;
 
         public void Init(String _name, Race _race)
         {

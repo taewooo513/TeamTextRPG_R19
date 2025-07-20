@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
 using TeamRPG.Core.EnemyManager;
@@ -335,7 +336,7 @@ namespace TeamRPG.Game.Character
                 }
             });
 
-            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && selectNum < items.Count)
+            if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.DownArrow) && selectNum < conitems.Count)
             {
                 selectNum++;
             }
@@ -483,6 +484,52 @@ namespace TeamRPG.Game.Character
                     Random rd = new Random();
                     EnemyManager.GetInstance().GetEnemyList()[attackIndex].HitEnemy(skills[selectNum].power);
                     baseStatus.currentMp -= skills[selectNum].mpCost;
+                    switch (selectNum)
+                    {
+                        case 0:
+                            switch (race)
+                            {
+                                case Race.Human:
+                                    SoundManager.GetInstance().PlaySound("strike", 0.5f);
+                                    break;
+                                case Race.Dwarf:
+                                    SoundManager.GetInstance().PlaySound("발구르기", 0.5f);
+                                    break;
+                                case Race.HalfElf:
+                                    SoundManager.GetInstance().PlaySound("heal", 0.5f);
+                                    break;
+                            }
+
+                            break;
+                        case 1:
+                            switch (race)
+                            {
+                                case Race.Human:
+                                    SoundManager.GetInstance().PlaySound("blow", 0.5f);
+                                    break;
+                                case Race.Dwarf:
+                                    SoundManager.GetInstance().PlaySound("지진", 0.5f);
+                                    break;
+                                case Race.HalfElf:
+                                    SoundManager.GetInstance().PlaySound("wind", 0.5f);
+                                    break;
+                            }
+                            break;
+                        case 2:
+                            switch (race)
+                            {
+                                case Race.Human:
+                                    SoundManager.GetInstance().PlaySound("attack", 0.5f);
+                                    break;
+                                case Race.Dwarf:
+                                    SoundManager.GetInstance().PlaySound("화산강림", 0.5f);
+                                    break;
+                                case Race.HalfElf:
+                                    SoundManager.GetInstance().PlaySound("rain", 0.5f);
+                                    break;
+                            }
+                            break;
+                    }
                     if (baseStatus.currentMp < 0)
                     {
                         baseStatus.currentMp = 0;
@@ -512,6 +559,57 @@ namespace TeamRPG.Game.Character
                     {
                         PlayerManager.GetInstance().gameMsg = "크리티컬!! ";
                         dmg = (int)(dmg * 1.1f);
+                        switch (race)
+                        {
+                            case Race.Human:
+                                SoundManager.GetInstance().PlaySound("SwordNormaCritical", 0.5f);
+                                break;
+                            case Race.Dwarf:
+                                SoundManager.GetInstance().PlaySound("HammerNormaCritical", 0.5f);
+                                break;
+                            case Race.HalfElf:
+                                SoundManager.GetInstance().PlaySound("ArrowNormalCritical", 0.5f);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Random rd2 = new Random();
+
+                        switch (race)
+                        {
+                            case Race.Human:
+                                if (rd2.Next(0, 2) == 1)
+                                {
+                                    SoundManager.GetInstance().PlaySound("SwordNorma", 0.5f);
+                                }
+                                else
+                                {
+                                    SoundManager.GetInstance().PlaySound("SwordNorma2", 0.5f);
+                                }
+                                break;
+                            case Race.Dwarf:
+                                if (rd2.Next(0, 2) == 1)
+                                {
+                                    SoundManager.GetInstance().PlaySound("HammerNorma", 0.5f);
+                                }
+                                else
+                                {
+                                    SoundManager.GetInstance().PlaySound("HammerNorma2", 0.5f);
+                                }
+                                break;
+                            case Race.HalfElf:
+                                if (rd2.Next(0, 2) == 1)
+                                {
+                                    SoundManager.GetInstance().PlaySound("ArrowNormal", 0.5f);
+                                }
+                                else
+                                {
+                                    SoundManager.GetInstance().PlaySound("ArrowNormal2", 0.5f);
+                                }
+                                break;
+
+                        }
                     }
                     if (isCheat == false)
                     {

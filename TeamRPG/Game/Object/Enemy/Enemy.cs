@@ -274,6 +274,7 @@ namespace TeamRPG.Game.Object.Enemy
                     }
                     if (keyPad.Count == 0 && isParreyFail == false)
                     {
+                        SoundManager.GetInstance().PlaySound("Parry", 0.5f);
                         PlayerManager.GetInstance().gameMsg = "패링성공 !!!";
                         parryStopwatch.Reset();
                         parryStopwatch.Stop();

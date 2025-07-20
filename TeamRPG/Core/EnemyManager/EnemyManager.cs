@@ -90,6 +90,8 @@ namespace TeamRPG.Core.EnemyManager
 
             { eEnemyNum.eSlime, eEnemyTier.Normal },
             { eEnemyNum.eBandit, eEnemyTier.Normal },
+            { eEnemyNum.eGhost, eEnemyTier.Normal },
+            { eEnemyNum.eSwordsman, eEnemyTier.Normal },
 
             // 정예 몬스터
             { eEnemyNum.eWildBoar, eEnemyTier.Elite },
@@ -241,7 +243,7 @@ namespace TeamRPG.Core.EnemyManager
             */
 
             // 8회차는 보스 인트로 씬으로 전환
-            if (CycleCount == 8)
+            if (CycleCount >= 8)
             {
                 SceneManager.SceneManager.GetInstance().ChangeScene("BossIntroScene");
                 return;
@@ -279,7 +281,7 @@ namespace TeamRPG.Core.EnemyManager
             }
             else if(enemyNum == eEnemyNum.eSkeleton)
             {
-                Enemy enemy1 = new Skeleton(UIManager.HalfWidth - 35, 5, "1");
+                Enemy enemy1 = new Skeleton(UIManager.HalfWidth -35, 5, "1");
                 Enemy enemy2 = new Skeleton(UIManager.HalfWidth, 5, "2");
                 Enemy enemy3 = new Skeleton(UIManager.HalfWidth + 35, 5, "3");
 

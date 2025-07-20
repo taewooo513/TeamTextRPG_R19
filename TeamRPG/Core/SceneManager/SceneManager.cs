@@ -29,7 +29,7 @@ namespace TeamRPG.Core.SceneManager
             }
             else
             {
-                d_Scenes.Add(key, scene);
+                d_Scenes.Add(key, scene);// 씬 받아서 딕셔너리에 추가
             }
         }
 
@@ -39,11 +39,11 @@ namespace TeamRPG.Core.SceneManager
             d_Scenes.TryGetValue(key, out val);
             if (val == null)
             {
-                Console.WriteLine("{0} key값 잘못됨", key);
+                Console.WriteLine("{0} key값 잘못됨", key); 
             }
             else
             {
-                nextScene = val;
+                nextScene = val; // 씬 변경하면 다음 씬에 저장 
             }
             return val;
         }
@@ -52,8 +52,11 @@ namespace TeamRPG.Core.SceneManager
         {
             if (nextScene != null)
             {
+                //변경된씬이 있으면 실행
                 if (nowScene != null)
                 {
+                    //현재 실행중인 씬이있으면 
+                    // 현재씬을 제거해주고 이것저것 다제거
                     nowScene.Release();
                     Console.Clear();
                     UIManager.GetInstance().ClearUI();
@@ -62,9 +65,12 @@ namespace TeamRPG.Core.SceneManager
                 nowScene = nextScene;
                 nextScene = null;
                 nowScene.Init();
+                // 현재씬을에 다음씬을 받고 다음씬을 비워준다
+                // 현재씬 초기화
             }
             if (nowScene != null)
             {
+                // 만약 현재씬이 있으면 업데이트
                 nowScene.Update();
             }
         }
@@ -73,6 +79,8 @@ namespace TeamRPG.Core.SceneManager
         {
             if (nowScene != null)
             {
+                // 만약 현재씬이 있으면 렌더
+
                 nowScene.Render();
             }
         }

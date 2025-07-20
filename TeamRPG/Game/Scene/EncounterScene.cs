@@ -62,8 +62,8 @@ namespace TeamRPG.Game.Scene
 
         void InitEncounterData()
         {
-            currentEncounterData = EncounterManager.GetInstance().GetRandomEncounterData();
-            // currentEncounterData = EncounterManager.GetInstance().GetEncounterData("약초 스승");
+            // currentEncounterData = EncounterManager.GetInstance().GetRandomEncounterData();
+            currentEncounterData = EncounterManager.GetInstance().GetEncounterData("우물");
         }
 
         void InitUI()

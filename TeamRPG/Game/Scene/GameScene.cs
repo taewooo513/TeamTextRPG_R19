@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamRPG.Core.EncounterManager;
 using TeamRPG.Core.EnemyManager;
 using TeamRPG.Core.QuestManager;
 using TeamRPG.Core.SceneManager;
@@ -161,8 +162,14 @@ namespace TeamRPG.Game.Scene
                         QuestManager.GetInstance().CurrentQuest.IsCompleted = true;
                         SceneManager.GetInstance().ChangeScene("ShopScene");
                     }
+                    else if(EncounterManager.GetInstance().IsEncountering) // 만약 현재 인카운터 중이라면
+                    {
+                        EncounterManager.GetInstance().IsEncountering = false;
+                        SceneManager.GetInstance().ChangeScene("GameScene");
+                    }
                     else
                     {
+                        EnemyManager.GetInstance().CycleCount++;
                         SceneManager.GetInstance().ChangeScene(PlayerManager.GetInstance().environment);
                     }
                 }

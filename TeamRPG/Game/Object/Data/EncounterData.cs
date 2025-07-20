@@ -28,7 +28,7 @@ namespace TeamRPG.Game.Object.Data
                 return image;
             }
         }
-    
+
         public string ImageName { get; set; }
 
         public List<EncounterSelection> Selections { get; set; } // 선택지들
@@ -65,7 +65,7 @@ namespace TeamRPG.Game.Object.Data
 
         public void LoadScene()
         {
-            SceneManager.GetInstance().ChangeScene(NextSceneName);
+            SceneManager.GetInstance().ChangeScene("GameScene");
         }
     }
 
@@ -109,7 +109,7 @@ namespace TeamRPG.Game.Object.Data
         {
             get
             {
-                if(RequiredItems == null || RequiredItems.Count == 0)
+                if (RequiredItems == null || RequiredItems.Count == 0)
                     return true; // 필수 아이템이 없으면 항상 true
 
                 Inventory inventory = PlayerManager.GetInstance().GetPlayer().Inventory;
@@ -124,7 +124,7 @@ namespace TeamRPG.Game.Object.Data
                     }
                     else
                         return false;
-                    
+
                 }
 
                 return true;

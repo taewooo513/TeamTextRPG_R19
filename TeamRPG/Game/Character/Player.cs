@@ -141,16 +141,16 @@ namespace TeamRPG.Game.Character
             }
             else
             {
-                currentStatus.currentHp -= _dmg;
+                baseStatus.currentHp -= _dmg;
             }
         }
 
         public void HealPlayer(int amount)
         {
-            currentStatus.currentHp += amount;
-            if (currentStatus.currentHp > baseStatus.HP)
+            baseStatus.currentHp += amount;
+            if (baseStatus.currentHp > currentStatus.HP)
             {
-                currentStatus.currentHp = baseStatus.HP; // 최대 HP를 초과하지 않도록 조정
+                baseStatus.currentHp = currentStatus.HP; // 최대 HP를 초과하지 않도록 조정
             }
         }
 
@@ -319,11 +319,11 @@ namespace TeamRPG.Game.Character
             List<List<Item>> items = new List<List<Item>>();
             var itemList = Inventory.ItemDictionary.ToList();
             List<List<Item>> conitems = new List<List<Item>>(); // 소비템만 따로때서 새로운리스트로 괴장히 비효율적으로보이긴하는데 쩔수
-            items.ForEach(tem =>
+            itemList.ForEach(tem =>
             {
-                if (tem[0].Type == ItemType.Consumable)
+                if (tem.Value[0].Type == ItemType.Consumable)
                 {
-                    items.Add(tem);
+                    conitems.Add(tem.Value);
                 }
             });
 
@@ -343,8 +343,6 @@ namespace TeamRPG.Game.Character
             }
             if (KeyInputManager.GetInstance().GetKeyDown(ConsoleKey.Enter))
             {
-
-
                 if (itemList.Count == 0)
                 {
                     return;
@@ -360,21 +358,21 @@ namespace TeamRPG.Game.Character
                         if (selectedItem.Name == "회복 포션")
                         {
                             Inventory.RemoveItem(selectedItem.Name, 1);
-                            currentStatus.currentHp += 30;
+                            baseStatus.currentHp += 30;
                             PlayerManager.GetInstance().gameMsg = "회복 포션을 사용하여 체력을 30회복하였습니다.";
                         }
                         else if (selectedItem.Name == "마나 포션")
                         {
                             Inventory.RemoveItem(selectedItem.Name, 1);
-                            currentStatus.currentMp += 20;
+                            baseStatus.currentMp += 20;
                             PlayerManager.GetInstance().gameMsg = "마나 포션을 사용하여 마나를 20회복하였습니다.";
 
                         }
                         else if (selectedItem.Name == "엘릭서")
                         {
                             Inventory.RemoveItem(selectedItem.Name, 1);
-                            currentStatus.currentHp += 30; // 나중에 부활
-                            currentStatus.currentMp += 10;
+                            baseStatus.currentHp += 30; // 나중에 부활
+                            baseStatus.currentMp += 10;
                             PlayerManager.GetInstance().gameMsg = "엘릭서를 사용하였습니다.";
                         }
                         break;
@@ -484,9 +482,9 @@ namespace TeamRPG.Game.Character
                     if (skills[selectNum].power == 0)
                     {
                         baseStatus.currentHp += skills[selectNum].heal;
-                        if (baseStatus.HP > currentStatus.currentHp)
+                        if (currentStatus.HP > baseStatus.currentHp)
                         {
-                            currentStatus.currentHp = baseStatus.HP;
+                            baseStatus.currentHp = currentStatus.HP;
                         }
                         PlayerManager.GetInstance().gameMsg = $" !!! {skills[selectNum].name} !!! 체력을 {skills[selectNum].heal}회복하였습니다.";
                     }
@@ -608,11 +606,11 @@ namespace TeamRPG.Game.Character
             for (int i = 1; i <= currentStatus.HP / 10; i++)
             {
                 int val = currentStatus.HP / 10 * i;
-                if (10 * i <= currentStatus.currentHp)
+                if (10 * i <= baseStatus.currentHp)
                 {
                     TextIOManager.GetInstance().OutputText4Byte("■", 5 + 2 * i, 35);
                 }
-                else if (currentStatus.currentHp % 10 != 0)
+                else if (baseStatus.currentHp % 10 != 0)
                 {
                     TextIOManager.GetInstance().OutputText4Byte("□", 5 + 2 * i, 35);
                     break;
@@ -625,17 +623,17 @@ namespace TeamRPG.Game.Character
             for (int i = 1; i <= currentStatus.MP / 10; i++)
             {
                 int val = currentStatus.MP / 10 * i;
-                if (10 * i <= currentStatus.currentMp)
+                if (10 * i <= baseStatus.currentMp)
                 {
                     TextIOManager.GetInstance().OutputText4Byte("■", 5 + 2 * i, 37);
                 }
-                else if (currentStatus.currentMp % 10 != 0)
+                else if (baseStatus.currentMp % 10 != 0)
                 {
                     TextIOManager.GetInstance().OutputText4Byte("□", 5 + 2 * i, 37);
                     break;
                 }
             }
-            TextIOManager.GetInstance().OutputText4Byte(currentStatus.currentMp.ToString(), 1, 39);
+            TextIOManager.GetInstance().OutputText4Byte(baseStatus.currentMp.ToString(), 1, 39);
         }
         private void StateBox()
         {

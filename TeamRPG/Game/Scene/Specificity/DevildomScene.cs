@@ -14,6 +14,8 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Init()
         {
             base.Init();
+            SoundManager.GetInstance().PlaySound("DevildomBGM", 0.5f);
+
         }
 
         public override void Update()
@@ -28,6 +30,7 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Release()
         {
             base.Release();
+            SoundManager.GetInstance().StopSound("DevildomBGM");
         }
         protected override void DrawMap()
         {

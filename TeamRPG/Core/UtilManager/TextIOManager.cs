@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ namespace TeamRPG.Core.UtilManager
                     defaultBuffer[w, h] = ' ';
                 }
             }
-            Console.SetWindowSize(width, height );
+            Console.SetWindowSize(width, height);
 
             Console.CursorVisible = false;
             strs = new List<String>[winHeight];
@@ -47,7 +48,7 @@ namespace TeamRPG.Core.UtilManager
         public void OutputSmartText(string text, int x, int y, ConsoleColor color = ConsoleColor.White)
         {
             if (x < 0 || y < 0 || x >= winWidth || y >= winHeight)
-                        return; // 범위 체크
+                return; // 범위 체크
 
             int _x = x;
             foreach (char ch in text)
@@ -105,6 +106,31 @@ namespace TeamRPG.Core.UtilManager
         public void OutputText(String str, int x, int y, ConsoleColor color = ConsoleColor.Magenta)
         {
             int _x = 0;
+            foreach (var ch in str)
+            {
+                _x++;
+                if (_x + x < winWidth && _x + x >= 0 && y < winHeight && y >= 0)
+                {
+                    consoleColors[x + _x, y] = color;
+                    backBuffer[x + _x, y] = ch;
+                }
+            }
+        }
+        public void EndRenderSmart(String str, int x, int y, ConsoleColor color = ConsoleColor.Magenta)
+        {
+            if (y <= 3)
+            {
+                return;
+            }
+            OutputSmartText(str, x, y, color);
+        }
+        public void EndRender(String str, int x, int y, ConsoleColor color = ConsoleColor.Magenta)
+        {
+            int _x = 0;
+            if (y <= 3)
+            {
+                return;
+            }
             foreach (var ch in str)
             {
                 _x++;

@@ -11,7 +11,7 @@ using static System.Formats.Asn1.AsnWriter;
 
 namespace TeamRPG.Core.SceneManager
 {
-    public class SceneManager : Singleton<SceneManager>
+    public class SceneManager : Singleton<SceneManager> // 싱글턴 상속받아서 매니저를 전역으로 만들기
     {
         Scene nowScene;
         Scene nextScene;
@@ -56,7 +56,7 @@ namespace TeamRPG.Core.SceneManager
                 if (nowScene != null)
                 {
                     //현재 실행중인 씬이있으면 
-                    // 현재씬을 제거해주고 이것저것 다제거
+                    //현재씬을 제거해주고 이것저것 다제거
                     nowScene.Release();
                     Console.Clear();
                     UIManager.GetInstance().ClearUI();
@@ -80,7 +80,6 @@ namespace TeamRPG.Core.SceneManager
             if (nowScene != null)
             {
                 // 만약 현재씬이 있으면 렌더
-
                 nowScene.Render();
             }
         }

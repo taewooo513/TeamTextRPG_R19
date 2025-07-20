@@ -14,7 +14,7 @@ namespace TeamRPG.Core
         {
             if (instance == null)
             {
-                instance = new T();
+                instance = new T(); // 이거는 인스턴스가 없으면 새로 생성해주는코드입니다 매니저를호출했는데 없으면 안되니까요
             }
             return instance;
         }

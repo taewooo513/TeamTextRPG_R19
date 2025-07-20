@@ -14,6 +14,7 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Init()
         {
             base.Init();
+            SoundManager.GetInstance().PlaySound("Wild", 0.5f);
 
         }
 
@@ -29,6 +30,7 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Release()
         {
             base.Release();
+            SoundManager.GetInstance().StopSound("wild");
         }
         protected override void DrawMap()
         {

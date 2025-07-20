@@ -344,7 +344,7 @@ namespace TeamRPG.Core.EncounterManager
 
             mitigatedResult.OnEnter = (player) =>
             {
-                if (player.currentStatus.currentHp - 15 <= 0)
+                if (player.baseStatus.currentHp - 15 <= 0)
                     GetEncounterData("버섯").Selections[0].MitigatedResult.Description = "곧 죽을 것 같다. [생명력 -15]";
                 else
                     GetEncounterData("버섯").Selections[0].MitigatedResult.Description = "속이 쓰리다. 하지만 후유증은 없을 것 같다. [생명력 -15]";
@@ -367,7 +367,7 @@ namespace TeamRPG.Core.EncounterManager
                 switch (debuffType)
                 {
                     case 0:
-                        int poisonDamage = (int)(player.currentStatus.currentHp * 0.1);
+                        int poisonDamage = (int)(player.baseStatus.currentHp * 0.1);
                         player.HitPlayer(poisonDamage);
                         debuffText = "중독";
                         break;
@@ -382,7 +382,7 @@ namespace TeamRPG.Core.EncounterManager
                         break;
                 }
 
-                if (player.currentStatus.currentHp - 15 <= 0)
+                if (player.baseStatus.currentHp - 15 <= 0)
                     GetEncounterData("버섯").Selections[0].BadResult.Description = $"내가 버섯 때문에 죽다니. [생명력 -15, +{debuffText}]";
                 else
                     GetEncounterData("버섯").Selections[0].BadResult.Description = $"독버섯이였다... [생명력 -15, +{debuffText}]";
@@ -481,7 +481,7 @@ namespace TeamRPG.Core.EncounterManager
             badResult.ImageName = "버섯";
             badResult.OnEnter = (player) =>
             {
-                if (player.currentStatus.currentHp - 10 <= 0)
+                if (player.baseStatus.currentHp - 10 <= 0)
                     GetEncounterData("마법사").Selections[0].BadResult.Description = "몸이 불타오른다. [생명력 -10]";
                 else
                     GetEncounterData("마법사").Selections[0].BadResult.Description = "실험은 실패했다. [생명력 -10]";

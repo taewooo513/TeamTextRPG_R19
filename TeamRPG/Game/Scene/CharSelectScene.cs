@@ -160,7 +160,7 @@ namespace TeamRPG.Game.Scene
             {
                 Random rd = new Random();
                 PlayerManager.GetInstance().environment = "";
-                switch (rd.Next(0, 4))
+                switch (rd.Next(0,4))
                 {
                     case 0:
                         PlayerManager.GetInstance().environment = "ForestScene";

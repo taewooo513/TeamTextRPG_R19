@@ -8,6 +8,7 @@ using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
 using TeamRPG.Game.Object;
+using TeamRPG.Game.Object.Item;
 
 namespace TeamRPG.Game.Scene
 {
@@ -186,7 +187,15 @@ namespace TeamRPG.Game.Scene
                     if (inventorySelectIndex >= 0 && inventorySelectIndex < itemList.Count)
                     {
                         var selectedItem = itemList[inventorySelectIndex].Value.First();
-                        TextIOManager.GetInstance().OutputSmartText($"[{selectedItem.Name}] {selectedItem.Description}", cursorX, cursorY++);
+                        //TextIOManager.GetInstance().OutputSmartText($"[{selectedItem.Name}] {selectedItem.Description}", cursorX, cursorY++);
+                        string description = $"[{selectedItem.Name}] {selectedItem.Description}";
+
+                        if (selectedItem is Equipment equipment)
+                        {
+                            description += $" (남은 내구도: {equipment.CurrentDurability})";
+                        }
+
+                        TextIOManager.GetInstance().OutputSmartText(description, cursorX, cursorY++);
                     }
                 }
 

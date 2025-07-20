@@ -29,11 +29,10 @@ namespace TeamRPG.Game.Character
                     return new List<Trait>
                     {
                         new Trait("초심자의 행운", "운 10 증가", player => player.baseStatus.Luck += 10),
-                        new Trait("공격은 최선의 방어", "공격력 5증가 체력 10감소", player =>
+                        new Trait("공격은 최선의 방어", "공격력 5증가", player =>
                         {
                             player.baseStatus.MinAttack += 5;
                             player.baseStatus.MaxAttack += 5;
-                            player.baseStatus.HP -= 10;
                         })
                     };
                 case Race.Dwarf:

@@ -694,6 +694,7 @@ namespace TeamRPG.Game.Character
             this.trait = allTraits[rand.Next(allTraits.Count)];
 
             this.trait.ApplyEffect(this);
+            RecalculateCurrentStatus();
             return this.trait;
         }
     }

@@ -42,7 +42,7 @@ namespace TeamRPG.Game.Scene
             titleLogoTimerDown.Start();
             yUp = -10;
             yDown = 10;
-
+            isStop3 = false;
         }
 
         public void Release()

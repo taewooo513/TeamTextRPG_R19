@@ -106,7 +106,6 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Render()
         {
             base.GetSpecificityEvent();
-            DrawText();
         }
         protected override void DrawText()
         {

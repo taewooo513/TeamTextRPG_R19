@@ -11,6 +11,7 @@ using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
 using TeamRPG.Game.Object.Enemy;
+using TeamRPG.Game.Object.UI;
 
 namespace TeamRPG.Game.Scene
 {
@@ -25,6 +26,7 @@ namespace TeamRPG.Game.Scene
         int selectNum = 0;
         int enemySelect = 0;
         bool isReword = false;
+        RawText gameMsgText;
         public void Init()
         {
             UIManager.GetInstance().AddUIElement(PlayerManager.GetInstance().GetPlayer().itemBoxUI);
@@ -35,6 +37,7 @@ namespace TeamRPG.Game.Scene
             timer = new Stopwatch();
             timer.Start();
             isEnd = false;
+            gameMsgText = new RawText("", 3, 1);
             PlayerManager.GetInstance().GetPlayer().PlayerTurnSetting();
             SoundManager.GetInstance().PlaySound("Bossmain", .1f);
             PlayerManager.GetInstance().gameMsg = "적을 마주쳤습니다."; // 개같이부활
@@ -83,7 +86,8 @@ namespace TeamRPG.Game.Scene
                     e.ArroRender();
                 }
             });
-            TextIOManager.GetInstance().OutputSmartText(PlayerManager.GetInstance().gameMsg, 3, 1);
+            gameMsgText.SetText(PlayerManager.GetInstance().gameMsg);
+            // TextIOManager.GetInstance().OutputSmartText(PlayerManager.GetInstance().gameMsg, 3, 1);
         }
 
         public void InitEnemies()

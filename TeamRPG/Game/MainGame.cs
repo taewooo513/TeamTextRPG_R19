@@ -103,13 +103,25 @@ namespace TeamRPG.Game
                     PlayerManager.GetInstance().GetPlayer().isCheat = !PlayerManager.GetInstance().GetPlayer().isCheat;
                     break;
                 case ConsoleKey.F2:
+                    SceneManager.GetInstance().ChangeScene("EncounterScene");
                     break;
                 case ConsoleKey.F3:
+                    SceneManager.GetInstance().ChangeScene("RestScene");
                     break;
                 case ConsoleKey.F4:
+                    SceneManager.GetInstance().ChangeScene("ShopScene");
                     break;
                 case ConsoleKey.F5:
                     SceneManager.GetInstance().ChangeScene("GameScene");
+                    break;
+                case ConsoleKey.F6:
+                    SceneManager.GetInstance().ChangeScene("BossIntroScene");
+                    break;
+                case ConsoleKey.F7:
+                    SceneManager.GetInstance().ChangeScene("TitleScene");
+                    break;
+                case ConsoleKey.F8:
+                    EnemyManager.GetInstance().CycleCount++;
                     break;
             }
             SceneManager.GetInstance().Update();

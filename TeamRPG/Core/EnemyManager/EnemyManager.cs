@@ -243,7 +243,7 @@ namespace TeamRPG.Core.EnemyManager
             */
 
             // 8회차는 보스 인트로 씬으로 전환
-            if (CycleCount == 8)
+            if (CycleCount >= 8)
             {
                 SceneManager.SceneManager.GetInstance().ChangeScene("BossIntroScene");
                 return;

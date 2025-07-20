@@ -24,7 +24,6 @@ namespace TeamRPG.Game.Scene
         bool showingSkillDetail = false;
         bool showingTraitDetail = false;
         List<Skill> skills;
-        //Trait trait;
 
 
         public void Init()
@@ -33,10 +32,12 @@ namespace TeamRPG.Game.Scene
             menuState = 0;
             //player = new Player(player.name, player.race);
             player = PlayerManager.GetInstance().GetPlayer();
+            
+            player.RecalculateCurrentStatus();
+
             status = StatusFactory.GetStatusByRace(player.race);
             isSelect = false;
             skills = StatusFactory.GetSkillsByRace(player.race);
-            //player.RandomTrait();
 
         }
 
@@ -59,16 +60,19 @@ namespace TeamRPG.Game.Scene
             TextIOManager.GetInstance().OutputSmartText($"스트레스 수치 {player.currentStatus.stress}", 3, 20);
             TextIOManager.GetInstance().OutputSmartText($"다음 레벨까지 EXP {player.expToNextLevel}", 3, 22);
 
-            if (player.currentStatus.stress >= 50 && status.stress < 100)
+            if (player.currentStatus.stress >= 100)
             {
-                TextIOManager.GetInstance().OutputSmartText("당신은 스트레스로 인한 피로감을 느끼고 있습니다.", 30, 29);
-            }
-            else if (player.currentStatus.stress >= 100)
-            {
+                player.currentStatus.Agility = Math.Max(0, player.baseStatus.Agility - 50); // 극단적 감소
                 TextIOManager.GetInstance().OutputSmartText("당신은 극도의 스트레스로 인해 탈진되었습니다.", 30, 29);
+            }
+            else if (player.currentStatus.stress >= 50)
+            {
+                player.currentStatus.Agility = Math.Max(0, player.baseStatus.Agility - 10); // 경고 수준 감소
+                TextIOManager.GetInstance().OutputSmartText("당신은 스트레스로 인한 피로감을 느끼고 있습니다.", 30, 29);
             }
             else
             {
+                player.currentStatus.Agility = player.baseStatus.Agility; // 스트레스 없음, 정상 수치
                 TextIOManager.GetInstance().OutputSmartText("아직까지는 문제가 없어 보입니다.", 40, 29);
             }
 

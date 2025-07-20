@@ -114,7 +114,11 @@ namespace TeamRPG.Game.Character
             AddGold(amount);
             string str = "";
             GainExp(_exp, ref str);
-            PlayerManager.GetInstance().gameMsg = $"{amount}원, {_exp}exp를 획득하였다." + str;
+
+            PlayerManager.GetInstance().GetPlayer().currentStatus.stress += 20;
+            PlayerManager.GetInstance().gameMsg = $"{amount}원, {_exp}exp를 획득하였다." + str + $"\n   스트레스 수치가 {PlayerManager.GetInstance().GetPlayer().currentStatus.stress} 입니다.";
+
+            RecalculateCurrentStatus();
         }
         public void AddGold(int amount)
         {
@@ -168,12 +172,16 @@ namespace TeamRPG.Game.Character
 
         public void RecalculateCurrentStatus()
         {
+            int previousStress = currentStatus?.stress ?? 0; // null-safe 체크
+
             Status totalEquip = new Status(0, 0, 0, 0, 0, 0, 0, 0, 0);
             foreach (var equip in equipments)
             {
                 totalEquip = totalEquip.Add(equip);
             }
+
             currentStatus = baseStatus.Add(totalEquip);
+            currentStatus.stress = previousStress; // 스트레스 복원
         }
 
         public void ShowInfo()

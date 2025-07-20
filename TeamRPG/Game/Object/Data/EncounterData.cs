@@ -44,7 +44,7 @@ namespace TeamRPG.Game.Object.Data
         public string MenuText { get; set; } // 결과 메뉴 텍스트
         public string Description { get; set; } // 결과 설명 ex) 약초를 가져갔다, 10의 피해를 입었다.
         public string Comment { get; set; } // 결과 코멘트 ex) 나 좀 도와주게나, 매정한 녀석
-        public string NextSceneName { get; set; } = "CemeteryScene"; // 다음 씬 이름
+        public string NextSceneName { get; set; } = "GameScene"; // 다음 씬 이름
 
         private string image = "";
         public string Image
@@ -65,7 +65,7 @@ namespace TeamRPG.Game.Object.Data
 
         public void LoadScene()
         {
-            SceneManager.GetInstance().ChangeScene("GameScene");
+            SceneManager.GetInstance().ChangeScene(NextSceneName);
         }
     }
 

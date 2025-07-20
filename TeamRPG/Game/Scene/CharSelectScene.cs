@@ -161,9 +161,6 @@ namespace TeamRPG.Game.Scene
                 Random rd = new Random();
                 PlayerManager.GetInstance().environment = "";
 
-                PlayerManager.GetInstance().environment = "DevildomScene";
-                SceneManager.GetInstance().ChangeScene("DevildomStartScene");
-                /*
                 switch (rd.Next(0,4))
                 {
                     case 0:
@@ -186,7 +183,7 @@ namespace TeamRPG.Game.Scene
                         SceneManager.GetInstance().ChangeScene("DevildomStartScene");
                         break;
                 }
-                */
+                
             }
 
         }

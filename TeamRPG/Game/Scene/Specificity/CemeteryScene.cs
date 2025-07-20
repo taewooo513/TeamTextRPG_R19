@@ -27,6 +27,8 @@ namespace TeamRPG.Game.Scene.Specificity
             //}
             //base.Init();
             //nextSceneAni = new Animation(strings, 0, 0, 0.1f, false);
+            SoundManager.GetInstance().PlaySound("tomb", 0.5f);
+
         }
 
         public override void Update()
@@ -41,6 +43,7 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Release()
         {
             base.Release();
+            SoundManager.GetInstance().StopSound("tomb");
         }
         protected override void DrawMap()
         {

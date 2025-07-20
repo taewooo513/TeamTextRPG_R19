@@ -8,6 +8,7 @@ using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
 using TeamRPG.Game.Object;
+using TeamRPG.Game.Object.Item;
 
 namespace TeamRPG.Game.Scene
 {
@@ -183,9 +184,19 @@ namespace TeamRPG.Game.Scene
                         TextIOManager.GetInstance().OutputSmartText($"{itemName} x{itemCount}", cursorX, cursorY++);
                     }
 
-                    // 선택된 아이템 효과 출력
-                    var selectedItem = itemList[inventorySelectIndex].Value.First();
-                    TextIOManager.GetInstance().OutputSmartText($"[{selectedItem.Name}] {selectedItem.Description}", cursorX, cursorY++);
+                    if (inventorySelectIndex >= 0 && inventorySelectIndex < itemList.Count)
+                    {
+                        var selectedItem = itemList[inventorySelectIndex].Value.First();
+                        //TextIOManager.GetInstance().OutputSmartText($"[{selectedItem.Name}] {selectedItem.Description}", cursorX, cursorY++);
+                        string description = $"[{selectedItem.Name}] {selectedItem.Description}";
+
+                        if (selectedItem is Equipment equipment)
+                        {
+                            description += $" (남은 내구도: {equipment.CurrentDurability})";
+                        }
+
+                        TextIOManager.GetInstance().OutputSmartText(description, cursorX, cursorY++);
+                    }
                 }
 
                 TextIOManager.GetInstance().OutputSmartText("ESC를 눌러 돌아가기", cursorX, cursorY + 1);

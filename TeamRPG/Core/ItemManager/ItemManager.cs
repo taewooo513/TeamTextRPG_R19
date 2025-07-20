@@ -173,7 +173,7 @@ namespace TeamRPG.Core.ItemManager
 
             temp = StatusFactory.EmptyStatus;
             temp.HP = 20;
-            var rustyIronArmor = new Armor("녹슨 철갑옷", "HP +20, 10", temp, 200, 10);
+            var rustyIronArmor = new Armor("녹슨 철갑옷", "HP +20, 내구도 10", temp, 200, 10);
             AddItem(rustyIronArmor);
 
             // 방랑 상인
@@ -201,8 +201,8 @@ namespace TeamRPG.Core.ItemManager
             AddItem(holySword);
 
             temp = StatusFactory.EmptyStatus;
-            temp.MinAttack = 15;
-            temp.MaxAttack = 15;
+            temp.MinAttack = 30;
+            temp.MaxAttack = 30;
             temp.HP = 20;
             var guardianHammer = new Weapon("수호자의 망치", "공격력 +30 마계 환경의 몬스터들의 물리, 마법 저항력을 무시", temp, 1000);
             guardianHammer.OnUse = (target) =>

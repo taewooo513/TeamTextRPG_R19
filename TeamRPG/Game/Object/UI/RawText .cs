@@ -19,7 +19,12 @@ namespace TeamRPG.Game.Object.UI
 
         public void SetText(string text)
         {
-            rawString = text; // \r 제거
+            rawString = text;
+        }
+
+        public string GetText()
+        {
+            return rawString;
         }
 
         public override void Draw()

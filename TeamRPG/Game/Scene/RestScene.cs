@@ -59,7 +59,7 @@ namespace TeamRPG.Game.Scene
 
         public void Rest(Player player)
         {
-            player.currentStatus.HP += restHpAmount;
+            player.baseStatus.HP += restHpAmount;
             // player.currentStatus.MP += restMpAmount;
         }
         

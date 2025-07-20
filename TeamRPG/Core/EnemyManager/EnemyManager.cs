@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
 using TeamRPG.Game.Object.Enemy;
 
@@ -64,7 +65,7 @@ namespace TeamRPG.Core.EnemyManager
 
     public class EnemyManager : Singleton<EnemyManager>
     {
-        public static int CycleCount = 0;
+        public int CycleCount = 1;
         public static eEnemyTier NowMonsterTier; // 현재 몬스터 티어
 
         List<(Enemy, eEnemyNum)> initialEnemies = new(); // GameScene이 시작되면 생성할 적들
@@ -238,7 +239,6 @@ namespace TeamRPG.Core.EnemyManager
             AddInitialEnemy(enemy, randomEnemyNum);
             
             */
-            CycleCount++;
 
             // 8회차는 보스 인트로 씬으로 전환
             if (CycleCount == 8)
@@ -265,15 +265,40 @@ namespace TeamRPG.Core.EnemyManager
             eEnemyNum enemyNum = GetRegionWeightedEnemy(environmentType, tierList);
             Enemy? enemy = EnemyFactory.CreateEnemy(enemyNum);
 
-            while(enemy == null)
+
+            // 고블린 스켈레톤으 3마리씩 추가
+            if (enemyNum == eEnemyNum.eGoblin)
             {
-                enemyNum = GetRegionWeightedEnemy(environmentType, tierList);
-                enemy = EnemyFactory.CreateEnemy(enemyNum);
+                Enemy enemy1 = new Goblin(-35, 5, "1");
+                Enemy enemy2 = new Goblin(0, 5, "2");
+                Enemy enemy3 = new Goblin(35, 5, "3");
+
+                AddInitialEnemy(enemy1, eEnemyNum.eGoblin); // 초기 적 추가
+                AddInitialEnemy(enemy2, eEnemyNum.eGoblin); // 초기 적 추가
+                AddInitialEnemy(enemy3, eEnemyNum.eGoblin); // 초기 적 추가
+            }
+            else if(enemyNum == eEnemyNum.eSkeleton)
+            {
+                Enemy enemy1 = new Skeleton(UIManager.HalfWidth - 35, 5, "1");
+                Enemy enemy2 = new Skeleton(UIManager.HalfWidth, 5, "2");
+                Enemy enemy3 = new Skeleton(UIManager.HalfWidth + 35, 5, "3");
+
+                AddInitialEnemy(enemy1, eEnemyNum.eSkeleton); // 초기 적 추가
+                AddInitialEnemy(enemy2, eEnemyNum.eSkeleton); // 초기 적 추가
+                AddInitialEnemy(enemy3, eEnemyNum.eSkeleton); // 초기 적 추가
+            }
+            else
+            {
+                while (enemy == null)
+                {
+                    enemyNum = GetRegionWeightedEnemy(environmentType, tierList);
+                    enemy = EnemyFactory.CreateEnemy(enemyNum);
+                }
+
+                AddInitialEnemy(enemy, enemyNum);
             }
 
             NowMonsterTier = enemyTierDictionary[enemyNum]; // 현재 몬스터 티어 설정
-
-            AddInitialEnemy(enemy, enemyNum);
         }
 
         public void AddInitialEnemy((Enemy, eEnemyNum) enemy)

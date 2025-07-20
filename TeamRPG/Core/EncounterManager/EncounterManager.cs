@@ -18,6 +18,8 @@ namespace TeamRPG.Core.EncounterManager
 
     public class EncounterManager : Singleton<EncounterManager>
     {
+        public bool IsEncountering = false; // 현재 전투 중인지 여부
+
         private Dictionary<string, EncounterData> encounters = new();
 
         public void Init()
@@ -55,35 +57,18 @@ namespace TeamRPG.Core.EncounterManager
                 player.Inventory.AddItem("향긋한 약초", 1);
             };
 
-            mitigatedResult = new EncounterResult();
-            mitigatedResult.Description = """
-                                버려진 집은 고블린들의 소굴이였다.
-                                고블린들이 나를 반긴다.
-                                """;
-            mitigatedResult.MenuText = "공격한다";
-            mitigatedResult.ImageName = "폐가"; // 완화 이미지 경로 또는 데이터
-            mitigatedResult.NextSceneName = "GameScene";
-            mitigatedResult.OnEnter = (player) =>
-            {
-                Enemy enemy1 = new Goblin(-35, 5, "1");
-                Enemy enemy2 = new Goblin(0, 5, "2");
-                Enemy enemy3 = new Goblin(35, 5, "3");
-
-                EnemyManager.GetInstance().AddInitialEnemy(enemy1, eEnemyNum.eGoblin); // 초기 적 추가
-                EnemyManager.GetInstance().AddInitialEnemy(enemy2, eEnemyNum.eGoblin); // 초기 적 추가
-                EnemyManager.GetInstance().AddInitialEnemy(enemy3, eEnemyNum.eGoblin); // 초기 적 추가
-            };
-
             badResult = new EncounterResult();
             badResult.Description = """
                                         버려진 집은 고블린들의 소굴이였다.
-                                        놈들이 덤벼온다.
+                                        고블린들이 나를 반긴다.
                                         """;
             badResult.MenuText = "전투진입";
             badResult.ImageName = "폐가"; // 실패 이미지 경로 또는 데이터
             badResult.NextSceneName = "GameScene";
             badResult.OnEnter = (player) =>
             {
+                IsEncountering = true;
+
                 Enemy enemy1 = new Goblin(-35, 5, "1");
                 Enemy enemy2 = new Goblin(0, 5, "2");
                 Enemy enemy3 = new Goblin(35, 5, "3");
@@ -96,7 +81,7 @@ namespace TeamRPG.Core.EncounterManager
 
 
             selection.GoodReulst = goodResult;
-            selection.MitigatedResult = mitigatedResult;
+            selection.MitigatedResult = badResult;
             selection.BadResult = badResult;
             encounter.Selections.Add(selection);
 
@@ -209,6 +194,7 @@ namespace TeamRPG.Core.EncounterManager
             badResult.NextSceneName = "GameScene"; // 전투 장면으로 이동
             badResult.OnEnter = (player) =>
             {
+                IsEncountering = true;
                 Enemy enemy = new Swordsman(UIManager.HalfWidth, 5, "1");
                 EnemyManager.GetInstance().AddInitialEnemy(enemy, eEnemyNum.eSwordsman); // 초기 적 추가
             };
@@ -270,6 +256,8 @@ namespace TeamRPG.Core.EncounterManager
             badResult.NextSceneName = "GameScene";
             badResult.OnEnter = (player) =>
             {
+                IsEncountering = true;
+
                 Enemy enemy = new Bandit(UIManager.HalfWidth, 5, "1");
                 EnemyManager.GetInstance().AddInitialEnemy(enemy, eEnemyNum.eBandit); // 초기 적 추가
             };
@@ -573,7 +561,7 @@ namespace TeamRPG.Core.EncounterManager
             mitigatedResult.Description = "그 자는 당신에게 작은 선물을 준다";
             mitigatedResult.MenuText = "다음 지역으로";
 
-            goodResult.OnEnter = (player) =>
+            mitigatedResult.OnEnter = (player) =>
             {
                 Random random = new Random();
                 int rand = random.Next(0, 3);
@@ -602,6 +590,8 @@ namespace TeamRPG.Core.EncounterManager
             badResult.NextSceneName = "GameScene"; // 전투 장면으로 이동
             badResult.OnEnter = (player) =>
             {
+                IsEncountering = true;
+
                 Enemy enemy = new Ghost(UIManager.HalfWidth, 5, "1");
                 EnemyManager.GetInstance().AddInitialEnemy(enemy, eEnemyNum.eGhost); // 초기 적 추가
             };
@@ -698,6 +688,8 @@ namespace TeamRPG.Core.EncounterManager
             badResult.NextSceneName = "GameScene"; // 전투 장면으로 이동
             badResult.OnEnter = (player) =>
             {
+                IsEncountering = true;
+
                 Enemy enemy = new Mimic(UIManager.HalfWidth, 5, "1");
                 EnemyManager.GetInstance().AddInitialEnemy(enemy, eEnemyNum.eMimic); // 초기 적 추가
             };

@@ -93,6 +93,8 @@ namespace TeamRPG.Game.Scene.Specificity
         {
             stopwatch.Stop();
             stopwatch.Reset();
+            SoundManager.GetInstance().StopSound("DevildomBGM");
+
         }
         public override void Render()
         {

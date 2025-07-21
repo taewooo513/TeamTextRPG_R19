@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
 using TeamRPG.Game.Object.Enemy;
+using TeamRPG.Core.QuestManager;
+using TeamRPG.Core.EncounterManager;
 
 namespace TeamRPG.Core.EnemyManager
 {
@@ -244,8 +246,11 @@ namespace TeamRPG.Core.EnemyManager
             // 8회차는 보스 인트로 씬으로 전환
             if (CycleCount >= 8)
             {
-                SceneManager.SceneManager.GetInstance().ChangeScene("BossIntroScene");
-                return;
+                if (!QuestManager.QuestManager.GetInstance().IsQuestting && !EncounterManager.EncounterManager.GetInstance().IsEncountering)
+                {
+                    SceneManager.SceneManager.GetInstance().ChangeScene("BossIntroScene");
+                    return;
+                }
             }
 
             List<eEnemyTier> tierList = new();

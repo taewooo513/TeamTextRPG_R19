@@ -51,6 +51,7 @@ namespace TeamRPG.Game.Character
                 case eEnemyNum.eLich2:    // 리치 2페이즈
                     int Lich2hp = rd.Next(65, 65);
                     return new Enemy.State(Lich2hp, "리치", rd.Next(5, 5), 0, 0, 100, 100, Lich2hp);
+
                 //환경 황야
                 case eEnemyNum.eGoblin:
                     int Goblinhp = rd.Next(15, 23);

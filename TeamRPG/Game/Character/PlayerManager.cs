@@ -28,6 +28,10 @@ namespace TeamRPG.Game.Character
             return player;
         }
 
+        public void SetPlayer(Player _player)
+        {
+            player = _player;
+        }
 
-    }
+}
 }

@@ -5,9 +5,12 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using TeamRPG.Core;
 using TeamRPG.Core.AnimationManager;
+using TeamRPG.Core.ItemManager;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
+using TeamRPG.Game.Character;
 
 namespace TeamRPG.Game.Scene
 {
@@ -25,6 +28,7 @@ namespace TeamRPG.Game.Scene
         Stopwatch titleLogoTimerDown;
         Stopwatch timerEnd;
         int yUp = 0;
+        bool isChar = false;
         int yDown = 0;
         public void Init()
         {
@@ -43,6 +47,28 @@ namespace TeamRPG.Game.Scene
             yUp = -10;
             yDown = 10;
             isStop3 = false;
+            String str1 = "", str2 = "";
+            if (FileIOManager.GetInstance().IsFileCheck("PlayerStatus"))
+            {
+                isChar = true;
+                List<string> strs = FileIOManager.GetInstance().GetLoadFile("PlayerStatus");
+                Player player = new Player();
+                player.LoadToFileGetStatus(strs, ref str1, ref str2);
+            }
+            if (FileIOManager.GetInstance().IsFileCheck("ItemList"))
+            {
+                FileIOManager.GetInstance().LoadItemList();
+                List<string> strs = FileIOManager.GetInstance().GetLoadFile("ItemList");
+                PlayerManager.GetInstance().GetPlayer().LoadToItemList(strs);
+                if (str1 != "")
+                {
+                    PlayerManager.GetInstance().GetPlayer().eArmor = (Object.Item.Armor)ItemManager.GetInstance().GetItem(str1);
+                }
+                if (str2 != "")
+                {
+                    PlayerManager.GetInstance().GetPlayer().eWeapon = (Object.Item.Weapon)ItemManager.GetInstance().GetItem(str2);
+                }
+            }
         }
 
         public void Release()
@@ -110,7 +136,14 @@ namespace TeamRPG.Game.Scene
                     TextIOManager.GetInstance().OutputSmartText("전체화면으로 이용해 주시는 것을 권장 드립니다.", 50, 15);
                     break;
                 case 35:
-                    SceneManager.GetInstance().ChangeScene("CharSelectScene");
+                    if (isChar == false)
+                    {
+                        SceneManager.GetInstance().ChangeScene("CharSelectScene");
+                    }
+                    else
+                    {
+                        SceneManager.GetInstance().ChangeScene(PlayerManager.GetInstance().environment);
+                    }
                     break;
             }
 

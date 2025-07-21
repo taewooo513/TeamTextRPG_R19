@@ -86,6 +86,7 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Release()
         {
             stopwatch.Stop();
+            SoundManager.GetInstance().StopSound("wild");
             stopwatch.Reset();
         }
         public override void Render()

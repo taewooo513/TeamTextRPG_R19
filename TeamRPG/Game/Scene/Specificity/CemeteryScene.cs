@@ -104,6 +104,7 @@ namespace TeamRPG.Game.Scene.Specificity
         public override void Release()
         {
             stopwatch.Stop();
+            SoundManager.GetInstance().StopSound("tomb");
             stopwatch.Reset();
         }
         public override void Render()

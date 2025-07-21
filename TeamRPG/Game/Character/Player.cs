@@ -6,10 +6,12 @@ using System.Numerics;
 using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using TeamRPG.Core.EnemyManager;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
+using TeamRPG.Game.Object.Enemy;
 using TeamRPG.Game.Object.Item;
 using TeamRPG.Game.Object.UI;
 
@@ -35,7 +37,7 @@ namespace TeamRPG.Game.Character
         public Box itemBoxUI;
         public Race race { get; private set; }
         public int level { get; private set; } = 1;
-
+        public int traitNum = 0;
         public int currentExp { get; private set; } = 0;
         public int expToNextLevel => ExpTable.GetExpToNextLevel(level);
 
@@ -50,6 +52,20 @@ namespace TeamRPG.Game.Character
         bool isItemBag = false;
         public int Gold { get; set; } = 100000;
         private int selectNum = 0;
+        public Player()
+        {
+            isItemBag = false;
+            itemBoxUI = new Box(8, 6, 16, 10);
+            itemBoxUI.IsVisible = false;
+            isDie = false;
+            dieY = 0;
+            timer = new Stopwatch();
+
+            Inventory = new Inventory();
+            playerDieStopWatch = new Stopwatch();
+            eArmor = null;
+            eWeapon = null;
+        }
         public Player(string _name, Race _race)
         {
             isItemBag = false;
@@ -793,13 +809,66 @@ namespace TeamRPG.Game.Character
             List<Trait> allTraits = new List<Trait>();
             allTraits.AddRange(TraitDatabase.commonTraits);
             allTraits.AddRange(TraitDatabase.GetTraitsByRace(this.race));
-
             Random rand = new Random();
-            this.trait = allTraits[rand.Next(allTraits.Count)];
+            traitNum = rand.Next(allTraits.Count);
+            this.trait = allTraits[traitNum];
 
             this.trait.ApplyEffect(this);
             RecalculateCurrentStatus();
             return this.trait;
         }
+
+        public void LoadToFileGetStatus(List<String> strs, ref string a, ref string b)
+        {
+            PlayerManager.GetInstance().SetPlayer(this);
+            name = strs[0];
+            baseStatus = new Status(int.Parse(strs[1]), int.Parse(strs[2]), int.Parse(strs[4]), int.Parse(strs[5]), int.Parse(strs[6]), int.Parse(strs[3]), int.Parse(strs[7]), int.Parse(strs[9]), int.Parse(strs[10]));
+            Gold = int.Parse(strs[11]);
+            EnemyManager.GetInstance().CycleCount = int.Parse(strs[12]);
+
+            int traitNumber = int.Parse(strs[13]);
+            race = (Race)int.Parse(strs[15]);
+            //race = _race
+            List<Trait> allTraits = new List<Trait>();
+            allTraits.AddRange(TraitDatabase.commonTraits);
+            allTraits.AddRange(TraitDatabase.GetTraitsByRace(this.race));
+            this.trait = allTraits[traitNumber];
+
+            this.trait.ApplyEffect(this);
+            RecalculateCurrentStatus();
+            PlayerManager.GetInstance().environment = strs[14];
+            a = strs[16];
+            b = strs[17];
+
+            //baseStatus = StatusFactory.GetStatusByRace(race);
+            skills = StatusFactory.GetSkillsByRace(race);
+            TextIOManager.GetInstance().OutputSmartText($"특성 : {trait.name}", 40, 2);
+            currentStatus = baseStatus;
+        }
+        public void LoadToItemList(List<String> strs)
+        {
+            strs.ForEach(e => PlayerManager.GetInstance().GetPlayer().Inventory.AddItem(e));
+        }
     }
 }
+/*
+        List<String> strs = new List<string>();
+         0   strs.Add(player.name.ToString());
+         1   strs.Add(player.baseStatus.HP.ToString());
+         2   strs.Add(player.baseStatus.MP.ToString());
+         3   strs.Add(player.baseStatus.Tenacity.ToString());
+         4   strs.Add(player.baseStatus.MinAttack.ToString());
+         5   strs.Add(player.baseStatus.MaxAttack.ToString());
+         6   strs.Add(player.baseStatus.Agility.ToString());
+         7   strs.Add(player.baseStatus.Luck.ToString());
+         8   strs.Add(player.baseStatus.stress.ToString());
+         9   strs.Add(player.baseStatus.currentHp.ToString());
+         10   strs.Add(player.baseStatus.currentMp.ToString());
+         11   strs.Add(player.Gold.ToString());
+         12   strs.Add(EnemyManager.EnemyManager.GetInstance().CycleCount.ToString());
+         13   strs.Add(player.traitNum.ToString());
+         14   strs.Add(PlayerManager.GetInstance().environment);
+         15   strs.Add(player.race.ToString());
+        16 armor
+        17 wepon
+ */

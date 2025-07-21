@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamRPG.Core;
 using TeamRPG.Core.SceneManager;
 using TeamRPG.Core.UtilManager;
 using TeamRPG.Game.Character;
@@ -18,7 +19,7 @@ namespace TeamRPG.Game.Scene
         public Trait trait;
         public virtual void Init()
         {
-
+            FileIOManager.GetInstance().SaveGame(PlayerManager.GetInstance().GetPlayer());
             selectNum = 0;
         }
 

@@ -17,6 +17,7 @@ using TeamRPG.Core.ShopManager;
 using TeamRPG.Core.EncounterManager;
 using TeamRPG.Core.ImageManager;
 using TeamRPG.Core.QuestManager;
+using TeamRPG.Core;
 
 namespace TeamRPG.Game
 {
@@ -116,18 +117,17 @@ namespace TeamRPG.Game
             SoundManager.GetInstance().AddSound("Wild", "../../../../Sounds/Bgm/Wild.mp3", true, true);
             SoundManager.GetInstance().AddSound("DevildomBGM", "../../../../Sounds/DevildomBGM.mp3", true, true);
 
-
+            
             // Parry
             SoundManager.GetInstance().AddSound("Parry", "../../../../Sounds/battle/Parry.mp3", false, false);
 
-            PlayerManager.GetInstance().Init("asd", (Race)1);
 
             QuestManager.GetInstance().Init();
             ItemManager.GetInstance().Init();
             ShopManager.GetInstance().Init();
             ImageManager.GetInstance().Init();
 
-            PlayerManager.GetInstance().Init("test", Race.Human);
+   
             SceneManager.GetInstance().ChangeScene("TitleScene");
             EncounterManager.GetInstance().Init();
 

@@ -20,7 +20,7 @@ namespace TeamRPG.Game.Character
 
         public void Init(String _name, Race _race)
         {
-            player = new Player(_name, _race);
+            //player = new Player(_name, _race);
         }
 
         public Player GetPlayer()
@@ -28,6 +28,10 @@ namespace TeamRPG.Game.Character
             return player;
         }
 
+        public void SetPlayer(Player _player)
+        {
+            player = _player;
+        }
 
-    }
+}
 }

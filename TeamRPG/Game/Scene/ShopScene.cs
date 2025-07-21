@@ -219,6 +219,32 @@ namespace TeamRPG.Game.Scene
             ShopData.RerollItems();
         }
 
+        /*
+         * menuItemList[0].OnSelect = ShopBuy(ShopData.Items[i])
+         * menuItemList[1].OnSelect = ShopBuy(ShopData.Items[i])
+         * menuItemList[2].OnSelect = ShopBuy(ShopData.Items[i])
+         * menuItemList[3].OnSelect = ShopBuy(ShopData.Items[i])
+         * menuItemList[4].OnSelect = ShopBuy(ShopData.Items[i])
+         * menuItemList[5].OnSelect = ShopBuy(ShopData.Items[i])
+         * 
+         * 예측
+         * menuItemList[0].OnSelect = ShopBuy(ShopData.Items[0])
+         * menuItemList[1].OnSelect = ShopBuy(ShopData.Items[1])
+         * menuItemList[2].OnSelect = ShopBuy(ShopData.Items[2])
+         * menuItemList[3].OnSelect = ShopBuy(ShopData.Items[3])
+         * menuItemList[4].OnSelect = ShopBuy(ShopData.Items[4])
+         * menuItemList[5].OnSelect = ShopBuy(ShopData.Items[5])
+         * 
+         * 실제
+         * menuItemList[0].OnSelect = ShopBuy(ShopData.Items[6])
+         * menuItemList[1].OnSelect = ShopBuy(ShopData.Items[6])
+         * menuItemList[2].OnSelect = ShopBuy(ShopData.Items[6])
+         * menuItemList[3].OnSelect = ShopBuy(ShopData.Items[6])
+         * menuItemList[4].OnSelect = ShopBuy(ShopData.Items[6])
+         * menuItemList[5].OnSelect = ShopBuy(ShopData.Items[6])
+         * 
+         */
+
         void UpdateItemBuyMenuSlots()
         {
             var menuItemList = itemBuyMenu.Items;

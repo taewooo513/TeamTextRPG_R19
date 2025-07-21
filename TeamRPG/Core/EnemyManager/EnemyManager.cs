@@ -76,8 +76,8 @@ namespace TeamRPG.Core.EnemyManager
             { eEnvironmentType.eWilderness, new List<eEnemyNum> { eEnemyNum.eGoblin, eEnemyNum.eOgre, eEnemyNum.eTroll } },
             { eEnvironmentType.eDevildom, new List<eEnemyNum> { eEnemyNum.eImp, eEnemyNum.eSuccubus, eEnemyNum.eArchdemon } },
             { eEnvironmentType.eForest, new List<eEnemyNum> { eEnemyNum.eWolf, eEnemyNum.eWildBoar, eEnemyNum.eCentaur } },
-            { eEnvironmentType.eCemetery, new List<eEnemyNum> { eEnemyNum.eSkeleton, eEnemyNum.eZombie, eEnemyNum.eLich, eEnemyNum.eLich2 } },
-            { eEnvironmentType.eNone, new List<eEnemyNum>() { eEnemyNum.eSlime, eEnemyNum.eGolem, eEnemyNum.eMimic, eEnemyNum.eBandit, eEnemyNum.eSwordsman, eEnemyNum.eGhost } }
+            { eEnvironmentType.eCemetery, new List<eEnemyNum> { eEnemyNum.eSkeleton, eEnemyNum.eZombie, eEnemyNum.eLich } },
+            { eEnvironmentType.eNone, new List<eEnemyNum>() { eEnemyNum.eSlime, eEnemyNum.eGolem, eEnemyNum.eMimic, eEnemyNum.eBandit, eEnemyNum.eSwordsman, eEnemyNum.eGhost, eEnemyNum.eBoss } }
         };
 
         Dictionary<eEnemyNum, eEnemyTier> enemyTierDictionary = new()
@@ -112,7 +112,6 @@ namespace TeamRPG.Core.EnemyManager
             { eEnemyNum.eTroll, eEnemyTier.Boss },
 
             { eEnemyNum.eLich, eEnemyTier.Boss },
-            { eEnemyNum.eLich2, eEnemyTier.Boss },
 
             { eEnemyNum.eArchdemon, eEnemyTier.Boss },
 

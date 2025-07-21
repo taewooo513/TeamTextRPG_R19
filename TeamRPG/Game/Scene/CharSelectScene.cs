@@ -65,8 +65,8 @@ namespace TeamRPG.Game.Scene
             TextIOManager.GetInstance().OutputSmartText($"생명력: {statuses[selectChar].HP}", 3, 7);
             TextIOManager.GetInstance().OutputSmartText($"마나: {statuses[selectChar].MP}", 3, 8);
             TextIOManager.GetInstance().OutputSmartText($"공격력: {statuses[selectChar].MinAttack} - {statuses[selectChar].MaxAttack}", 3, 9);
-            TextIOManager.GetInstance().OutputSmartText($"재빠름: {statuses[selectChar].Tenacity}", 3, 10);
-            TextIOManager.GetInstance().OutputSmartText($"강인함: {statuses[selectChar].Agility}", 3, 11);
+            TextIOManager.GetInstance().OutputSmartText($"재빠름: {statuses[selectChar].Agility}", 3, 10);
+            TextIOManager.GetInstance().OutputSmartText($"강인함: {statuses[selectChar].Tenacity}", 3, 11);
             TextIOManager.GetInstance().OutputSmartText($"행운: {statuses[selectChar].Luck}", 3, 12);
 
 

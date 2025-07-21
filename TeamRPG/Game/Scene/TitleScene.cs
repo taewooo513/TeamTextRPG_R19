@@ -62,11 +62,11 @@ namespace TeamRPG.Game.Scene
                 PlayerManager.GetInstance().GetPlayer().LoadToItemList(strs);
                 if (str1 != "")
                 {
-                    PlayerManager.GetInstance().GetPlayer().eArmor = (Object.Item.Armor)ItemManager.GetInstance().GetItem("str1");
+                    PlayerManager.GetInstance().GetPlayer().eArmor = (Object.Item.Armor)ItemManager.GetInstance().GetItem(str1);
                 }
                 if (str2 != "")
                 {
-                    PlayerManager.GetInstance().GetPlayer().eWeapon = (Object.Item.Weapon)ItemManager.GetInstance().GetItem("str2");
+                    PlayerManager.GetInstance().GetPlayer().eWeapon = (Object.Item.Weapon)ItemManager.GetInstance().GetItem(str2);
                 }
             }
         }

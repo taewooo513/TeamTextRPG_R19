@@ -20,7 +20,7 @@ namespace TeamRPG.Game.Character
 
         public void Init(String _name, Race _race)
         {
-            //player = new Player(_name, _race);
+            player = new Player(_name, _race);
         }
 
         public Player GetPlayer()

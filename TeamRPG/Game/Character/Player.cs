@@ -626,11 +626,11 @@ namespace TeamRPG.Game.Character
                     {
                         //weapon.ReduceDurability(1);
                         weapon.Use(this);
-                        PlayerManager.GetInstance().gameMsg += $" \n{weapon.Name}의 내구도가 1 감소하였습니다.";
+                        PlayerManager.GetInstance().gameMsg += $" \n    {weapon.Name}의 내구도가 1 감소하였습니다.";
                         // 옵션: 내구도 0이 되면 메시지 출력
                         if (weapon.IsBroken)
                         {
-                            PlayerManager.GetInstance().gameMsg += $" \n{weapon.Name}의 내구도가 모두 소모되어 사용할 수 없습니다!";
+                            PlayerManager.GetInstance().gameMsg += $" \n    {weapon.Name}의 내구도가 모두 소모되어 사용할 수 없습니다!";
                         }
                     }
 
